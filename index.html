@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="en" class="light">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Aritra Saha — Foresight Labs Developer & App Support</title>
-  <meta name="description" content="Official developer and app-support portal for Aritra Saha and Foresight Labs products, including AURA and Lumina." />
+  <title>Aritra Saha — Foresight Labs Developer &amp; Support Portal</title>
+  <meta name="description" content="Official developer and app‑support portal for Aritra Saha and Foresight Labs products, including AURA and Lumina." />
   <link rel="canonical" href="https://iamaritrasaha.github.io/" />
-  <meta property="og:title" content="Aritra Saha — Foresight Labs Developer & App Support" />
-  <meta property="og:description" content="Official developer and app-support portal for Aritra Saha and Foresight Labs products, including AURA and Lumina." />
+  <meta property="og:title" content="Aritra Saha — Foresight Labs Developer &amp; Support" />
+  <meta property="og:description" content="Official developer and app‑support portal for Aritra Saha and Foresight Labs products, including AURA and Lumina." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://iamaritrasaha.github.io/" />
-  <meta name="theme-color" content="#4A90E2" />
+  <meta name="theme-color" content="#8a2be2" />
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <script defer src="script.js"></script>
   <script type="application/ld+json">
@@ -22,125 +22,227 @@
     "name": "Aritra Saha",
     "url": "https://iamaritrasaha.github.io/",
     "email": "mailto:thisisaritrasaha@gmail.com",
-    "affiliation": {
-      "@type": "Organization",
-      "name": "Foresight Labs"
-    }
+    "affiliation": {"@type": "Organization", "name": "Foresight Labs"}
   }
   </script>
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to main content</a>
-  <header class="site-header" id="site-header">
-    <div class="header-inner">
-      <a href="/" class="logo" aria-label="Developer portal home">
-        <img src="assets/developer-mark.svg" alt="" aria-hidden="true" />
-        <span class="logo-text">Aritra Saha</span>
+
+  <!-- Floating glass navigation capsule -->
+  <nav class="nav-capsule" aria-label="Primary navigation">
+    <div class="nav-inner">
+      <a href="/" class="brand" aria-label="Home">
+        <img src="assets/developer-mark.svg" alt="" aria-hidden="true" class="brand-icon" />
+        <span class="brand-name">Aritra Saha</span>
       </a>
-      <nav class="nav" aria-label="Primary navigation">
-        <ul>
-          <li><a href="/" class="nav-link active">Home</a></li>
-          <li><a href="#apps" class="nav-link">Apps</a></li>
-          <li><a href="#support" class="nav-link">Support</a></li>
-          <li><a href="https://iamaritrasaha.github.io/foresight-labs/" class="nav-link" target="_self">Foresight Labs</a></li>
-        </ul>
-      </nav>
+      <ul class="nav-links">
+        <li><a href="/" class="nav-link active">Home</a></li>
+        <li><a href="#work" class="nav-link">Work</a></li>
+        <li><a href="#support" class="nav-link">Support</a></li>
+        <li><a href="https://iamaritrasaha.github.io/foresight-labs/" class="nav-link" target="_self">Foresight Labs</a></li>
+      </ul>
       <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light/dark theme">
         <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5" fill="currentColor"/></svg>
         <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 0111.21 3 7 7 0 0012 17a7 7 0 009-4.21z" fill="currentColor"/></svg>
       </button>
     </div>
-  </header>
+  </nav>
 
   <main id="main">
-    <section class="hero">
-      <p class="eyebrow">Independent developer · Foresight Labs</p>
-      <h1>Thoughtful software for information, focus and everyday life.</h1>
-      <p class="hero-subtitle">I design privacy‑conscious digital products that help people stay informed, organised and in control of their time.</p>
-      <div class="hero-actions">
-        <a href="#apps" class="btn primary">Explore the apps</a>
-        <a href="https://iamaritrasaha.github.io/foresight-labs/" class="btn secondary">Visit Foresight Labs</a>
-      </div>
-      <p class="status-indicator">Developer and app‑support portal</p>
-    </section>
-
-    <section class="about" id="about">
-      <h2>Independent development, purposeful products.</h2>
-      <p>Aritra Saha is the independent developer behind Foresight Labs, creating focused applications for news, productivity and everyday digital wellbeing.</p>
-    </section>
-
-    <section class="apps" id="apps">
-      <h2>Apps</h2>
-      <div class="cards">
-        <article class="card">
-          <h3>AURA</h3>
-          <p class="label">News and knowledge</p>
-          <p class="description">A modern editorial news experience designed around curated reporting, focused reading, saved knowledge and personal briefings.</p>
-          <ul class="highlights">
-            <li>Curated news experience</li>
-            <li>Native article reading</li>
-            <li>Saved articles and Mind</li>
-            <li>Privacy and consent controls</li>
-          </ul>
-          <div class="card-actions">
-            <a href="https://iamaritrasaha.github.io/foresight-labs/" class="btn primary">Product website</a>
-            <button class="btn secondary" disabled>Privacy information</button>
-            <a href="mailto:thisisaritrasaha@gmail.com?subject=Support%20for%20AURA" class="btn tertiary">Support</a>
+    <!-- Hero -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-bg"></div>
+      <div class="hero-content container">
+        <div class="hero-text">
+          <p class="eyebrow reveal" data-reveal="fade-up">INDEPENDENT DEVELOPER · FORESIGHT LABS</p>
+          <h1 id="hero-title" class="headline reveal" data-reveal="mask-reveal">
+            Designing <span class="anim-word" data-word="quieter">quieter</span>, <span class="anim-word" data-word="smarter">smarter</span> digital experiences.
+          </h1>
+          <p class="subhead reveal" data-reveal="fade-up">I build thoughtful applications for information, focus and everyday digital life.</p>
+          <div class="hero-cta reveal" data-reveal="fade-up">
+            <a href="#work" class="btn primary">Explore the work</a>
+            <a href="https://iamaritrasaha.github.io/foresight-labs/" class="btn secondary">Visit Foresight Labs</a>
           </div>
-        </article>
-        <article class="card">
-          <h3>Lumina</h3>
-          <p class="label">Planning and focus</p>
-          <p class="description">A private, offline‑first planner for tasks, reminders, recurring schedules, focus sessions and device‑calendar organisation.</p>
-          <ul class="highlights">
-            <li>Offline‑first local storage</li>
-            <li>Tasks and reminders</li>
-            <li>Focus sessions</li>
-            <li>Device Calendar integration</li>
-          </ul>
-          <div class="card-actions">
-            <a href="https://iamaritrasaha.github.io/foresight-labs/" class="btn primary">Product website</a>
-            <button class="btn secondary" disabled>Privacy information</button>
-            <a href="mailto:thisisaritrasaha@gmail.com?subject=Support%20for%20Lumina" class="btn tertiary">Support</a>
+          <p class="status-line reveal" data-reveal="fade-up">Developer portal · App support · Privacy resources</p>
+        </div>
+        <div class="hero-visual">
+          <div class="app-preview aura-preview">
+            <img src="assets/aura-symbol.svg" alt="" aria-hidden="true" class="app-icon" />
+            <div class="app-window">
+              <div class="app-header"><span class="title">AURA</span></div>
+              <div class="app-body">
+                <div class="article-title">Curated news briefing</div>
+                <div class="article-meta">5 min read • 12 Jan</div>
+                <div class="article-snippet">Lorem ipsum dolor sit amet, consectetur…</div>
+              </div>
+            </div>
           </div>
-        </article>
+          <div class="app-preview lumina-preview">
+            <img src="assets/lumina-symbol.svg" alt="" aria-hidden="true" class="app-icon" />
+            <div class="app-window">
+              <div class="app-header"><span class="title">Lumina</span></div>
+              <div class="app-body">
+                <div class="task-item">🗓️ Today • Focus session 25 min</div>
+                <div class="task-item">✅ Completed task</div>
+                <div class="task-item">📅 Calendar sync enabled</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="support" id="support">
-      <h2>App support</h2>
-      <p>Need help with AURA, Lumina or another Foresight Labs product? Include the app name, version and a short description of the issue in your message.</p>
-      <a href="mailto:thisisaritrasaha@gmail.com?subject=Foresight%20Labs%20App%20Support" class="btn primary">Email support</a>
-      <ul class="support-guidance">
-        <li>Name of the app</li>
-        <li>App version</li>
-        <li>Device and Android version</li>
-        <li>Description of the issue</li>
-        <li>Screenshot when useful</li>
-      </ul>
+    <!-- Identity section -->
+    <section class="identity" id="identity" aria-labelledby="identity-title">
+      <div class="container">
+        <h2 id="identity-title" class="section-title reveal" data-reveal="fade-up">Independent development. Purposeful products.</h2>
+        <p class="section-copy reveal" data-reveal="fade-up">Aritra Saha is the independent developer behind Foresight Labs, building focused applications for news, productivity and everyday digital wellbeing.</p>
+        <div class="principles">
+          <div class="principle reveal" data-reveal="scale-in">
+            <div class="icon" aria-hidden="true">✦</div>
+            <h3>Clarity</h3>
+            <p>Interfaces that reduce noise rather than add to it.</p>
+          </div>
+          <div class="principle reveal" data-reveal="scale-in" data-delay="100">
+            <div class="icon" aria-hidden="true">🔒</div>
+            <h3>Privacy</h3>
+            <p>Local‑first and privacy‑conscious choices wherever practical.</p>
+          </div>
+          <div class="principle reveal" data-reveal="scale-in" data-delay="200">
+            <div class="icon" aria-hidden="true">⚙️</div>
+            <h3>Purpose</h3>
+            <p>Features designed around genuine everyday usefulness.</p>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <section class="foresight-callout" id="foresight-callout">
-      <h2>Looking for the full Foresight Labs website?</h2>
-      <p>Explore product details, future projects and the broader Foresight Labs vision on the main website.</p>
-      <a href="https://iamaritrasaha.github.io/foresight-labs/" class="btn primary">Visit Foresight Labs</a>
+    <!-- Work / Product showcase -->
+    <section class="work" id="work" aria-labelledby="work-title">
+      <div class="container">
+        <h2 id="work-title" class="section-title reveal" data-reveal="fade-up">Work</h2>
+        <!-- AURA -->
+        <article class="product aura" aria-labelledby="aura-title">
+          <div class="product-grid">
+            <div class="product-visual reveal" data-reveal="fade-up">
+              <div class="app-preview aura-demo">
+                <img src="assets/aura-symbol.svg" alt="" aria-hidden="true" class="app-icon" />
+                <div class="app-window">
+                  <div class="app-header"><span class="title">AURA</span></div>
+                  <div class="app-body">
+                    <div class="article-title">Curated news briefing</div>
+                    <div class="article-meta">5 min read • 12 Jan</div>
+                    <div class="article-snippet">Lorem ipsum dolor sit amet, consectetur…</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="product-info reveal" data-reveal="fade-up" data-delay="100">
+              <h3 id="aura-title" class="product-title">AURA</h3>
+              <p class="product-tagline">News and knowledge</p>
+              <p class="product-desc">A modern editorial news experience built around curated reporting, focused reading, saved knowledge and personal briefings.</p>
+              <ul class="features">
+                <li>Curated news experience</li>
+                <li>Native article reading</li>
+                <li>Saved articles and Mind</li>
+                <li>Privacy and consent controls</li>
+              </ul>
+              <div class="product-cta">
+                <a href="https://iamaritrasaha.github.io/foresight-labs/" class="btn primary">Explore AURA</a>
+                <a href="#support" class="btn secondary">App support</a>
+                <button class="btn tertiary" disabled>Privacy information</button>
+              </div>
+            </div>
+          </div>
+        </article>
+        <!-- Lumina -->
+        <article class="product lumina" aria-labelledby="lumina-title">
+          <div class="product-grid reverse">
+            <div class="product-info reveal" data-reveal="fade-up">
+              <h3 id="lumina-title" class="product-title">Lumina</h3>
+              <p class="product-tagline">Planning and focus</p>
+              <p class="product-desc">A private, offline‑first planner for tasks, reminders, recurring schedules, focus sessions and device‑calendar organisation.</p>
+              <ul class="features">
+                <li>Offline‑first local storage</li>
+                <li>Tasks and reminders</li>
+                <li>Focus sessions</li>
+                <li>Device Calendar integration</li>
+              </ul>
+              <div class="product-cta">
+                <a href="https://iamaritrasaha.github.io/foresight-labs/" class="btn primary">Explore Lumina</a>
+                <a href="#support" class="btn secondary">App support</a>
+                <button class="btn tertiary" disabled>Privacy information</button>
+              </div>
+            </div>
+            <div class="product-visual reveal" data-reveal="fade-up" data-delay="100">
+              <div class="app-preview lumina-demo">
+                <img src="assets/lumina-symbol.svg" alt="" aria-hidden="true" class="app-icon" />
+                <div class="app-window">
+                  <div class="app-header"><span class="title">Lumina</span></div>
+                  <div class="app-body">
+                    <div class="task-item">🗓️ Today • Focus session 25 min</div>
+                    <div class="task-item">✅ Completed task</div>
+                    <div class="task-item">📅 Calendar sync enabled</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Support section -->
+    <section class="support" id="support" aria-labelledby="support-title">
+      <div class="container">
+        <h2 id="support-title" class="section-title reveal" data-reveal="fade-up">Need help with an app?</h2>
+        <p class="section-copy reveal" data-reveal="fade-up">For support with AURA, Lumina or another Foresight Labs product, include the app name, version, device and a short description of the issue.</p>
+        <a href="mailto:thisisaritrasaha@gmail.com?subject=Foresight%20Labs%20App%20Support" class="btn primary support-btn">Email support</a>
+        <ul class="support-list reveal" data-reveal="fade-up" data-delay="100">
+          <li>App name</li>
+          <li>App version</li>
+          <li>Device and Android version</li>
+          <li>Issue description</li>
+          <li>Screenshot when useful</li>
+        </ul>
+        <p class="privacy-note reveal" data-reveal="fade-up" data-delay="150">Never include passwords, PINs, payment details or other sensitive information.</p>
+      </div>
+    </section>
+
+    <!-- Foresight Labs callout -->
+    <section class="foresight-callout" id="foresight-callout" aria-labelledby="foresight-title">
+      <div class="container">
+        <p class="label">THE BROADER STUDIO</p>
+        <h2 id="foresight-title" class="section-title reveal" data-reveal="fade-up">Explore Foresight Labs.</h2>
+        <p class="section-copy reveal" data-reveal="fade-up">Discover the full product portfolio, future experiments and the broader vision behind the work.</p>
+        <a href="https://iamaritrasaha.github.io/foresight-labs/" class="btn primary">Enter Foresight Labs</a>
+      </div>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <p>Aritra Saha – Independent developer behind Foresight Labs</p>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-left">
+        <p>Aritra Saha<br/>Independent developer behind Foresight Labs</p>
+      </div>
       <nav class="footer-nav" aria-label="Footer navigation">
         <ul>
-          <li><a href="https://iamaritrasaha.github.io/foresight-labs/">Foresight Labs</a></li>
-          <li><a href="#support">App support</a></li>
+          <li><a href="#work">Apps</a></li>
+          <li><a href="#support">Support</a></li>
           <li><a href="#support">Privacy</a></li>
+          <li><a href="https://iamaritrasaha.github.io/foresight-labs/">Foresight Labs</a></li>
           <li><a href="https://github.com/iamaritrasaha" target="_blank" rel="noopener">GitHub</a></li>
         </ul>
       </nav>
-      <p><a href="mailto:thisisaritrasaha@gmail.com">thisisaritrasaha@gmail.com</a></p>
-      <p>© 2026 Aritra Saha. Foresight Labs.</p>
-      <p>This website serves as the official developer and application‑support portal.</p>
+      <div class="footer-right">
+        <a href="mailto:thisisaritrasaha@gmail.com">thisisaritrasaha@gmail.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Aritra Saha</p>
+      <p>Official developer and application‑support portal</p>
     </div>
   </footer>
 </body>
