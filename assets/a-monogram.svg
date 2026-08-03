@@ -1,0 +1,10 @@
+<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A monogram logo">
+  <defs>
+    <linearGradient id="aStroke" x1="5" y1="23" x2="23" y2="5" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8D80FF"/>
+      <stop offset="1" stop-color="#8AC7FF"/>
+    </linearGradient>
+  </defs>
+  <path d="M6 22L14 5L22 22" stroke="url(#aStroke)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M9.8 14.5H18.2" stroke="url(#aStroke)" stroke-width="2.2" stroke-linecap="round"/>
+</svg>

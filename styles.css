@@ -175,8 +175,10 @@ html.light .nav-capsule.is-scrolled {
 }
 
 .brand-mark {
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
+  flex: none;
+  filter: drop-shadow(0 6px 14px rgba(132, 139, 255, 0.22));
 }
 
 .brand-text {
