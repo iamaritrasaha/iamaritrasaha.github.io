@@ -1,5 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="none">
-  <rect width="64" height="64" rx="12" fill="#4A90E2"/>
-  <text x="32" y="38" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="white" text-anchor="middle" font-weight="bold">A</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none"><defs><linearGradient id="g" x1="10" y1="54" x2="54" y2="10" gradientUnits="userSpaceOnUse"><stop stop-color="#70C8DF"/><stop offset="1" stop-color="#9B9CFF"/></linearGradient></defs><rect x="1" y="1" width="62" height="62" rx="18" fill="#101724" stroke="#B7C7E6" stroke-opacity=".24"/><path d="M17 45 31.9 17 47 45M23.2 34.6h17.4" stroke="url(#g)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="47" cy="17" r="2" fill="#70C8DF"/></svg>
