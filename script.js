@@ -11,6 +11,7 @@
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const finePointer = window.matchMedia("(pointer: fine)");
   const themeKey = "aritra-portal-theme";
+  const saveData = Boolean(navigator.connection?.saveData);
 
   const motionReduced = () => reducedMotion.matches || root.dataset.motion === "reduce";
 
@@ -53,14 +54,58 @@
     if (nav?.classList.contains("menu-open") && !nav.contains(event.target)) closeMenu();
   });
 
+  const hudIndex = document.getElementById("hud-index");
+  const hudLabel = document.getElementById("hud-label");
+  const hudProgress = document.getElementById("hud-progress");
+  const localNavLinks = Array.from(document.querySelectorAll('.nav-links > a[href^="#"]'));
+  const sectionStates = [
+    { id: "top", index: "00", label: "ORIGIN" },
+    { id: "approach", index: "01", label: "APPROACH", nav: "approach" },
+    { id: "future", index: "V.00", label: "VEYRA / INTENT", nav: "veyra", accent: "veyra" },
+    { id: "work", index: "02", label: "PRODUCTS", nav: "work" },
+    { id: "veyra", index: "V.01", label: "VEYRA", nav: "veyra", accent: "veyra" },
+    { id: "aura", index: "P.02", label: "AURA", nav: "work", accent: "aura" },
+    { id: "lumina", index: "P.03", label: "LUMINA", nav: "work", accent: "lumina" },
+    { id: "principles", index: "03", label: "PRINCIPLES", nav: "approach", accent: "principles" },
+    { id: "contact", index: "04", label: "SUPPORT", nav: "contact" }
+  ].map((state) => ({ ...state, element: document.getElementById(state.id) })).filter((state) => state.element);
+
+  let activeSectionId = "";
+  function syncActiveSection(state) {
+    if (!state || state.id === activeSectionId) return;
+    activeSectionId = state.id;
+    root.dataset.activeSection = state.accent || state.id;
+    if (hudIndex) hudIndex.textContent = state.index;
+    if (hudLabel) hudLabel.textContent = state.label;
+    localNavLinks.forEach((link) => {
+      const current = state.nav && link.getAttribute("href") === "#" + state.nav;
+      if (current) link.setAttribute("aria-current", "location");
+      else link.removeAttribute("aria-current");
+    });
+  }
+
   let scrollFrame = 0;
-  function updateNav() {
+  function updateExperience() {
     nav?.classList.toggle("is-scrolled", window.scrollY > 18);
+    const scrollable = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    const progress = Math.min(1, Math.max(0, window.scrollY / scrollable));
+    root.style.setProperty("--page-progress", progress.toFixed(4));
+    if (hudProgress) hudProgress.textContent = String(Math.round(progress * 100)).padStart(3, "0") + "%";
+
+    const marker = window.scrollY + window.innerHeight * .34;
+    let active = sectionStates[0];
+    sectionStates.forEach((state) => {
+      if (state.element.getBoundingClientRect().top + window.scrollY <= marker) active = state;
+    });
+    syncActiveSection(active);
     scrollFrame = 0;
   }
-  updateNav();
+  updateExperience();
   window.addEventListener("scroll", () => {
-    if (!scrollFrame) scrollFrame = requestAnimationFrame(updateNav);
+    if (!scrollFrame) scrollFrame = requestAnimationFrame(updateExperience);
+  }, { passive: true });
+  window.addEventListener("resize", () => {
+    if (!scrollFrame) scrollFrame = requestAnimationFrame(updateExperience);
   }, { passive: true });
 
   const revealItems = document.querySelectorAll(".reveal");
@@ -78,7 +123,17 @@
     revealItems.forEach((item) => observer.observe(item));
   }
 
-  if (finePointer.matches && !motionReduced()) {
+  const motionRegions = document.querySelectorAll(".hero, .marquee-band, .future-band, .product, .signal-lab");
+  if (!("IntersectionObserver" in window)) {
+    motionRegions.forEach((region) => region.classList.add("is-motion-active"));
+  } else {
+    const motionObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => entry.target.classList.toggle("is-motion-active", entry.isIntersecting));
+    }, { threshold: 0, rootMargin: "24% 0px 24%" });
+    motionRegions.forEach((region) => motionObserver.observe(region));
+  }
+
+  if (finePointer.matches && !motionReduced() && !saveData) {
     let cursorX = window.innerWidth / 2;
     let cursorY = window.innerHeight / 2;
     let currentX = cursorX;
@@ -89,6 +144,7 @@
       cursorX = event.clientX;
       cursorY = event.clientY;
       root.classList.add("cursor-ready");
+      root.classList.toggle("cursor-interactive", event.target instanceof Element && Boolean(event.target.closest("a, button")));
       if (!pointerFrame) pointerFrame = requestAnimationFrame(animateCursor);
     }, { passive: true });
 
@@ -113,22 +169,62 @@
     });
 
     const heroSystem = document.getElementById("hero-system");
-    const orbitNodes = heroSystem?.querySelectorAll(".orbit, .data-card");
+    const consoleLayers = heroSystem?.querySelectorAll("[data-console-depth]");
     let systemFrame = 0;
     heroSystem?.addEventListener("pointermove", (event) => {
-      if (systemFrame) return;
+      if (systemFrame || motionReduced()) return;
       const bounds = heroSystem.getBoundingClientRect();
       const x = (event.clientX - bounds.left) / bounds.width - .5;
       const y = (event.clientY - bounds.top) / bounds.height - .5;
       systemFrame = requestAnimationFrame(() => {
-        orbitNodes?.forEach((node, index) => {
-          const depth = 10 + index * 5;
-          node.style.transform = "translate3d(" + (x * depth) + "px, " + (y * depth) + "px, 0)";
+        consoleLayers?.forEach((node) => {
+          const depth = Number(node.dataset.consoleDepth || 5);
+          node.style.setProperty("--console-x", (x * depth) + "px");
+          node.style.setProperty("--console-y", (y * depth) + "px");
         });
         systemFrame = 0;
       });
     });
-    heroSystem?.addEventListener("pointerleave", () => orbitNodes?.forEach((node) => { node.style.transform = ""; }));
+    heroSystem?.addEventListener("pointerleave", () => consoleLayers?.forEach((node) => {
+      node.style.removeProperty("--console-x");
+      node.style.removeProperty("--console-y");
+    }));
+
+    const veyraVisual = document.getElementById("veyra-visual");
+    let veyraFrame = 0;
+    veyraVisual?.addEventListener("pointermove", (event) => {
+      if (veyraFrame) return;
+      const bounds = veyraVisual.getBoundingClientRect();
+      const x = ((event.clientX - bounds.left) / bounds.width) * 100;
+      const y = ((event.clientY - bounds.top) / bounds.height) * 100;
+      veyraFrame = requestAnimationFrame(() => {
+        veyraVisual.style.setProperty("--veyra-pointer-x", x + "%");
+        veyraVisual.style.setProperty("--veyra-pointer-y", y + "%");
+        veyraFrame = 0;
+      });
+    });
+    veyraVisual?.addEventListener("pointerleave", () => {
+      veyraVisual.style.setProperty("--veyra-pointer-x", "50%");
+      veyraVisual.style.setProperty("--veyra-pointer-y", "42%");
+    });
+
+    const futureScope = document.getElementById("future-scope");
+    let scopeFrame = 0;
+    futureScope?.addEventListener("pointermove", (event) => {
+      if (scopeFrame) return;
+      const bounds = futureScope.getBoundingClientRect();
+      const x = ((event.clientX - bounds.left) / bounds.width) * 100;
+      const y = ((event.clientY - bounds.top) / bounds.height) * 100;
+      scopeFrame = requestAnimationFrame(() => {
+        futureScope.style.setProperty("--scope-pointer-x", x + "%");
+        futureScope.style.setProperty("--scope-pointer-y", y + "%");
+        scopeFrame = 0;
+      });
+    });
+    futureScope?.addEventListener("pointerleave", () => {
+      futureScope.style.setProperty("--scope-pointer-x", "50%");
+      futureScope.style.setProperty("--scope-pointer-y", "50%");
+    });
 
     document.querySelectorAll(".magnetic").forEach((button) => {
       button.addEventListener("pointermove", (event) => {
@@ -185,7 +281,7 @@
   }
   signalButtons.forEach((button) => button.addEventListener("click", () => selectSignal(button.dataset.signal)));
 
-  if (signalCanvas && !motionReduced()) {
+  if (signalCanvas && !motionReduced() && window.innerWidth > 760 && !saveData) {
     const context = signalCanvas.getContext("2d");
     let nodes = [];
     let canvasWidth = 0;
@@ -252,12 +348,18 @@
       drawFrame = requestAnimationFrame(drawNetwork);
     }
 
+    function handleCanvasResize() {
+      resizeCanvas();
+      activeCanvas = !document.hidden && window.innerWidth > 760;
+      if (activeCanvas && !drawFrame) drawNetwork();
+    }
+
     resizeCanvas();
     drawNetwork();
-    window.addEventListener("resize", resizeCanvas, { passive: true });
+    window.addEventListener("resize", handleCanvasResize, { passive: true });
     window.addEventListener("aritra-theme-change", () => { /* Palette is read on the next frame. */ });
     document.addEventListener("visibilitychange", () => {
-      activeCanvas = !document.hidden;
+      activeCanvas = !document.hidden && window.innerWidth > 760;
       if (activeCanvas && !drawFrame) drawNetwork();
     });
   }
