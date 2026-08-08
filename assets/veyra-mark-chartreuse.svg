@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated from android-app/src/main/res/drawable/veyra_brand_mark.xml. Do not edit paths. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" color="#C8F45A" role="img" aria-label="Veyra signal mark">
+  <title>Veyra signal mark</title>
+  <g id="veyra-mark">
+    <path d="M15,12 A3,3 0,1 1,15,18 A3,3 0,1 1,15,12 Z" fill="currentColor" />
+    <path d="M9.5187,12.5596 A6,6 0,1 1,16.4515,20.8218" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+    <path d="M7.0746,9.8532 A9.45,9.45 0,1 1,18.0766,23.9342" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-opacity="0.78" />
+    <path d="M5.4134,6.3682 A12.9,12.9 0,1 1,20.247,26.7847" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-opacity="0.56" />
+  </g>
+</svg>

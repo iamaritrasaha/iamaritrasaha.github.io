@@ -1,18 +1,18 @@
 <!doctype html>
-<html lang="en" class="no-js" data-theme="dark">
+<html lang="en" class="no-js" data-theme="dark" data-active-section="top">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Aritra Saha — Digital products with clarity</title>
-  <meta name="description" content="Aritra Saha is an independent developer building considered, privacy-conscious applications for information, focus and everyday digital life.">
+  <title>Aritra Saha — Veyra AI &amp; digital products</title>
+  <meta name="description" content="Aritra Saha is the independent creator of Veyra, an experimental local-first mobile AI platform, and the developer behind thoughtful digital products.">
   <link rel="canonical" href="https://iamaritrasaha.github.io/">
   <meta name="theme-color" content="#07070b">
-  <meta property="og:title" content="Aritra Saha — Independent developer">
-  <meta property="og:description" content="Thoughtful digital products for information, focus and everyday life.">
+  <meta property="og:title" content="Aritra Saha — Creator of Veyra">
+  <meta property="og:description" content="Veyra is Aritra Saha's independent experimental mobile AI platform, currently in active development.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://iamaritrasaha.github.io/">
-  <meta property="og:image" content="https://iamaritrasaha.github.io/assets/developer-mark.svg">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:image" content="https://iamaritrasaha.github.io/assets/veyra-open-graph.png">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,6 +36,13 @@
   <div class="site-noise" aria-hidden="true"></div>
   <canvas class="signal-canvas" id="signal-canvas" aria-hidden="true"></canvas>
   <div class="cursor-orb" aria-hidden="true"></div>
+  <div class="cursor-reticle" aria-hidden="true"><i></i><b></b></div>
+  <div class="page-progress" aria-hidden="true"><span></span></div>
+  <div class="viewport-hud" aria-hidden="true">
+    <div class="hud-section"><span id="hud-index">00</span><strong id="hud-label">ORIGIN</strong></div>
+    <i class="hud-meter"><b></b></i>
+    <span id="hud-progress">000%</span>
+  </div>
 
   <header class="site-header">
     <nav class="topbar" id="site-nav" aria-label="Primary navigation">
@@ -44,6 +51,7 @@
         <span>Aritra<span class="brand-dot">.</span></span>
       </a>
       <div class="nav-links" id="nav-panel">
+        <a href="#veyra">Veyra</a>
         <a href="#work">Products</a>
         <a href="#approach">Approach</a>
         <a href="#contact">Support</a>
@@ -63,58 +71,68 @@
       <div class="hero-aurora aurora-two" aria-hidden="true"></div>
 
       <div class="hero-copy">
-        <p class="eyebrow hero-reveal"><span class="live-dot"></span><span>Independent developer</span><i></i><span>Foresight Labs</span></p>
+        <p class="eyebrow hero-reveal"><span class="live-dot"></span><span>Veyra / independent mobile AI</span><i></i><span>Owned by Aritra / not Foresight Labs</span></p>
         <h1 id="hero-title">
-          <span class="line"><span class="hero-reveal">Building calm</span></span>
-          <span class="line"><span class="hero-reveal"><em>inside</em> the noise.</span></span>
+          <span class="line"><span class="hero-reveal">Quiet</span></span>
+          <span class="line"><span class="hero-reveal"><em>intelligence,</em></span></span>
+          <span class="line"><span class="hero-reveal">made mobile.</span></span>
         </h1>
-        <p class="hero-summary hero-reveal">I design digital products that turn the everyday flood of information, plans and decisions into room to think.</p>
+        <p class="hero-summary hero-reveal">Veyra is my independent, experimental Android AI platform—being built around a local-first direction, bounded skills and a clear model-runtime boundary.</p>
         <div class="hero-actions hero-reveal">
-          <a class="button button-primary magnetic" href="#work"><span>Explore selected work</span><b aria-hidden="true">↘</b></a>
-          <a class="text-link" href="#approach">How I build <span aria-hidden="true">→</span></a>
+          <a class="button button-primary magnetic" href="#veyra"><span>Explore Veyra</span><b aria-hidden="true">↘</b></a>
+          <a class="text-link" href="#approach">My approach <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="hero-protocol hero-reveal">
+          <span><small>01 / CORE</small><b>Implemented</b></span>
+          <span><small>02 / SKILLS</small><b>Allowlisted</b></span>
+          <span><small>03 / RUNTIME</small><b>Verifying</b></span>
+          <span><small>04 / THINK + CLOUD</small><b>Future</b></span>
         </div>
       </div>
 
-      <div class="hero-system hero-reveal" id="hero-system" aria-label="A visual representation of connected digital products">
-        <div class="system-caption system-caption-top"><span>Signal system</span><b>v.01</b></div>
-        <div class="system-ring ring-large"></div>
-        <div class="system-ring ring-small"></div>
-        <div class="orbit orbit-aura">
-          <div class="orbit-tag"><img src="assets/aura-symbol.svg" alt=""><span><small>01</small>AURA</span></div>
+      <div class="hero-system hero-reveal" id="hero-system" aria-hidden="true">
+        <div class="signal-chamber">
+          <div class="chamber-grid" data-console-depth="4"></div>
+          <div class="chamber-scan"></div>
+          <div class="chamber-axis axis-horizontal"></div>
+          <div class="chamber-axis axis-vertical"></div>
+          <div class="chamber-ticks" data-console-depth="7"></div>
+
+          <div class="chamber-header">
+            <span>V / SIGNAL CHAMBER <b>01</b></span>
+            <p><i></i> EARLY / EXPERIMENTAL</p>
+          </div>
+
+          <span class="chamber-coordinate coordinate-one" data-console-depth="10">X.042 / Y.118</span>
+          <span class="chamber-coordinate coordinate-two" data-console-depth="6">LOCAL SYSTEM / ANDROID</span>
+
+          <div class="chamber-frame">
+            <div class="signal-lockup">
+              <img src="assets/veyra-mark-chartreuse.svg" width="82" height="82" alt="">
+              <div><small>01 / INDEPENDENT MOBILE AI</small><strong>Veyra</strong><span>LOCAL-FIRST PATH / ARITRA SAHA</span></div>
+            </div>
+          </div>
+
+          <div class="chamber-traces" data-console-depth="9"><i></i><i></i><i></i><span></span></div>
+
+          <dl class="signal-readouts">
+            <div><dt>Assistant core</dt><dd>Implemented</dd><i></i></div>
+            <div><dt>Skill registry</dt><dd>Allowlisted</dd><i></i></div>
+            <div class="is-verifying"><dt>Model runtime</dt><dd>Verifying</dd><i></i></div>
+          </dl>
+
+          <div class="chamber-pipeline">
+            <span><small>01</small>INPUT</span><i></i><span><small>02</small>INTENT</span><i></i><span><small>03</small>SKILL</span><i></i><span><small>04</small>RESPONSE</span>
+          </div>
+
+          <div class="chamber-boundary"><span>CREATED + OWNED BY ARITRA SAHA</span><i></i><span>NOT A FORESIGHT LABS PRODUCT</span><b>V / 0.1</b></div>
         </div>
-        <div class="orbit orbit-lumina">
-          <div class="orbit-tag"><img src="assets/lumina-symbol.svg" alt=""><span><small>02</small>LUMINA</span></div>
-        </div>
-        <div class="orbit orbit-veyra">
-          <div class="orbit-tag veyra-tag"><span class="veyra-sigil">V</span><span><small>03</small>VEYRA</span></div>
-        </div>
-        <div class="system-core">
-          <div class="core-glow"></div>
-          <img src="assets/developer-mark.svg" width="62" height="62" alt="">
-          <span>AS</span>
-        </div>
-        <svg class="system-lines" viewBox="0 0 670 670" fill="none" aria-hidden="true">
-          <path d="M76 202C179 147 240 238 334 279c106 47 160-20 258 27"></path>
-          <path d="M85 473c121 38 171-44 249-81 99-47 150 33 248 9"></path>
-          <path d="M334 279v113"></path>
-          <circle cx="76" cy="202" r="4"></circle><circle cx="592" cy="306" r="4"></circle><circle cx="85" cy="473" r="4"></circle><circle cx="582" cy="401" r="4"></circle>
-        </svg>
-        <div class="data-card data-card-one">
-          <span class="card-kicker">Working principle</span>
-          <strong>Human<br>at the centre</strong>
-          <i>01</i>
-        </div>
-        <div class="data-card data-card-two">
-          <span class="data-pulse"></span>
-          <div><small>Signal quality</small><strong>intentional</strong></div>
-        </div>
-        <div class="system-caption system-caption-bottom"><span>Veyra / mobile AI in progress</span></div>
       </div>
 
       <div class="hero-footer">
         <a class="scroll-prompt" href="#work"><span>Scroll to decode</span><i aria-hidden="true"></i></a>
         <p>DESIGNING WITH <b>CLARITY</b> · <b>PRIVACY</b> · <b>PURPOSE</b></p>
-        <span class="hero-index">01 — 04</span>
+        <span class="hero-index">V / 01</span>
       </div>
     </section>
 
@@ -125,7 +143,7 @@
       </div>
     </section>
 
-    <section class="intro section" id="approach" aria-labelledby="approach-title">
+    <section class="intro section" id="approach" data-index="01" data-label="Approach" aria-labelledby="approach-title">
       <div class="section-top reveal">
         <p class="section-id">[ 01 ] / THE APPROACH</p>
         <p class="section-note">A point of view, translated<br>into products that earn attention.</p>
@@ -133,7 +151,7 @@
       <div class="intro-statement reveal">
         <h2 id="approach-title">Technology should feel less like a demand<br>and more like a <em>clear next thought.</em></h2>
         <div class="intro-detail">
-          <p>I am Aritra Saha, an independent developer behind Foresight Labs. My work is rooted in the belief that digital tools can be capable without being consuming.</p>
+          <p>I am Aritra Saha, the independent creator of Veyra and the developer behind Foresight Labs. My work is rooted in the belief that digital tools can be capable without being consuming.</p>
           <a class="arrow-button" href="#work" aria-label="See the products"><span>↓</span></a>
         </div>
       </div>
@@ -159,19 +177,113 @@
       </div>
     </section>
 
-    <section class="work section" id="work" aria-labelledby="work-title">
+    <section class="future-band" id="future" aria-labelledby="future-title">
+      <div class="future-rail future-rail-top" aria-hidden="true">
+        <div class="future-track">
+          <span>HUMAN INTENT <i>↗</i></span><span>LOCAL INTELLIGENCE <i>↗</i></span><span>MOBILE FIRST <i>↗</i></span><span>SAFE BOUNDARIES <i>↗</i></span>
+          <span>HUMAN INTENT <i>↗</i></span><span>LOCAL INTELLIGENCE <i>↗</i></span><span>MOBILE FIRST <i>↗</i></span><span>SAFE BOUNDARIES <i>↗</i></span>
+        </div>
+      </div>
+      <div class="future-core">
+        <div class="future-copy reveal">
+          <p class="future-kicker">VEYRA / DESIGN POSITION 001</p>
+          <h2 id="future-title">Intelligence,<br><em>with boundaries.</em></h2>
+          <p>I’m building Veyra around a simple idea: mobile AI can feel ambitious without pretending to be finished or asking for unlimited access.</p>
+          <div class="future-tags"><span>Intent before action</span><span>Named skills only</span><span>Truthful by design</span></div>
+        </div>
+        <div class="future-scope reveal" id="future-scope" aria-hidden="true">
+          <div class="scope-grid"></div>
+          <i class="scope-ring scope-ring-one"></i>
+          <i class="scope-ring scope-ring-two"></i>
+          <i class="scope-orbit"><b></b></i>
+          <div class="scope-core"><span>INTENT</span><strong>HUMAN</strong><small>AT THE CORE</small></div>
+          <div class="scope-readout"><span>INPUT / DELIBERATE</span><span>ACCESS / BOUNDED</span><span>STATE / EXPLORING</span></div>
+        </div>
+      </div>
+      <div class="future-rail future-rail-bottom" aria-hidden="true">
+        <div class="future-track">
+          <span>CREATED BY ARITRA <i>✦</i></span><span>INDEPENDENT AI <i>✦</i></span><span>NOT FORESIGHT LABS <i>✦</i></span><span>EARLY DEVELOPMENT <i>✦</i></span>
+          <span>CREATED BY ARITRA <i>✦</i></span><span>INDEPENDENT AI <i>✦</i></span><span>NOT FORESIGHT LABS <i>✦</i></span><span>EARLY DEVELOPMENT <i>✦</i></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="work section" id="work" data-index="02" data-label="Selected work" aria-labelledby="work-title">
       <div class="section-top reveal">
         <p class="section-id">[ 02 ] / SELECTED WORK</p>
-        <p class="section-note">Three products. Different rhythms.<br>One considered philosophy.</p>
+        <p class="section-note">One independent AI. Two Foresight Labs apps.<br>One considered philosophy.</p>
       </div>
       <header class="work-title reveal">
         <h2 id="work-title">Ideas, made<br><em>tangible.</em></h2>
-        <p>Explore three ongoing products designed for a more intentional relationship with information, time and emerging intelligence.</p>
+        <p>Explore Veyra—my independent mobile AI platform—followed by two Foresight Labs products for information and time.</p>
       </header>
 
-      <article class="product product-aura reveal" aria-labelledby="aura-title">
+      <article class="product product-veyra veyra-featured reveal" id="veyra" aria-labelledby="veyra-title">
         <div class="product-meta">
-          <span>01 / 03</span><span>News + knowledge</span><span class="status"><i></i> In development</span>
+          <span>01 / 03</span><span>Independent AI · owned by Aritra Saha</span><span class="status veyra-status"><i></i> Early development / experimental</span>
+        </div>
+        <div class="product-visual veyra-visual" id="veyra-visual" aria-hidden="true">
+          <div class="visual-grain"></div>
+          <div class="veyra-topography"></div>
+          <div class="veyra-scanline"></div>
+          <div class="veyra-header">
+            <img class="veyra-header-mark" src="assets/veyra-mark-chartreuse.svg" alt="">
+            <span>VEYRA</span>
+            <small>INDEPENDENT MOBILE AI / ARITRA SAHA</small>
+            <i>EARLY / EXPERIMENTAL</i>
+          </div>
+          <div class="veyra-stage">
+            <div class="veyra-telemetry telemetry-one"><span>ASSISTANT CORE</span><i></i><b>IMPLEMENTED</b></div>
+            <div class="veyra-telemetry telemetry-two"><span>SKILL REGISTRY</span><i></i><b>ALLOWLISTED</b></div>
+            <div class="veyra-telemetry telemetry-three"><span>MODEL RUNTIME</span><i></i><b>VERIFYING</b></div>
+            <div class="veyra-device">
+              <span class="phone-speaker"></span>
+              <div class="veyra-device-brand"><img src="assets/veyra-mark-chartreuse.svg" alt=""><span>Veyra</span></div>
+              <p class="phone-overline">LOCAL-FIRST ARCHITECTURE</p>
+              <h3>Intelligence,<br><em>made mobile.</em></h3>
+              <p class="phone-copy">A safe assistant platform being shaped for the realities of a phone.</p>
+              <div class="veyra-model-rail">
+                <span class="is-current"><i></i><b>Reflex</b><small>Experimental</small></span>
+                <span><i></i><b>Think</b><small>Future</small></span>
+                <span><i></i><b>Cloud</b><small>Future</small></span>
+              </div>
+              <div class="phone-prompt"><img src="assets/veyra-mark-chartreuse.svg" alt=""><span>Enter a developer demo prompt</span><b>↑</b></div>
+            </div>
+            <div class="veyra-signal-card card-core"><span>01</span><div><small>FOUNDATION</small><b>Typed Assistant Core</b></div></div>
+            <div class="veyra-signal-card card-safe"><span>02</span><div><small>SAFETY</small><b>Named skills only</b></div></div>
+            <div class="veyra-signal-card card-local"><span>03</span><div><small>BOUNDARY</small><b>Local model path</b></div></div>
+            <div class="veyra-particle particle-a"></div><div class="veyra-particle particle-b"></div><div class="veyra-particle particle-c"></div>
+          </div>
+          <div class="veyra-footer"><span>CREATED + OWNED BY ARITRA SAHA</span><i></i><span>NOT A FORESIGHT LABS PRODUCT</span><b>V / 0.1</b></div>
+        </div>
+        <div class="product-copy veyra-copy">
+          <div class="product-lockup">
+            <img class="product-veyra-mark" src="assets/veyra-app-icon.svg" width="48" height="48" alt="">
+            <div><p>Independent mobile AI</p><h3 id="veyra-title">Veyra</h3></div>
+          </div>
+          <div class="ownership-note"><span>SOLELY BY ARITRA</span><p>Veyra is created and owned by Aritra Saha. It is not a Foresight Labs product.</p></div>
+          <p class="product-description">An experimental local-first Android assistant platform exploring safe on-device intelligence, structured responses and carefully bounded skills. It is an early developer platform—not a completed assistant.</p>
+          <p class="feature-heading">Implemented foundations</p>
+          <ul class="feature-list veyra-features">
+            <li><span>01</span>Typed Assistant Core and in-memory conversation</li>
+            <li><span>02</span>Platform-neutral ModelProvider boundary</li>
+            <li><span>03</span>Allowlisted Skill Registry with no arbitrary execution</li>
+            <li><span>04</span>Android developer shell and LiteRT-LM boundary</li>
+          </ul>
+          <div class="veyra-future">
+            <span>EXPLORATORY · NOT LIVE FEATURES</span>
+            <div><b>Think</b><b>Cloud</b><b>Voice</b><b>Context</b></div>
+          </div>
+          <div class="product-links">
+            <a class="button button-veyra magnetic" href="mailto:thisisaritrasaha@gmail.com?subject=Question%20about%20Veyra"><span>Ask about Veyra</span><b>↗</b></a>
+            <a href="#contact">Development status <span>↓</span></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="product product-aura reveal" id="aura" aria-labelledby="aura-title">
+        <div class="product-meta">
+          <span>02 / 03</span><span>Foresight Labs · news + knowledge</span><span class="status"><i></i> In development</span>
         </div>
         <div class="product-visual aura-visual tilt-card" data-tilt="5" aria-hidden="true">
           <div class="visual-grain"></div>
@@ -205,9 +317,9 @@
         </div>
       </article>
 
-      <article class="product product-lumina reveal" aria-labelledby="lumina-title">
+      <article class="product product-lumina reveal" id="lumina" aria-labelledby="lumina-title">
         <div class="product-meta">
-          <span>02 / 03</span><span>Planning + focus</span><span class="status"><i></i> In development</span>
+          <span>03 / 03</span><span>Foresight Labs · planning + focus</span><span class="status"><i></i> In development</span>
         </div>
         <div class="product-visual lumina-visual tilt-card" data-tilt="5" aria-hidden="true">
           <div class="visual-grain"></div>
@@ -240,46 +352,9 @@
         </div>
       </article>
 
-      <article class="product product-veyra reveal" aria-labelledby="veyra-title">
-        <div class="product-meta">
-          <span>03 / 03</span><span>Mobile-compatible AI</span><span class="status"><i></i> In active development</span>
-        </div>
-        <div class="product-visual veyra-visual tilt-card" data-tilt="5" aria-hidden="true">
-          <div class="visual-grain"></div>
-          <div class="veyra-header"><span class="veyra-sigil">V</span><span>VEYRA</span><small>MOBILE INTELLIGENCE / EARLY BUILD</small><i>✦</i></div>
-          <div class="veyra-stage">
-            <span class="veyra-glow"></span><span class="veyra-orbit orbit-one"></span><span class="veyra-orbit orbit-two"></span>
-            <div class="veyra-phone">
-              <span class="phone-speaker"></span>
-              <p class="phone-overline">A NEW INTELLIGENCE</p>
-              <h3>Veyra<span>.</span></h3>
-              <p class="phone-copy">Being designed for the way AI should feel on a phone.</p>
-              <div class="phone-prompt"><i>✦</i><span>Start a thought</span><b>↑</b></div>
-              <div class="phone-tabs"><i></i><i></i><i></i></div>
-            </div>
-            <div class="veyra-bubble bubble-one"><i>+</i><span>Mobile-first<br>by intention</span></div>
-            <div class="veyra-bubble bubble-two"><i>03</i><span>In active<br>development</span></div>
-          </div>
-          <div class="veyra-footer"><span>COMPATIBLE WITH MOBILE</span><i></i><span>MORE TO COME</span></div>
-        </div>
-        <div class="product-copy">
-          <div class="product-lockup"><span class="product-veyra-mark veyra-sigil">V</span><div><p>Mobile-compatible AI</p><h3 id="veyra-title">Veyra</h3></div></div>
-          <p class="product-description">Veyra is the mobile-compatible AI I’m currently building. It is in active development, with the product experience being shaped around the realities of using AI on a phone.</p>
-          <ul class="feature-list">
-            <li><span>01</span>A mobile-compatible AI experience</li>
-            <li><span>02</span>Currently in active development</li>
-            <li><span>03</span>A new project from Foresight Labs</li>
-            <li><span>04</span>More details as the product takes shape</li>
-          </ul>
-          <div class="product-links">
-            <a class="button button-outline" href="https://iamaritrasaha.github.io/foresight-labs/"><span>Follow Veyra</span><b>↗</b></a>
-            <a href="mailto:thisisaritrasaha@gmail.com?subject=Question%20about%20Veyra">Ask about Veyra <span>↗</span></a>
-          </div>
-        </div>
-      </article>
     </section>
 
-    <section class="signal-lab section" aria-labelledby="lab-title">
+    <section class="signal-lab section" id="principles" data-index="03" data-label="Principles" aria-labelledby="lab-title">
       <div class="lab-panel reveal" id="signal-lab">
         <div class="lab-topline"><span>FIELD NOTE / 003</span><span>INTERACTIVE</span></div>
         <div class="lab-main">
@@ -306,18 +381,18 @@
       </div>
     </section>
 
-    <section class="contact section" id="contact" aria-labelledby="contact-title">
+    <section class="contact section" id="contact" data-index="04" data-label="Support" aria-labelledby="contact-title">
       <div class="contact-kicker reveal"><span class="live-dot"></span> DIRECT, HUMAN SUPPORT</div>
       <div class="contact-grid">
         <div class="contact-copy reveal">
           <h2 id="contact-title">Let’s solve<br>the <em>right</em> thing.</h2>
-          <p>Need help with AURA, Lumina, Veyra or another Foresight Labs product? Send a short note and I’ll get back to you.</p>
-          <a class="button button-primary magnetic" href="mailto:thisisaritrasaha@gmail.com?subject=Foresight%20Labs%20App%20Support"><span>Email support</span><b>↗</b></a>
+          <p>Need help with Veyra, or with a Foresight Labs product such as AURA or Lumina? Send a short note and I’ll get back to you.</p>
+          <a class="button button-primary magnetic" href="mailto:thisisaritrasaha@gmail.com?subject=Aritra%20Saha%20Product%20Support"><span>Email support</span><b>↗</b></a>
         </div>
         <div class="support-terminal reveal">
           <div class="terminal-head"><span><i></i><i></i><i></i></span><p>support_packet.txt</p><b>⌘</b></div>
           <ol>
-            <li><span>01</span><p>Product name <b>— AURA / Lumina / Veyra</b></p></li>
+            <li><span>01</span><p>Product name <b>— Veyra / AURA / Lumina</b></p></li>
             <li><span>02</span><p>App version <b>— e.g. 1.0.0</b></p></li>
             <li><span>03</span><p>Device + Android version</p></li>
             <li><span>04</span><p>What happened, and what you expected</p></li>
@@ -332,7 +407,7 @@
   <footer class="site-footer">
     <div class="footer-top">
       <a class="footer-name" href="#top"><img src="assets/developer-mark.svg" width="44" height="44" alt=""><span>Aritra<span>.</span></span></a>
-      <p>Independent developer<br>behind Foresight Labs.</p>
+      <p>Independent creator of Veyra.<br>Developer behind Foresight Labs.</p>
       <div class="footer-links"><a href="https://iamaritrasaha.github.io/foresight-labs/">Foresight Labs <span>↗</span></a><a href="https://github.com/iamaritrasaha" rel="me">GitHub <span>↗</span></a><a href="mailto:thisisaritrasaha@gmail.com">Email <span>↗</span></a></div>
     </div>
     <div class="footer-bottom">
