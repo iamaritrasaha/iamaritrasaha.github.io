@@ -64,8 +64,9 @@
     { id: "future", index: "V.00", label: "VEYRA / INTENT", nav: "veyra", accent: "veyra" },
     { id: "work", index: "02", label: "PRODUCTS", nav: "work" },
     { id: "veyra", index: "V.01", label: "VEYRA", nav: "veyra", accent: "veyra" },
-    { id: "aura", index: "P.02", label: "AURA", nav: "work", accent: "aura" },
-    { id: "lumina", index: "P.03", label: "LUMINA", nav: "work", accent: "lumina" },
+    { id: "vector", index: "P.02", label: "VECTOR", nav: "work", accent: "vector" },
+    { id: "aura", index: "P.03", label: "AURA", nav: "work", accent: "aura" },
+    { id: "lumina", index: "P.04", label: "LUMINA", nav: "work", accent: "lumina" },
     { id: "principles", index: "03", label: "PRINCIPLES", nav: "approach", accent: "principles" },
     { id: "contact", index: "04", label: "SUPPORT", nav: "contact" }
   ].map((state) => ({ ...state, element: document.getElementById(state.id) })).filter((state) => state.element);
