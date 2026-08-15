@@ -32,6 +32,7 @@
 html[data-active-section="top"] { --active-accent: var(--veyra-signal); }
 html[data-active-section="veyra"] { --active-accent: var(--veyra-signal); }
 html[data-active-section="vector"] { --active-accent: var(--blue); }
+html[data-active-section="quanta"] { --active-accent: var(--violet); }
 html[data-active-section="aura"] { --active-accent: var(--blue); }
 html[data-active-section="lumina"] { --active-accent: var(--lime); }
 html[data-active-section="principles"] { --active-accent: var(--pink); }
@@ -462,6 +463,7 @@ h2 em, .aura-content em, .lumina-greeting em { color: var(--violet); font-style:
 .product.is-visible .product-meta::after { transform: scaleX(1); }
 .product-veyra .product-meta::after { background: var(--veyra-signal); }
 .product-vector .product-meta::after { background: var(--blue); }
+.product-quanta .product-meta::after { background: var(--violet); }
 .product-meta > span:nth-child(2) { justify-self: center; }
 .status { justify-self: end; display: inline-flex; align-items: center; gap: 8px; color: var(--muted); }
 .status i { width: 6px; height: 6px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 11px var(--lime); }
@@ -525,6 +527,63 @@ h2 em, .aura-content em, .lumina-greeting em { color: var(--violet); font-style:
 .vector-footer { position: absolute; z-index: 7; left: 0; right: 0; bottom: 0; min-height: 50px; padding: 0 20px; display: flex; align-items: center; gap: 10px; border-top: 1px solid rgba(176, 226, 247, .14); background: rgba(8, 15, 24, .88); color: rgba(237, 248, 255, .42); font: 500 .4rem var(--mono); letter-spacing: .08em; }
 .vector-footer i { width: 3px; height: 3px; border-radius: 50%; background: #83dfff; }.vector-footer b { margin-left: auto; color: #aee8ff; font-weight: 500; }
 .product-vector .product-lockup p { color: var(--blue); }
+
+/* QUANTA */
+.product-quanta { --quanta-ink: color-mix(in srgb, var(--ink) 91%, var(--blue)); --quanta-muted: color-mix(in srgb, var(--ink) 48%, transparent); --quanta-line: color-mix(in srgb, var(--ink) 15%, transparent); --quanta-signal: color-mix(in srgb, var(--violet) 72%, var(--blue)); }
+.quanta-status { color: color-mix(in srgb, var(--violet) 66%, var(--ink)); }
+.quanta-status i { background: var(--violet); box-shadow: 0 0 11px color-mix(in srgb, var(--violet) 58%, transparent); }
+.quanta-visual { min-height: 612px; color: var(--quanta-ink); border-color: color-mix(in srgb, var(--violet) 26%, var(--line)); background: radial-gradient(circle at 57% 45%, color-mix(in srgb, var(--violet) 9%, transparent), transparent 31%), linear-gradient(145deg, color-mix(in srgb, var(--panel-bright) 72%, var(--page)), var(--panel-solid)); }
+.quanta-visual::after { position: absolute; z-index: 6; inset: 0; content: ""; border: 1px solid color-mix(in srgb, var(--violet) 10%, transparent); border-radius: inherit; pointer-events: none; }
+.quanta-grid { position: absolute; z-index: 0; inset: 62px 0 50px; opacity: .52; background-image: linear-gradient(var(--quanta-line) 1px, transparent 1px), linear-gradient(90deg, var(--quanta-line) 1px, transparent 1px); background-size: 44px 44px; mask-image: radial-gradient(ellipse at 57% 45%, #000 4%, transparent 76%); }
+.quanta-header { position: relative; z-index: 7; height: 62px; padding: 0 20px; display: grid; grid-template-columns: 25px auto 1fr auto auto; align-items: center; gap: 10px; border-bottom: 1px solid var(--quanta-line); background: color-mix(in srgb, var(--panel-solid) 88%, transparent); font: 500 .51rem var(--mono); letter-spacing: .095em; }
+.quanta-header img { width: 23px; height: 23px; }
+.quanta-header small, .quanta-header b { color: var(--quanta-muted); font-size: .44rem; font-weight: 500; }
+.quanta-header small { margin-left: 7px; }.quanta-header b { justify-self: end; }
+.quanta-header i { display: inline-flex; align-items: center; gap: 6px; color: color-mix(in srgb, var(--violet) 66%, var(--ink)); font-size: .43rem; font-style: normal; }
+.quanta-header em { width: 5px; height: 5px; border-radius: 50%; background: var(--violet); box-shadow: 0 0 10px color-mix(in srgb, var(--violet) 70%, transparent); animation: quanta-live 4s ease-in-out infinite; }
+.quanta-stage { position: relative; z-index: 2; min-height: 500px; display: grid; grid-template-columns: 28% 44% 28%; align-items: center; overflow: hidden; }
+.quanta-energy { position: relative; z-index: 2; grid-column: 1; grid-row: 1; align-self: stretch; padding: 55px 0 100px 14%; display: flex; flex-direction: column; justify-content: center; }
+.quanta-energy > p, .quanta-readout p, .quanta-spectrum > p { margin: 0 0 17px; color: var(--quanta-muted); font: 500 .43rem var(--mono); letter-spacing: .1em; }
+.quanta-energy ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 24px; }
+.quanta-energy li { display: grid; grid-template-columns: 30px minmax(32px, 1fr) 42px; align-items: center; gap: 6px; color: var(--quanta-muted); font: 500 .42rem var(--mono); }
+.quanta-energy li i { height: 1px; display: block; background: var(--quanta-line); }
+.quanta-energy li b { color: var(--quanta-muted); font-size: .39rem; font-weight: 500; }
+.quanta-energy li.is-origin, .quanta-energy li.is-target { color: var(--quanta-ink); }
+.quanta-energy li.is-origin i, .quanta-energy li.is-target i { background: var(--quanta-signal); box-shadow: 0 0 8px color-mix(in srgb, var(--violet) 38%, transparent); }
+.quanta-transition { position: absolute; top: 174px; right: 18px; display: grid; justify-items: center; color: var(--quanta-signal); font: 500 .4rem var(--mono); }
+.quanta-transition i { width: 1px; height: 39px; margin: 4px 0; display: block; background: linear-gradient(var(--quanta-signal), transparent); animation: quanta-transition 10s var(--ease) infinite; }
+.quanta-transition i::after { display: block; width: 5px; height: 5px; margin: 33px 0 0 -2px; content: ""; border-right: 1px solid var(--quanta-signal); border-bottom: 1px solid var(--quanta-signal); transform: rotate(45deg); }
+.quanta-atom { position: relative; grid-column: 2; grid-row: 1; width: 100%; aspect-ratio: 1; }
+.quanta-atom svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.quanta-atom svg circle, .quanta-atom svg path, .quanta-atom svg ellipse { vector-effect: non-scaling-stroke; }
+.quanta-guides { fill: none; stroke: var(--quanta-ink); stroke-width: 1; opacity: .14; }.quanta-guides circle:first-child { stroke-dasharray: 2 7; }.quanta-guides circle:nth-child(2) { opacity: .6; }.quanta-guides path { stroke-dasharray: 1 8; }
+.quanta-orbit { fill: none; stroke: var(--quanta-signal); stroke-width: 1.2; stroke-dasharray: 3 6; opacity: .65; }
+.quanta-probability { fill: var(--quanta-signal); opacity: .34; }
+.quanta-probability circle:nth-child(3n) { opacity: .45; }.quanta-probability circle:nth-child(4n) { opacity: .7; }
+.quanta-nucleus circle:first-child { fill: var(--quanta-ink); stroke: none; filter: drop-shadow(0 0 7px color-mix(in srgb, var(--violet) 58%, transparent)); }
+.quanta-nucleus circle:last-child { fill: none; stroke: var(--quanta-signal); stroke-width: 1; opacity: .3; }
+.quanta-axis { position: absolute; z-index: 1; background: linear-gradient(90deg, transparent, var(--quanta-line), transparent); }
+.quanta-axis-x { left: 0; right: 0; top: 50%; height: 1px; }.quanta-axis-y { top: 0; bottom: 0; left: 50%; width: 1px; background: linear-gradient(transparent, var(--quanta-line), transparent); }
+.quanta-electron { position: absolute; z-index: 3; left: 50%; top: 50%; width: 1px; height: 1px; animation: quanta-electron 10s linear infinite; }
+.quanta-electron i { position: absolute; left: 120px; top: -4px; width: 8px; height: 8px; border: 1px solid color-mix(in srgb, var(--blue) 55%, var(--ink)); border-radius: 50%; background: var(--panel-solid); box-shadow: 0 0 13px color-mix(in srgb, var(--blue) 66%, transparent); }
+.quanta-state-label, .quanta-model-label { position: absolute; color: var(--quanta-muted); font: 500 .38rem var(--mono); letter-spacing: .09em; }
+.quanta-state-label { right: 5%; top: 10%; }.quanta-model-label { left: 5%; bottom: 9%; }
+.quanta-readout, .quanta-spectrum { position: relative; z-index: 3; margin-right: 14%; padding: 17px 0; border-top: 1px solid var(--quanta-line); border-bottom: 1px solid var(--quanta-line); }
+.quanta-readout { align-self: end; grid-column: 1; grid-row: 1; margin: 0 14% 68px; }
+.quanta-readout p, .quanta-spectrum > p { margin-bottom: 12px; }
+.quanta-readout strong, .quanta-readout > span { display: block; color: var(--quanta-ink); font: 500 .66rem var(--mono); letter-spacing: .02em; }
+.quanta-readout > span { margin-top: 8px; color: var(--quanta-muted); font-size: .55rem; }.quanta-readout sub { font-size: .7em; }
+.quanta-spectrum { align-self: end; grid-column: 3; grid-row: 1; margin-bottom: 68px; }
+.quanta-spectrum > div { display: grid; grid-template-columns: 3px 1fr; align-items: stretch; gap: 11px; }
+.quanta-spectrum > div > i { display: block; background: #d95858; box-shadow: 0 0 11px rgba(217, 88, 88, .52); animation: quanta-spectrum 10s var(--ease) infinite; }
+.quanta-spectrum span { display: grid; gap: 3px; }.quanta-spectrum small { color: #d95858; font: 500 .43rem var(--mono); letter-spacing: .08em; }.quanta-spectrum b { color: var(--quanta-ink); font: 500 .73rem var(--mono); }
+.quanta-footer { position: absolute; z-index: 7; left: 0; right: 0; bottom: 0; min-height: 50px; padding: 0 20px; display: flex; align-items: center; gap: 10px; border-top: 1px solid var(--quanta-line); background: color-mix(in srgb, var(--panel-solid) 90%, transparent); color: var(--quanta-muted); font: 500 .4rem var(--mono); letter-spacing: .08em; }
+.quanta-footer i { width: 3px; height: 3px; border-radius: 50%; background: var(--violet); }.quanta-footer b { margin-left: auto; color: color-mix(in srgb, var(--violet) 66%, var(--ink)); font-weight: 500; }
+.product-quanta .product-lockup p { color: var(--violet); }
+
+html[data-theme="light"] .product-quanta { --quanta-ink: #292634; --quanta-muted: rgba(41, 38, 52, .52); --quanta-line: rgba(41, 38, 52, .14); --quanta-signal: #6754b8; }
+html[data-theme="light"] .quanta-visual { background: radial-gradient(circle at 57% 45%, rgba(103, 76, 201, .09), transparent 31%), linear-gradient(145deg, #faf9f6, #efede9); box-shadow: 0 30px 90px rgba(36, 31, 49, .12); }
+html[data-theme="light"] .quanta-electron i { background: #f7f5f1; }
 
 .aura-visual { color: #f6f1e8; background: linear-gradient(135deg, #101115, #161722 52%, #0d1820); }
 .aura-visual::before { position: absolute; width: 70%; aspect-ratio: 1; content: ""; top: -32%; right: -27%; border-radius: 50%; background: radial-gradient(circle, rgba(153, 119, 255, .3), transparent 65%); filter: blur(15px); }
@@ -748,6 +807,10 @@ h2 em, .aura-content em, .lumina-greeting em { color: var(--violet); font-style:
 @keyframes vector-aircraft-drift { to { transform: translate(9px, -4px); } }
 @keyframes vector-observer { 75%, 100% { opacity: 0; transform: scale(1.8); } }
 @keyframes vector-satellite-track { 0% { left: 18%; top: 34%; } 50% { left: 51%; top: 18%; } 100% { left: 81%; top: 33%; } }
+@keyframes quanta-live { 50% { opacity: .45; box-shadow: 0 0 4px color-mix(in srgb, var(--violet) 35%, transparent); } }
+@keyframes quanta-electron { to { transform: rotate(360deg); } }
+@keyframes quanta-transition { 0%, 18%, 70%, 100% { opacity: .22; transform: scaleY(.72); transform-origin: top; } 28%, 48% { opacity: 1; transform: scaleY(1); } }
+@keyframes quanta-spectrum { 0%, 25%, 68%, 100% { opacity: .28; transform: scaleY(.38); } 34%, 54% { opacity: 1; transform: scaleY(1); } }
 @keyframes veyra-topography { to { transform: translate3d(3%, -2%, 0) scale(1.27); } }
 @keyframes veyra-scan { 0% { left: -5%; opacity: 0; } 10%, 85% { opacity: .7; } 100% { left: 105%; opacity: 0; } }
 @keyframes veyra-device-float { 50% { transform: translate(-50%, -10px); } }
@@ -788,6 +851,10 @@ h2 em, .aura-content em, .lumina-greeting em { color: var(--violet); font-style:
 .product-vector:not(.is-motion-active) .vector-aircraft,
 .product-vector:not(.is-motion-active) .vector-observer-pulse,
 .product-vector:not(.is-motion-active) .vector-satellite,
+.product-quanta:not(.is-motion-active) .quanta-header em,
+.product-quanta:not(.is-motion-active) .quanta-electron,
+.product-quanta:not(.is-motion-active) .quanta-transition i,
+.product-quanta:not(.is-motion-active) .quanta-spectrum > div > i,
 .product-veyra:not(.is-motion-active) .veyra-topography,
 .product-veyra:not(.is-motion-active) .veyra-scanline,
 .product-veyra:not(.is-motion-active) .veyra-device,
@@ -856,6 +923,7 @@ h2 em, .aura-content em, .lumina-greeting em { color: var(--violet); font-style:
   .product + .product { margin-top: 120px; }.product-meta { grid-template-columns: 1fr auto; }.product-meta > span:nth-child(2) { display: none; }
   .product-visual { min-height: 550px; }.product-description { font-size: .84rem; }
   .vector-visual { min-height: 604px; }.vector-stage { min-height: 494px; }.vector-earth { width: min(95%, 620px); }.vector-header b { display: none; }
+  .quanta-visual { min-height: 604px; }.quanta-stage { min-height: 494px; }.quanta-header b { display: none; }
   .veyra-visual { min-height: 670px; }
   .veyra-stage { min-height: 604px; }
   .veyra-device { width: 292px; }
@@ -880,6 +948,7 @@ h2 em, .aura-content em, .lumina-greeting em { color: var(--violet); font-style:
   .future-core { width: calc(100% - 32px); padding: 72px 0; gap: 48px; }.future-copy h2 { margin-top: 24px; font-size: clamp(3.65rem, 17.2vw, 5rem); }.future-copy > p:not(.future-kicker) { margin-top: 27px; font-size: .76rem; }.future-tags { margin-top: 30px; }.future-tags span { min-height: 41px; font-size: .42rem; }.future-scope { width: 100%; }.scope-core { width: 104px; height: 104px; padding: 17px; }.scope-core strong { font-size: .9rem; }.scope-readout { grid-template-columns: 1fr 1fr; }.scope-readout span:nth-child(2) { display: none; }.scope-readout span:last-child { text-align: right; }
   .product-visual { min-height: 490px; border-radius: 19px; }.aura-header, .lumina-header { height: 52px; padding: 0 14px; }.aura-header small, .lumina-header small { display: none; }.aura-content { padding: 33px 8% 10px; }.aura-content h3 { margin: 19px 0 16px; font-size: 3.1rem; }.aura-side-list { display: none; }.aura-knowledge { left: 8%; right: 8%; bottom: 25px; }.visual-corner { display: none; }.lumina-shell { min-height: 371px; display: block; padding: 30px 8%; }.lumina-greeting h3 { margin: 15px 0 21px; font-size: 2.85rem; }.focus-panel { position: absolute; right: 7%; bottom: 83px; width: 117px; }.focus-ring { width: 82px; height: 82px; }.focus-panel > p { display: none; }.task-stack { position: absolute; left: 8%; right: 8%; bottom: 15px; }.task { min-height: 37px; }.task:nth-of-type(4) { display: none; }.calendar-line { display: none; }
   .vector-visual { min-height: 534px; }.vector-header { height: 52px; padding: 0 12px; grid-template-columns: 22px auto 1fr auto; gap: 7px; }.vector-header img { width: 20px; height: 20px; }.vector-header small { justify-self: end; margin: 0; font-size: .4rem; }.vector-stage { min-height: 440px; }.vector-grid { inset: 52px 0 42px; background-size: 34px 34px; }.vector-earth { top: 40%; width: 112%; }.vector-axis.axis-x { top: 40%; }.vector-axis.axis-y { bottom: 22%; }.vector-satellite { font-size: .48rem; }.vector-telemetry { left: 10px; right: 10px; bottom: 10px; grid-template-columns: repeat(2, 1fr); }.vector-telemetry > div { min-height: 42px; padding: 7px 9px; }.vector-telemetry > div:nth-child(3) { border-left: 0; }.vector-telemetry > div:nth-child(n+3) { border-top: 1px solid rgba(176, 226, 247, .12); }.vector-telemetry dt { font-size: .5rem; }.vector-telemetry dd { font-size: .53rem; }.vector-footer { min-height: 42px; padding: 0 11px; font-size: .36rem; }.vector-footer span:nth-of-type(2), .vector-footer i:nth-of-type(2) { display: none; }
+  .quanta-visual { min-height: 534px; }.quanta-header { height: 52px; padding: 0 12px; grid-template-columns: 22px auto 1fr auto; gap: 7px; }.quanta-header img { width: 20px; height: 20px; }.quanta-header small { justify-self: end; margin: 0; font-size: .4rem; }.quanta-stage { min-height: 440px; display: block; }.quanta-grid { inset: 52px 0 42px; background-size: 34px 34px; }.quanta-energy { position: absolute; left: 4%; top: 8px; width: 31%; height: 300px; padding: 25px 0 45px; }.quanta-energy ol { gap: 18px; }.quanta-energy li { grid-template-columns: 27px 1fr; }.quanta-energy li b { display: none; }.quanta-transition { top: 131px; right: 4px; }.quanta-atom { position: absolute; top: 5px; right: -3%; width: 72%; }.quanta-electron i { left: 78px; }.quanta-readout, .quanta-spectrum { position: absolute; bottom: 24px; width: 42%; margin: 0; padding: 13px 0; }.quanta-readout { left: 5%; }.quanta-spectrum { right: 5%; }.quanta-readout strong { font-size: .58rem; }.quanta-footer { min-height: 42px; padding: 0 11px; font-size: .36rem; }.quanta-footer span:nth-of-type(2), .quanta-footer i:nth-of-type(2) { display: none; }
   .veyra-visual { min-height: 602px; }.veyra-header { height: 52px; padding: 0 12px; grid-template-columns: 22px 1fr auto; }.veyra-header-mark { width: 20px; height: 20px; }.veyra-header small { display: none; }.veyra-header i { margin-left: 0; font-size: .34rem; }.veyra-stage { min-height: 548px; }.veyra-device { top: 24px; width: 248px; height: 437px; padding: 29px 18px 17px; border-radius: 30px; }.veyra-device h3 { margin-top: 13px; font-size: 2.8rem; }.veyra-device-brand img { width: 23px; height: 23px; }.phone-overline { margin-top: 18px; font-size: .38rem; }.phone-copy { margin-top: 13px; font-size: .55rem; }.veyra-model-rail { margin-top: 17px; }.veyra-model-rail > span { min-height: 44px; padding: 6px; }.veyra-model-rail small { display: none; }.phone-prompt { min-height: 40px; font-size: .35rem; }.veyra-telemetry { display: none; }.veyra-signal-card { min-width: 122px; padding: 9px; grid-template-columns: 20px 1fr; }.veyra-signal-card b { font-size: .55rem; }.card-core { left: 2%; bottom: 14%; }.card-safe { right: 2%; top: 35%; }.card-local { display: none; }.veyra-footer { min-height: 41px; padding: 0 11px; font-size: .3rem; }.veyra-footer span:nth-of-type(2), .veyra-footer i { display: none; }.ownership-note { margin-top: 25px; }
   .product-links { gap: 17px; }.product-links .button { width: 100%; }.feature-list li { font-size: .68rem; }
   .lab-panel { min-height: 667px; padding: 23px; }.lab-main { min-height: 553px; }.lab-main h2 { max-width: 300px; }.signal-options { display: grid; grid-template-columns: 1fr; }.signal-option { justify-content: space-between; }.signal-output { min-height: 204px; }.signal-output strong { min-height: 58px; }.lab-orbit { width: 370px; height: 370px; right: -250px; }.lab-orbit span { width: 75px; height: 75px; border-radius: 19px; }
