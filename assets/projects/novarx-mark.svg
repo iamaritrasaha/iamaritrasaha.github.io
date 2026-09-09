@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FF8A80"/>
+      <stop offset="1" stop-color="#FFB74D"/>
+    </linearGradient>
+  </defs>
+  <g id="novarx-mark">
+    <rect x="104" y="138" width="62" height="276" rx="24" fill="#0B1A30"/>
+    <rect x="326" y="138" width="62" height="276" rx="24" fill="#0B1A30"/>
+    <path d="M128 138h22c9 0 17 4 23 11l215 246v19h-43c-9 0-17-4-23-11L104 153v-1c0-8 8-14 24-14z" fill="url(#accent)"/>
+    <path d="M351 74h38c23 0 38 13 38 34 0 14-8 25-21 30l24 30h-24l-22-27h-12v27h-21V74zm21 19v29h16c11 0 18-5 18-14 0-10-7-15-18-15h-16z" fill="#FF8A80"/>
+    <path d="m423 118 18 22 18-22h24l-30 36 31 38h-24l-19-23-19 23h-24l31-38-30-36h24z" fill="#FFB74D"/>
+  </g>
+</svg>

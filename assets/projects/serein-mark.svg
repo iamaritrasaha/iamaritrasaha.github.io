@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" role="img" aria-labelledby="title desc">
+  <title id="title">Serein atmospheric aperture</title>
+  <desc id="desc">The approved Serein mark: an interrupted circular aperture crossed by three fine vertical lines.</desc>
+  <g fill="none" stroke-linecap="round">
+    <!-- Approved geometry. All platform derivatives are generated from this master. -->
+    <path d="M37.029437 70.970563A24 24 0 1 1 74.784610 66" stroke="#F2F5F7" stroke-width="6"/>
+    <path d="M75.031360 42.437912A24 24 0 0 1 77.742536 50.494007" stroke="#9CCFE4" stroke-width="6"/>
+    <path d="M45 51V68" stroke="#D9F0F6" stroke-width="4"/>
+    <path d="M54 57V76" stroke="#F2F5F7" stroke-width="4"/>
+    <path d="M63 52V67" stroke="#9CCFE4" stroke-width="4"/>
+  </g>
+</svg>

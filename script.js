@@ -62,13 +62,19 @@
     { id: "top", index: "00", label: "ORIGIN" },
     { id: "approach", index: "01", label: "APPROACH", nav: "approach" },
     { id: "future", index: "V.00", label: "VEYRA / INTENT", nav: "veyra", accent: "veyra" },
-    { id: "work", index: "02", label: "PRODUCTS", nav: "work" },
+    { id: "work", index: "02", label: "SELECTED WORK", nav: "work" },
     { id: "veyra", index: "V.01", label: "VEYRA", nav: "veyra", accent: "veyra" },
-    { id: "vector", index: "P.02", label: "VECTOR", nav: "work", accent: "vector" },
-    { id: "quanta", index: "P.03", label: "QUANTA", nav: "work", accent: "quanta" },
-    { id: "relay", index: "P.04", label: "RELAY", nav: "work", accent: "relay" },
-    { id: "aura", index: "P.05", label: "AURA", nav: "work", accent: "aura" },
-    { id: "lumina", index: "P.06", label: "LUMINA", nav: "work", accent: "lumina" },
+    { id: "systems", index: "02A", label: "CURRENT SYSTEMS", nav: "work" },
+    { id: "vyren", index: "P.02", label: "VYREN", nav: "work", accent: "vyren" },
+    { id: "orbis", index: "P.03", label: "ORBIS", nav: "work", accent: "orbis" },
+    { id: "aether", index: "P.04", label: "AETHER", nav: "work", accent: "aether" },
+    { id: "arthrekha", index: "P.05", label: "ARTHREKHA", nav: "work", accent: "arthrekha" },
+    { id: "vector", index: "P.06", label: "VECTOR", nav: "work", accent: "vector" },
+    { id: "quanta", index: "P.07", label: "QUANTA", nav: "work", accent: "quanta" },
+    { id: "relay", index: "P.08", label: "RELAY", nav: "work", accent: "relay" },
+    { id: "aura", index: "P.09", label: "AURA", nav: "work", accent: "aura" },
+    { id: "lumina", index: "P.10", label: "LUMINA", nav: "work", accent: "lumina" },
+    { id: "index", index: "P.11", label: "SYSTEMS INDEX", nav: "work" },
     { id: "principles", index: "03", label: "PRINCIPLES", nav: "approach", accent: "principles" },
     { id: "contact", index: "04", label: "SUPPORT", nav: "contact" }
   ].map((state) => ({ ...state, element: document.getElementById(state.id) })).filter((state) => state.element);
@@ -126,7 +132,7 @@
     revealItems.forEach((item) => observer.observe(item));
   }
 
-  const motionRegions = document.querySelectorAll(".hero, .marquee-band, .future-band, .product, .signal-lab");
+  const motionRegions = document.querySelectorAll(".hero, .marquee-band, .future-band, .product, .dossier, .project-index, .signal-lab");
   if (!("IntersectionObserver" in window)) {
     motionRegions.forEach((region) => region.classList.add("is-motion-active"));
   } else {
@@ -270,7 +276,9 @@
       const active = button.dataset.signal === signal;
       button.classList.toggle("is-active", active);
       button.setAttribute("aria-selected", String(active));
+      button.tabIndex = active ? 0 : -1;
     });
+    output.setAttribute("aria-labelledby", "signal-tab-" + signal);
     output.style.opacity = "0";
     output.style.transform = "translateY(5px)";
     window.setTimeout(() => {
@@ -283,6 +291,18 @@
     }, 145);
   }
   signalButtons.forEach((button) => button.addEventListener("click", () => selectSignal(button.dataset.signal)));
+  signalButtons.forEach((button, index) => button.addEventListener("keydown", (event) => {
+    const keys = ["ArrowLeft", "ArrowRight", "Home", "End"];
+    if (!keys.includes(event.key)) return;
+    event.preventDefault();
+    let next = index;
+    if (event.key === "ArrowLeft") next = (index - 1 + signalButtons.length) % signalButtons.length;
+    if (event.key === "ArrowRight") next = (index + 1) % signalButtons.length;
+    if (event.key === "Home") next = 0;
+    if (event.key === "End") next = signalButtons.length - 1;
+    signalButtons[next].focus();
+    selectSignal(signalButtons[next].dataset.signal);
+  }));
 
   if (signalCanvas && !motionReduced() && window.innerWidth > 760 && !saveData) {
     const context = signalCanvas.getContext("2d");

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Aritra Saha — Product builder and systems developer</title>
+  <desc id="desc">Dark technical portfolio graphic with project disciplines arranged around Aritra Saha's monogram.</desc>
+  <defs>
+    <linearGradient id="signal" x1="92" y1="555" x2="1094" y2="92" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#70d7ff"/><stop offset=".5" stop-color="#a991ff"/><stop offset="1" stop-color="#cdfb86"/>
+    </linearGradient>
+    <radialGradient id="field" cx="0" cy="0" r="1" gradientTransform="translate(904 245) rotate(142) scale(520 390)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#18221a"/><stop offset=".58" stop-color="#0b0b12"/><stop offset="1" stop-color="#07070b"/>
+    </radialGradient>
+    <pattern id="grid" width="54" height="54" patternUnits="userSpaceOnUse"><path d="M54 0H0v54" fill="none" stroke="#f1efff" stroke-opacity=".055"/></pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#field)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <path d="M74 93h1052M74 538h1052" stroke="#f1efff" stroke-opacity=".16"/>
+  <g transform="translate(78 55)">
+    <rect width="54" height="54" rx="15" fill="#101724" stroke="#b7c7e6" stroke-opacity=".24"/>
+    <path d="m14 39 12.6-25L40 39M19 30h16" fill="none" stroke="url(#signal)" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="40" cy="14" r="2" fill="#70d7ff"/>
+  </g>
+  <text x="150" y="89" fill="#f7f5ef" font-family="Manrope, Arial, sans-serif" font-size="22" font-weight="700">Aritra Saha</text>
+  <text x="150" y="108" fill="#9797a8" font-family="monospace" font-size="10" letter-spacing="1.8">PRODUCT BUILDER / SYSTEMS DEVELOPER</text>
+  <text x="78" y="228" fill="#f7f5ef" font-family="Georgia, serif" font-size="82" letter-spacing="-4">Systems, products</text>
+  <text x="78" y="314" fill="url(#signal)" font-family="Georgia, serif" font-size="88" font-style="italic" letter-spacing="-4">and visual instruments.</text>
+  <text x="82" y="374" fill="#9797a8" font-family="Manrope, Arial, sans-serif" font-size="19">Independent software across mobile AI, Linux, networks, public data</text>
+  <text x="82" y="403" fill="#9797a8" font-family="Manrope, Arial, sans-serif" font-size="19">and scientific visualization.</text>
+  <g fill="none" stroke="url(#signal)" stroke-opacity=".52">
+    <circle cx="968" cy="256" r="96"/><circle cx="968" cy="256" r="136" stroke-dasharray="5 11"/>
+    <path d="M816 256h304M968 104v304" stroke-opacity=".22"/>
+  </g>
+  <circle cx="968" cy="120" r="5" fill="#cdfb86"/><circle cx="1064" cy="256" r="4" fill="#70d7ff"/><circle cx="872" cy="256" r="4" fill="#a991ff"/>
+  <text x="968" y="247" text-anchor="middle" fill="#f7f5ef" font-family="Georgia, serif" font-size="50">14</text>
+  <text x="968" y="273" text-anchor="middle" fill="#9797a8" font-family="monospace" font-size="9" letter-spacing="2">CONSIDERED PROJECTS</text>
+  <g font-family="monospace" font-size="10" letter-spacing="1.4">
+    <text x="80" y="574" fill="#70d7ff">MOBILE + AI</text><text x="270" y="574" fill="#a991ff">LINUX SYSTEMS</text><text x="476" y="574" fill="#cdfb86">NETWORK TOOLING</text><text x="716" y="574" fill="#ff9ecb">PUBLIC DATA</text><text x="906" y="574" fill="#fff4dc">SCIENTIFIC VISUALS</text>
+  </g>
+</svg>

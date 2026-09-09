@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 34 21" fill="none">
+  <!-- VYREN Canonical Vector Mark - Official Approved Geometry -->
+  <!-- Facet 1: Upper-left optical blade -->
+  <polygon points="0.0,1.2 6.2,1.2 13.5,9.5 7.5,9.5" fill="currentColor" />
+  <!-- Facet 2: Lower-left refracted fragment -->
+  <polygon points="7.8,11.2 11.8,11.2 10.5,14.5 7.4,14.2" fill="currentColor" />
+  <!-- Facet 3: Lower-right primary ascending stem -->
+  <polygon points="12.5,16.5 14.8,20.8 17.5,20.5 23.2,8.8 18.2,7.8" fill="currentColor" />
+  <!-- Facet 4: Upper-right floating blade -->
+  <polygon points="19.4,6.4 24.4,7.4 27.2,1.5 22.2,1.2" fill="currentColor" />
+  <!-- Facet 5: Refraction accent spark -->
+  <polygon points="30.2,0.8 32.8,0.8 32.8,3.4 30.2,3.4" fill="currentColor" />
+</svg>
