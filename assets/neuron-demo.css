@@ -91,6 +91,13 @@
   height: 100%;
   overflow: visible;
 }
+.neuron-layer-guides rect {
+  fill: var(--accent);
+  fill-opacity: 0.035;
+  stroke: var(--accent);
+  stroke-opacity: 0.12;
+  stroke-width: 0.7;
+}
 .neuron-wire,
 .neuron-packet {
   fill: none;
@@ -99,7 +106,7 @@
 .neuron-wire {
   stroke: var(--ink);
   stroke-width: var(--weight-width);
-  opacity: 0.11;
+  opacity: 0.15;
 }
 .neuron-connection.is-negative .neuron-wire {
   stroke-dasharray: 2 3;
@@ -114,11 +121,12 @@
 }
 .neuron-connection.is-active .neuron-wire {
   stroke: var(--accent);
-  opacity: 0.2;
+  opacity: 0.27;
 }
 .neuron-connection.is-inspected .neuron-wire {
   stroke: var(--accent);
-  opacity: 0.72;
+  opacity: 0.85;
+  stroke-width: 1.35;
 }
 .neuron-connection.is-active .neuron-packet {
   opacity: var(--signal);
@@ -272,9 +280,9 @@
 }
 .neuron-demo .neuron-formula {
   color: var(--ink);
-  font: 400 clamp(19px, 1.7vw, 24px) / 1.5 var(--display);
+  font-size: clamp(18px, 1.65vw, 23px);
   margin: 22px 0;
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
 }
 .neuron-formula sup,
 .neuron-formula sub {
@@ -283,7 +291,7 @@
 .neuron-working {
   color: var(--ink);
   font: 12px/1.95 var(--mono);
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
 }
 .neuron-working strong {
   color: var(--accent);
@@ -293,7 +301,7 @@
   color: var(--muted);
   font: 11px/1.8 var(--mono);
   margin: 15px 0 0;
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
 }
 .neuron-demo .neuron-explanation {
   color: var(--muted);
@@ -517,4 +525,83 @@
 }
 .neuron-demo:not(.is-playing) .neuron-equation-content {
   animation: none;
+}
+
+/* Typeset mathematics stays local to the neural study. */
+.neuron-demo math {
+  font-family: math, "STIX Two Math", "Cambria Math", serif;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-align: left;
+  margin: 0;
+}
+.neuron-demo math[display="block"] {
+  display: inline math;
+}
+.neuron-demo mtable {
+  margin: 0;
+}
+.neuron-working {
+  font-size: 17px;
+  padding-block: 15px;
+  border-block: 1px solid var(--line);
+}
+.neuron-working math {
+  color: var(--ink);
+}
+.neuron-working mtr:last-child {
+  color: var(--accent);
+}
+.neuron-known-label {
+  display: block;
+  font: 10px/1.7 var(--mono);
+  margin-bottom: 12px;
+  color: var(--muted);
+}
+.neuron-demo .neuron-result math {
+  margin-top: 10px;
+  font-size: 16px;
+  color: var(--muted);
+}
+.neuron-equation {
+  align-items: start;
+  min-height: 460px;
+}
+@media (max-width: 760px) {
+  .neuron-equation {
+    min-height: 460px;
+  }
+}
+@media (max-width: 480px) {
+  .neuron-demo .neuron-formula {
+    font-size: 18px;
+  }
+  .neuron-working {
+    font-size: 15px;
+  }
+  .neuron-demo .neuron-result math {
+    font-size: 15px;
+  }
+}
+@media (max-width: 360px) {
+  .neuron-demo .neuron-formula {
+    font-size: 16px;
+  }
+  .neuron-working {
+    font-size: 13px;
+  }
+  .neuron-demo .neuron-result math {
+    font-size: 14px;
+  }
+}
+
+.neuron-demo mtd {
+  text-align: left;
+}
+.neuron-math-line {
+  display: block;
+  min-width: 0;
+}
+.neuron-result .neuron-math-line {
+  margin-top: 10px;
 }

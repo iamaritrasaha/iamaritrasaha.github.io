@@ -52,3 +52,9 @@ Project descriptions preserve their documented development state and distinguish
 The accepted palette, type system, navigation and project compositions stay in place. Copy uses direct first-person statements about the work and current learning, with a few brief mathematical or engineering asides. Project facts and development states remain unchanged.
 
 Equations appear where they explain the engineering: the [standard LoRA update](https://arxiv.org/abs/2106.09685) beside Orion, a payload/link-capacity lower bound in Relay's notes, and an observed-byte accounting identity beside Vyren. The transfer bound is not a measured throughput claim; the accounting identity distinguishes attributed and unknown bytes from the same observation scope. No Bayesian engine or other undocumented project mechanism is implied.
+
+## Neural notation and diagram refinement
+
+The neural study renders formulas and worked values with native MathML in `assets/neuron-math.js`. Fractions, roots, summation limits, indexed variables, transposes and scientific notation use mathematical elements rather than Unicode approximations or HTML superscripts. Long identities are split into deliberate rows, including a named intermediate for GELU. The numerical engine, model weights and interaction contract are unchanged. [MathML fraction markup](https://developer.mozilla.org/en-US/docs/Web/MathML/Reference/Element/mfrac) documents the native rendering used here.
+
+Subtle layer guides group the sixteen first-layer units without implying an extra computational layer. Selected connections include both the incoming displayed weights and outgoing displayed weights. The existing native neuron buttons, keyboard behavior, motion preferences and connection-selection disclosure remain intact. All styling is scoped to the neural study.

@@ -43,3 +43,10 @@ npm run build  # repeats tests and writes dist/
 All commands passed. Static checks cover IDs, preserved anchors, ordered featured projects, links, controls, image dimensions, CSS assets, source-size budgets and em dashes. There is no TypeScript task in this static HTML/CSS/JavaScript project. Six spring tests and four theme tests accompany the seven neural tests.
 
 Browser checks restore the normal viewport and system appearance after review.
+
+## Equation typesetting refinement
+
+- Validated all 880 combinations of eleven samples, sixteen selected units and five stages as well-formed mathematical markup, including MathML operand counts and numeric tokens. No non-finite or undefined display values occurred.
+- Inspected the rendered softmax fraction and backward derivative, as well as summation, square-root and indexed-variable layouts. Checked all five stages at 320 and 390 CSS pixels and desktop width, with additional intermediate-width checks. Equations fit their containers without horizontal document overflow in those checks.
+- Rechecked selection of neuron 16, Home-key navigation, local animation pause and manual interaction under OS reduced motion. Pause and reduced motion stopped the study animations. Desktop dark and narrow-phone light accessibility scans returned zero automated violations.
+- The existing seventeen numerical, physics and theme tests, lint and production build pass. Model parameters and inference/backpropagation code are unchanged. No additional runtime dependencies or remote requests were introduced.

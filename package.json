@@ -5,7 +5,7 @@
   "description": "Static, accessible portfolio for Aritra Saha. No production dependencies.",
   "scripts": {
     "start": "python3 -m http.server 4173 --bind 127.0.0.1",
-    "lint": "prettier --check index.html 404.html styles.css script.js assets/*.js assets/*.css scripts/*.mjs docs/*.md README.md && html-validate index.html 404.html && node --check script.js && node --check assets/research-plate.js && node --check assets/surface-physics.js && node --check assets/neuron-demo.js && node --check assets/neural-network.js && node --check assets/digit-model.js && node --check assets/theme.js",
+    "lint": "prettier --check index.html 404.html styles.css script.js assets/*.js assets/*.css scripts/*.mjs docs/*.md README.md && html-validate index.html 404.html && node --check script.js && node --check assets/research-plate.js && node --check assets/surface-physics.js && node --check assets/neuron-demo.js && node --check assets/neuron-math.js && node --check assets/neural-network.js && node --check assets/digit-model.js && node --check assets/theme.js",
     "test": "python3 scripts/check_site.py && node --test scripts/check_*.mjs",
     "build": "npm test && python3 scripts/build.py",
     "format": "prettier --write index.html 404.html styles.css script.js assets/*.js assets/*.css scripts/*.mjs docs/*.md README.md"
