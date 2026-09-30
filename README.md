@@ -56,3 +56,9 @@ Scene animation runs only while its artwork is visible and the document is activ
 ## Deployment
 
 Publish the repository root or generated `dist/` to static hosting. Keep `404.html`, `robots.txt`, `sitemap.xml` and `app-ads.txt`. The canonical URL is `https://iamaritrasaha.github.io/`; update canonical/social metadata and the sitemap if the domain changes. No server runtime or API key is required. GitHub Pages publishes the repository root automatically when `main` is pushed. The `.nojekyll` marker keeps the site on the plain static publishing path. Building locally writes `dist/` without publishing.
+
+## Copyright
+
+© 2026 Aritra Saha. All rights reserved.
+
+This notice applies to the original content and code in this portfolio. Third-party fonts, datasets, libraries and other attributed materials remain subject to their respective licenses.
