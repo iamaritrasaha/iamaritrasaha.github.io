@@ -1,0 +1,20 @@
+{
+  "project": "SeeDL",
+  "kind": "AI-generated concept illustration, not a library screenshot or scientific result",
+  "tool": "Built-in image generation",
+  "palette": ["#f4efe7", "#29282b", "#354dc5"],
+  "transparent_background": true,
+  "width": 1200,
+  "height": 850,
+  "sha256": "7b22c4b3d3b5cfb5fc71fedc2a59c3d0a4204a1a747b290e55a2ae00d4ae08ca",
+  "brief": "Four spatial neural layers, charcoal and ivory ceramic neurons, fine cobalt connections and an inspection ribbon. Transparent background; no labels, numbers, scientific measurements, UI or screenshots.",
+  "animation": "CSS transform-only drift; visibility-gated and disabled for reduced motion.",
+  "project_research": {
+    "source_revision": "7d93e7f231e50fc8f9fb1390d333390c9fb73ed4",
+    "verified_on": "2026-10-24",
+    "published_version": "0.5.0",
+    "website": "https://iamaritrasaha.github.io/seedl/",
+    "release": "https://github.com/iamaritrasaha/seedl/releases/tag/v0.5.0",
+    "pypi": "https://pypi.org/project/seedl/0.5.0/"
+  }
+}

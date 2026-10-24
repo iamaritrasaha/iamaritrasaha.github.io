@@ -67,6 +67,7 @@
     <link rel="stylesheet" href="styles.css?v=20261024.1" />
     <link rel="stylesheet" href="assets/neuron-demo.css?v=20260930.8" />
     <link rel="stylesheet" href="assets/research-plate.css?v=20260930.3" />
+    <link rel="stylesheet" href="assets/seedl-feature.css?v=20261024.1" />
     <link
       rel="preload"
       href="assets/fonts/Newsreader.woff2"
@@ -203,9 +204,13 @@
         <div class="section-bar wrap" data-reveal>
           <p class="eyebrow">01 / Selected work</p>
           <h2 id="work-title">Ideas, made tangible.</h2>
-          <span class="mono">Four projects I’m working on</span>
+          <span class="mono">Five projects I’m working on</span>
         </div>
         <nav class="project-jump wrap" aria-label="Featured projects">
+          <a class="flagship-jump" href="#seedl"
+            ><span>SeeDL <span aria-hidden="true">↘</span></span
+            ><small>Flagship / The Neural Observatory</small></a
+          >
           <a href="#orion"
             ><span>Orion <span aria-hidden="true">↘</span></span
             ><small>Model adaptation research</small></a
@@ -223,6 +228,131 @@
             ><small>Network observability</small></a
           >
         </nav>
+        <article
+          class="case-seedl wrap"
+          id="seedl"
+          aria-labelledby="seedl-title"
+        >
+          <div class="seedl-heading" data-reveal>
+            <p class="eyebrow">Flagship / Open-source Python library</p>
+            <h3 id="seedl-title">SeeDL</h3>
+            <p class="mono">
+              The Neural Observatory<br />0.5.0 on PyPI / Actively developed
+            </p>
+          </div>
+          <div class="seedl-story" data-reveal>
+            <h4>Look inside the model.</h4>
+            <p>
+              I’m building SeeDL to make deep-learning models and quantum
+              systems easier to inspect. It turns captured values into
+              interactive views: individual neurons and their signed
+              connections, execution graphs, attention routing and gradient
+              diagnostics.
+            </p>
+            <p>
+              Explore the result in a notebook or export it to a browser. The
+              Python core has no required third-party dependencies; PyTorch,
+              Plotly and Qiskit are optional integrations.
+            </p>
+            <p class="stack-line">
+              Python · PyTorch · Plotly · Qiskit · Scientific visualization
+            </p>
+            <div class="seedl-links">
+              <a
+                class="inline-link"
+                href="https://github.com/iamaritrasaha/seedl"
+                >GitHub repository <span aria-hidden="true">↗</span></a
+              >
+              <a
+                class="inline-link"
+                href="https://iamaritrasaha.github.io/seedl/"
+                >Official website <span aria-hidden="true">↗</span></a
+              >
+              <a class="inline-link" href="https://pypi.org/project/seedl/"
+                >PyPI package <span aria-hidden="true">↗</span></a
+              >
+              <a
+                class="inline-link"
+                href="https://iamaritrasaha.github.io/seedl/docs/"
+                >Documentation <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </div>
+          <figure class="seedl-figure motion-scene" data-reveal>
+            <a
+              class="seedl-art"
+              href="https://iamaritrasaha.github.io/seedl/playground.html#network"
+              aria-label="Explore SeeDL’s interactive 3D neural network"
+            >
+              <img
+                src="assets/seedl/observatory-illustration.webp"
+                width="1200"
+                height="850"
+                loading="lazy"
+                alt="Concept illustration for SeeDL: charcoal and ivory neural layers joined by cobalt connections and a flowing inspection ribbon"
+              />
+            </a>
+            <figcaption>
+              <span>Concept illustration / SeeDL</span>
+              <button type="button" data-motion-toggle hidden>
+                Pause motion
+              </button>
+              <a
+                href="https://iamaritrasaha.github.io/seedl/playground.html#network"
+                >Explore in 3D <span aria-hidden="true">↗</span></a
+              >
+            </figcaption>
+          </figure>
+          <details class="case-details seedl-details">
+            <summary>
+              Inside the observatory <span aria-hidden="true">+</span>
+            </summary>
+            <div class="detail-body">
+              <div>
+                <h5>Inspect the computation.</h5>
+                <p>
+                  The artwork is conceptual. SeeDL’s interactive viewers use
+                  captured model values, including activations and signed
+                  connection weights. Execution tracing records the model’s
+                  graph and tensor metadata; attention views show routing
+                  weights, rather than a causal explanation.
+                </p>
+                <a
+                  class="inline-link"
+                  href="https://iamaritrasaha.github.io/seedl/playground.html#trace"
+                  >Explore execution tracing
+                  <span aria-hidden="true">↗</span></a
+                >
+              </div>
+              <div>
+                <h5>Share the inspection.</h5>
+                <p>
+                  SeeDL exports interactive HTML and SVG for use beyond a
+                  running notebook. Its playground includes neural-network,
+                  attention and quantum-system examples. The portfolio uses an
+                  illustrated preview; the full viewers run on SeeDL’s website.
+                </p>
+                <a
+                  class="inline-link"
+                  href="https://iamaritrasaha.github.io/seedl/playground.html"
+                  >Open the full playground
+                  <span aria-hidden="true">↗</span></a
+                >
+                <p class="seedl-credit">
+                  <a
+                    href="https://github.com/iamaritrasaha/seedl/blob/main/website/generate.py"
+                    >Example source</a
+                  >
+                  ·
+                  <a
+                    href="https://github.com/iamaritrasaha/seedl/blob/main/LICENSE"
+                    >SeeDL’s MIT license</a
+                  >
+                </p>
+              </div>
+            </div>
+          </details>
+        </article>
         <article
           class="case-orion wrap"
           id="orion"

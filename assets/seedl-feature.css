@@ -1,0 +1,143 @@
+/* SeeDL uses the portfolio's existing paper, type, links and notebook pattern.
+   All additions are scoped to the flagship; the existing design is retained. */
+.project-jump .flagship-jump {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 24px;
+}
+.flagship-jump small {
+  margin-top: 0;
+}
+.case-seedl {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+  gap: 28px 56px;
+  padding-bottom: 64px;
+  margin-bottom: 56px;
+  border-bottom: 1px solid var(--line);
+}
+.seedl-heading {
+  grid-column: 1 / -1;
+}
+.seedl-heading h3 {
+  font-size: clamp(54px, 7vw, 84px);
+  letter-spacing: -0.045em;
+  margin: 14px 0;
+}
+.seedl-heading > .mono {
+  color: var(--muted);
+  font-size: 11px;
+}
+.seedl-story h4 {
+  font-size: clamp(28px, 3vw, 36px);
+  letter-spacing: -0.025em;
+  margin-bottom: 22px;
+}
+.seedl-story > p {
+  font-size: 16px;
+  line-height: 1.75;
+}
+.seedl-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+  margin-top: 22px;
+}
+.seedl-links .inline-link {
+  gap: 16px;
+}
+.seedl-figure {
+  min-width: 0;
+  align-self: start;
+}
+.seedl-art {
+  display: block;
+  overflow: hidden;
+  background: var(--surface);
+}
+.seedl-art img {
+  width: 100%;
+  height: auto;
+  animation: seedl-observe 12s ease-in-out infinite alternate paused;
+}
+.seedl-figure.scene-active img {
+  animation-play-state: running;
+}
+html[data-theme="dark"] .seedl-art img {
+  filter: brightness(1.55);
+}
+@keyframes seedl-observe {
+  from {
+    transform: translateY(4px) rotate(-0.6deg) scale(0.96);
+  }
+  to {
+    transform: translateY(-5px) rotate(0.6deg) scale(1);
+  }
+}
+.seedl-figure figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px 20px;
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 10px;
+}
+.seedl-figure figcaption a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--accent);
+}
+.seedl-figure figcaption button {
+  min-height: 44px;
+  padding: 6px 0;
+  color: var(--muted);
+  font-size: 11px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.seedl-figure figcaption button:hover {
+  color: var(--accent);
+}
+.seedl-details {
+  grid-column: 1 / -1;
+}
+.seedl-details .inline-link {
+  margin-top: 16px;
+}
+.seedl-details .seedl-credit {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 18px;
+}
+.seedl-credit a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+@media (max-width: 850px) {
+  .case-seedl {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+  .seedl-figure {
+    max-width: 720px;
+  }
+}
+@media (max-width: 650px) {
+  .project-jump .flagship-jump {
+    align-items: start;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .case-seedl {
+    padding-bottom: 40px;
+    margin-bottom: 36px;
+  }
+  .seedl-links {
+    gap: 10px 22px;
+  }
+}

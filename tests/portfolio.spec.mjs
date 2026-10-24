@@ -102,7 +102,7 @@ test("mobile menu and project shortcuts move keyboard focus to their destination
   await page.keyboard.press("Tab");
   await page.keyboard.press("Enter");
   await expect(page.locator("#work")).toBeFocused();
-  for (const id of ["orion", "sysai", "relay", "vyren"]) {
+  for (const id of ["seedl", "orion", "sysai", "relay", "vyren"]) {
     await page.locator(`.project-jump a[href="#${id}"]`).click();
     await expect(page.locator(`#${id}`)).toBeFocused();
   }
@@ -208,11 +208,71 @@ test("content and navigation survive disabled JavaScript", async ({
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await expect(page.locator(".neural-fallback")).toBeVisible();
   await expect(page.locator(".nav-panel a").first()).toBeVisible();
-  await page.locator(".case-details summary").first().click();
+  await page.locator(".orion-details summary").click();
   await expect(page.locator(".orion-details")).toHaveAttribute("open", "");
   await expect(page.locator("#copy-email")).toBeHidden();
   await expect(page.locator(".contact-copy")).toBeHidden();
   await context.close();
+});
+
+test("SeeDL leads selected work with a generated illustration, verified destinations and a keyboard notebook", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/#seedl");
+  await expect(page.locator(".selected-work article").first()).toHaveAttribute(
+    "id",
+    "seedl",
+  );
+  const image = page.locator(".seedl-art img");
+  await image.scrollIntoViewIfNeeded();
+  await expect
+    .poll(() => image.evaluate((el) => el.complete && el.naturalWidth === 1200))
+    .toBe(true);
+  await expect(page.locator(".seedl-figure figcaption")).toContainText(
+    "Concept illustration",
+  );
+  for (const [name, href] of [
+    ["GitHub repository", "https://github.com/iamaritrasaha/seedl"],
+    ["Official website", "https://iamaritrasaha.github.io/seedl/"],
+    ["PyPI package", "https://pypi.org/project/seedl/"],
+    ["Documentation", "https://iamaritrasaha.github.io/seedl/docs/"],
+  ])
+    await expect(
+      page.locator(".seedl-links").getByRole("link", { name }),
+    ).toHaveAttribute("href", href);
+  expect(
+    await image.evaluate(
+      (el) =>
+        el.getAnimations().filter((a) => a.playState === "running").length,
+    ),
+  ).toBe(0);
+  const summary = page.locator(".seedl-details summary");
+  await summary.focus();
+  await page.keyboard.press("Enter");
+  await expect(page.locator(".seedl-details")).toHaveAttribute("open", "");
+  const result = await new AxeBuilder({ page })
+    .withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"])
+    .analyze();
+  expect(result.violations).toEqual([]);
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.locator(".seedl-art").scrollIntoViewIfNeeded();
+  await expect
+    .poll(() =>
+      image.evaluate((el) =>
+        el.getAnimations().some((a) => a.playState === "running"),
+      ),
+    )
+    .toBe(true);
+  await page.locator(".seedl-figure [data-motion-toggle]").click();
+  await expect(page.locator("html")).toHaveAttribute("data-motion", "reduce");
+  expect(
+    await image.evaluate(
+      (el) =>
+        el.getAnimations().filter((a) => a.playState === "running").length,
+    ),
+  ).toBe(0);
 });
 
 test("nested missing routes render the accessible 404 and public files stay bounded", async ({

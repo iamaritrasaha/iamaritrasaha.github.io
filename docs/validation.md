@@ -1,5 +1,18 @@
 # Validation record
 
+## SeeDL flagship addition
+
+Validated on 2026-10-24 from merged PR #5, on `codex/seedl-flagship`. The change adds SeeDL first in selected work while retaining the existing design. Its artwork is generated in the ivory/charcoal/cobalt palette and explicitly captioned as a concept illustration. No SeeDL screenshot or exported application is shipped.
+
+- Lint/HTML validation and the production build pass. All 17 existing numerical, physics and theme tests pass.
+- All 16 Playwright scenarios pass, including the five-width/two-theme matrix and a new SeeDL check covering image loading, project destinations, notebook keyboard access, expanded-content axe scanning, visible animation, reduced motion and manual pause. Automated WCAG A/AA scans report zero violations in the tested states.
+- Desktop, tablet and mobile captures were inspected in light and dark themes. The existing scene controller pauses the new illustration when it leaves the viewport; the existing OS/user motion preferences and synchronized pause controls stop it.
+- Source comparison against `main` confirms identical hero, about, practice, contact and original project markup. Shared CSS, JavaScript, theme/model modules, dependencies and lockfile are unchanged. The static size check now normalizes Windows CRLF before applying the existing source budgets.
+- SeeDL's repository, PyPI package, live website, documentation, playground and direct 3D/trace demonstration URLs returned HTTP 200. PyPI and the stable GitHub release confirm published version 0.5.0 despite a stale pending-publication line in the source notes.
+- npm audit reports zero vulnerabilities. The generated illustration's checksum and production/source HTML/CSS/JavaScript equality were verified. Temporary captures and discarded design studies remain outside the repository. No SeeDL repository changes, merge or deployment were performed.
+
+See [SeeDL feature notes](seedl-feature.md) for research sources and artwork provenance. Browser coverage remains Edge/Chromium emulation; physical-device, screen-reader and other-engine validation were not performed.
+
 ## October 2026 portfolio upgrade
 
 Validation on 2026-10-24 for `codex/portfolio-design-audit`. The September records below are historical; this section describes the current upgrade.
