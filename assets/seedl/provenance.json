@@ -1,7 +1,6 @@
 {
   "project": "SeeDL",
-  "kind": "AI-generated concept illustration, not a library screenshot or scientific result",
-  "tool": "Built-in image generation",
+  "kind": "Concept illustration, not a library screenshot or scientific result",
   "palette": ["#f4efe7", "#29282b", "#354dc5"],
   "transparent_background": true,
   "width": 1200,
