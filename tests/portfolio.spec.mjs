@@ -207,6 +207,16 @@ test("content and navigation survive disabled JavaScript", async ({
   await page.goto("http://127.0.0.1:4174/");
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await expect(page.locator(".neural-fallback")).toBeVisible();
+  await expect(page.locator(".seedl-network")).toBeVisible();
+  expect(
+    await page
+      .locator(".seedl-network")
+      .evaluate((el) =>
+        el
+          .getAnimations({ subtree: true })
+          .every((a) => a.playState === "paused"),
+      ),
+  ).toBe(true);
   await expect(page.locator(".nav-panel a").first()).toBeVisible();
   await page.locator(".orion-details summary").click();
   await expect(page.locator(".orion-details")).toHaveAttribute("open", "");
@@ -215,7 +225,7 @@ test("content and navigation survive disabled JavaScript", async ({
   await context.close();
 });
 
-test("SeeDL leads selected work with a generated illustration, verified destinations and a keyboard notebook", async ({
+test("SeeDL leads selected work with a signal network, verified destinations and a keyboard notebook", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
@@ -225,13 +235,15 @@ test("SeeDL leads selected work with a generated illustration, verified destinat
     "id",
     "seedl",
   );
-  const image = page.locator(".seedl-art img");
-  await image.scrollIntoViewIfNeeded();
-  await expect
-    .poll(() => image.evaluate((el) => el.complete && el.naturalWidth === 1200))
-    .toBe(true);
+  const network = page.locator(".seedl-network");
+  await network.scrollIntoViewIfNeeded();
+  await expect(network).toBeVisible();
+  await expect(page.locator(".seedl-art")).toHaveAttribute(
+    "href",
+    "https://iamaritrasaha.github.io/seedl/playground.html#network",
+  );
   await expect(page.locator(".seedl-figure figcaption")).toContainText(
-    "Concept illustration",
+    "Concept network",
   );
   for (const [name, href] of [
     ["GitHub repository", "https://github.com/iamaritrasaha/seedl"],
@@ -243,9 +255,11 @@ test("SeeDL leads selected work with a generated illustration, verified destinat
       page.locator(".seedl-links").getByRole("link", { name }),
     ).toHaveAttribute("href", href);
   expect(
-    await image.evaluate(
+    await network.evaluate(
       (el) =>
-        el.getAnimations().filter((a) => a.playState === "running").length,
+        el
+          .getAnimations({ subtree: true })
+          .filter((a) => a.playState === "running").length,
     ),
   ).toBe(0);
   const summary = page.locator(".seedl-details summary");
@@ -260,17 +274,46 @@ test("SeeDL leads selected work with a generated illustration, verified destinat
   await page.locator(".seedl-art").scrollIntoViewIfNeeded();
   await expect
     .poll(() =>
-      image.evaluate((el) =>
-        el.getAnimations().some((a) => a.playState === "running"),
+      network.evaluate((el) =>
+        el
+          .getAnimations({ subtree: true })
+          .some((a) => a.playState === "running"),
       ),
     )
     .toBe(true);
+  // A signal advances along a fixed edge; the diagram itself never drifts.
+  const offsets = await page
+    .locator(".seedl-signal")
+    .first()
+    .evaluate((el) => {
+      const animation = el.getAnimations()[0];
+      animation.currentTime = 300;
+      const start = parseFloat(getComputedStyle(el).strokeDashoffset);
+      animation.currentTime = 900;
+      const end = parseFloat(getComputedStyle(el).strokeDashoffset);
+      return { start, end };
+    });
+  expect(offsets.end).toBeLessThan(offsets.start);
+  await expect(network).toHaveCSS("transform", "none");
+  await page.locator("h1").scrollIntoViewIfNeeded();
+  await expect
+    .poll(() =>
+      network.evaluate((el) =>
+        el
+          .getAnimations({ subtree: true })
+          .every((a) => a.playState === "paused"),
+      ),
+    )
+    .toBe(true);
+  await page.locator(".seedl-art").scrollIntoViewIfNeeded();
   await page.locator(".seedl-figure [data-motion-toggle]").click();
   await expect(page.locator("html")).toHaveAttribute("data-motion", "reduce");
   expect(
-    await image.evaluate(
+    await network.evaluate(
       (el) =>
-        el.getAnimations().filter((a) => a.playState === "running").length,
+        el
+          .getAnimations({ subtree: true })
+          .filter((a) => a.playState === "running").length,
     ),
   ).toBe(0);
 });

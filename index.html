@@ -67,7 +67,7 @@
     <link rel="stylesheet" href="styles.css?v=20261024.1" />
     <link rel="stylesheet" href="assets/neuron-demo.css?v=20260930.8" />
     <link rel="stylesheet" href="assets/research-plate.css?v=20260930.3" />
-    <link rel="stylesheet" href="assets/seedl-feature.css?v=20261024.1" />
+    <link rel="stylesheet" href="assets/seedl-feature.css?v=20261024.2" />
     <link
       rel="preload"
       href="assets/fonts/Newsreader.woff2"
@@ -284,16 +284,157 @@
               href="https://iamaritrasaha.github.io/seedl/playground.html#network"
               aria-label="Explore SeeDL’s interactive 3D neural network"
             >
-              <img
-                src="assets/seedl/observatory-illustration.webp"
-                width="1200"
-                height="850"
-                loading="lazy"
-                alt="Concept illustration for SeeDL: charcoal and ivory neural layers joined by cobalt connections and a flowing inspection ribbon"
-              />
+              <svg
+                class="seedl-network"
+                viewBox="0 0 640 440"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <g class="seedl-edges">
+                  <path
+                    d="M68 155C152 155 152 105 236 105 M68 155C152 155 152 185 236 185 M68 155C152 155 152 265 236 265 M68 155C152 155 152 345 236 345 M68 225C152 225 152 105 236 105 M68 225C152 225 152 185 236 185 M68 225C152 225 152 265 236 265 M68 225C152 225 152 345 236 345 M68 295C152 295 152 105 236 105 M68 295C152 295 152 185 236 185 M68 295C152 295 152 265 236 265 M68 295C152 295 152 345 236 345"
+                  />
+                  <path
+                    d="M236 105C320 105 320 105 404 105 M236 105C320 105 320 185 404 185 M236 105C320 105 320 265 404 265 M236 105C320 105 320 345 404 345 M236 185C320 185 320 105 404 105 M236 185C320 185 320 185 404 185 M236 185C320 185 320 265 404 265 M236 185C320 185 320 345 404 345 M236 265C320 265 320 105 404 105 M236 265C320 265 320 185 404 185 M236 265C320 265 320 265 404 265 M236 265C320 265 320 345 404 345 M236 345C320 345 320 105 404 105 M236 345C320 345 320 185 404 185 M236 345C320 345 320 265 404 265 M236 345C320 345 320 345 404 345"
+                  />
+                  <path
+                    d="M404 105C488 105 488 185 572 185 M404 105C488 105 488 265 572 265 M404 185C488 185 488 185 572 185 M404 185C488 185 488 265 572 265 M404 265C488 265 488 185 572 185 M404 265C488 265 488 265 572 265 M404 345C488 345 488 185 572 185 M404 345C488 345 488 265 572 265"
+                  />
+                </g>
+                <path
+                  class="seedl-signal seedl-stage-0"
+                  pathLength="1"
+                  d="M68 155C152 155 152 105 236 105"
+                />
+                <path
+                  class="seedl-signal seedl-stage-0"
+                  pathLength="1"
+                  d="M68 225C152 225 152 265 236 265"
+                />
+                <path
+                  class="seedl-signal seedl-stage-0"
+                  pathLength="1"
+                  d="M68 295C152 295 152 345 236 345"
+                />
+                <path
+                  class="seedl-signal seedl-stage-1"
+                  pathLength="1"
+                  d="M236 105C320 105 320 185 404 185"
+                />
+                <path
+                  class="seedl-signal seedl-stage-1"
+                  pathLength="1"
+                  d="M236 265C320 265 320 265 404 265"
+                />
+                <path
+                  class="seedl-signal seedl-stage-1"
+                  pathLength="1"
+                  d="M236 345C320 345 320 345 404 345"
+                />
+                <path
+                  class="seedl-signal seedl-stage-2"
+                  pathLength="1"
+                  d="M404 185C488 185 488 185 572 185"
+                />
+                <path
+                  class="seedl-signal seedl-stage-2"
+                  pathLength="1"
+                  d="M404 265C488 265 488 265 572 265"
+                />
+                <path
+                  class="seedl-signal seedl-stage-2"
+                  pathLength="1"
+                  d="M404 345C488 345 488 265 572 265"
+                />
+                <g class="seedl-nodes">
+                  <circle cx="68" cy="155" r="8" />
+                  <circle cx="68" cy="225" r="8" />
+                  <circle cx="68" cy="295" r="8" />
+                  <circle cx="236" cy="105" r="8" />
+                  <circle cx="236" cy="185" r="8" />
+                  <circle cx="236" cy="265" r="8" />
+                  <circle cx="236" cy="345" r="8" />
+                  <circle cx="404" cy="105" r="8" />
+                  <circle cx="404" cy="185" r="8" />
+                  <circle cx="404" cy="265" r="8" />
+                  <circle cx="404" cy="345" r="8" />
+                  <circle cx="572" cy="185" r="8" />
+                  <circle cx="572" cy="265" r="8" />
+                </g>
+                <circle
+                  class="seedl-ring seedl-stage-0"
+                  cx="68"
+                  cy="155"
+                  r="15"
+                />
+                <circle
+                  class="seedl-ring seedl-stage-0"
+                  cx="68"
+                  cy="225"
+                  r="15"
+                />
+                <circle
+                  class="seedl-ring seedl-stage-0"
+                  cx="68"
+                  cy="295"
+                  r="15"
+                />
+                <circle
+                  class="seedl-ring seedl-stage-1"
+                  cx="236"
+                  cy="105"
+                  r="15"
+                />
+                <circle
+                  class="seedl-ring seedl-stage-1"
+                  cx="236"
+                  cy="265"
+                  r="15"
+                />
+                <circle
+                  class="seedl-ring seedl-stage-1"
+                  cx="236"
+                  cy="345"
+                  r="15"
+                />
+                <circle
+                  class="seedl-ring seedl-stage-2"
+                  cx="404"
+                  cy="185"
+                  r="15"
+                />
+                <circle
+                  class="seedl-ring seedl-stage-2"
+                  cx="404"
+                  cy="265"
+                  r="15"
+                />
+                <circle
+                  class="seedl-ring seedl-stage-2"
+                  cx="404"
+                  cy="345"
+                  r="15"
+                />
+                <circle
+                  class="seedl-ring seedl-stage-3"
+                  cx="572"
+                  cy="185"
+                  r="15"
+                />
+                <circle
+                  class="seedl-ring seedl-stage-3"
+                  cx="572"
+                  cy="265"
+                  r="15"
+                />
+                <text class="seedl-layer-label" x="68" y="404">INPUT</text>
+                <text class="seedl-layer-label" x="236" y="404">HIDDEN</text>
+                <text class="seedl-layer-label" x="404" y="404">HIDDEN</text>
+                <text class="seedl-layer-label" x="572" y="404">OUTPUT</text>
+              </svg>
             </a>
             <figcaption>
-              <span>Concept illustration / SeeDL</span>
+              <span>Concept network / SeeDL</span>
               <button type="button" data-motion-toggle hidden>
                 Pause motion
               </button>

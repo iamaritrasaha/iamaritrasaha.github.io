@@ -92,3 +92,11 @@ Browser checks restore the normal viewport and system appearance after review.
 - Inspected the rendered softmax fraction and backward derivative, as well as summation, square-root and indexed-variable layouts. Checked all five stages at 320 and 390 CSS pixels and desktop width, with additional intermediate-width checks. Equations fit their containers without horizontal document overflow in those checks.
 - Rechecked selection of neuron 16, Home-key navigation, local animation pause and manual interaction under OS reduced motion. Pause and reduced motion stopped the study animations. Desktop dark and narrow-phone light accessibility scans returned zero automated violations.
 - The existing seventeen numerical, physics and theme tests, lint and production build pass. Model parameters and inference/backpropagation code are unchanged. No additional runtime dependencies or remote requests were introduced.
+
+## SeeDL signal animation
+
+- Replaced the rocking raster with a fixed SVG network. Cobalt signals move through three successive connection groups; receiving nodes highlight in sequence. Both themes use the existing palette variables.
+- Formatting, HTML validation, module syntax, all 17 unit tests, the production build and dependency audit pass. The audit reports zero known vulnerabilities.
+- All 16 browser scenarios pass across 320, 390, 768, 1024 and 1440 CSS pixels in both themes. Automated accessibility scans report zero violations. The SeeDL scenario checks forward signal movement, a fixed diagram, offscreen suspension, OS reduced motion, manual pause, project destinations and keyboard disclosure interaction. The no-JavaScript scenario confirms a visible static network.
+- Inspected rendered desktop and mobile previews in both themes and captured comparison screenshots outside the repository. The inspected browser reports zero console errors or warnings. No screenshot, recording or local environment file is included in the change.
+- Removed the 302 KiB raster asset. The inline vector needs no additional runtime dependency, request or JavaScript. Other sections, scientific demonstrations and factual project descriptions remain unchanged.

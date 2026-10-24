@@ -13,14 +13,14 @@ Checked on 2026-10-24 against the official repository at revision `7d93e7f231e50
 
 ## Artwork
 
-The feature uses `assets/seedl/observatory-illustration.webp`, a concept illustration, rather than a SeeDL screenshot or numerical result. The visible caption and alt text identify that distinction. The image is transparent, 1200 × 850, approximately 302 KiB and lazy-loaded below the hero. Research screenshots, design studies and unused exports are not included in the repository.
+The feature uses a crisp inline SVG network, with cobalt signals travelling through successive layers and receiving nodes briefly highlighting. The network stays fixed, avoiding whole-image rotation or floating. Its visible caption identifies it as a concept network, rather than captured model values or a SeeDL screenshot. The linked scientific viewers remain on SeeDL's own website.
 
-Art direction: spatial neural layers of charcoal and ivory ceramic neurons, fine cobalt connections and an inspection ribbon; warm ivory `#f4efe7`, charcoal `#29282b`, cobalt `#354dc5`; no labels, numbers, measurements, UI or screenshots. WebP compression prepares the image for the site. Asset metadata and the checksum are recorded in `assets/seedl/provenance.json`.
+The illustration uses the existing theme variables for paper, charcoal and cobalt, so both themes receive appropriate colors without image filters. It replaces a 302 KiB raster with approximately 5 KiB of vector markup. No image request, library, canvas loop or additional JavaScript is required. Metadata is recorded in `assets/seedl/provenance.json`.
 
-The illustration drifts and turns slightly using CSS transforms. The existing scene observer runs it only while visible and while the document is active. The existing motion preference, OS reduced-motion setting and synchronized pause controls stop it. It stays a static illustration without JavaScript. The full 3D/scientific viewers open on SeeDL's own website, keeping Plotly, remote requests and embedded application controls out of the portfolio runtime.
+The existing scene observer runs motion only while the section is visible and the document is active. The existing motion preference, OS reduced-motion setting and synchronized pause controls stop it. Without JavaScript, the complete network remains visible and static. The source HTML budget increases by 2 KiB to accommodate the vector; overall page transfer is substantially smaller.
 
 ## Validation
 
-The source check enforces SeeDL followed by the four preserved featured projects and budgets canonical UTF-8/LF source sizes, avoiding a false failure on Windows CRLF checkouts. Browser coverage checks the new shortcut, illustration loading, destination URLs, native notebook keyboard interaction, accessibility, reduced motion and manual pause. Existing project and no-JavaScript checks remain in place.
+The source check enforces SeeDL followed by the four preserved featured projects and budgets canonical UTF-8/LF source sizes, avoiding a false failure on Windows CRLF checkouts. Browser coverage checks the new shortcut, vector rendering, forward signal progression, offscreen suspension, destination URLs, native notebook keyboard interaction, accessibility, reduced motion and manual pause. Existing project and no-JavaScript checks remain in place.
 
 Local comparison against `main` confirms identical hero, about, practice, contact and original four project markup, and unchanged shared styles, runtime scripts, theme controller, numerical/model modules, dependencies and lockfile. No change was made to the SeeDL repository. Publication follows the repository review and merge process.
