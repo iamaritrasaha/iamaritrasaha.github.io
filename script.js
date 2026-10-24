@@ -245,6 +245,39 @@ function revealHashTarget() {
     details.open = true;
     target.scrollIntoView({ behavior: "instant", block: "start" });
   }
+  // Move keyboard reading order to the destination, including after the mobile
+  // panel is hidden. Native anchors still own the URL and scrolling.
+  if (!target.matches("a, button, input, select, textarea, [tabindex]")) {
+    target.setAttribute("tabindex", "-1");
+  }
+  target.focus({ preventScroll: true });
 }
 window.addEventListener("hashchange", revealHashTarget);
+document.addEventListener("click", (event) => {
+  const link = event.target.closest('a[href^="#"]');
+  // Clicking the current fragment does not fire hashchange.
+  if (link?.hash && link.hash === location.hash)
+    requestAnimationFrame(revealHashTarget);
+});
 revealHashTarget();
+
+const copyEmail = document.getElementById("copy-email");
+const copyStatus = document.getElementById("copy-status");
+if (copyEmail && copyStatus && navigator.clipboard?.writeText) {
+  copyEmail.closest(".contact-copy").hidden = false;
+  copyEmail.hidden = false;
+  copyEmail.addEventListener("click", async () => {
+    copyEmail.disabled = true;
+    copyStatus.textContent = "";
+    try {
+      const address = document.querySelector(".contact-email").href.slice(7);
+      await navigator.clipboard.writeText(address);
+      copyStatus.textContent = "Email address copied.";
+    } catch {
+      copyStatus.textContent =
+        "Couldn’t copy. Select the email address above, or open the email link.";
+    } finally {
+      copyEmail.disabled = false;
+    }
+  });
+}

@@ -5,23 +5,26 @@ An editorial portfolio of independent work in machine learning, local AI, Androi
 ## Run locally
 
 ```bash
-python3 -m http.server 4173 --bind 127.0.0.1
+npm start
 ```
 
-Open [localhost:4173](http://localhost:4173). The site works directly from the repository; no installation or build is required for a preview.
+Open [localhost:4173](http://localhost:4173). Node.js 22+ is sufficient for this preview; no dependency installation or build is required. The local server serves public files, uses the site's 404 page for missing routes, and listens only on your machine. A plain static host can also serve the repository directly.
 
 ## Development
 
-Optional checks require Node.js 22+ and Python 3:
+Optional checks require Node.js 22.12+ and Python 3:
 
 ```bash
 npm ci
 npm run lint
 npm test
 npm run build
+npm run test:browser
 ```
 
-Lint checks formatting, HTML and JavaScript syntax. Tests cover static site integrity, neural-network arithmetic, spring behavior and theme preferences. The build runs tests and copies deployable files into `dist/`. Use `npm run format` to format authored source and documentation. Recorded browser checks and their limits belong in [docs/validation.md](docs/validation.md).
+Lint checks formatting, HTML and JavaScript syntax. Tests cover static site integrity, neural-network arithmetic, spring behavior and theme preferences. The Python launcher tries `python3`, `python`, `py`, then the bundled Codex runtime; set `PYTHON` to an executable path to supply another interpreter. The build runs tests and copies deployable files into `dist/`. Preview the build with `npm start -- dist`.
+
+Browser tests start a separate server on port 4174. They cover both themes at five widths, all neural stages, axe accessibility checks, navigation focus, clipboard success/failure, disclosures, motion preferences, no-JavaScript behavior and the nested 404. Microsoft Edge is the default browser on this Windows environment. Set `PLAYWRIGHT_CHANNEL=chrome` for an installed Chrome, or install Edge with `npx playwright install msedge` where supported. Tests are emulation, not physical-device validation. Use `npm run format` to format authored source and documentation. Recorded browser checks and their limits belong in [docs/validation.md](docs/validation.md); the [October upgrade report](docs/portfolio-upgrade.md) records the audit, tool installations and design rationale.
 
 ## Structure
 

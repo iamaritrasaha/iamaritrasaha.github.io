@@ -1,5 +1,34 @@
 # Validation record
 
+## October 2026 portfolio upgrade
+
+Validation on 2026-10-24 for `codex/portfolio-design-audit`. The September records below are historical; this section describes the current upgrade.
+
+- `npm run lint`: passes Prettier, HTML validation and JavaScript syntax checks. Prettier now accepts platform-native line endings; restored unchanged assets do not need unrelated formatting changes.
+- `npm test`: static integrity checks and all 17 existing neural-network, spring and theme tests pass. The shipped model, learned weights and mathematical modules are unchanged.
+- `npm run build`: passes and produces `dist/`. The output was served separately at localhost:4175 and opened through Playwright CLI.
+- `npm run test:browser`: 15 Playwright/Edge scenarios pass. The matrix covers 320, 390, 768, 1024 and 1440 CSS pixels in light and dark appearances, all five neural stages, document/equation overflow, automated axe checks, reduced motion and failed resources. The targeted narrow-phone/navigation tests were repeated after the last title-size and scroll-clearance refinement.
+- All ten viewport/theme combinations returned zero axe violations for WCAG 2 A/AA, 2.1 AA and 2.2 AA tags. The nested 404 page also passed. These automated results are not an accessibility certification.
+- Keyboard tests cover skip navigation, mobile menu Tab order, Escape focus return, section focus after activation, repeated navigation to the same fragment, project shortcuts and neuron Home/End selection. Normal-motion tests cover classifier controls, disclosures, model-miss feedback, research-plate controls, and persisted motion preferences.
+- Clipboard tests verify the actual copied email and a blocked-write recovery message. The mailto remains correct. A separate no-JavaScript context retains navigation, project content, native disclosures and the classifier fallback.
+- Preview-server tests cover nested 404 status/content, blocked `.git` access, encoded traversal and HTTP method handling. The initial traversal failure was fixed and the regression check passes.
+- Source and production previews were inspected with Playwright CLI at desktop, tablet and phone dimensions. Baseline/updated screenshots are retained outside the repository as local review artifacts; current test screenshots are regenerated in ignored `test-results/`. Machine-specific artifact locations are omitted from committed documentation.
+- Browser checks found no page errors or failed runtime resource requests. All 12 authored HTTPS destinations returned HTTP 200 to a HEAD request during this run; this checks availability, not the full behavior of those external sites.
+- One unthrottled localhost sample at 1440px, with reduced motion, reported CLS 0.00839, LCP/FCP 88ms, one long task, 17 resources and approximately 268KB transferred. All runtime resource requests were local. This single environment-dependent sample is not a field-performance or mobile-network claim.
+- `npm audit` reports zero vulnerabilities across production and development dependencies after updating transitive `fast-uri` to 3.1.9. No production dependencies were added. There is no TypeScript task in this HTML/CSS/JavaScript project.
+
+Taste's standalone browser inspector could not establish its CDP session: Edge exited early with code 0 on two attempts. Its source lint was run; its bans on rules, monospace and index labels flag the intentionally preserved editorial design. No Taste compliance pass is claimed. Playwright CLI and Playwright Test supplied the working rendered checks.
+
+Remaining limits: Edge/Chromium emulated viewports only; no physical devices, screen-reader session, Safari/Firefox engine, field Core Web Vitals or real mail-client delivery test. Neural annotations retain their existing dense scale and 26px native neuron targets. The long page remains deliberate, with clearer project shortcuts. The reference guideline repository's missing license is documented in [the upgrade report](portfolio-upgrade.md).
+
+### Pre-publication review
+
+Reviewed the complete change set against `main`, including newly added tooling and tests. Removed four machine-specific absolute paths from the reports. Fixed an empty contact row when JavaScript or the Clipboard API is unavailable; the browser checks now assert that the whole copy-control container stays hidden in both cases. Existing portfolio claims, project states, contact details, trained weights and mathematical modules remain unchanged.
+
+Re-ran lint, the production build (including all 17 existing tests), all 15 browser scenarios and the full dependency audit after these fixes. All passed; axe reported zero violations in the tested matrix and npm reported zero vulnerabilities. Playwright and axe remain development-only dependencies. Generated build output, browser screenshots/traces, caches and dependencies are excluded from version control. GitHub Pages was confirmed to publish the root of `main`; publishing the feature branch and opening its pull request does not change that source. No merge or deployment is part of this review.
+
+## September 2026 record
+
 Local validation on 2026-09-30 for the trained digit classifier, direct neuron controls and mathematical copy refinement. The accepted ivory/charcoal/cobalt design and project composition are retained. This record replaces the earlier 15-neuron demonstration results.
 
 ## Content and layout
