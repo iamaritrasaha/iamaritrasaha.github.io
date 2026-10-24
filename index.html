@@ -64,7 +64,7 @@
       type="font/woff2"
       crossorigin
     />
-    <link rel="stylesheet" href="styles.css?v=20260930.editorial4" />
+    <link rel="stylesheet" href="styles.css?v=20261024.1" />
     <link rel="stylesheet" href="assets/neuron-demo.css?v=20260930.8" />
     <link rel="stylesheet" href="assets/research-plate.css?v=20260930.3" />
     <link
@@ -74,7 +74,7 @@
       type="font/woff2"
       crossorigin
     />
-    <script type="module" src="script.js?v=20260930.editorial5"></script>
+    <script type="module" src="script.js?v=20261024.1"></script>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -139,16 +139,21 @@
           </h1>
           <div class="hero-intro" data-reveal>
             <p class="role-label">
-              AI &amp; ML Engineer<br />Applied AI Developer
+              AI &amp; ML Engineer / Applied AI Developer
             </p>
             <p>
               My current focus is AI/ML engineering. I build local AI systems,
               developer tools and software for Linux and Android. I’m learning
               the fundamentals alongside the implementation.
             </p>
-            <a class="inline-link" href="#work"
-              >A closer look at the work <span aria-hidden="true">↓</span></a
-            >
+            <div class="hero-actions">
+              <a class="primary-link" href="#work"
+                >Explore selected work <span aria-hidden="true">↓</span></a
+              >
+              <a class="inline-link" href="https://github.com/iamaritrasaha"
+                >GitHub <span aria-hidden="true">↗</span></a
+              >
+            </div>
           </div>
         </div>
         <figure class="hero-study" data-reveal>
@@ -200,6 +205,24 @@
           <h2 id="work-title">Ideas, made tangible.</h2>
           <span class="mono">Four projects I’m working on</span>
         </div>
+        <nav class="project-jump wrap" aria-label="Featured projects">
+          <a href="#orion"
+            ><span>Orion <span aria-hidden="true">↘</span></span
+            ><small>Model adaptation research</small></a
+          >
+          <a href="#sysai"
+            ><span>SysAI <span aria-hidden="true">↘</span></span
+            ><small>Local AI for Linux</small></a
+          >
+          <a href="#relay"
+            ><span>Relay <span aria-hidden="true">↘</span></span
+            ><small>Cross-device continuity</small></a
+          >
+          <a href="#vyren"
+            ><span>Vyren <span aria-hidden="true">↘</span></span
+            ><small>Network observability</small></a
+          >
+        </nav>
         <article
           class="case-orion wrap"
           id="orion"
@@ -780,6 +803,12 @@
           <a class="contact-email" href="mailto:thisisaritrasaha@gmail.com"
             >thisisaritrasaha@gmail.com <span aria-hidden="true">↗</span></a
           >
+          <div class="contact-copy" hidden>
+            <button type="button" id="copy-email" hidden>
+              Copy email address
+            </button>
+            <span id="copy-status" role="status" aria-live="polite"></span>
+          </div>
           <p>
             For a collaboration, a question about the work,<br />or a good
             technical conversation.
