@@ -1,18 +1,23 @@
 import { spawnSync } from "node:child_process";
-import { homedir } from "node:os";
-import { join } from "node:path";
+import { readFileSync } from "node:fs";
 
 // Windows often supplies a python3 Store alias instead of an interpreter.
 // Probe candidates without changing PATH or installing another Python.
+let localPython;
+try {
+  localPython = readFileSync(
+    new URL("../.python-path", import.meta.url),
+    "utf8",
+  ).trim();
+} catch {
+  // Optional machine-local interpreter configuration.
+}
 const candidates = [
   process.env.PYTHON,
+  localPython,
   "python3",
   "python",
   "py",
-  join(
-    homedir(),
-    ".cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe",
-  ),
 ].filter(Boolean);
 const python = candidates.find((candidate) => {
   const result = spawnSync(candidate, ["--version"], {
@@ -25,7 +30,7 @@ const python = candidates.find((candidate) => {
 });
 if (!python) {
   console.error(
-    "Python 3 is required for integrity checks and builds. Install Python 3 or set PYTHON to its executable path. npm start only requires Node.js.",
+    "Python 3 is required for integrity checks and builds. Install Python 3, set PYTHON to its executable path, or save that path in .python-path. npm start only requires Node.js.",
   );
   process.exit(1);
 }

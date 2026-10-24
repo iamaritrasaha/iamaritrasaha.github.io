@@ -4,7 +4,7 @@
 
 The portfolio presents a personal body of work through editorial typography, a calculated neural-network visualization and varied project spreads. A ruled masthead, warm ivory, charcoal ink and cobalt details establish the visual language. Content sits in the page grid rather than repeated floating cards. There is no full-page ambient animation or glass layer.
 
-The first screen introduces Aritra through a concise statement about making intelligence useful, a clear professional direction and a visible, interactive neural network. Its forward pass, loss and backward pass connect the animation to mathematics. Orion leads as an open research spread, SysAI changes the rhythm with a midnight-blue diagnostic composition, and Relay/Vyren use offset artwork and stories on lilac paper and clay. Smaller work lives in a compact ruled index. Practice, personal context and contact complete the page without repeating the project layout.
+The first screen introduces Aritra through a concise statement about making intelligence useful, a clear professional direction and a visible, interactive neural network. Its forward pass, loss and backward pass connect the animation to mathematics. SeeDL leads as the flagship project, followed by Orion's open research spread; SysAI changes the rhythm with a midnight-blue diagnostic composition, and Relay/Vyren use offset artwork and stories on lilac paper and clay. Smaller work lives in a compact ruled index. Practice, personal context and contact complete the page without repeating the project layout.
 
 ## Small design system
 
@@ -65,6 +65,4 @@ The existing visual identity and working illustrations remain the foundation. Ma
 
 Ordinary navigation/action controls have at least 44px height. Fragment navigation moves keyboard focus to the destination while preserving native history and scrolling; the sticky masthead has explicit scroll clearance. The email-copy enhancement announces success or failure and retains the original email link. Archive hover no longer moves text columns. Native reduced-motion behavior covers the added control feedback.
 
-The IBM reference from Awesome Design MD informed readable text, flat actions and restrained accent usage. Its fonts, palette and brand components were not copied. Taste and Vercel guidelines informed the audit, with the user's identity-preservation requirement taking precedence over Taste's aesthetic bans on editorial rules and monospace. See [the upgrade report](portfolio-upgrade.md) for findings, installation details and limitations.
-
-Development remains dependency-free at runtime. A small Node preview server handles actual 404 routes and public-file boundaries; an interpreter resolver keeps the existing Python integrity/build scripts portable on Windows. Playwright Test and axe are development-only tools. Prettier accepts platform-native line endings to avoid reformatting unrelated files on Windows.
+Development remains dependency-free at runtime. A small Node preview server handles actual 404 routes and public-file boundaries; an interpreter resolver keeps the existing Python integrity/build scripts portable on Windows. Browser and accessibility checks remain development-only dependencies. The formatter accepts platform-native line endings to avoid reformatting unrelated files on Windows.
