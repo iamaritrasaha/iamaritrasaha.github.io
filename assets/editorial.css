@@ -10,6 +10,16 @@ body {
 .wrap {
   width: min(1440px, calc(100% - var(--gutter) * 2));
 }
+.error-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+}
+.error-layout .error-page {
+  flex: 1;
+  min-height: auto;
+  padding-block: clamp(32px, 9svh, 80px);
+}
 .site-header {
   position: relative;
   background: var(--paper);
@@ -289,6 +299,7 @@ body {
   min-height: 56px;
   gap: 16px;
   padding-block: 16px;
+  padding-inline-end: 8px;
 }
 .detail-body h5 {
   font-family: var(--display);
@@ -524,6 +535,17 @@ body {
 }
 .archive-item > .mono {
   font-size: 11px;
+}
+@media (min-width: 651px) {
+  .project-index {
+    --name-column: clamp(200px, 18vw, 260px);
+  }
+  .archive-item {
+    grid-template-columns: var(--name-column) minmax(0, 1fr) minmax(100px, 14%);
+  }
+  .archive-details .archive-item {
+    grid-template-columns: var(--name-column) minmax(0, 1fr);
+  }
 }
 .practice-section {
   background: var(--raised);
@@ -998,6 +1020,8 @@ body {
   .nav-tools {
     gap: 8px;
   }
+}
+@media (max-width: 420px) {
   .diagnostic-steps {
     grid-template-columns: 1fr;
   }

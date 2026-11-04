@@ -52,9 +52,6 @@ html[data-theme="dark"] {
   color: #fffdec;
   padding: clamp(22px, 3vw, 46px) 0 20px;
 }
-.bench-hero .wrap {
-  max-width: 1230px;
-}
 .bench-heading {
   text-align: center;
 }
@@ -362,13 +359,10 @@ html[data-theme="dark"] {
   .bench-heading h1 {
     font-size: clamp(42px, 10.6vw, 64px);
   }
-  .bench-heading > .tech {
-    font-size: 10px;
-  }
   .bench-panel {
     padding: 16px 12px;
     gap: 18px 12px;
-    grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+    grid-template-columns: minmax(206px, 1.55fr) minmax(0, 1fr);
   }
   .bench-input {
     width: 100%;
@@ -408,7 +402,7 @@ html[data-theme="dark"] {
     height: 48px;
   }
 }
-@media (max-width: 360px) {
+@media (max-width: 379px) {
   .bench-panel {
     grid-template-columns: 1fr;
   }
@@ -447,11 +441,6 @@ html[data-theme="dark"] {
   min-height: 44px;
   margin-top: 10px;
   font: 12px var(--mono);
-}
-@media (min-width: 361px) and (max-width: 600px) {
-  .bench-panel {
-    grid-template-columns: minmax(206px, 1fr) minmax(0, 0.56fr);
-  }
 }
 .bench-heading {
   position: relative;
@@ -615,6 +604,18 @@ html[data-theme="dark"] {
     font-size: clamp(38px, 11vw, 64px);
   }
 }
+@media (max-height: 360px) {
+  .bb-entry {
+    gap: 8px;
+  }
+  .boot-grid {
+    width: 52px;
+    height: 52px;
+  }
+  .bb-entry strong {
+    font-size: clamp(38px, 8vw, 64px);
+  }
+}
 
 .bench-heading:has(.pixel-relief:not([hidden])) {
   display: grid;
@@ -625,6 +626,9 @@ html[data-theme="dark"] {
 }
 .bench-copy h1 span {
   display: block;
+}
+.bench-heading:has(.pixel-relief:not([hidden])) .bench-copy > p:not(.tech) {
+  max-width: 43ch;
 }
 .pixel-relief button {
   font: 11px/1.5 var(--mono);

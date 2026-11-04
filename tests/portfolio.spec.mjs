@@ -33,6 +33,16 @@ for (const width of [320, 390, 768, 1024, 1440]) {
           ),
         );
       expect(titleLines).toBeLessThanOrEqual(2);
+      const overflowingLabels = await page
+        .locator("#distribution, .archive-item h4, .neuron-input-actions")
+        .evaluateAll((items) =>
+          items
+            .filter(
+              (el) => el.clientWidth && el.scrollWidth > el.clientWidth + 1,
+            )
+            .map((el) => el.textContent.trim()),
+        );
+      expect(overflowingLabels).toEqual([]);
       await expect(page.locator("html")).toHaveAttribute(
         "data-theme",
         colorScheme,

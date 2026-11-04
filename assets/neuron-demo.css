@@ -23,6 +23,7 @@
 }
 .neuron-input-actions {
   display: flex;
+  flex: none;
   align-items: center;
   gap: 18px;
 }
