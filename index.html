@@ -69,6 +69,8 @@
     <link rel="stylesheet" href="assets/research-plate.css?v=20261104.1" />
     <link rel="stylesheet" href="assets/seedl-feature.css?v=20261024.2" />
     <link rel="stylesheet" href="assets/editorial.css?v=20261104.1" />
+    <link rel="stylesheet" href="assets/creative.css?v=1" />
+    <script type="module" src="assets/creative.js?v=1"></script>
     <script type="module" src="script.js?v=20261104.1"></script>
     <script type="application/ld+json">
       {
@@ -125,14 +127,13 @@
     <main id="main">
       <section class="hero wrap" id="top" aria-labelledby="hero-title">
         <div class="hero-kicker">
-          <p class="eyebrow">An independent engineering notebook</p>
-          <span class="mono">AI / Software / Systems</span>
+          <span class="mono">A/S &nbsp; / &nbsp; Computational studies</span>
         </div>
         <div class="hero-opening">
-          <h1 id="hero-title" data-reveal>Aritra Saha</h1>
+          <h1 id="hero-title">Aritra <span>Saha</span></h1>
           <div class="hero-intro" data-reveal>
             <p class="role-label">
-              AI/ML Engineer <span aria-hidden="true">|</span> Applied AI
+              AI/ML Engineer <span aria-hidden="true">/</span> Applied AI
               Developer
             </p>
             <div class="hero-statement">
@@ -150,47 +151,39 @@
             </div>
           </div>
         </div>
-        <figure class="hero-study" data-reveal>
-          <div class="neural-study motion-scene">
-            <div class="neural-study-toolbar">
-              <span class="mono">A working study in machine learning</span>
-              <button
-                id="sequence-toggle"
-                type="button"
-                aria-pressed="true"
-                aria-label="Pause neural animation"
-                hidden
-              >
-                Pause
-              </button>
-            </div>
-            <div id="neuron-demo">
-              <div class="neural-fallback">
-                <h2>Follow the signal. Trace the gradient.</h2>
-                <p>64 pixels → 16 neurons → 12 neurons → 10 digits</p>
-                <p>h = GELU(Wx + b), p = softmax(Wh + b), ℒ = −log p(y).</p>
-                <p>
-                  A small classifier trained on handwritten digits. Enable
-                  JavaScript to run its forward pass and inspect its gradients
-                  locally in your browser.
-                </p>
-              </div>
-            </div>
-          </div>
+
+        <figure class="instrument">
           <figcaption>
-            <span
-              ><b class="mono">FIG. 01</b> A trained digit recognizer. The
-              calculations run in your browser.</span
-            >
-            <button type="button" data-motion-toggle hidden>
-              Pause motion
-            </button>
-            <a href="#orion">Inside Orion <span aria-hidden="true">↗</span></a>
+            <span>FIG 01 / HELICOID</span><span>ORTHOGRAPHIC</span>
           </figcaption>
+          <svg
+            viewBox="-220 -195 440 390"
+            role="img"
+            aria-label="Projected wireframe of a helicoid"
+          >
+            <image
+              href="assets/helicoid.svg"
+              x="-220"
+              y="-195"
+              width="440"
+              height="390"
+            ></image>
+          </svg>
+          <div class="axis-control" hidden>
+            <label for="angle">Rotate surface</label
+            ><input
+              id="angle"
+              type="range"
+              min="-90"
+              max="90"
+              value="22"
+            /><output for="angle">22°</output>
+          </div>
+          <p>r cos θ, r sin θ, kθ</p>
         </figure>
         <div class="hero-footnote">
-          <span>Build. Learn. Test. Repeat.</span
-          ><span class="mono">Python / Rust / Kotlin / Dart</span>
+          <a href="#lab">Run the digit classifier ↓</a
+          ><span class="mono">Independent engineering</span>
         </div>
       </section>
       <section class="selected-work" id="work" aria-labelledby="work-title">
@@ -447,6 +440,11 @@
               >
             </figcaption>
           </figure>
+          <div class="trace-control" hidden>
+            <button type="button" aria-pressed="false">
+              Isolate signal path
+            </button>
+          </div>
           <details class="case-details seedl-details">
             <summary>
               Inside the observatory <span aria-hidden="true">+</span>
@@ -1145,6 +1143,47 @@
             </div>
           </details>
         </div>
+      </section>
+      <section class="wrap laboratory" id="lab">
+        <h2>Classifier lab.</h2>
+        <figure class="hero-study" data-reveal>
+          <div class="neural-study motion-scene">
+            <div class="neural-study-toolbar">
+              <span class="mono">A working study in machine learning</span>
+              <button
+                id="sequence-toggle"
+                type="button"
+                aria-pressed="true"
+                aria-label="Pause neural animation"
+                hidden
+              >
+                Pause
+              </button>
+            </div>
+            <div id="neuron-demo">
+              <div class="neural-fallback">
+                <h2>Follow the signal. Trace the gradient.</h2>
+                <p>64 pixels → 16 neurons → 12 neurons → 10 digits</p>
+                <p>h = GELU(Wx + b), p = softmax(Wh + b), ℒ = −log p(y).</p>
+                <p>
+                  A small classifier trained on handwritten digits. Enable
+                  JavaScript to run its forward pass and inspect its gradients
+                  locally in your browser.
+                </p>
+              </div>
+            </div>
+          </div>
+          <figcaption>
+            <span
+              ><b class="mono">FIG. 01</b> A trained digit recognizer. The
+              calculations run in your browser.</span
+            >
+            <button type="button" data-motion-toggle hidden>
+              Pause motion
+            </button>
+            <a href="#orion">Inside Orion <span aria-hidden="true">↗</span></a>
+          </figcaption>
+        </figure>
       </section>
       <section
         class="practice-section wrap"
