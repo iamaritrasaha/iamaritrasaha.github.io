@@ -1,0 +1,325 @@
+/* A finite, choreographed manuscript around the retained identity and pixel grid. */
+.bb-entry {
+  isolation: isolate;
+  outline: none;
+  overflow: hidden;
+}
+.bb-entry:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(#e4f48907 1px, transparent 1px),
+    linear-gradient(90deg, #e4f48907 1px, transparent 1px);
+  background-size: 42px 42px;
+  mask-image: radial-gradient(ellipse, transparent 15%, black 100%);
+}
+.bb-entry > strong,
+.bb-entry > small,
+.bb-entry > .boot-grid {
+  z-index: 2;
+}
+.bb-entry > strong {
+  text-shadow: 0 8px 45px var(--deep);
+}
+.bb-entry > small {
+  color: #d4dcf3;
+}
+.welcome-math {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  color: #d8e1fa;
+  animation: manuscript-resolve var(--entry-duration) linear both;
+}
+.manuscript-label,
+.manuscript-note {
+  position: absolute;
+  left: 4vw;
+  font: 9px/1.6 var(--mono);
+  letter-spacing: 0.14em;
+  color: #abb9df;
+}
+.manuscript-label {
+  top: 30px;
+}
+.manuscript-note {
+  bottom: 28px;
+}
+.notebook-traces {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  color: #a7b7e0;
+  opacity: 0.22;
+}
+.notebook-traces path {
+  stroke-dasharray: 1;
+  animation: trace-write 950ms 140ms var(--spring) both;
+}
+.notebook-traces path:nth-child(2) {
+  animation-delay: 500ms;
+}
+.notebook-traces path:nth-child(3) {
+  animation-delay: 850ms;
+}
+.math-group {
+  position: absolute;
+  width: max-content;
+  max-width: 30vw;
+}
+.math-label {
+  display: block;
+  font: 9px/1.6 var(--mono);
+  letter-spacing: 0.12em;
+  color: #abb9df;
+  margin-bottom: 12px;
+}
+.math-group p {
+  margin: 0;
+}
+.math-line,
+.power-step {
+  font: 400 clamp(19px, 2vw, 29px) / 1.8 var(--display);
+  white-space: nowrap;
+  letter-spacing: 0;
+}
+.math-line {
+  animation: equation-write 540ms steps(24, end) var(--at, 350ms) both;
+}
+.math-line sub,
+.math-line sup,
+.power-step sup {
+  font-size: 0.6em;
+  line-height: 0;
+}
+.math-power {
+  left: 7%;
+  top: 17%;
+}
+.math-current {
+  left: 7%;
+  bottom: 16%;
+}
+.math-probability {
+  right: 7%;
+  top: 17%;
+}
+.math-gradient {
+  right: 7%;
+  bottom: 15%;
+}
+.math-caption {
+  font: 10px/1.8 var(--mono);
+  color: #abb9df;
+}
+.math-current .math-line {
+  --at: 650ms;
+}
+.linear {
+  --at: 550ms;
+}
+.softmax {
+  --at: 850ms;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.loss {
+  --at: 850ms;
+}
+.gradient {
+  --at: 1200ms;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.math-fraction {
+  display: inline-grid;
+  text-align: center;
+  line-height: 1.45;
+}
+.math-fraction > span:first-child {
+  border-bottom: 1px solid currentColor;
+  padding: 0 6px 3px;
+}
+.math-fraction > span:last-child {
+  padding-top: 3px;
+}
+.power-derivation {
+  display: grid;
+  color: var(--lime);
+}
+.power-step {
+  grid-area: 1/1;
+  opacity: 0;
+  animation: power-original var(--entry-duration) linear both;
+}
+.power-step:nth-child(2) {
+  animation-name: power-substitute;
+}
+.power-step:last-child {
+  animation-name: power-resolve;
+}
+@keyframes trace-write {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes equation-write {
+  from {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    clip-path: inset(0);
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes manuscript-resolve {
+  0% {
+    opacity: 0.15;
+  }
+  12%,
+  72% {
+    opacity: 1;
+    transform: none;
+  }
+  88%,
+  100% {
+    opacity: 0;
+    transform: scale(1.015);
+  }
+}
+@keyframes power-original {
+  0%,
+  18% {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  24%,
+  35% {
+    opacity: 1;
+    transform: none;
+  }
+  40%,
+  100% {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+}
+@keyframes power-substitute {
+  0%,
+  35% {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  41%,
+  50% {
+    opacity: 1;
+    transform: none;
+  }
+  56%,
+  100% {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+}
+@keyframes power-resolve {
+  0%,
+  50% {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  57%,
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+.bb-entry.is-returning .welcome-math {
+  display: none;
+}
+@media (max-width: 850px) {
+  .math-current,
+  .math-gradient {
+    display: none;
+  }
+  .math-power {
+    top: 13%;
+    left: 8%;
+  }
+  .math-probability {
+    top: auto;
+    bottom: 12%;
+    right: 8%;
+  }
+  .math-group {
+    max-width: 84vw;
+  }
+  .math-line,
+  .power-step {
+    font-size: 21px;
+  }
+  .math-label {
+    font-size: 8px;
+    margin-bottom: 6px;
+  }
+  .manuscript-note {
+    font-size: 8px;
+    letter-spacing: 0.02em;
+    bottom: 20px;
+  }
+}
+@media (max-height: 620px) {
+  .math-current,
+  .math-gradient,
+  .math-power {
+    display: none;
+  }
+  .math-probability {
+    top: auto;
+    bottom: 5%;
+    right: 4%;
+  }
+  .math-probability .linear,
+  .math-probability .math-label {
+    display: none;
+  }
+  .math-line {
+    font-size: 17px;
+  }
+  .manuscript-note {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bb-entry {
+    display: none;
+  }
+}
+
+.bb-entry > strong {
+  animation:
+    entry-type 760ms 80ms both,
+    identity-resolve var(--entry-duration) linear both;
+}
+.bb-entry > small {
+  animation: identity-resolve var(--entry-duration) linear both;
+}
+@keyframes identity-resolve {
+  0%,
+  72% {
+    opacity: 1;
+  }
+  84%,
+  100% {
+    opacity: 0;
+  }
+}

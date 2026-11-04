@@ -352,7 +352,7 @@ test("nested missing routes render the accessible 404 and public files stay boun
   expect(result.violations).toEqual([]);
 });
 
-test("public project sources, honest limits and LED preview work by keyboard", async ({
+test("public project sources, honest limits and static RPM preview stay accessible", async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
@@ -368,15 +368,14 @@ test("public project sources, honest limits and LED preview work by keyboard", a
       `https://github.com/iamaritrasaha/${repository}`,
     );
   }
-  const level = page.getByRole("slider", { name: "Preview lit pixels" });
-  await level.focus();
-  await page.keyboard.press("End");
-  await expect(page.locator(".pulse-led.is-lit")).toHaveCount(6);
-  await expect(level).toHaveAttribute("aria-valuetext", "6 of 6 pixels lit");
-  await page.keyboard.press("Home");
-  await expect(page.locator(".pulse-led.is-lit")).toHaveCount(0);
+  await expect(
+    page.locator("#pulseshift input, #pulseshift button"),
+  ).toHaveCount(0);
+  await expect(page.locator("#pulse-rpm")).toHaveText("4,250");
+  await expect(page.locator(".pulse-led")).toHaveCount(6);
+  await expect(page.locator(".pulse-led.is-lit")).toHaveCount(3);
   await expect(page.locator(".pulse-study figcaption")).toContainText(
-    "not firmware execution",
+    "Not firmware execution",
   );
   await page.locator("#infera summary").click();
   await expect(page.locator("#infera details")).toContainText(
@@ -399,7 +398,10 @@ test("new features survive no JavaScript and motion is cancelled live", async ({
   const fallback = await context.newPage();
   await fallback.goto("/");
   await expect(fallback.locator("#infera h3")).toHaveText("Infera");
-  await expect(fallback.locator(".pulse-control")).toBeHidden();
+  await expect(
+    fallback.locator("#pulseshift input, #pulseshift button"),
+  ).toHaveCount(0);
+  await expect(fallback.locator("#pulse-rpm")).toHaveText("4,250");
   await expect(fallback.locator(".pulse-led.is-lit")).toHaveCount(3);
   await fallback.locator("#pulseshift summary").click();
   await expect(fallback.locator("#pulseshift details")).toHaveAttribute(

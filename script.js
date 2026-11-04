@@ -1,3 +1,4 @@
+import { mountRpmPreview } from "./assets/pulse-rpm.js?v=1";
 import { mountResearchPlate } from "./assets/research-plate.js?v=20260930.1";
 import { mountNeuronDemo } from "./assets/neuron-demo.js?v=20260930.8";
 import { createSurfacePhysics } from "./assets/surface-physics.js?v=20260930.1";
@@ -16,7 +17,7 @@ function settleDisclosure(details, entry) {
   disclosureAnimations.delete(details);
 }
 const media = matchMedia("(prefers-reduced-motion: reduce)");
-const saveData = Boolean(navigator.connection?.saveData);
+const saveData = () => Boolean(navigator.connection?.saveData);
 let userReduced =
   new URLSearchParams(location.search).get("motion") === "reduce";
 try {
@@ -24,7 +25,7 @@ try {
 } catch {
   /* Optional local preference. */
 }
-const reduced = () => media.matches || userReduced || saveData;
+const reduced = () => media.matches || userReduced || saveData();
 mountResearchPlate(document.getElementById("research-plate"));
 const playNetwork = mountNeuronDemo(document.getElementById("neuron-demo"));
 const setSurfaceMotion = createSurfacePhysics(
@@ -32,6 +33,8 @@ const setSurfaceMotion = createSurfacePhysics(
 );
 const scenes = [...document.querySelectorAll(".motion-scene")];
 const visible = new Set();
+const pulse = document.querySelector(".pulse-study");
+const playPulse = mountRpmPreview(pulse);
 const network = document.querySelector(".neural-study");
 const networkButton = document.getElementById("sequence-toggle");
 const motionButtons = [...document.querySelectorAll("[data-motion-toggle]")];
@@ -41,6 +44,7 @@ function updateScenes() {
   scenes.forEach((scene) =>
     scene.classList.toggle("scene-active", allowed && visible.has(scene)),
   );
+  playPulse(allowed && visible.has(pulse), reduced());
   playNetwork(allowed && visible.has(network) && !networkPaused);
   if (networkButton) {
     networkButton.hidden = false;
@@ -77,13 +81,14 @@ function syncMotion() {
       .forEach((el) => el.classList.remove("is-entering"));
   motionButtons.forEach((motionButton) => {
     motionButton.hidden = false;
-    motionButton.disabled = media.matches || saveData;
+    motionButton.disabled = media.matches || saveData();
     motionButton.textContent = reduced() ? "Motion reduced" : "Pause motion";
     motionButton.setAttribute("aria-pressed", String(reduced()));
   });
   updateScenes();
 }
 media.addEventListener("change", syncMotion);
+navigator.connection?.addEventListener("change", syncMotion);
 motionButtons.forEach((motionButton) =>
   motionButton.addEventListener("click", () => {
     userReduced = !userReduced;
@@ -285,25 +290,6 @@ document.addEventListener("click", (event) => {
     requestAnimationFrame(revealHashTarget);
 });
 revealHashTarget();
-
-// A deliberately illustrative preview, independent of the real classifier math.
-const pulseLevel = document.getElementById("pulse-level");
-const pulseOutput = document.getElementById("pulse-output");
-if (pulseLevel && pulseOutput) {
-  const leds = [...document.querySelectorAll(".pulse-led")];
-  const updatePulse = () => {
-    const count = Number(pulseLevel.value);
-    leds.forEach((led, index) => led.classList.toggle("is-lit", index < count));
-    pulseOutput.value = `${count} of ${leds.length}`;
-    pulseLevel.setAttribute(
-      "aria-valuetext",
-      `${count} of ${leds.length} pixels lit`,
-    );
-  };
-  pulseLevel.closest(".pulse-control").hidden = false;
-  pulseLevel.addEventListener("input", updatePulse);
-  updatePulse();
-}
 
 const copyEmail = document.getElementById("copy-email");
 const copyStatus = document.getElementById("copy-status");

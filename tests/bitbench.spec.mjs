@@ -5,7 +5,7 @@ test("pixel relief moves on idle and still reflects edits when motion is paused"
   page,
 }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: "Skip intro" }).click();
+  await page.keyboard.press("Escape");
   const image = () =>
     page.locator(".pixel-relief canvas").evaluate((c) => c.toDataURL());
   const first = await image();

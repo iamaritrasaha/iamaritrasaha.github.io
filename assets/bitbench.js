@@ -1,3 +1,4 @@
+import { mountWelcomeMath } from "./welcome-math.js?v=1";
 import { DIGIT_SAMPLES } from "./digit-model.js";
 import { evaluateNetwork } from "./neural-network.js";
 import { mountRelief } from "./pixel-relief.js";
@@ -180,9 +181,20 @@ function startup() {
   const veil = document.createElement("div");
   veil.className = "entry bb-entry";
   veil.setAttribute("role", "dialog");
+  veil.tabIndex = -1;
+  veil.setAttribute("aria-describedby", "welcome-keyboard-help");
   veil.setAttribute("aria-label", "Welcome to Aritra Saha's portfolio");
   veil.innerHTML =
-    '<div class="boot-grid" aria-hidden="true"></div><strong>Aritra Saha</strong><small>AI/ML Engineer | Applied AI Developer</small><div class="epoch-meter" aria-hidden="true"><div class="epoch-label"><span>INTRO EPOCH</span><span class="epoch-count"><i>01 / 03</i><i>02 / 03</i><i>03 / 03</i></span></div><div class="epoch-track"><i></i></div></div><button type="button">Skip intro ↗</button>';
+    '<div class="boot-grid" aria-hidden="true"></div><strong>Aritra Saha</strong><small>AI/ML Engineer | Applied AI Developer</small><span id="welcome-keyboard-help" class="sr-only">Press Escape or Tab to continue to the portfolio.</span>';
+  let returning = false;
+  try {
+    returning = sessionStorage.getItem("portfolio-welcomed") === "true";
+    sessionStorage.setItem("portfolio-welcomed", "true");
+  } catch {
+    /* A fresh short welcome still works when storage is blocked. */
+  }
+  veil.classList.toggle("is-returning", returning);
+  mountWelcomeMath(veil);
   document.body.append(veil);
   const glyph = veil.firstChild;
   for (const v of input) {
@@ -193,17 +205,20 @@ function startup() {
   const key = (e) => {
     if (e.key === "Escape" || e.key === "Tab") dismiss();
   };
-  let timer;
+  let timer, alignmentTimer;
   dismiss = () => {
+    const returnFocus = veil.contains(document.activeElement);
+    veil.getAnimations({ subtree: true }).forEach((a) => a.cancel());
     veil.remove();
+    if (returnFocus) cells[focusIndex].focus({ preventScroll: true });
     clearTimeout(timer);
+    clearTimeout(alignmentTimer);
     document.removeEventListener("keydown", key);
     dismiss = () => {};
   };
   document.addEventListener("keydown", key);
-  veil.lastChild.onclick = dismiss;
-  veil.lastChild.focus({ preventScroll: true });
-  const duration = 2800;
+  veil.focus({ preventScroll: true });
+  const duration = returning ? 1000 : 3200;
   veil.style.setProperty("--entry-duration", duration + "ms");
   timer = setTimeout(dismiss, duration + 200);
   const from = glyph.getBoundingClientRect(),
@@ -216,21 +231,43 @@ function startup() {
     "px) scale(" +
     to.width / from.width +
     ")";
-  glyph.animate(
+  const flight = glyph.animate(
     [
-      { transform: "scale(.6) rotate(-6deg)" },
+      {
+        transform: "scale(.6) rotate(-6deg)",
+        easing: "cubic-bezier(.4,0,.2,1)",
+      },
       { transform: "none", offset: 0.22 },
-      { transform: "none", offset: 0.78 },
+      { transform: "none", offset: 0.78, easing: "cubic-bezier(.4,0,.2,1)" },
       { transform: move },
     ],
-    { duration, easing: "cubic-bezier(.4,0,.2,1)", fill: "forwards" },
+    { duration, easing: "linear", fill: "forwards" },
   );
+  // Font settlement and the mounted hero can move the target after first paint.
+  // Re-measure just before the retained grid begins its final handoff.
+  alignmentTimer = setTimeout(() => {
+    const source = glyph.getBoundingClientRect();
+    const target = $("pixels").getBoundingClientRect();
+    const frames = flight.effect.getKeyframes();
+    frames[frames.length - 1].transform =
+      `translate(${target.left - source.left}px, ${target.top - source.top}px) scale(${target.width / source.width})`;
+    flight.effect.setKeyframes(frames);
+  }, duration * 0.74);
   veil.animate(
     [{ opacity: 1 }, { opacity: 1, offset: 0.87 }, { opacity: 0 }],
     duration,
   ).onfinish = dismiss;
 }
 startup();
+matchMedia("(prefers-reduced-motion: reduce)").addEventListener(
+  "change",
+  () => {
+    if (reduce()) dismiss();
+  },
+);
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) dismiss();
+});
 new MutationObserver(() => {
   if (reduce()) {
     animations.forEach((a) => a.cancel());

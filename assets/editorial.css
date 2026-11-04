@@ -441,23 +441,7 @@ body {
 .pulse-path > span:not(:first-child) {
   padding-top: 10px;
 }
-.pulse-control {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 8px 16px;
-  align-items: center;
-  font: 12px/1.7 var(--mono);
-  margin-top: 40px;
-}
-.pulse-control input {
-  grid-column: 1 / -1;
-  grid-row: 2;
-  width: 100%;
-  margin: 0;
-  min-height: 44px;
-  accent-color: #b7d8aa;
-  cursor: pointer;
-}
+
 .pulse-study figcaption {
   font: 11px/1.85 var(--mono);
   color: var(--muted);
@@ -935,10 +919,7 @@ body {
   .pulse-path > span:first-child {
     padding: 10px;
   }
-  .pulse-control {
-    font-size: 11px;
-    margin-top: 24px;
-  }
+
   .case-orion {
     grid-template-columns: 1fr;
     gap: 28px;
@@ -1053,8 +1034,5 @@ html[data-motion="reduce"] .pulse-led.is-lit {
   .infera-pipeline {
     background: white;
     color: black;
-  }
-  .pulse-control {
-    display: none;
   }
 }

@@ -86,6 +86,8 @@ for filename, budget in [('index.html', 59000), ('assets/bitbench.css', 13500), 
     # Git's Windows checkout may use CRLF; budget the canonical UTF-8/LF source.
     size = len((ROOT / filename).read_text(encoding='utf-8').encode('utf-8'))
     assert size <= budget, f'{filename}: {size} exceeds {budget} bytes'
+for filename, budget in [('assets/welcome-math.js', 3000), ('assets/welcome-math.css', 6000), ('assets/pulse-rpm.js', 3000), ('assets/pulse-rpm.css', 3500)]:
+    assert (ROOT / filename).stat().st_size <= budget, f'{filename}: scoped motion asset exceeds budget'
 assert (ROOT / 'app-ads.txt').is_file()
 assert (ROOT / 'assets/seedl-feature.css').stat().st_size <= 6000, 'SeeDL styles exceed the scoped feature budget'
 print('PASS: 2 pages, IDs, internal links, controls, image geometry, all CSS assets, three public features plus four preserved studies, anchors and size budgets.')

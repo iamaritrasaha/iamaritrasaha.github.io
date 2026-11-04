@@ -1,0 +1,117 @@
+/* A small instrument cluster, using illustrative settings only. */
+.pulse-study {
+  border: 1px solid #505c7c;
+  border-radius: 3px;
+  background: radial-gradient(ellipse at 30% 0, #293257, #171c30 75%);
+}
+.pulse-readout {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: end;
+  min-width: 0;
+}
+.pulse-kicker {
+  font: 10px/1.7 var(--mono);
+  letter-spacing: 0.07em;
+  color: #d8e2bb;
+  margin: 0 0 20px;
+}
+.pulse-value {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0 12px;
+  color: #f8f8e9;
+  font: 500 clamp(42px, 5.5vw, 82px) / 1.15 var(--mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.07em;
+}
+.pulse-value > span:last-child {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: #d5dfec;
+}
+.pulse-state {
+  font: 10px/1.7 var(--mono);
+  letter-spacing: 0.04em;
+  min-height: 3.4em;
+  color: #d8e2bb;
+  margin: 12px 0 0;
+}
+.pulse-study .pulse-board {
+  background: #12172a;
+  border: 1px solid #566181;
+  border-radius: 3px;
+  padding: clamp(16px, 3vw, 38px) 14px;
+  gap: clamp(7px, 1.6vw, 22px);
+  animation: none;
+}
+.pulse-study .pulse-led {
+  --led-color: #d5ed9b;
+  border: 5px solid #77818b;
+  border-radius: 3px;
+  background: radial-gradient(circle at 36% 30%, #747c7d, #30394a 60%);
+  box-shadow:
+    inset 0 0 0 3px #12182a,
+    0 3px 7px #050817;
+  transform: none;
+  transition:
+    background-color 130ms,
+    box-shadow 130ms;
+}
+.pulse-study .pulse-led:nth-child(3),
+.pulse-study .pulse-led:nth-child(4) {
+  --led-color: #f5d88c;
+}
+.pulse-study .pulse-led:nth-child(5) {
+  --led-color: #ffb087;
+}
+.pulse-study .pulse-led:nth-child(6) {
+  --led-color: #ff8e9d;
+}
+.pulse-study .pulse-led.is-lit {
+  background: radial-gradient(
+    circle at 36% 30%,
+    #fffdec,
+    var(--led-color) 45%,
+    #62665e 95%
+  );
+  box-shadow:
+    inset 0 0 0 2px #343b46,
+    0 0 10px color-mix(in srgb, var(--led-color) 65%, transparent),
+    0 0 24px color-mix(in srgb, var(--led-color) 25%, transparent);
+  transform: none;
+}
+.pulse-study[data-state="approach"] .pulse-value {
+  color: #f5d88c;
+}
+.pulse-study[data-state="shift"] .pulse-value,
+.pulse-study[data-state="shift"] .pulse-state {
+  color: #ffb4be;
+}
+.pulse-study[data-state="shift"] .pulse-board {
+  border-color: #ffb4be;
+  box-shadow: 0 0 28px #ff8e9d26;
+}
+.pulse-study[data-state="shift"] .pulse-led {
+  --led-color: #ff9faf;
+}
+@media (max-width: 850px) {
+  .pulse-readout {
+    margin-top: 26px;
+  }
+  .pulse-value {
+    font-size: clamp(48px, 12vw, 76px);
+  }
+  .pulse-study .pulse-led {
+    border-width: 4px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pulse-study .pulse-led {
+    transition: none;
+  }
+}
+html[data-motion="reduce"] .pulse-study .pulse-led {
+  transition: none;
+}

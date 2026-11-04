@@ -1,71 +1,15 @@
-# Aritra Saha | portfolio
+# Aritra Saha
 
-An editorial portfolio of independent work in machine learning, local AI, Android and Linux systems. Project stories, calculated neural-network visualizations and an cool paper, forest green and near-black palette carry the presentation. Built with semantic HTML, CSS and progressive vanilla JavaScript. No production dependencies, external font requests, analytics or model API endpoints.
+### AI/ML Engineer · Applied AI Developer
 
-## Run locally
+I’m Aritra, and I’m interested in how machine learning becomes useful software. I work with Python and PyTorch, and I enjoy building developer tools, exploring embedded systems, and working through the practical engineering that connects an idea to something usable. This portfolio brings together the projects I’m developing and the questions I’m exploring along the way.
 
-```bash
-npm start
-```
+A few selected projects:
 
-Open [localhost:4173](http://localhost:4173). Node.js 22+ is sufficient for this preview; no dependency installation or build is required. The local server serves public files, uses the site's 404 page for missing routes, and listens only on your machine. A plain static host can also serve the repository directly.
+- [SeeDL](https://github.com/iamaritrasaha/seedl): tools for exploring deep learning through scientific viewers.
+- [Infera](https://github.com/iamaritrasaha/Infera): a small machine-learning project focused on a clear regression workflow.
+- [PulseShift](https://github.com/iamaritrasaha/PulseShift): ESP32 firmware for a six-LED shift light, with simulation and qualification work kept explicit.
 
-## Development
+[Visit my portfolio](https://iamaritrasaha.github.io/) · [GitHub](https://github.com/iamaritrasaha) · [Email me](mailto:thisisaritrasaha@gmail.com)
 
-Optional checks require Node.js 22.12+ and Python 3:
-
-```bash
-npm ci
-npm run lint
-npm test
-npm run build
-npm run test:browser
-```
-
-Lint checks formatting, HTML and JavaScript syntax. Tests cover static site integrity, neural-network arithmetic, spring behavior and theme preferences. The Python launcher accepts `PYTHON` or an optional ignored `.python-path` file, then tries `python3`, `python` and `py`. The build runs tests and copies deployable files into `dist/`. Preview the build with `npm start -- dist`.
-
-Browser tests start a separate server on port 4174. They cover both themes at five widths, all neural stages, automated accessibility checks, navigation focus, clipboard success/failure, disclosures, motion preferences, no-JavaScript behavior and the nested 404. An installed Microsoft Edge is used by default; the browser channel can be configured for another installed browser. Tests are emulation, not physical-device validation. Use `npm run format` to format authored source and documentation. Recorded browser checks and their limits belong in [docs/validation.md](docs/validation.md); the [October upgrade report](docs/portfolio-upgrade.md) records the layout and accessibility refinements.
-
-## Structure
-
-| File                                | Responsibility                                                                                                                       |
-| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| `index.html`                        | Content, project spreads, native engineering disclosures, navigation and metadata. Core content remains readable without JavaScript. |
-| `styles.css`                        | Local fonts, visual tokens, page compositions, responsive layouts, print and accessibility rules.                                    |
-| `script.js`                         | Navigation, one-time entrances, disclosure transitions, visible-scene motion and user motion preferences.                            |
-| `assets/research-plate.js` / `.css` | Original SVG weight-space study inside Orion's engineering notebook, with Base weights / Low-rank update controls.                   |
-| `assets/neuron-demo.js` / `.css`    | Trained 64 → 16 → 12 → 10 digit recognizer with real image inputs, calculated inference and backpropagation.                         |
-| `assets/neural-network.js`          | Pure forward/backward mathematics shared by the visualization and numerical tests.                                                   |
-| `assets/digit-model.js`             | Exported learned weights, small held-out image examples and training metadata.                                                       |
-| `assets/surface-physics.js`         | Bounded fine-pointer spring response for Relay and Vyren artwork.                                                                    |
-| `assets/theme.js`                   | First-paint theme selection, live OS preference and saved manual overrides.                                                          |
-| `assets/fonts/`                     | Local Literata and JetBrains Mono WOFF2 fonts with licenses.                                                                         |
-| `assets/projects/`                  | Preserved project identities and source artwork.                                                                                     |
-| `404.html`                          | Matching error page with root-relative assets for nested missing URLs.                                                               |
-| `scripts/`                          | Static integrity checks, module tests and optional artifact build.                                                                   |
-
-[Design decisions](docs/design-decisions.md) documents the visual system, component structure, content provenance and motion architecture.
-
-## Editing content and appearance
-
-SeeDL leads selected work as the flagship, using a concept illustration in the existing palette and links to its scientific viewers. [SeeDL feature notes](docs/seedl-feature.md) record verified release information and artwork provenance. Infera and PulseShift follow with verified implementation notes and an explicitly illustrative LED control. Orion’s private research spread, SysAI’s deep-green diagnostic section, and the offset Relay/Vyren pair remain discoverable. Preserve each project's problem, personal engineering contribution, implementation choices and current state. Keep smaller projects in the compact index and Aether outside the main features. The hero is a real small digit classifier trained for this interactive study. Its held-out result is a demo evaluation, not an Orion result. The weight-space surface remains an illustration. See [model provenance and reproduction](docs/digit-model.md) for the training configuration, split, source attribution and numerical checks. Training is optional and uses a separate Python environment; serving the exported model requires no Python ML packages.
-
-Change shared colors and fonts in the tokens at the start of `styles.css`. `assets/editorial.css` supplies the redesigned compositions without replacing the existing laboratory components. Literata is a self-hosted variable Latin WOFF2 with optical sizing, paired with the retained regular JetBrains Mono font. Their SIL OFL licenses and source information live in `assets/fonts/`. Update visible copy and social metadata together. Increment changed asset `?v=` references in both HTML pages to avoid stale browser caches.
-
-The native theme selector defaults to System and follows live OS changes. Light and Dark save an explicit local override; System clears it. The hero-caption and footer motion controls remember a separate preference. OS reduced motion and data saving take precedence; `?motion=reduce` previews the reduced experience.
-
-Scene animation runs only while its artwork is visible and the document is active. Section entrances run once. Native details retain keyboard behavior and receive a short transition when motion is allowed. Touch scrolling remains native, and every disclosure and illustration control remains usable with motion reduced.
-
-## Deployment
-
-Publish the repository root or generated `dist/` to static hosting. Keep `404.html`, `robots.txt`, `sitemap.xml` and `app-ads.txt`. The canonical URL is `https://iamaritrasaha.github.io/`; update canonical/social metadata and the sitemap if the domain changes. No server runtime or API key is required. GitHub Pages publishes the repository root automatically when `main` is pushed. The `.nojekyll` marker keeps the site on the plain static publishing path. Building locally writes `dist/` without publishing.
-
-## Copyright
-
-© 2026 Aritra Saha. All rights reserved.
-
-This notice applies to the original content and code in this portfolio. Third-party fonts, datasets, libraries and other attributed materials remain subject to their respective licenses.
-
-## November editorial redesign
-
-See [the design specification](docs/editorial-redesign-spec.md) and [the implementation and validation report](docs/editorial-redesign-report.md). The branch is `feat/portfolio-editorial-redesign`; no production publication is part of this change.
+For setup, testing, and maintenance, see the [development notes](docs/development.md).

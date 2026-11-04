@@ -278,13 +278,6 @@ html[data-theme="dark"] {
   font: 400 clamp(48px, 9vw, 140px) var(--display);
   animation: entry-type 0.8s both;
 }
-.entry button {
-  position: absolute;
-  right: 24px;
-  top: 20px;
-  padding: 14px;
-  font: 13px var(--mono);
-}
 @keyframes entry-type {
   from {
     clip-path: inset(0 100% 0 0);
@@ -535,11 +528,7 @@ html[data-theme="dark"] {
   grid-column: 1;
   grid-row: 3;
 }
-.pulse-control {
-  grid-column: 2;
-  grid-row: 1;
-  margin: 0;
-}
+
 .pulse-study figcaption {
   grid-column: 2;
   grid-row: 2 / span 2;
@@ -592,9 +581,7 @@ html[data-theme="dark"] {
   .pulse-study {
     display: block;
   }
-  .pulse-control {
-    margin-top: 20px;
-  }
+
   .pulse-layout .feature-story {
     display: block;
   }

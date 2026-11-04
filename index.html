@@ -68,12 +68,14 @@
     <link rel="stylesheet" href="assets/neuron-demo.css?v=20261104.2" />
     <link rel="stylesheet" href="assets/research-plate.css?v=20261104.1" />
     <link rel="stylesheet" href="assets/seedl-feature.css?v=20261024.2" />
-    <link rel="stylesheet" href="assets/editorial.css?v=20261104.2" />
-    <link rel="stylesheet" href="assets/creative.css?v=2" />
+    <link rel="stylesheet" href="assets/editorial.css?v=20261104.3" />
+    <link rel="stylesheet" href="assets/creative.css?v=3" />
     <script type="module" src="assets/creative.js?v=2"></script>
-    <link rel="stylesheet" href="assets/bitbench.css?v=6" />
-    <script type="module" src="assets/bitbench.js?v=5"></script>
-    <script type="module" src="script.js?v=20261104.1"></script>
+    <link rel="stylesheet" href="assets/bitbench.css?v=7" />
+    <link rel="stylesheet" href="assets/welcome-math.css?v=1" />
+    <link rel="stylesheet" href="assets/pulse-rpm.css?v=1" />
+    <script type="module" src="assets/bitbench.js?v=6"></script>
+    <script type="module" src="script.js?v=20261104.2"></script>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -613,7 +615,7 @@
               <p class="mono">Embedded C++ / Software prerelease</p>
             </div>
             <div class="pulse-layout">
-              <figure class="pulse-study" data-reveal>
+              <figure class="pulse-study motion-scene" data-reveal>
                 <div class="pulse-board" aria-hidden="true">
                   <span class="pulse-led is-lit"></span
                   ><span class="pulse-led is-lit"></span
@@ -625,20 +627,23 @@
                   <span>ESP32</span><span>GPIO27 → DIN</span
                   ><span>6 × WS2812B</span>
                 </div>
-                <div class="pulse-control" hidden>
-                  <label for="pulse-level">Preview lit pixels</label
-                  ><input
-                    id="pulse-level"
-                    type="range"
-                    min="0"
-                    max="6"
-                    value="3"
-                    step="1"
-                  /><output id="pulse-output" for="pulse-level">3 of 6</output>
+                <div class="pulse-readout">
+                  <p class="pulse-kicker">SIMULATED RPM · VISUAL PREVIEW</p>
+                  <div class="pulse-value" aria-hidden="true">
+                    <span id="pulse-rpm">4,250</span><span>RPM</span>
+                  </div>
+                  <p class="pulse-state" aria-hidden="true">MIDRANGE · 3 / 6</p>
+                  <p class="sr-only">
+                    Illustrative browser simulation of acceleration, a shift
+                    indication and deceleration across six LEDs. With motion
+                    disabled: 4,250 RPM with three LEDs lit. No live engine
+                    telemetry.
+                  </p>
                 </div>
                 <figcaption>
-                  Illustrative LED preview, not firmware execution or measured
-                  engine RPM. The standard firmware demo uses synthetic RPM.
+                  Illustrative settings: 1,200–7,600 RPM; shift indication at
+                  7,300 RPM. Not firmware execution or measured engine RPM.
+                  These settings are not verified motorcycle specifications.
                 </figcaption>
               </figure>
               <div class="feature-story" data-reveal>
