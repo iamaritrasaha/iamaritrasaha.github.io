@@ -1,6 +1,22 @@
 import { test, expect } from "@playwright/test";
 import { DIGIT_SAMPLES } from "../assets/digit-model.js";
 import { evaluateNetwork } from "../assets/neural-network.js";
+test("pixel relief moves on idle and still reflects edits when motion is paused", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "Skip intro" }).click();
+  const image = () =>
+    page.locator(".pixel-relief canvas").evaluate((c) => c.toDataURL());
+  const first = await image();
+  await expect.poll(image).not.toBe(first);
+  await page.locator(".pixel-relief button").click();
+  const paused = await image();
+  await page.waitForTimeout(150);
+  expect(await image()).toBe(paused);
+  await page.locator("#pixels button").nth(27).click();
+  expect(await image()).not.toBe(paused);
+});
 test("pixel edits match model inference and inspected units", async ({
   page,
 }) => {

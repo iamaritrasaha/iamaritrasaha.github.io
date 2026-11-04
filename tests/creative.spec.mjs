@@ -1,12 +1,19 @@
 import { test, expect } from "@playwright/test";
-test("entry skips immediately and does not replay", async ({ page }) => {
+test("welcome plays on every refresh and can be skipped", async ({ page }) => {
   await page.goto("/", { waitUntil: "domcontentloaded" });
   const skip = page.getByRole("button", { name: "Skip intro" });
   await skip.click();
   await expect(page.locator(".entry")).toHaveCount(0);
   await page.reload();
-  await expect(page.locator("#angle")).toBeVisible();
+  await expect(page.getByRole("dialog")).toContainText("Aritra Saha");
+  await page.keyboard.press("Escape");
   await expect(page.locator(".entry")).toHaveCount(0);
+  await page.reload();
+  await expect(skip).toBeFocused();
+  await expect(page.locator(".entry")).toHaveCount(0, { timeout: 4500 });
+  await expect(
+    page.getByRole("button", { name: /replay welcome/i }),
+  ).toHaveCount(0);
 });
 test("reduced motion bypasses entry and instruments work by keyboard", async ({
   page,

@@ -4,7 +4,9 @@ The implementation branch is `feat/bitbench-motion-portfolio`. Its parent is con
 
 ## Interaction and motion
 
-The first specimen forms the startup symbol and travels into the editable matrix over 2.8 seconds. The name reveals, holds, then hands off to the matrix. A segmented three-epoch indicator follows the intro timeline. Returning visitors can preview the entry at [the replay URL](http://localhost:4173/?intro=replay). Escape, Tab and the visible skip control dismiss the entry. Saved visits, reduced motion, data saving and fragment navigation bypass it.
+The first specimen forms the startup symbol and travels into the editable matrix over 2.8 seconds. Aritra Saha's name reveals and holds while a segmented three-epoch indicator follows the intro timeline. The welcome plays on homepage entry and refresh, with no replay button or stored visit flag. Escape, Tab and Skip intro dismiss it. Reduced motion, data saving and direct links to sections bypass it.
+
+The hero's pixel relief shifts between a flat raster and an oblique view of the same 64 intensities. Height and color reflect the editable input; the animation changes the projection without running inference again. Pause motion freezes the view while pixel edits still update the drawing. The browser tab and 404 use the same cobalt and citron pixel A. See the [welcome and relief recording](bitbench-review/relief.webm), [desktop capture](bitbench-review/relief-1440.jpg) and [mobile capture](bitbench-review/relief-390.jpg).
 
 The instrument reuses the exported learned weights and evaluator. Edit a cell with a pointer, or tab to the grid, navigate with arrows and press Space. Every edit recomputes all ten probabilities and both hidden layers. Inspect any individual unit's signed value. Bar heights show magnitudes relative to the selected layer's maximum. The background trace uses the first hidden layer. The final contact stamp repeats the visitor's last input. The original guided classifier lab independently retains its own samples, equations and manual controls.
 
@@ -27,7 +29,7 @@ Project reveals use native scroll timelines. SeeDL opens a masked network and is
 | `concepts/bitbench/index.html`, `concepts/README.md`, `concepts/review/` | Corrected the concept's displayed personal identity, browser title and review media.                                                               |
 | `docs/bitbench-review/`                                                  | Reference captures, final screenshots, recording and measured audits.                                                                              |
 
-The codename survives in internal filenames, paths, a storage key and design documentation. The rendered homepage, 404 and local concept were checked case-insensitively in visible text, page titles, metadata and accessibility trees. The canonical URL is `https://iamaritrasaha.github.io/`. There is no site manifest.
+The codename survives in internal filenames, paths and design documentation. The rendered homepage, 404 and local concept were checked case-insensitively in visible text, page titles, metadata and accessibility trees. The canonical URL is `https://iamaritrasaha.github.io/`. There is no site manifest.
 
 ## Evidence
 

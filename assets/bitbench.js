@@ -1,5 +1,6 @@
 import { DIGIT_SAMPLES } from "./digit-model.js";
 import { evaluateNetwork } from "./neural-network.js";
+import { mountRelief } from "./pixel-relief.js";
 
 const $ = (id) => document.getElementById(id);
 const reduce = () =>
@@ -74,9 +75,7 @@ const stamp = Array.from({ length: 64 }, () => {
   return dot;
 });
 $("end-pixels").parentElement.hidden = false;
-const strip = document.querySelector(".signal-strip");
-const tracePaths = strip.querySelectorAll(".scan-profile, .scan-pulse");
-strip.hidden = false;
+const updateRelief = mountRelief(document.querySelector(".pixel-relief"));
 function paint(manual = false) {
   const r = evaluateNetwork(input, DIGIT_SAMPLES[specimen].label);
   cells.forEach((c, i) => {
@@ -92,18 +91,7 @@ function paint(manual = false) {
     );
   });
   stamp.forEach((dot, i) => (dot.style.opacity = 0.08 + input[i] * 0.92));
-  const scale = Math.max(0.001, ...r.h1.map(Math.abs));
-  // Each point is one signed activation; the travelling highlight only reads the profile.
-  const line = r.h1
-    .map(
-      (v, i) =>
-        (i ? "L" : "M") +
-        (2 + i * 40) +
-        " " +
-        (28 - (24 * v) / scale).toFixed(2),
-    )
-    .join(" ");
-  tracePaths.forEach((path) => path.setAttribute("d", line));
+  updateRelief(input);
   const confidence =
     (100 * r.probabilities[r.prediction]).toFixed(1) + "% probability";
   $("winner").textContent = r.prediction;
@@ -175,22 +163,24 @@ $("inspect").onclick = () => {
 paint();
 let dismiss = () => {};
 function startup() {
-  try {
-    if (
-      reduce() ||
-      location.hash ||
-      (localStorage.getItem("bitbench-entry") &&
-        new URLSearchParams(location.search).get("intro") !== "replay") ||
-      localStorage.getItem("portfolio-reduced-motion") === "true"
-    )
-      return;
-    localStorage.setItem("bitbench-entry", "seen");
-  } catch {
+  const reload =
+    performance.getEntriesByType("navigation")[0]?.type === "reload";
+  if (
+    reduce() ||
+    (location.hash && !reload) ||
+    !Element.prototype.animate ||
+    document.querySelector(".bb-entry")
+  )
     return;
+  try {
+    if (localStorage.getItem("portfolio-reduced-motion") === "true") return;
+  } catch {
+    /* Storage is optional. */
   }
-  if (!Element.prototype.animate) return;
   const veil = document.createElement("div");
   veil.className = "entry bb-entry";
+  veil.setAttribute("role", "dialog");
+  veil.setAttribute("aria-label", "Welcome to Aritra Saha's portfolio");
   veil.innerHTML =
     '<div class="boot-grid" aria-hidden="true"></div><strong>Aritra Saha</strong><small>AI/ML Engineer | Applied AI Developer</small><div class="epoch-meter" aria-hidden="true"><div class="epoch-label"><span>INTRO EPOCH</span><span class="epoch-count"><i>01 / 03</i><i>02 / 03</i><i>03 / 03</i></span></div><div class="epoch-track"><i></i></div></div><button type="button">Skip intro ↗</button>';
   document.body.append(veil);
@@ -212,6 +202,7 @@ function startup() {
   };
   document.addEventListener("keydown", key);
   veil.lastChild.onclick = dismiss;
+  veil.lastChild.focus({ preventScroll: true });
   const duration = 2800;
   veil.style.setProperty("--entry-duration", duration + "ms");
   timer = setTimeout(dismiss, duration + 200);
