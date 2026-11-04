@@ -3,18 +3,18 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Aritra Saha | Applied AI &amp; ML Engineering</title>
+    <title>Aritra Saha | AI/ML Engineer | Applied AI Developer</title>
     <meta
       name="description"
-      content="Aritra Saha, AI/ML Engineer and Applied AI Developer. Explore scientific visualization, inspectable data analysis, embedded systems and independent model research."
+      content="Aritra Saha | AI/ML Engineer | Applied AI Developer. Explore scientific visualization, inspectable data analysis, embedded systems and independent model research."
     />
     <meta name="author" content="Aritra Saha" />
-    <meta name="theme-color" content="#f0f0eb" />
-    <script src="assets/theme.js?v=20261104.1"></script>
+    <meta name="theme-color" content="#f4f4ec" />
+    <script src="assets/theme.js?v=bb1"></script>
     <link rel="canonical" href="https://iamaritrasaha.github.io/" />
     <meta
       property="og:title"
-      content="Aritra Saha | Applied AI &amp; ML Engineering"
+      content="Aritra Saha | AI/ML Engineer | Applied AI Developer"
     />
     <meta
       property="og:description"
@@ -35,7 +35,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta
       name="twitter:title"
-      content="Aritra Saha | Applied AI &amp; ML Engineering"
+      content="Aritra Saha | AI/ML Engineer | Applied AI Developer"
     />
     <meta
       name="twitter:description"
@@ -70,7 +70,9 @@
     <link rel="stylesheet" href="assets/seedl-feature.css?v=20261024.2" />
     <link rel="stylesheet" href="assets/editorial.css?v=20261104.1" />
     <link rel="stylesheet" href="assets/creative.css?v=1" />
-    <script type="module" src="assets/creative.js?v=1"></script>
+    <script type="module" src="assets/creative.js?v=2"></script>
+    <link rel="stylesheet" href="assets/bitbench.css?v=2" />
+    <script type="module" src="assets/bitbench.js?v=2"></script>
     <script type="module" src="script.js?v=20261104.1"></script>
     <script type="application/ld+json">
       {
@@ -125,65 +127,64 @@
       </nav>
     </header>
     <main id="main">
-      <section class="hero wrap" id="top" aria-labelledby="hero-title">
-        <div class="hero-kicker">
-          <span class="mono">A/S &nbsp; / &nbsp; Computational studies</span>
-        </div>
-        <div class="hero-opening">
-          <h1 id="hero-title">Aritra <span>Saha</span></h1>
-          <div class="hero-intro" data-reveal>
-            <p class="role-label">
-              AI/ML Engineer <span aria-hidden="true">/</span> Applied AI
-              Developer
+      <section class="bench-hero" id="top" aria-labelledby="hero-title">
+        <div class="wrap">
+          <header class="bench-heading">
+            <div id="trace-field" aria-hidden="true"></div>
+            <p class="tech">
+              Aritra Saha · AI/ML Engineer | Applied AI Developer
             </p>
-            <div class="hero-statement">
-              <p>
-                I build tools that make computation easier to inspect,
-                understand and use.
-              </p>
-              <div class="hero-actions">
-                <a class="primary-link" href="#work"
-                  >Explore selected work <span aria-hidden="true">↓</span></a
-                ><a class="inline-link" href="https://github.com/iamaritrasaha"
-                  >GitHub <span aria-hidden="true">↗</span></a
-                >
-              </div>
+            <h1 id="hero-title"><span>Change one</span> <span>pixel.</span></h1>
+            <p>
+              Edit a handwritten digit. Watch a trained neural network respond.
+            </p>
+          </header>
+          <div class="bench-panel">
+            <div class="bench-input">
+              <p class="tech">01 / INPUT · 8 × 8</p>
+              <div
+                id="pixels"
+                role="group"
+                aria-label="Editable digit pixels"
+              ></div>
+              <button id="specimen" type="button" hidden>
+                Next specimen ↗
+              </button>
             </div>
+            <div class="bench-result">
+              <p class="tech">02 / PREDICTION</p>
+              <strong id="winner">0</strong
+              ><span id="confidence">100.0% probability</span>
+              <div
+                role="group"
+                id="distribution"
+                aria-label="Probability by digit"
+              ></div>
+              <span class="sr-only" id="bench-status" role="status"></span>
+            </div>
+            <div class="bench-inspector">
+              <p class="tech">03 / ACTIVATIONS</p>
+              <div id="activations"></div>
+              <button type="button" id="inspect" hidden>
+                Inspect hidden layer 2 →
+              </button>
+              <p id="layer-note">
+                The model computes its predictions here in your browser.
+              </p>
+            </div>
+            <noscript
+              ><p>
+                Enable JavaScript to edit the matrix. The trained network uses
+                64 input intensities, two GELU layers and ten digit
+                probabilities. <a href="#lab">Read the classifier study</a>.
+              </p></noscript
+            >
           </div>
-        </div>
-
-        <figure class="instrument">
-          <figcaption>
-            <span>FIG 01 / HELICOID</span><span>ORTHOGRAPHIC</span>
-          </figcaption>
-          <svg
-            viewBox="-220 -195 440 390"
-            role="img"
-            aria-label="Projected wireframe of a helicoid"
-          >
-            <image
-              href="assets/helicoid.svg"
-              x="-220"
-              y="-195"
-              width="440"
-              height="390"
-            ></image>
-          </svg>
-          <div class="axis-control" hidden>
-            <label for="angle">Rotate surface</label
-            ><input
-              id="angle"
-              type="range"
-              min="-90"
-              max="90"
-              value="22"
-            /><output for="angle">22°</output>
+          <div class="bench-links">
+            <a href="#work">Explore selected work ↓</a
+            ><a href="#lab">Guided classifier study ↘</a
+            ><a href="https://github.com/iamaritrasaha">GitHub ↗</a>
           </div>
-          <p>r cos θ, r sin θ, kθ</p>
-        </figure>
-        <div class="hero-footnote">
-          <a href="#lab">Run the digit classifier ↓</a
-          ><span class="mono">Independent engineering</span>
         </div>
       </section>
       <section class="selected-work" id="work" aria-labelledby="work-title">
@@ -1185,6 +1186,38 @@
           </figcaption>
         </figure>
       </section>
+      <section class="wrap geometry">
+        <h2>Projection study.</h2>
+        <figure class="instrument">
+          <figcaption>
+            <span>FIG 01 / HELICOID</span><span>ORTHOGRAPHIC</span>
+          </figcaption>
+          <svg
+            viewBox="-220 -195 440 390"
+            role="img"
+            aria-label="Projected wireframe of a helicoid"
+          >
+            <image
+              href="assets/helicoid.svg"
+              x="-220"
+              y="-195"
+              width="440"
+              height="390"
+            ></image>
+          </svg>
+          <div class="axis-control" hidden>
+            <label for="angle">Rotate surface</label
+            ><input
+              id="angle"
+              type="range"
+              min="-90"
+              max="90"
+              value="22"
+            /><output for="angle">22°</output>
+          </div>
+          <p>r cos θ, r sin θ, kθ</p>
+        </figure>
+      </section>
       <section
         class="practice-section wrap"
         id="expertise"
@@ -1294,6 +1327,10 @@
             An interesting problem?<br /><em>I’d like to hear it.</em>
           </h2>
         </div>
+        <figure class="end-register motion-scene" hidden>
+          <div id="end-pixels" aria-hidden="true"></div>
+          <figcaption class="tech">Last input / 8 × 8</figcaption>
+        </figure>
         <div class="contact-links" data-reveal>
           <a class="contact-email" href="mailto:thisisaritrasaha@gmail.com"
             >thisisaritrasaha@gmail.com <span aria-hidden="true">↗</span></a

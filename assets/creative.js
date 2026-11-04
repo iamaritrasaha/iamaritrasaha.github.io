@@ -2,11 +2,7 @@ import { mesh } from "./projection.js";
 const plate = document.querySelector(".instrument"),
   svg = plate.querySelector("svg"),
   slider = document.querySelector("#angle");
-const reduce = () =>
-  matchMedia("(prefers-reduced-motion: reduce)").matches ||
-  document.documentElement.dataset.motion === "reduce" ||
-  new URLSearchParams(location.search).get("motion") === "reduce" ||
-  navigator.connection?.saveData;
+
 const wire = document.createElementNS("http://www.w3.org/2000/svg", "path");
 wire.setAttribute("fill", "none");
 wire.setAttribute("stroke", "currentColor");
@@ -63,68 +59,3 @@ for (const [index, label] of ["Profile", "Fit", "Report"].entries()) {
   };
 }
 tabs.firstChild.click();
-function intro() {
-  try {
-    if (
-      localStorage.getItem("portfolio-reduced-motion") === "true" ||
-      reduce() ||
-      location.hash ||
-      localStorage.getItem("projection-intro")
-    )
-      return;
-    localStorage.setItem("projection-intro", "seen");
-  } catch {
-    return;
-  }
-  const veil = document.createElement("div");
-  veil.className = "entry";
-  veil.innerHTML =
-    '<div class="entry-symbol"></div><strong>Aritra Saha</strong><button type="button">Skip intro ↗</button>';
-  document.body.append(veil);
-  const icon = svg.cloneNode(true);
-  icon.setAttribute("aria-hidden", "true");
-  veil.querySelector(".entry-symbol").append(icon);
-  const end = () => {
-    veil.remove();
-    document.removeEventListener("keydown", key);
-    observer.disconnect();
-  };
-  const key = (e) => {
-    if (e.key === "Escape" || e.key === "Tab") end();
-  };
-  const observer = new MutationObserver(() => {
-    if (reduce()) end();
-  });
-  observer.observe(document.documentElement, {
-    attributes: true,
-    attributeFilter: ["data-motion"],
-  });
-  document.addEventListener("keydown", key);
-  veil.querySelector("button").onclick = end;
-  const origin = icon.getBoundingClientRect(),
-    dest = svg.getBoundingClientRect();
-  const dx = dest.left + dest.width / 2 - origin.left - origin.width / 2,
-    dy = dest.top + dest.height / 2 - origin.top - origin.height / 2;
-  icon.animate(
-    [
-      { transform: "scale(.45) rotate(-60deg)" },
-      { transform: "none", offset: 0.45 },
-      {
-        transform:
-          "translate(" +
-          dx +
-          "px," +
-          dy +
-          "px) scale(" +
-          dest.width / origin.width +
-          ")",
-      },
-    ],
-    { duration: 1250, easing: "cubic-bezier(.32,0,.22,1)", fill: "forwards" },
-  );
-  veil.animate(
-    [{ opacity: 1 }, { opacity: 1, offset: 0.76 }, { opacity: 0 }],
-    1250,
-  ).onfinish = end;
-}
-intro();
