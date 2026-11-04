@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><title>Bitbench | Aritra Saha</title
+  ><link rel="stylesheet" href="../base.css" /><link
+    rel="stylesheet"
+    href="bench.css"
+  />
+  <body>
+    <nav>
+      <b>BITBENCH <span>/ AS</span></b
+      ><span>Aritra Saha · Applied AI</span>
+    </nav>
+    <main>
+      <header>
+        <small>INSTRUMENT 001 / DIGIT RECOGNITION</small>
+        <h1>Change one pixel.</h1>
+        <p>Touch the input. Read the model's response.</p>
+      </header>
+      <section class="bench">
+        <div>
+          <small>01 / INPUT</small>
+          <div id="matrix"></div>
+          <button id="sample">Next specimen ↗</button>
+        </div>
+        <div class="response">
+          <small>02 / PREDICTION</small><strong id="digit"></strong
+          ><output id="prob"></output>
+          <div id="bars"></div>
+        </div>
+      </section>
+      <section class="project">
+        <div>
+          <small>RELATED TOOL / SEEDL</small>
+          <h2>Under the weights.</h2>
+          <p>
+            Select a layer to inspect its actual activations for the input
+            above.
+          </p>
+          <button id="layer">Inspect hidden layer 2 →</button
+          ><a href="https://github.com/iamaritrasaha/seedl">SeeDL source ↗</a>
+        </div>
+        <figure>
+          <div id="units"></div>
+          <figcaption class="tech">
+            Digit model study / signed activation magnitudes
+          </figcaption>
+        </figure>
+      </section>
+    </main>
+    <script type="module" src="bench.js"></script>
+  </body>
+</html>

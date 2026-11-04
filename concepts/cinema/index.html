@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><title>Signal Cinema | Aritra Saha</title
+  ><link rel="stylesheet" href="../base.css" /><link
+    rel="stylesheet"
+    href="film.css"
+  />
+  <body>
+    <nav>
+      <b>Aritra Saha</b><span>INDEPENDENT SIGNAL FILMS</span
+      ><a href="#reel">Screening ↓</a>
+    </nav>
+    <main>
+      <section class="screen">
+        <svg
+          viewBox="0 0 1200 650"
+          preserveAspectRatio="xMidYMid slice"
+          aria-label="Six layered exposures of a synthetic signal"
+          role="img"
+        >
+          <g id="exposure"></g></svg
+        ><small class="slug">FILM STUDY &nbsp; / &nbsp; 01</small>
+        <div class="titles">
+          <h1>Afterimage.</h1>
+          <p>Engineering studies by Aritra Saha</p>
+        </div>
+        <div class="credits">
+          <span>AI/ML ENGINEER</span><span>APPLIED AI DEVELOPER</span>
+        </div>
+      </section>
+      <div class="transport">
+        <label for="frame">Exposure</label
+        ><input id="frame" type="range" min="0" max="100" value="38" /><output
+          >038</output
+        >
+      </div>
+      <section id="reel">
+        <small>FEATURE / PULSESHIFT</small>
+        <h2>Six lights.<br />One signal.</h2>
+        <p>
+          An ESP32 shift light turns a synthetic RPM sequence into progressive
+          illumination. Scrub the exposure to inspect its six positions.
+        </p>
+        <div id="lamps" aria-hidden="true"></div>
+        <a href="https://github.com/iamaritrasaha/PulseShift"
+          >Firmware notes ↗</a
+        >
+      </section>
+    </main>
+    <script type="module" src="film.js"></script>
+  </body>
+</html>

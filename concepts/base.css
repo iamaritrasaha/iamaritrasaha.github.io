@@ -1,0 +1,103 @@
+@font-face {
+  font-family: Literata;
+  src: url(/assets/fonts/Literata-Latin-Variable.woff2);
+  font-weight: 400 600;
+}
+@font-face {
+  font-family: JB;
+  src: url(/assets/fonts/JetBrainsMono-Regular.woff2);
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font:
+    16px/1.5 Literata,
+    Georgia,
+    serif;
+}
+h1,
+h2,
+p,
+figure {
+  margin: 0;
+}
+h1,
+h2 {
+  font-weight: 400;
+  letter-spacing: -0.06em;
+  line-height: 1.03;
+}
+small,
+button,
+label,
+output,
+nav,
+.tech {
+  font:
+    12px/1.55 JB,
+    monospace;
+}
+button,
+a,
+input {
+  color: inherit;
+}
+button {
+  cursor: pointer;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}
+a {
+  text-underline-offset: 4px;
+}
+button {
+  background: transparent;
+  border: 1px solid currentColor;
+  padding: 10px 16px;
+}
+svg {
+  display: block;
+  width: 100%;
+}
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+nav a {
+  text-decoration: none;
+}
+.entry {
+  position: fixed;
+  inset: 0;
+  z-index: 8;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  font:
+    clamp(30px, 8vw, 112px) Literata,
+    serif;
+}
+.entry button {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  pointer-events: auto;
+  font-size: 12px;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

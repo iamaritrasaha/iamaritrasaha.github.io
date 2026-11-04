@@ -1,0 +1,176 @@
+body {
+  background: #2136a0;
+  color: #fffce9;
+}
+main,
+nav {
+  width: min(1120px, 92vw);
+  margin: auto;
+}
+nav {
+  padding-block: 20px;
+  border-bottom: 1px solid #8d9aeb;
+}
+nav b {
+  letter-spacing: 0.17em;
+}
+nav b span {
+  color: #ddf573;
+}
+header {
+  text-align: center;
+  padding: 24px 0 18px;
+}
+h1 {
+  font-size: clamp(52px, 7vw, 104px);
+  margin: 10px 0;
+}
+header p {
+  color: #d7defd;
+}
+.bench {
+  background: #172779;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 26px 5vw;
+  gap: 5vw;
+  align-items: center;
+}
+.bench > div:first-child {
+  justify-self: center;
+}
+.bench small,
+.project small {
+  color: #e0f389;
+}
+#matrix {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  width: clamp(200px, 19vw, 284px);
+  margin: 12px 0;
+  gap: 2px;
+}
+#matrix button {
+  background: #dfef97;
+  opacity: calc(0.15 + 0.85 * var(--v));
+  padding: 0;
+  border: 0;
+  aspect-ratio: 1;
+}
+#matrix button:focus-visible {
+  opacity: 1;
+  outline: 2px solid white;
+}
+.response {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+.response small,
+.response output {
+  grid-column: 1/-1;
+}
+.response strong {
+  font: clamp(86px, 12vw, 164px) / 1 Literata;
+  color: #e5f199;
+}
+.response output {
+  font: 12px JB;
+}
+.response #bars {
+  grid-column: 1/-1;
+  display: flex;
+  align-items: end;
+  height: 46px;
+  gap: 4px;
+  margin-top: 18px;
+}
+#bars i {
+  flex: 1;
+  background: #9daefc;
+  min-height: 2px;
+  transition: height 0.26s;
+}
+.project {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7vw;
+  align-items: center;
+  padding: 5vh 0;
+}
+.project h2 {
+  font-size: clamp(36px, 4vw, 62px);
+  margin: 12px 0;
+}
+.project button {
+  margin: 16px 12px 0 0;
+}
+.project a {
+  font: 12px JB;
+}
+#units {
+  height: 120px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+#units i {
+  flex: 1;
+  background: #e6f792;
+  transition: height 0.4s;
+  min-height: 2px;
+}
+#units i.neg {
+  background: #efaec0;
+}
+.entry {
+  background: #e6f792;
+  color: #172779;
+  font-family: JB;
+}
+@media (max-width: 620px) {
+  nav {
+    font-size: 10px;
+  }
+  .bench {
+    grid-template-columns: 1.1fr 0.8fr;
+    gap: 16px;
+    padding: 16px 12px;
+  }
+  #matrix {
+    width: 100%;
+  }
+  .bench > div:first-child {
+    width: 100%;
+  }
+  .response {
+    display: block;
+  }
+  .response strong,
+  .response output {
+    display: block;
+  }
+  .response strong {
+    font-size: 82px;
+  }
+  .response output {
+    font-size: 10px;
+  }
+  .project {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .project figure {
+    grid-row: 1;
+  }
+  #units {
+    height: 68px;
+  }
+  .project figcaption {
+    font-size: 10px;
+  }
+  header small,
+  .bench small {
+    font-size: 10px;
+  }
+}
