@@ -213,8 +213,10 @@ html[data-theme="dark"] {
   gap: 14px;
 }
 .bb-entry strong {
+  max-width: 96vw;
+  white-space: nowrap;
   font: clamp(56px, 9vw, 135px) / 1 var(--display);
-  animation: entry-type 0.62s both;
+  animation: entry-type 0.76s 0.08s both;
 }
 .boot-grid {
   width: 88px;
@@ -547,5 +549,98 @@ html[data-theme="dark"] {
 @media (scripting: enabled) and (max-width: 850px) {
   .bench-inspector {
     min-height: 185px;
+  }
+}
+
+.epoch-meter {
+  width: min(240px, 72vw);
+  margin: 8px auto 0;
+}
+.epoch-label {
+  display: flex;
+  justify-content: space-between;
+  font: 11px/1.5 var(--mono);
+  letter-spacing: 0.09em;
+}
+.epoch-count {
+  display: grid;
+}
+.epoch-count i {
+  grid-area: 1/1;
+  font-style: normal;
+  opacity: 0;
+  animation: epoch-label var(--entry-duration) steps(1, end) both;
+}
+.epoch-count i:nth-child(2) {
+  animation-name: epoch-two;
+}
+.epoch-count i:last-child {
+  animation-name: epoch-three;
+}
+.epoch-track {
+  height: 6px;
+  background: #404c87;
+  margin-top: 8px;
+  position: relative;
+}
+.epoch-track i {
+  display: block;
+  height: 100%;
+  background: var(--lime);
+  transform-origin: left;
+  animation: epoch-fill var(--entry-duration) linear both;
+}
+.epoch-track:after {
+  position: absolute;
+  content: "";
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0 calc(8.333% - 2px),
+    var(--deep) calc(8.333% - 2px) 8.333%
+  );
+}
+@keyframes epoch-label {
+  0% {
+    opacity: 1;
+  }
+  33.33%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes epoch-two {
+  0% {
+    opacity: 0;
+  }
+  33.33% {
+    opacity: 1;
+  }
+  66.66%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes epoch-three {
+  0% {
+    opacity: 0;
+  }
+  66.66%,
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes epoch-fill {
+  from {
+    transform: scaleX(0);
+  }
+  90%,
+  to {
+    transform: scaleX(1);
+  }
+}
+@media (max-width: 600px) {
+  .bb-entry strong {
+    font-size: clamp(38px, 11vw, 64px);
   }
 }

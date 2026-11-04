@@ -4,7 +4,7 @@ The implementation branch is `feat/bitbench-motion-portfolio`. Its parent is con
 
 ## Interaction and motion
 
-The first specimen forms the startup symbol and travels into the editable matrix over 1.15 seconds. The title identifies Aritra Saha. Escape, Tab and the visible skip control dismiss the entry. Saved visits, reduced motion, data saving and fragment navigation bypass it.
+The first specimen forms the startup symbol and travels into the editable matrix over 2.8 seconds. The name reveals, holds, then hands off to the matrix. A segmented three-epoch indicator follows the intro timeline. Returning visitors can preview the entry at [the replay URL](http://localhost:4173/?intro=replay). Escape, Tab and the visible skip control dismiss the entry. Saved visits, reduced motion, data saving and fragment navigation bypass it.
 
 The instrument reuses the exported learned weights and evaluator. Edit a cell with a pointer, or tab to the grid, navigate with arrows and press Space. Every edit recomputes all ten probabilities and both hidden layers. Inspect any individual unit's signed value. Bar heights show magnitudes relative to the selected layer's maximum. The background trace uses the first hidden layer. The final contact stamp repeats the visitor's last input. The original guided classifier lab independently retains its own samples, equations and manual controls.
 

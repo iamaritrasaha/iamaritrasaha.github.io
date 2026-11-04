@@ -175,7 +175,8 @@ function startup() {
     if (
       reduce() ||
       location.hash ||
-      localStorage.getItem("bitbench-entry") ||
+      (localStorage.getItem("bitbench-entry") &&
+        new URLSearchParams(location.search).get("intro") !== "replay") ||
       localStorage.getItem("portfolio-reduced-motion") === "true"
     )
       return;
@@ -187,7 +188,7 @@ function startup() {
   const veil = document.createElement("div");
   veil.className = "entry bb-entry";
   veil.innerHTML =
-    '<div class="boot-grid" aria-hidden="true"></div><strong>Aritra Saha</strong><small>AI/ML Engineer | Applied AI Developer</small><button type="button">Skip intro ↗</button>';
+    '<div class="boot-grid" aria-hidden="true"></div><strong>Aritra Saha</strong><small>AI/ML Engineer | Applied AI Developer</small><div class="epoch-meter" aria-hidden="true"><div class="epoch-label"><span>INTRO EPOCH</span><span class="epoch-count"><i>01 / 03</i><i>02 / 03</i><i>03 / 03</i></span></div><div class="epoch-track"><i></i></div></div><button type="button">Skip intro ↗</button>';
   document.body.append(veil);
   const glyph = veil.firstChild;
   for (const v of input) {
@@ -207,7 +208,9 @@ function startup() {
   };
   document.addEventListener("keydown", key);
   veil.lastChild.onclick = dismiss;
-  timer = setTimeout(dismiss, 1350);
+  const duration = 2800;
+  veil.style.setProperty("--entry-duration", duration + "ms");
+  timer = setTimeout(dismiss, duration + 200);
   const from = glyph.getBoundingClientRect(),
     to = $("pixels").getBoundingClientRect();
   const move =
@@ -221,14 +224,15 @@ function startup() {
   glyph.animate(
     [
       { transform: "scale(.6) rotate(-6deg)" },
-      { transform: "none", offset: 0.38 },
+      { transform: "none", offset: 0.22 },
+      { transform: "none", offset: 0.78 },
       { transform: move },
     ],
-    { duration: 1120, easing: "cubic-bezier(.4,0,.2,1)", fill: "forwards" },
+    { duration, easing: "cubic-bezier(.4,0,.2,1)", fill: "forwards" },
   );
   veil.animate(
-    [{ opacity: 1 }, { opacity: 1, offset: 0.72 }, { opacity: 0 }],
-    1150,
+    [{ opacity: 1 }, { opacity: 1, offset: 0.87 }, { opacity: 0 }],
+    duration,
   ).onfinish = dismiss;
 }
 startup();
