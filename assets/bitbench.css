@@ -457,31 +457,6 @@ html[data-theme="dark"] {
   position: relative;
   isolation: isolate;
 }
-.bench-heading > *:not(#trace-field) {
-  position: relative;
-}
-#trace-field {
-  position: absolute;
-  inset: 5px 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  z-index: -1;
-  opacity: 0.11;
-  mask-image: linear-gradient(
-    90deg,
-    #000,
-    transparent 28%,
-    transparent 72%,
-    #000
-  );
-}
-#trace-field i {
-  width: 2px;
-  height: 100%;
-  background: var(--lime);
-  transition: transform var(--settle) var(--spring);
-}
 .end-register {
   display: flex;
   align-items: center;
@@ -523,11 +498,7 @@ html[data-theme="dark"] {
     margin-top: 0;
   }
 }
-@media (max-width: 600px) {
-  #trace-field {
-    opacity: 0.06;
-  }
-}
+
 @media (prefers-reduced-motion: reduce) {
   .end-register.scene-active i {
     animation: none;
@@ -642,5 +613,86 @@ html[data-theme="dark"] {
 @media (max-width: 600px) {
   .bb-entry strong {
     font-size: clamp(38px, 11vw, 64px);
+  }
+}
+
+.signal-strip {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 20px;
+  border-block: 1px solid #7788c5;
+  margin: 24px auto 0;
+  padding: 4px 0;
+  color: var(--lime);
+}
+.signal-strip figcaption,
+.signal-strip button {
+  font: 12px/1.4 var(--mono);
+}
+.signal-strip small {
+  display: block;
+  color: #d2dcfa;
+  font: 10px var(--mono);
+  margin-top: 3px;
+}
+.signal-strip svg {
+  width: 100%;
+  height: 48px;
+}
+.signal-strip path {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+.scan-axis {
+  stroke: #8697ce;
+  stroke-width: 0.7;
+  stroke-dasharray: 2 6;
+}
+.scan-profile {
+  stroke: #a7b6e7;
+  stroke-width: 1.4;
+}
+.scan-pulse {
+  stroke: currentColor;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 9 91;
+  opacity: 0;
+}
+.signal-strip button {
+  min-height: 44px;
+  color: #fffdec;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.signal-strip + .bench-panel {
+  margin-top: 12px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html[data-motion="full"] .scan-pulse {
+    opacity: 1;
+    animation: scan-forward 3s linear infinite paused;
+  }
+  html[data-motion="full"] .scene-active .scan-pulse {
+    animation-play-state: running;
+  }
+}
+@keyframes scan-forward {
+  to {
+    stroke-dashoffset: -100;
+  }
+}
+@media (max-width: 600px) {
+  .signal-strip {
+    gap: 9px;
+    margin-top: 16px;
+  }
+  .signal-strip figcaption,
+  .signal-strip button {
+    font-size: 10px;
+  }
+  .signal-strip svg {
+    height: 36px;
   }
 }

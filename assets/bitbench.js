@@ -74,11 +74,9 @@ const stamp = Array.from({ length: 64 }, () => {
   return dot;
 });
 $("end-pixels").parentElement.hidden = false;
-const field = Array.from({ length: 16 }, () => {
-  const bar = document.createElement("i");
-  $("trace-field").append(bar);
-  return bar;
-});
+const strip = document.querySelector(".signal-strip");
+const tracePaths = strip.querySelectorAll(".scan-profile, .scan-pulse");
+strip.hidden = false;
 function paint(manual = false) {
   const r = evaluateNetwork(input, DIGIT_SAMPLES[specimen].label);
   cells.forEach((c, i) => {
@@ -95,11 +93,17 @@ function paint(manual = false) {
   });
   stamp.forEach((dot, i) => (dot.style.opacity = 0.08 + input[i] * 0.92));
   const scale = Math.max(0.001, ...r.h1.map(Math.abs));
-  field.forEach(
-    (bar, i) =>
-      (bar.style.transform =
-        "scaleY(" + Math.max(0.03, Math.abs(r.h1[i]) / scale) + ")"),
-  );
+  // Each point is one signed activation; the travelling highlight only reads the profile.
+  const line = r.h1
+    .map(
+      (v, i) =>
+        (i ? "L" : "M") +
+        (2 + i * 40) +
+        " " +
+        (28 - (24 * v) / scale).toFixed(2),
+    )
+    .join(" ");
+  tracePaths.forEach((path) => path.setAttribute("d", line));
   const confidence =
     (100 * r.probabilities[r.prediction]).toFixed(1) + "% probability";
   $("winner").textContent = r.prediction;
