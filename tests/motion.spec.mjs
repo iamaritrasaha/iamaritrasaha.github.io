@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { LED_THRESHOLDS } from "../assets/pulse-rpm.js";
+import { LED_THRESHOLDS, ledIntensity } from "../assets/pulse-rpm.js";
 async function freezeClock(page) {
   const time = new Date("2026-11-04T00:00:00Z");
   await page.clock.install({ time });
@@ -29,6 +29,9 @@ test("the mathematical manuscript typesets correct relationships and retains the
     softmax: "pi = exp(zi)Σj exp(zj)",
     loss: "L = −log(py)",
     gradient: "∂L∂zi = pi − 1[i = y]",
+    calculus: "∫ab f′(x) dx = f(b) − f(a)",
+    tangent: "f(x + h) = f(x) + hf′(x) + O(h2)",
+    curvature: "κ(x) = |f″(x)|(1 + [f′(x)]2)3/2",
   }))
     await expect(entry.locator(`[data-equation="${name}"]`)).toHaveText(text);
   const timeline = async (time) =>
@@ -40,9 +43,9 @@ test("the mathematical manuscript typesets correct relationships and retains the
       });
     }, time);
   for (const [time, equation] of [
-    [900, "power-start"],
-    [1400, "power-substitution"],
-    [2000, "power-result"],
+    [725, "power-start"],
+    [1209, "power-substitution"],
+    [1747, "power-result"],
   ]) {
     await timeline(time);
     expect(
@@ -51,7 +54,10 @@ test("the mathematical manuscript typesets correct relationships and retains the
         .evaluate((el) => Number(getComputedStyle(el).opacity)),
     ).toBe(1);
   }
-  await page.clock.runFor(2400);
+  await timeline(2000);
+  await page.clock.runFor(4700);
+  await timeline(4700);
+  await page.clock.runFor(20);
   await page.evaluate(() =>
     document.querySelector(".boot-grid").getAnimations()[0].finish(),
   );
@@ -84,6 +90,8 @@ test("welcome equations fit mobile and keyboard Tab exits without trapping focus
     ".math-power",
     ".math-probability",
     ".bb-entry > strong",
+    ".math-calculus",
+    ".math-curvature",
   ]) {
     const box = await page.locator(selector).boundingBox();
     expect(box.x).toBeGreaterThanOrEqual(0);
@@ -201,4 +209,74 @@ test("data-saving bypasses welcome and retains a meaningful static instrument", 
   );
   await expect(page.locator("#pulse-rpm")).toHaveText("4,250");
   await expect(page.locator(".pulse-led.is-lit")).toHaveCount(3);
+});
+
+test("epoch sequence holds long enough to read calculus, curvature and hardware drawings", async ({
+  page,
+}) => {
+  await freezeClock(page);
+  await page.goto("/");
+  await expect(page.locator(".bb-entry button")).toHaveCount(0);
+  await expect(page.locator(".epoch-label")).toContainText("INTRO EPOCH");
+  const duration = await page
+    .locator(".bb-entry")
+    .evaluate((el) =>
+      parseFloat(el.style.getPropertyValue("--entry-duration")),
+    );
+  expect(duration).toBe(5600);
+  for (const [time, count] of [
+    [1000, "01 / 03"],
+    [2400, "02 / 03"],
+    [3700, "03 / 03"],
+  ]) {
+    const active = await page.evaluate((t) => {
+      const veil = document.querySelector(".bb-entry");
+      veil.getAnimations({ subtree: true }).forEach((a) => {
+        a.pause();
+        a.currentTime = t;
+      });
+      return [...veil.querySelectorAll(".epoch-count i")].find(
+        (el) => getComputedStyle(el).opacity === "1",
+      ).textContent;
+    }, time);
+    expect(active).toBe(count);
+  }
+  const visible = await page
+    .locator(".math-calculus")
+    .evaluate((el) => Number(getComputedStyle(el).opacity));
+  expect(visible).toBe(1);
+  await expect(page.locator(".hardware-doodle svg path")).toHaveCount(3);
+  await expect(page.locator(".hardware-doodle")).toContainText("ESP32");
+});
+
+test("LED brightness blends before thresholds and RPM updates at display cadence", async ({
+  page,
+}) => {
+  await freezeClock(page);
+  await page.goto("/#pulseshift");
+  const figure = page.locator(".pulse-study");
+  await figure.scrollIntoViewIfNeeded();
+  await expect(figure).toHaveAttribute("data-running", "true");
+  await page.clock.runFor(2100);
+  const data = await figure.evaluate((el) => ({
+    rpm: Number(el.dataset.rpm),
+    levels: [...el.querySelectorAll(".pulse-led")].map((l) =>
+      Number(l.style.getPropertyValue("--led-level")),
+    ),
+  }));
+  data.levels.forEach((level, i) =>
+    expect(level).toBeCloseTo(ledIntensity(data.rpm, LED_THRESHOLDS[i]), 3),
+  );
+  expect(data.levels.some((v) => v > 0 && v < 1)).toBe(true);
+  await page.evaluate(() => {
+    window.readingChanges = 0;
+    new MutationObserver(() => window.readingChanges++).observe(
+      document.querySelector("#pulse-rpm"),
+      { childList: true },
+    );
+  });
+  await page.clock.runFor(1000);
+  expect(
+    await page.evaluate(() => window.readingChanges),
+  ).toBeGreaterThanOrEqual(50);
 });

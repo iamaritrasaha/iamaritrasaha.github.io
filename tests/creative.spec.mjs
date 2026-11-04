@@ -14,7 +14,15 @@ test("welcome preserves its handoff, supports keyboard dismissal and shortens re
   await page.reload();
   await expect(page.getByRole("dialog")).toBeFocused();
   await expect(page.locator(".bb-entry")).toHaveClass(/is-returning/);
-  await expect(page.locator(".entry")).toHaveCount(0, { timeout: 1600 });
+  await expect(page.locator(".epoch-label")).toContainText("INTRO EPOCH");
+  expect(
+    await page
+      .locator(".bb-entry")
+      .evaluate((el) =>
+        parseFloat(el.style.getPropertyValue("--entry-duration")),
+      ),
+  ).toBe(4600);
+  await expect(page.locator(".entry")).toHaveCount(0, { timeout: 5200 });
   await expect(
     page.getByRole("button", { name: /replay welcome/i }),
   ).toHaveCount(0);

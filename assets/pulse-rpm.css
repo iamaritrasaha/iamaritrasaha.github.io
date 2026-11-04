@@ -46,7 +46,8 @@
   gap: clamp(7px, 1.6vw, 22px);
   animation: none;
 }
-.pulse-study .pulse-led {
+.pulse-study .pulse-led,
+.pulse-study .pulse-led.is-lit {
   --led-color: #d5ed9b;
   border: 5px solid #77818b;
   border-radius: 3px;
@@ -69,7 +70,12 @@
 .pulse-study .pulse-led:nth-child(6) {
   --led-color: #ff8e9d;
 }
-.pulse-study .pulse-led.is-lit {
+.pulse-light,
+.pulse-shift-light {
+  position: absolute;
+  inset: 3px;
+  border-radius: 2px;
+  pointer-events: none;
   background: radial-gradient(
     circle at 36% 30%,
     #fffdec,
@@ -77,10 +83,31 @@
     #62665e 95%
   );
   box-shadow:
-    inset 0 0 0 2px #343b46,
     0 0 10px color-mix(in srgb, var(--led-color) 65%, transparent),
     0 0 24px color-mix(in srgb, var(--led-color) 25%, transparent);
-  transform: none;
+  opacity: var(--led-level, 0);
+}
+.is-lit > .pulse-light {
+  opacity: var(--led-level, 1);
+}
+.pulse-shift-light {
+  background: radial-gradient(
+    circle at 36% 30%,
+    #fffdec,
+    #ff9faf 45%,
+    #78606b 95%
+  );
+  box-shadow: 0 0 16px #ff9faf88;
+  opacity: calc(var(--led-level, 0) * var(--shift-glow, 0));
+}
+.pulse-value,
+.pulse-state {
+  transition: color 280ms linear;
+}
+.pulse-study .pulse-board {
+  transition:
+    border-color 280ms linear,
+    box-shadow 280ms linear;
 }
 .pulse-study[data-state="approach"] .pulse-value {
   color: #f5d88c;
@@ -92,9 +119,6 @@
 .pulse-study[data-state="shift"] .pulse-board {
   border-color: #ffb4be;
   box-shadow: 0 0 28px #ff8e9d26;
-}
-.pulse-study[data-state="shift"] .pulse-led {
-  --led-color: #ff9faf;
 }
 @media (max-width: 850px) {
   .pulse-readout {
@@ -113,5 +137,16 @@
   }
 }
 html[data-motion="reduce"] .pulse-study .pulse-led {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse-value,
+  .pulse-state,
+  .pulse-study .pulse-board {
+    transition: none;
+  }
+}
+html[data-motion="reduce"] :is(.pulse-value, .pulse-state, .pulse-board) {
   transition: none;
 }

@@ -1,4 +1,4 @@
-import { mountRpmPreview } from "./assets/pulse-rpm.js?v=1";
+import { mountRpmPreview } from "./assets/pulse-rpm.js?v=2";
 import { mountResearchPlate } from "./assets/research-plate.js?v=20260930.1";
 import { mountNeuronDemo } from "./assets/neuron-demo.js?v=20260930.8";
 import { createSurfacePhysics } from "./assets/surface-physics.js?v=20260930.1";

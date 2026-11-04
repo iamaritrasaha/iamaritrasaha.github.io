@@ -1,4 +1,4 @@
-import { mountWelcomeMath } from "./welcome-math.js?v=1";
+import { mountWelcomeMath } from "./welcome-math.js?v=2";
 import { DIGIT_SAMPLES } from "./digit-model.js";
 import { evaluateNetwork } from "./neural-network.js";
 import { mountRelief } from "./pixel-relief.js";
@@ -218,7 +218,7 @@ function startup() {
   };
   document.addEventListener("keydown", key);
   veil.focus({ preventScroll: true });
-  const duration = returning ? 1000 : 3200;
+  const duration = returning ? 4600 : 5600;
   veil.style.setProperty("--entry-duration", duration + "ms");
   timer = setTimeout(dismiss, duration + 200);
   const from = glyph.getBoundingClientRect(),
@@ -238,7 +238,7 @@ function startup() {
         easing: "cubic-bezier(.4,0,.2,1)",
       },
       { transform: "none", offset: 0.22 },
-      { transform: "none", offset: 0.78, easing: "cubic-bezier(.4,0,.2,1)" },
+      { transform: "none", offset: 0.86, easing: "cubic-bezier(.4,0,.2,1)" },
       { transform: move },
     ],
     { duration, easing: "linear", fill: "forwards" },
@@ -252,7 +252,7 @@ function startup() {
     frames[frames.length - 1].transform =
       `translate(${target.left - source.left}px, ${target.top - source.top}px) scale(${target.width / source.width})`;
     flight.effect.setKeyframes(frames);
-  }, duration * 0.74);
+  }, duration * 0.82);
   veil.animate(
     [{ opacity: 1 }, { opacity: 1, offset: 0.87 }, { opacity: 0 }],
     duration,
