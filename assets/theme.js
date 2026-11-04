@@ -27,7 +27,7 @@
     root.style.colorScheme = theme;
     document
       .querySelector('meta[name="theme-color"]')
-      ?.setAttribute("content", theme === "dark" ? "#211f24" : "#f4efe7");
+      ?.setAttribute("content", theme === "dark" ? "#171e1b" : "#f0f0eb");
     document.dispatchEvent(
       new CustomEvent("portfolio:themechange", {
         detail: { theme, preference },

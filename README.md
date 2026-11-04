@@ -1,6 +1,6 @@
 # Aritra Saha | portfolio
 
-An editorial portfolio of independent work in machine learning, local AI, Android and Linux systems. Project stories, calculated neural-network visualizations and an ivory, charcoal and cobalt palette carry the presentation. Built with semantic HTML, CSS and progressive vanilla JavaScript. No production dependencies, external font requests, analytics or model API endpoints.
+An editorial portfolio of independent work in machine learning, local AI, Android and Linux systems. Project stories, calculated neural-network visualizations and an cool paper, forest green and near-black palette carry the presentation. Built with semantic HTML, CSS and progressive vanilla JavaScript. No production dependencies, external font requests, analytics or model API endpoints.
 
 ## Run locally
 
@@ -39,7 +39,7 @@ Browser tests start a separate server on port 4174. They cover both themes at fi
 | `assets/digit-model.js`             | Exported learned weights, small held-out image examples and training metadata.                                                       |
 | `assets/surface-physics.js`         | Bounded fine-pointer spring response for Relay and Vyren artwork.                                                                    |
 | `assets/theme.js`                   | First-paint theme selection, live OS preference and saved manual overrides.                                                          |
-| `assets/fonts/`                     | Local Newsreader, Inter and JetBrains Mono fonts with licenses.                                                                      |
+| `assets/fonts/`                     | Local Literata and JetBrains Mono WOFF2 fonts with licenses.                                                                         |
 | `assets/projects/`                  | Preserved project identities and source artwork.                                                                                     |
 | `404.html`                          | Matching error page with root-relative assets for nested missing URLs.                                                               |
 | `scripts/`                          | Static integrity checks, module tests and optional artifact build.                                                                   |
@@ -48,9 +48,9 @@ Browser tests start a separate server on port 4174. They cover both themes at fi
 
 ## Editing content and appearance
 
-SeeDL leads selected work as the flagship, using a concept illustration in the existing palette and links to its scientific viewers. [SeeDL feature notes](docs/seedl-feature.md) record verified release information and artwork provenance. The other project compositions remain Orion's research spread, SysAI's midnight-blue diagnostic section, and the offset Relay/Vyren pair. Preserve each project's problem, personal engineering contribution, implementation choices and current state. Keep smaller projects in the compact index and Aether outside the main features. The hero is a real small digit classifier trained for this interactive study. Its held-out result is a demo evaluation, not an Orion result. The weight-space surface remains an illustration. See [model provenance and reproduction](docs/digit-model.md) for the training configuration, split, source attribution and numerical checks. Training is optional and uses a separate Python environment; serving the exported model requires no Python ML packages.
+SeeDL leads selected work as the flagship, using a concept illustration in the existing palette and links to its scientific viewers. [SeeDL feature notes](docs/seedl-feature.md) record verified release information and artwork provenance. Infera and PulseShift follow with verified implementation notes and an explicitly illustrative LED control. Orion’s private research spread, SysAI’s deep-green diagnostic section, and the offset Relay/Vyren pair remain discoverable. Preserve each project's problem, personal engineering contribution, implementation choices and current state. Keep smaller projects in the compact index and Aether outside the main features. The hero is a real small digit classifier trained for this interactive study. Its held-out result is a demo evaluation, not an Orion result. The weight-space surface remains an illustration. See [model provenance and reproduction](docs/digit-model.md) for the training configuration, split, source attribution and numerical checks. Training is optional and uses a separate Python environment; serving the exported model requires no Python ML packages.
 
-Change shared colors and fonts in the tokens at the start of `styles.css`. Newsreader normal and italic are local static weight-400, optical-size-48 subsets, about 52 KB combined, licensed under SIL OFL. Update visible copy and social metadata together. Increment changed asset `?v=` references in both HTML pages to avoid stale browser caches.
+Change shared colors and fonts in the tokens at the start of `styles.css`. `assets/editorial.css` supplies the redesigned compositions without replacing the existing laboratory components. Literata is a self-hosted variable Latin WOFF2 with optical sizing, paired with the retained regular JetBrains Mono font. Their SIL OFL licenses and source information live in `assets/fonts/`. Update visible copy and social metadata together. Increment changed asset `?v=` references in both HTML pages to avoid stale browser caches.
 
 The native theme selector defaults to System and follows live OS changes. Light and Dark save an explicit local override; System clears it. The hero-caption and footer motion controls remember a separate preference. OS reduced motion and data saving take precedence; `?motion=reduce` previews the reduced experience.
 
@@ -65,3 +65,7 @@ Publish the repository root or generated `dist/` to static hosting. Keep `404.ht
 © 2026 Aritra Saha. All rights reserved.
 
 This notice applies to the original content and code in this portfolio. Third-party fonts, datasets, libraries and other attributed materials remain subject to their respective licenses.
+
+## November editorial redesign
+
+See [the design specification](docs/editorial-redesign-spec.md) and [the implementation and validation report](docs/editorial-redesign-report.md). The branch is `feat/portfolio-editorial-redesign`; no production publication is part of this change.

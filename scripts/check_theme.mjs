@@ -83,10 +83,10 @@ test("the first frame follows the system before controls are connected", () => {
   const dark = page({ dark: true });
   assert.equal(dark.root.dataset.theme, "dark");
   assert.equal(dark.root.dataset.themePreference, "system");
-  assert.equal(dark.color, "#211f24");
+  assert.equal(dark.color, "#171e1b");
   dark.system(false);
   assert.equal(dark.root.dataset.theme, "light");
-  assert.equal(dark.color, "#f4efe7");
+  assert.equal(dark.color, "#f0f0eb");
 });
 
 test("an explicit choice persists and ignores system changes until reset", () => {

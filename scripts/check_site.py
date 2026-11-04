@@ -74,7 +74,7 @@ for css_file in [ROOT / 'styles.css', *sorted((ROOT / 'assets').rglob('*.css'))]
             assert target.is_file(), f'{css_file.relative_to(ROOT)}: missing CSS asset {asset}'
 
 homepage = pages['index.html']
-assert homepage.featured_cases == ['seedl', 'orion', 'sysai', 'relay', 'vyren'], 'Expected SeeDL first, followed by the four preserved featured projects'
+assert homepage.featured_cases == ['seedl', 'infera', 'pulseshift', 'orion', 'sysai', 'relay', 'vyren'], 'Expected three public features followed by four preserved project studies'
 for anchor in [
     'top', 'main', 'work', 'expertise', 'about', 'contact',
     'seedl', 'orion', 'sysai', 'relay', 'vyren', 'aether', 'orbis', 'arthrekha',
@@ -82,10 +82,10 @@ for anchor in [
     'systems', 'index', 'principles', 'approach', 'future',
 ]:
     assert anchor in homepage.ids, f'Missing preserved anchor: #{anchor}'
-for filename, budget in [('index.html', 47000), ('styles.css', 45000), ('script.js', 12000), ('assets/research-plate.js', 8000), ('assets/research-plate.css', 8000), ('assets/surface-physics.js', 8000), ('assets/neuron-demo.js', 20000), ('assets/neuron-demo.css', 12800), ('assets/neuron-math.js', 16000), ('assets/neural-network.js', 8000), ('assets/digit-model.js', 32000), ('assets/theme.js', 4000)]:
+for filename, budget in [('index.html', 56000), ('styles.css', 45000), ('assets/editorial.css', 22000), ('script.js', 14000), ('assets/research-plate.js', 8000), ('assets/research-plate.css', 8000), ('assets/surface-physics.js', 8000), ('assets/neuron-demo.js', 20000), ('assets/neuron-demo.css', 12800), ('assets/neuron-math.js', 16000), ('assets/neural-network.js', 8000), ('assets/digit-model.js', 32000), ('assets/theme.js', 4000)]:
     # Git's Windows checkout may use CRLF; budget the canonical UTF-8/LF source.
     size = len((ROOT / filename).read_text(encoding='utf-8').encode('utf-8'))
     assert size <= budget, f'{filename}: {size} exceeds {budget} bytes'
 assert (ROOT / 'app-ads.txt').is_file()
 assert (ROOT / 'assets/seedl-feature.css').stat().st_size <= 6000, 'SeeDL styles exceed the scoped feature budget'
-print('PASS: 2 pages, IDs, internal links, controls, image geometry, all CSS assets, SeeDL flagship plus four preserved features, anchors and size budgets.')
+print('PASS: 2 pages, IDs, internal links, controls, image geometry, all CSS assets, three public features plus four preserved studies, anchors and size budgets.')

@@ -341,3 +341,73 @@ test("nested missing routes render the accessible 404 and public files stay boun
     .analyze();
   expect(result.violations).toEqual([]);
 });
+
+test("public project sources, honest limits and LED preview work by keyboard", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  for (const [id, repository] of [
+    ["infera", "Infera"],
+    ["pulseshift", "PulseShift"],
+  ]) {
+    await page.locator(`.project-jump a[href="#${id}"]`).click();
+    await expect(page.locator(`#${id}`)).toBeFocused();
+    await expect(page.locator(`#${id} .feature-story a`)).toHaveAttribute(
+      "href",
+      `https://github.com/iamaritrasaha/${repository}`,
+    );
+  }
+  const level = page.getByRole("slider", { name: "Preview lit pixels" });
+  await level.focus();
+  await page.keyboard.press("End");
+  await expect(page.locator(".pulse-led.is-lit")).toHaveCount(6);
+  await expect(level).toHaveAttribute("aria-valuetext", "6 of 6 pixels lit");
+  await page.keyboard.press("Home");
+  await expect(page.locator(".pulse-led.is-lit")).toHaveCount(0);
+  await expect(page.locator(".pulse-study figcaption")).toContainText(
+    "not firmware execution",
+  );
+  await page.locator("#infera summary").click();
+  await expect(page.locator("#infera details")).toContainText(
+    "one regression algorithm",
+  );
+  await page.locator("#pulseshift summary").click();
+  await expect(page.locator("#pulseshift details")).toContainText(
+    "physical qualification is pending",
+  );
+});
+
+test("new features survive no JavaScript and motion is cancelled live", async ({
+  browser,
+  page,
+}) => {
+  const context = await browser.newContext({
+    javaScriptEnabled: false,
+    viewport: { width: 320, height: 844 },
+  });
+  const fallback = await context.newPage();
+  await fallback.goto("/");
+  await expect(fallback.locator("#infera h3")).toHaveText("Infera");
+  await expect(fallback.locator(".pulse-control")).toBeHidden();
+  await expect(fallback.locator(".pulse-led.is-lit")).toHaveCount(3);
+  await fallback.locator("#pulseshift summary").click();
+  await expect(fallback.locator("#pulseshift details")).toHaveAttribute(
+    "open",
+    "",
+  );
+  await context.close();
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/");
+  await page.locator("#infera").scrollIntoViewIfNeeded();
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(page.locator("html")).toHaveAttribute("data-motion", "reduce");
+  expect(
+    await page.evaluate(
+      () =>
+        document
+          .getAnimations()
+          .filter((animation) => animation.playState === "running").length,
+    ),
+  ).toBe(0);
+});

@@ -1,61 +1,42 @@
 @font-face {
-  font-family: Newsreader;
-  src: url("assets/fonts/Newsreader-Italic.woff2") format("woff2");
-  font-weight: 400;
-  font-style: italic;
+  font-family: Literata;
+  src: url("assets/fonts/Literata-Latin-Variable.woff2") format("woff2");
+  font-weight: 400 600;
   font-display: swap;
 }
 @font-face {
-  font-family: Inter;
-  src: url("assets/fonts/Inter-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-display: swap;
-}
-@font-face {
-  font-family: Inter;
-  src: url("assets/fonts/Inter-SemiBold.woff2") format("woff2");
-  font-weight: 600 900;
-  font-display: swap;
-}
-@font-face {
-  font-family: Newsreader;
-  src: url("assets/fonts/Newsreader.woff2") format("woff2");
-  font-weight: 400;
-  font-display: swap;
-}
-@font-face {
-  font-family: JetBrains;
+  font-family: "JetBrains Mono";
   src: url("assets/fonts/JetBrainsMono-Regular.woff2") format("woff2");
   font-weight: 400;
   font-display: swap;
 }
 :root {
   color-scheme: light;
-  --paper: #f4efe7;
-  --surface: #fbf7f1;
-  --raised: #e7e2eb;
-  --ink: #29282b;
-  --muted: #69616b;
-  --accent: #354dc5;
-  --line: #d2cad0;
-  --plate: #303149;
-  --plate-ink: #eee8ed;
-  --sans: Inter, Arial, sans-serif;
-  --display: Newsreader, Georgia, serif;
-  --mono: JetBrains, monospace;
+  --paper: #f0f0eb;
+  --surface: #f8f8f4;
+  --raised: #e1e7e1;
+  --ink: #202722;
+  --muted: #59655d;
+  --accent: #245743;
+  --line: #c5cec6;
+  --plate: #203b30;
+  --plate-ink: #eef3eb;
+  --sans: Literata, Georgia, serif;
+  --display: Literata, Georgia, serif;
+  --mono: "JetBrains Mono", monospace;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 html[data-theme="dark"] {
   color-scheme: dark;
-  --paper: #211f24;
-  --surface: #2b2830;
-  --raised: #35313b;
-  --ink: #f4ece2;
-  --muted: #bdb2bc;
-  --accent: #aab8ff;
-  --line: #514a56;
-  --plate: #303149;
-  --plate-ink: #eee8ed;
+  --paper: #171e1b;
+  --surface: #212b25;
+  --raised: #2e3b32;
+  --ink: #edf0e7;
+  --muted: #bdc9bf;
+  --accent: #b7d8aa;
+  --line: #47554a;
+  --plate: #203b30;
+  --plate-ink: #eef3eb;
 }
 * {
   box-sizing: border-box;
@@ -642,13 +623,13 @@ html[data-theme="dark"] .primary-link {
 }
 /* A contrasting essay, with the architecture readable at a glance. */
 .case-sysai {
-  background: #292d46;
-  color: #f3edf0;
+  background: #203b30;
+  color: #f0f0eb;
   padding: 60px 0 36px;
-  --ink: #f3edf0;
-  --muted: #c0bfd4;
-  --line: #555d7e;
-  --accent: #c5ceff;
+  --ink: #f0f0eb;
+  --muted: #bdc9bf;
+  --line: #647b69;
+  --accent: #b7d8aa;
 }
 .sysai-layout {
   display: grid;
@@ -675,7 +656,7 @@ html[data-theme="dark"] .primary-link {
   margin: 15px 0 25px;
 }
 .sysai-intro h4 em {
-  color: #c5ceff;
+  color: #b7d8aa;
 }
 .sysai-intro > p {
   font-size: 13px;
@@ -706,14 +687,14 @@ html[data-theme="dark"] .primary-link {
   padding: 27px 0 20px;
 }
 .command-line > span {
-  color: #b0b8db;
+  color: #bdc9bf;
   margin-right: 13px;
 }
 .command-line > i {
   display: inline-block;
   width: 7px;
   height: 18px;
-  background: #c5ceff;
+  background: #b7d8aa;
   vertical-align: middle;
   margin-left: 9px;
   animation: caret-pulse 2s steps(1) infinite paused;
@@ -728,7 +709,7 @@ html[data-theme="dark"] .primary-link {
 }
 .diagnostic-steps li {
   padding: 22px 0 14px;
-  border-top: 1px solid #555d7e;
+  border-top: 1px solid #647b69;
   position: relative;
 }
 .diagnostic-steps li::before {
@@ -738,7 +719,7 @@ html[data-theme="dark"] .primary-link {
   right: 0;
   top: -1px;
   height: 2px;
-  background: #c5ceff;
+  background: #b7d8aa;
   transform: scaleX(0);
   transform-origin: left;
   animation: diagnostic-pass 9s var(--ease) infinite paused;
@@ -751,7 +732,7 @@ html[data-theme="dark"] .primary-link {
 }
 .diagnostic-steps li > span {
   font: 9px var(--mono);
-  color: #b0b8db;
+  color: #bdc9bf;
 }
 .diagnostic-steps h5 {
   font: 25px var(--display);
@@ -768,7 +749,7 @@ html[data-theme="dark"] .primary-link {
   font-weight: 400;
   display: block;
   margin-top: 22px;
-  color: #c5ceff;
+  color: #b7d8aa;
 }
 .study-caption {
   font: 8px var(--mono);
@@ -783,7 +764,7 @@ html[data-theme="dark"] .primary-link {
   gap: 100px;
 }
 .case-sysai .inline-link:hover {
-  color: #c5ceff;
+  color: #b7d8aa;
 }
 .case-pair {
   display: grid;
@@ -808,8 +789,8 @@ html[data-theme="dark"] .primary-link {
   aspect-ratio: 1.4;
 }
 .relay-study {
-  background: #e4e0ef;
-  color: #35324e;
+  background: #e1e7e1;
+  color: #263e32;
 }
 .art-meta {
   display: flex;
@@ -839,15 +820,15 @@ html[data-theme="dark"] .primary-link {
 .relay-screen {
   width: 63%;
   height: 100%;
-  border: 1px solid #8680a5;
-  background: #f4f0fa;
+  border: 1px solid #6f8b76;
+  background: #f0f3ed;
   transform: perspective(650px) rotateY(-12deg) rotateX(5deg);
-  box-shadow: 10px 13px 0 #aea5c533;
+  box-shadow: 10px 13px 0 #9bb49e33;
   transition: transform 0.7s var(--ease);
 }
 .screen-top {
   height: 20px;
-  border-bottom: 1px solid #b6adcc;
+  border-bottom: 1px solid #b3c3b5;
   display: flex;
   align-items: center;
   gap: 4px;
@@ -857,7 +838,7 @@ html[data-theme="dark"] .primary-link {
   width: 3px;
   height: 3px;
   border-radius: 50%;
-  background: #8b80a5;
+  background: #6f8b76;
 }
 .screen-content {
   height: calc(100% - 20px);
@@ -870,7 +851,7 @@ html[data-theme="dark"] .primary-link {
 }
 .device-cross {
   font: 32px var(--display);
-  color: #665c85;
+  color: #47765c;
 }
 .screen-content b,
 .relay-phone > b {
@@ -884,9 +865,9 @@ html[data-theme="dark"] .primary-link {
   max-width: 86px;
   min-width: 45px;
   position: relative;
-  border: 1px solid #8680a5;
+  border: 1px solid #6f8b76;
   border-radius: 10px;
-  background: #f7f2fa;
+  background: #f0f3ed;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -900,7 +881,7 @@ html[data-theme="dark"] .primary-link {
   left: 40%;
   right: 40%;
   height: 2px;
-  background: #c8bfd7;
+  background: #c2d0bf;
 }
 .transfer-line {
   position: absolute;
@@ -908,7 +889,7 @@ html[data-theme="dark"] .primary-link {
   right: 26%;
   top: 56%;
   height: 1px;
-  background: #7868a033;
+  background: #47765c33;
 }
 .transfer-line i {
   position: absolute;
@@ -2155,7 +2136,7 @@ html[data-motion="reduce"] *::after {
   width: 3px;
   height: 3px;
   border-radius: 50%;
-  background: #7660b1;
+  background: #47765c;
 }
 
 .hero-study figcaption > span {

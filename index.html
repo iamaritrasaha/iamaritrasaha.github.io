@@ -6,11 +6,11 @@
     <title>Aritra Saha | Applied AI &amp; ML Engineering</title>
     <meta
       name="description"
-      content="Aritra Saha | an independent developer moving deeper into AI and ML engineering. Explore LLM research, local AI, Android products and Linux systems."
+      content="Aritra Saha, AI/ML Engineer and Applied AI Developer. Explore scientific visualization, inspectable data analysis, embedded systems and independent model research."
     />
     <meta name="author" content="Aritra Saha" />
-    <meta name="theme-color" content="#f4efe7" />
-    <script src="assets/theme.js?v=20260930.5"></script>
+    <meta name="theme-color" content="#f0f0eb" />
+    <script src="assets/theme.js?v=20261104.1"></script>
     <link rel="canonical" href="https://iamaritrasaha.github.io/" />
     <meta
       property="og:title"
@@ -52,30 +52,24 @@
     />
     <link
       rel="preload"
-      href="assets/fonts/Inter-Regular.woff2"
+      href="assets/fonts/Literata-Latin-Variable.woff2"
       as="font"
       type="font/woff2"
       crossorigin
     />
     <link
       rel="preload"
-      href="assets/fonts/Inter-SemiBold.woff2"
+      href="assets/fonts/JetBrainsMono-Regular.woff2"
       as="font"
       type="font/woff2"
       crossorigin
     />
-    <link rel="stylesheet" href="styles.css?v=20261024.1" />
-    <link rel="stylesheet" href="assets/neuron-demo.css?v=20260930.8" />
-    <link rel="stylesheet" href="assets/research-plate.css?v=20260930.3" />
+    <link rel="stylesheet" href="styles.css?v=20261104.1" />
+    <link rel="stylesheet" href="assets/neuron-demo.css?v=20261104.1" />
+    <link rel="stylesheet" href="assets/research-plate.css?v=20261104.1" />
     <link rel="stylesheet" href="assets/seedl-feature.css?v=20261024.2" />
-    <link
-      rel="preload"
-      href="assets/fonts/Newsreader.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
-    <script type="module" src="script.js?v=20261024.1"></script>
+    <link rel="stylesheet" href="assets/editorial.css?v=20261104.1" />
+    <script type="module" src="script.js?v=20261104.1"></script>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -131,36 +125,35 @@
     <main id="main">
       <section class="hero wrap" id="top" aria-labelledby="hero-title">
         <div class="hero-kicker">
-          <p class="eyebrow">Independent engineering / Selected work</p>
-          <span class="mono">2026 edition</span>
+          <p class="eyebrow">An independent engineering notebook</p>
+          <span class="mono">AI / Software / Systems</span>
         </div>
         <div class="hero-opening">
-          <h1 id="hero-title" data-reveal>
-            Making intelligence<br /><em>useful.</em>
-          </h1>
+          <h1 id="hero-title" data-reveal>Aritra Saha</h1>
           <div class="hero-intro" data-reveal>
             <p class="role-label">
-              AI &amp; ML Engineer / Applied AI Developer
+              AI/ML Engineer <span aria-hidden="true">|</span> Applied AI
+              Developer
             </p>
-            <p>
-              My current focus is AI/ML engineering. I build local AI systems,
-              developer tools and software for Linux and Android. I’m learning
-              the fundamentals alongside the implementation.
-            </p>
-            <div class="hero-actions">
-              <a class="primary-link" href="#work"
-                >Explore selected work <span aria-hidden="true">↓</span></a
-              >
-              <a class="inline-link" href="https://github.com/iamaritrasaha"
-                >GitHub <span aria-hidden="true">↗</span></a
-              >
+            <div class="hero-statement">
+              <p>
+                I build tools that make computation easier to inspect,
+                understand and use.
+              </p>
+              <div class="hero-actions">
+                <a class="primary-link" href="#work"
+                  >Explore selected work <span aria-hidden="true">↓</span></a
+                ><a class="inline-link" href="https://github.com/iamaritrasaha"
+                  >GitHub <span aria-hidden="true">↗</span></a
+                >
+              </div>
             </div>
           </div>
         </div>
         <figure class="hero-study" data-reveal>
           <div class="neural-study motion-scene">
             <div class="neural-study-toolbar">
-              <span class="mono">ANATOMY OF A LEARNING SYSTEM</span>
+              <span class="mono">A working study in machine learning</span>
               <button
                 id="sequence-toggle"
                 type="button"
@@ -202,14 +195,24 @@
       </section>
       <section class="selected-work" id="work" aria-labelledby="work-title">
         <div class="section-bar wrap" data-reveal>
-          <p class="eyebrow">01 / Selected work</p>
-          <h2 id="work-title">Ideas, made tangible.</h2>
-          <span class="mono">Five projects I’m working on</span>
+          <p class="eyebrow">Public projects / Private studies</p>
+          <h2 id="work-title">Selected work.</h2>
+          <span class="mono"
+            >Scientific tools, applied AI and embedded systems</span
+          >
         </div>
         <nav class="project-jump wrap" aria-label="Featured projects">
           <a class="flagship-jump" href="#seedl"
             ><span>SeeDL <span aria-hidden="true">↘</span></span
             ><small>Flagship / The Neural Observatory</small></a
+          >
+          <a href="#infera"
+            ><span>Infera <span aria-hidden="true">↘</span></span
+            ><small>Inspectable data analysis</small></a
+          >
+          <a href="#pulseshift"
+            ><span>PulseShift <span aria-hidden="true">↘</span></span
+            ><small>Embedded systems / ESP32</small></a
           >
           <a href="#orion"
             ><span>Orion <span aria-hidden="true">↘</span></span
@@ -237,7 +240,7 @@
             <p class="eyebrow">Flagship / Open-source Python library</p>
             <h3 id="seedl-title">SeeDL</h3>
             <p class="mono">
-              The Neural Observatory<br />0.5.0 on PyPI / Actively developed
+              The Neural Observatory<br />Scientific visualization / Open source
             </p>
           </div>
           <div class="seedl-story" data-reveal>
@@ -282,7 +285,7 @@
             <a
               class="seedl-art"
               href="https://iamaritrasaha.github.io/seedl/playground.html#network"
-              aria-label="Explore SeeDL’s interactive 3D neural network"
+              aria-label="Explore SeeDL’s interactive 3D neural network: input, hidden, hidden, output"
             >
               <svg
                 class="seedl-network"
@@ -495,6 +498,190 @@
           </details>
         </article>
         <article
+          class="case-infera wrap"
+          id="infera"
+          aria-labelledby="infera-title"
+        >
+          <div class="feature-heading" data-reveal>
+            <h3 id="infera-title">Infera</h3>
+            <p class="mono">Data analysis / Independently built</p>
+          </div>
+          <div class="infera-layout">
+            <div class="feature-story" data-reveal>
+              <h4>Turn data into evidence.</h4>
+              <p>
+                Exploring a dataset should leave a trail you can inspect. I
+                built Infera to turn CSV files into descriptive statistics,
+                correlations, a regression model and a downloadable Markdown
+                report.
+              </p>
+              <p>
+                The Python engine does the computation. A Next.js interface
+                presents the findings and their limits, without an external AI
+                API.
+              </p>
+              <p class="stack-line">
+                Python · FastAPI · pandas · scikit-learn · TypeScript
+              </p>
+              <a
+                class="inline-link"
+                href="https://github.com/iamaritrasaha/Infera"
+                >View source <span aria-hidden="true">↗</span></a
+              >
+            </div>
+            <figure class="infera-pipeline" data-reveal>
+              <div class="pipeline-head">
+                <span class="mono">An inspectable path</span
+                ><span aria-hidden="true">↘</span>
+              </div>
+              <ol>
+                <li>
+                  <b>CSV</b><span>Parse &amp; profile</span
+                  ><small>Types, missing values, distributions</small>
+                </li>
+                <li>
+                  <b>Model</b><span>Split before fitting</span
+                  ><small>80/20 split, train-only imputation</small>
+                </li>
+                <li>
+                  <b>Evidence</b><span>Evaluate &amp; export</span
+                  ><small>Coefficients, errors, Markdown report</small>
+                </li>
+              </ol>
+              <figcaption>
+                Architecture diagram. No dataset or benchmark result is
+                simulated here.
+              </figcaption>
+            </figure>
+          </div>
+          <details class="case-details">
+            <summary>
+              Method, decisions &amp; current limits
+              <span aria-hidden="true">+</span>
+            </summary>
+            <div class="detail-body">
+              <div>
+                <h5>Keep evaluation separate.</h5>
+                <p>
+                  I fit missing-value imputation on training data only, then
+                  evaluate linear regression on the held-out split. The
+                  interface exposes coefficients and errors so the result can be
+                  examined. A random split assumes independent observations;
+                  correlation does not establish causation.
+                </p>
+              </div>
+              <div>
+                <h5>A focused local application.</h5>
+                <p>
+                  The current implementation supports one regression algorithm.
+                  Datasets live in process memory and disappear on restart.
+                  Public deployment needs authentication and API hardening. No
+                  production deployment or user count is claimed.
+                </p>
+                <a
+                  class="inline-link"
+                  href="https://github.com/iamaritrasaha/Infera/blob/main/infera/ml.py"
+                  >Read the evaluation code
+                  <span aria-hidden="true">↗</span></a
+                >
+              </div>
+            </div>
+          </details>
+        </article>
+        <article
+          class="case-pulseshift"
+          id="pulseshift"
+          aria-labelledby="pulseshift-title"
+        >
+          <div class="wrap">
+            <div class="feature-heading" data-reveal>
+              <h3 id="pulseshift-title">PulseShift</h3>
+              <p class="mono">Embedded C++ / Software prerelease</p>
+            </div>
+            <div class="pulse-layout">
+              <figure class="pulse-study" data-reveal>
+                <div class="pulse-board" aria-hidden="true">
+                  <span class="pulse-led is-lit"></span
+                  ><span class="pulse-led is-lit"></span
+                  ><span class="pulse-led is-lit"></span
+                  ><span class="pulse-led"></span><span class="pulse-led"></span
+                  ><span class="pulse-led"></span>
+                </div>
+                <div class="pulse-path" aria-hidden="true">
+                  <span>ESP32</span><span>GPIO27 → DIN</span
+                  ><span>6 × WS2812B</span>
+                </div>
+                <div class="pulse-control" hidden>
+                  <label for="pulse-level">Preview lit pixels</label
+                  ><input
+                    id="pulse-level"
+                    type="range"
+                    min="0"
+                    max="6"
+                    value="3"
+                    step="1"
+                  /><output id="pulse-output" for="pulse-level">3 of 6</output>
+                </div>
+                <figcaption>
+                  Illustrative LED preview, not firmware execution or measured
+                  engine RPM. The standard firmware demo uses synthetic RPM.
+                </figcaption>
+              </figure>
+              <div class="feature-story" data-reveal>
+                <h4>From software to signal.</h4>
+                <p>
+                  I’m building ESP32 firmware for a six-LED motorcycle shift
+                  light: configurable visual styles, progressive output and
+                  explicit blanking when valid data goes missing.
+                </p>
+                <p>
+                  The standalone demo runs without a motorcycle. Arduino IDE
+                  packaging, Wokwi simulation and passive CAN investigation
+                  tools support development.
+                </p>
+                <p class="stack-line">C++ · ESP32 · WS2812B · Arduino · TWAI</p>
+                <a
+                  class="inline-link"
+                  href="https://github.com/iamaritrasaha/PulseShift"
+                  >View firmware <span aria-hidden="true">↗</span></a
+                >
+              </div>
+            </div>
+            <details class="case-details">
+              <summary>
+                Signal integrity &amp; qualification
+                <span aria-hidden="true">+</span>
+              </summary>
+              <div class="detail-body">
+                <div>
+                  <h5>Missing data stays missing.</h5>
+                  <p>
+                    Vehicle mode never substitutes synthetic RPM when real data
+                    is absent. Receive-only CAN integration remains
+                    experimental. The motorcycle profile is unverified, live
+                    decoding is disabled, and physical qualification is pending.
+                  </p>
+                </div>
+                <div>
+                  <h5>Software first, bench validation next.</h5>
+                  <p>
+                    The software prerelease includes the standalone demo.
+                    Simulation does not validate physical CAN, electrical
+                    protection or motorcycle compatibility. This portfolio
+                    preview illustrates LED progression only.
+                  </p>
+                  <a
+                    class="inline-link"
+                    href="https://github.com/iamaritrasaha/PulseShift/releases/tag/v0.3.0"
+                    >Review the prerelease <span aria-hidden="true">↗</span></a
+                  >
+                </div>
+              </div>
+            </details>
+          </div>
+        </article>
+
+        <article
           class="case-orion wrap"
           id="orion"
           aria-labelledby="orion-title"
@@ -580,7 +767,7 @@
                 ><span class="mono">Applied AI / Linux</span>
               </div>
               <h3 id="sysai-title">SysAI</h3>
-              <h4>Understand the machine.<br /><em>Then explain it.</em></h4>
+              <h4>Understand the machine.</h4>
               <p>
                 I built SysAI to investigate what is happening on my Linux
                 machine. It gathers read-only evidence, brings in local model
@@ -787,7 +974,7 @@
             </div>
             <div class="pair-story" data-reveal>
               <h3 id="vyren-title">Vyren</h3>
-              <h4>Where applications connect.<br />And how we know.</h4>
+              <h4>Follow the connection.</h4>
               <p>
                 I want to know which application opened a connection, where it
                 went and how certain that attribution is. Vyren connects kernel
@@ -836,7 +1023,7 @@
         </div>
         <div class="project-index wrap" id="index">
           <div class="index-heading" data-reveal>
-            <h3>Elsewhere in the workshop.</h3>
+            <h3>The project archive.</h3>
             <p class="mono">Tools / Products / Experiments</p>
           </div>
           <div class="archive-grid">
@@ -966,9 +1153,7 @@
       >
         <div class="section-bar" data-reveal>
           <p class="eyebrow">02 / Technical practice</p>
-          <h2 id="expertise-title">
-            Across the stack.<br /><em>Closer to the fundamentals.</em>
-          </h2>
+          <h2 id="expertise-title">Engineering practice.</h2>
         </div>
         <div class="practice-layout" id="principles">
           <p class="practice-intro" data-reveal>

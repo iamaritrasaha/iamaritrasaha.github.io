@@ -2,15 +2,15 @@
 
 ## Direction: an engineer's fieldnotes
 
-The portfolio presents a personal body of work through editorial typography, a calculated neural-network visualization and varied project spreads. A ruled masthead, warm ivory, charcoal ink and cobalt details establish the visual language. Content sits in the page grid rather than repeated floating cards. There is no full-page ambient animation or glass layer.
+The portfolio presents a personal body of work through editorial typography, a calculated neural-network visualization and varied project spreads. A ruled masthead, cool paper, green-black ink and forest-green details establish the visual language. Content sits in the page grid rather than repeated floating cards. There is no full-page ambient animation or glass layer.
 
-The first screen introduces Aritra through a concise statement about making intelligence useful, a clear professional direction and a visible, interactive neural network. Its forward pass, loss and backward pass connect the animation to mathematics. SeeDL leads as the flagship project, followed by Orion's open research spread; SysAI changes the rhythm with a midnight-blue diagnostic composition, and Relay/Vyren use offset artwork and stories on lilac paper and clay. Smaller work lives in a compact ruled index. Practice, personal context and contact complete the page without repeating the project layout.
+The first screen introduces Aritra through a monumental personal nameplate, a clear professional direction and a visible, interactive neural network. Its forward pass, loss and backward pass connect the animation to mathematics. SeeDL, Infera and PulseShift lead the public work. Orion retains its private research spread; SysAI changes the rhythm with a deep-green diagnostic composition, and Relay/Vyren preserve their offset artwork. Smaller work lives in a compact ruled index. Practice, personal context and contact complete the page without repeating the project layout.
 
 ## Small design system
 
-- **Typography:** Newsreader normal and italic for display; Inter for reading and controls; JetBrains Mono for labels, stack lines and figure metadata. Newsreader uses local static weight-400, optical-size-48 WOFF2 subsets, about 52 KB combined. Its SIL OFL license is retained beside the files. [Original typeface and license](https://github.com/productiontype/Newsreader).
-- **Color:** light ivory `#f4efe7`, charcoal ink `#29282b` and cobalt `#354dc5`. Dark mode uses `#211f24`, cream `#f4ece2` and a pale cobalt accent `#aab8ff`. SysAI uses midnight blue `#292d46`; Relay uses lilac paper and Vyren uses clay. Color identifies emphasis and interaction, without carrying meaning alone.
-- **Grid and spacing:** a capped 1184px reading composition with responsive gutters. Text columns, side notes and offset artwork provide asymmetry. Thin rules establish section boundaries. Project layouts change at tablet and phone sizes rather than preserving a squeezed desktop grid.
+- **Typography:** Literata for editorial display and reading, JetBrains Mono for navigation, technical labels and metadata. A variable Latin Literata WOFF2 supports automatic optical sizing and weights 400 to 600. The regular Mono subset is retained. Both licenses and source notes live in `assets/fonts/`.
+- **Color:** cool paper `#f0f0eb`, ink `#202722`, forest green `#245743`. Dark mode uses `#171e1b`, pale ink `#edf0e7` and mint `#b7d8aa`. Color identifies emphasis without carrying meaning alone.
+- **Grid and spacing:** a capped 1440px composition with responsive gutters. Text columns, side notes and offset artwork provide asymmetry. Thin rules establish section boundaries. Project layouts change at tablet and phone sizes rather than preserving a squeezed desktop grid.
 - **Surfaces:** mostly open page content, with contained illustrations and one deliberately contrasting SysAI section. Fine borders provide structure; blur and floating glass surfaces are absent.
 - **Details:** consistent arrow links, visible focus rings, custom selection colors, reserved illustration dimensions and native disclosure controls. The wordmark is typographic.
 

@@ -5,6 +5,7 @@ import { createSurfacePhysics } from "./assets/surface-physics.js?v=20260930.1";
 // Native navigation and progressive enhancements. All content exists without JS.
 const root = document.documentElement;
 const disclosureAnimations = new Map();
+const entranceAnimations = new Set();
 function settleDisclosure(details, entry) {
   entry.animation.onfinish = null;
   entry.animation.oncancel = null;
@@ -60,6 +61,10 @@ function updateScenes() {
   }
 }
 function syncMotion() {
+  if (reduced()) {
+    entranceAnimations.forEach((animation) => animation.cancel());
+    entranceAnimations.clear();
+  }
   if (reduced())
     disclosureAnimations.forEach((entry, details) =>
       settleDisclosure(details, entry),
@@ -150,6 +155,26 @@ if ("IntersectionObserver" in window) {
             () => entry.target.classList.remove("is-entering"),
             { once: true },
           );
+          // A pipeline reads in order, rather than arriving as one static panel.
+          // No fill mode: cancelling motion returns immediately to authored CSS.
+          if (entry.target.matches(".infera-pipeline")) {
+            entry.target.querySelectorAll("li").forEach((item, index) => {
+              const animation = item.animate(
+                [
+                  { opacity: 0.3, transform: "translateX(-18px)" },
+                  { opacity: 1, transform: "translateX(0)" },
+                ],
+                {
+                  duration: 650,
+                  delay: index * 100,
+                  easing: "cubic-bezier(.22,1,.36,1)",
+                },
+              );
+              entranceAnimations.add(animation);
+              animation.onfinish = animation.oncancel = () =>
+                entranceAnimations.delete(animation);
+            });
+          }
         }
         revealObserver.unobserve(entry.target);
       });
@@ -260,6 +285,25 @@ document.addEventListener("click", (event) => {
     requestAnimationFrame(revealHashTarget);
 });
 revealHashTarget();
+
+// A deliberately illustrative preview, independent of the real classifier math.
+const pulseLevel = document.getElementById("pulse-level");
+const pulseOutput = document.getElementById("pulse-output");
+if (pulseLevel && pulseOutput) {
+  const leds = [...document.querySelectorAll(".pulse-led")];
+  const updatePulse = () => {
+    const count = Number(pulseLevel.value);
+    leds.forEach((led, index) => led.classList.toggle("is-lit", index < count));
+    pulseOutput.value = `${count} of ${leds.length}`;
+    pulseLevel.setAttribute(
+      "aria-valuetext",
+      `${count} of ${leds.length} pixels lit`,
+    );
+  };
+  pulseLevel.closest(".pulse-control").hidden = false;
+  pulseLevel.addEventListener("input", updatePulse);
+  updatePulse();
+}
 
 const copyEmail = document.getElementById("copy-email");
 const copyStatus = document.getElementById("copy-status");

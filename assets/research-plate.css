@@ -1,7 +1,7 @@
 .research-plate {
-  --plate-ink: #eee8ed;
-  --plate-muted: #c0bfd4;
-  --plate-accent: #b5c1ff;
+  --plate-ink: #edf0e7;
+  --plate-muted: #bdc9bf;
+  --plate-accent: #b7d8aa;
   position: relative;
   overflow: hidden;
   color: var(--plate-ink);
