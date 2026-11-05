@@ -33,20 +33,17 @@
   color: #d8e1fa;
   animation: manuscript-resolve var(--entry-duration) linear both;
 }
-.manuscript-label,
-.manuscript-note {
+.manuscript-label {
   position: absolute;
   left: 4vw;
-  font: 9px/1.6 var(--mono);
+  font: 11px/1.6 var(--mono);
   letter-spacing: 0.14em;
   color: #abb9df;
 }
 .manuscript-label {
   top: 30px;
 }
-.manuscript-note {
-  bottom: 28px;
-}
+
 .notebook-traces {
   position: absolute;
   width: 100%;
@@ -69,9 +66,9 @@
   width: max-content;
   max-width: 30vw;
 }
-.math-label {
+.manuscript-topic {
   display: block;
-  font: 9px/1.6 var(--mono);
+  font: 11px/1.6 var(--mono);
   letter-spacing: 0.12em;
   color: #abb9df;
   margin-bottom: 12px;
@@ -110,8 +107,8 @@
   right: 7%;
   bottom: 15%;
 }
-.math-caption {
-  font: 10px/1.8 var(--mono);
+.manuscript-caption {
+  font: 11px/1.8 var(--mono);
   color: #abb9df;
 }
 .math-current .math-line {
@@ -249,12 +246,12 @@
     display: none;
   }
   .math-power {
-    top: 13%;
+    top: 8%;
     left: 8%;
   }
   .math-probability {
     top: auto;
-    bottom: 12%;
+    bottom: 3%;
     right: 8%;
   }
   .math-group {
@@ -264,17 +261,12 @@
   .power-step {
     font-size: 21px;
   }
-  .math-label {
-    font-size: 8px;
+  .manuscript-topic {
+    font-size: 10px;
     margin-bottom: 6px;
   }
-  .manuscript-note {
-    font-size: 8px;
-    letter-spacing: 0.02em;
-    bottom: 20px;
-  }
 }
-@media (max-height: 620px) {
+@media (max-height: 620px) and (orientation: landscape) {
   .math-current,
   .math-gradient,
   .math-power {
@@ -286,14 +278,11 @@
     right: 4%;
   }
   .math-probability .linear,
-  .math-probability .math-label {
+  .math-probability .manuscript-topic {
     display: none;
   }
   .math-line {
     font-size: 17px;
-  }
-  .manuscript-note {
-    display: none;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -392,7 +381,7 @@
 .epoch-label {
   display: flex;
   justify-content: space-between;
-  font: 10px/1.7 var(--mono);
+  font: 11px/1.7 var(--mono);
   letter-spacing: 0.08em;
 }
 .epoch-count {
@@ -490,12 +479,12 @@
 }
 @media (max-width: 850px) {
   .math-calculus {
-    top: 13%;
+    top: 8%;
     left: 8%;
   }
   .math-curvature {
     top: auto;
-    bottom: 12%;
+    bottom: 3%;
     right: 8%;
   }
   .math-calculus .math-line,
@@ -514,7 +503,7 @@
     margin-top: 6px;
   }
 }
-@media (max-height: 620px) {
+@media (max-height: 620px) and (orientation: landscape) {
   .math-calculus,
   .hardware-doodle,
   .curve-doodle {
@@ -525,7 +514,7 @@
     bottom: 4%;
     right: 4%;
   }
-  .math-curvature .math-label {
+  .math-curvature .manuscript-topic {
     display: none;
   }
   .math-curvature .math-line {
@@ -539,13 +528,26 @@
 @media (max-width: 850px) and (min-height: 621px) {
   .hardware-doodle {
     display: block;
-    top: 37%;
+    top: 29%;
     bottom: auto;
-    left: 4%;
-    width: clamp(80px, 25vw, 100px);
+    left: 2%;
+    width: clamp(80px, 22vw, 88px);
   }
-  .hardware-doodle .math-label,
+  .hardware-doodle .manuscript-topic,
   .hardware-doodle text {
     display: none;
+  }
+}
+
+/* Keep the central handoff clear on compact portrait screens. */
+@media (max-width: 850px) and (max-height: 700px) and (orientation: portrait) {
+  .curve-doodle {
+    height: 30px;
+  }
+}
+@media (max-height: 360px) and (orientation: landscape) {
+  .math-curvature {
+    bottom: 1%;
+    right: 1%;
   }
 }

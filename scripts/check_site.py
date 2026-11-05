@@ -41,7 +41,7 @@ class Page(HTMLParser):
 
 
 pages = {}
-for filename in ['index.html', '404.html']:
+for filename in ['index.html', '404.html', 'embedded/index.html']:
     page = Page(filename)
     source = (ROOT / filename).read_text()
     assert not re.search(r'\u2014|&mdash;|&#8212;|&#x2014;', source, re.I), 'Em dash in page copy'
@@ -56,9 +56,14 @@ for filename, page in pages.items():
         if url.scheme or url.netloc:
             assert url.scheme in ['https', 'mailto'], f'Unexpected URL {ref}'
             continue
-        relative = unquote(url.path).lstrip('/')
-        target_file = relative or ('index.html' if url.path == '/' else filename)
-        assert (ROOT / target_file).is_file(), f'{filename}: missing target {ref}'
+        path = unquote(url.path)
+        target_path = ((ROOT / path.lstrip('/')) if path.startswith('/') else (ROOT / filename).parent / path) if path else ROOT / filename
+        if target_path.is_dir():
+            target_path /= 'index.html'
+        target_path = target_path.resolve()
+        assert target_path.is_relative_to(ROOT), f'Outside public root: {ref}'
+        target_file = target_path.relative_to(ROOT).as_posix()
+        assert target_path.is_file(), f'{filename}: missing target {ref}'
         if url.fragment:
             target = pages.get(target_file)
             assert target and unquote(url.fragment) in target.ids, f'Broken anchor {ref}'
@@ -103,7 +108,7 @@ for anchor in [
     'systems', 'index', 'principles', 'approach', 'future',
 ]:
     assert anchor in homepage.ids, f'Missing preserved anchor: #{anchor}'
-for filename, budget in [('index.html', 59000), ('assets/bitbench.css', 13500), ('assets/bitbench.js', 11000), ('styles.css', 45000), ('assets/editorial.css', 22000), ('script.js', 14000), ('assets/research-plate.js', 8000), ('assets/research-plate.css', 8000), ('assets/surface-physics.js', 8000), ('assets/neuron-demo.js', 20000), ('assets/neuron-demo.css', 12800), ('assets/neuron-math.js', 16000), ('assets/neural-network.js', 8000), ('assets/digit-model.js', 32000), ('assets/theme.js', 4000)]:
+for filename, budget in [('index.html', 60000), ('embedded/index.html', 50000), ('assets/embedded.css', 18000), ('assets/electronics-math.js', 5000), ('assets/embedded.js', 18000), ('assets/navigation.js', 2500), ('assets/bitbench.css', 13500), ('assets/bitbench.js', 11000), ('styles.css', 45000), ('assets/editorial.css', 22000), ('script.js', 14000), ('assets/research-plate.js', 8000), ('assets/research-plate.css', 8000), ('assets/surface-physics.js', 8000), ('assets/neuron-demo.js', 20000), ('assets/neuron-demo.css', 12800), ('assets/neuron-math.js', 16000), ('assets/neural-network.js', 8000), ('assets/digit-model.js', 32000), ('assets/theme.js', 4000)]:
     # Git's Windows checkout may use CRLF; budget the canonical UTF-8/LF source.
     size = len((ROOT / filename).read_text(encoding='utf-8').encode('utf-8'))
     assert size <= budget, f'{filename}: {size} exceeds {budget} bytes'
@@ -111,4 +116,4 @@ for filename, budget in [('assets/welcome-start.js', 3000), ('assets/welcome-mat
     assert (ROOT / filename).stat().st_size <= budget, f'{filename}: scoped motion asset exceeds budget'
 assert (ROOT / 'app-ads.txt').is_file()
 assert (ROOT / 'assets/seedl-feature.css').stat().st_size <= 6000, 'SeeDL styles exceed the scoped feature budget'
-print('PASS: 2 pages, IDs, internal links, controls, image geometry, all CSS assets, three public features plus four preserved studies, anchors and size budgets.')
+print('PASS: 3 pages, IDs, internal links, controls, image geometry, all CSS assets, three public features plus four preserved studies, anchors and size budgets.')

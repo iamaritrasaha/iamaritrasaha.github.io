@@ -16,6 +16,7 @@ const types = {
 };
 const pages = new Set([
   "index.html",
+  "embedded/index.html",
   "404.html",
   "styles.css",
   "script.js",
@@ -33,7 +34,20 @@ const server = createServer(async (request, response) => {
     const pathname = decodeURIComponent(
       new URL(request.url, "http://localhost").pathname,
     );
-    const name = pathname === "/" ? "index.html" : pathname.slice(1);
+    if (pathname === "/embedded") {
+      response.writeHead(301, {
+        Location:
+          "/embedded/" + new URL(request.url, "http://localhost").search,
+      });
+      response.end();
+      return;
+    }
+    const name =
+      pathname === "/"
+        ? "index.html"
+        : pathname === "/embedded/"
+          ? "embedded/index.html"
+          : pathname.slice(1);
     const publicAsset =
       name.startsWith("assets/") &&
       !name.includes("\\") &&

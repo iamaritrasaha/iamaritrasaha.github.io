@@ -1,0 +1,1087 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Embedded Systems Lab | Aritra Saha</title>
+    <meta
+      name="description"
+      content="Aritra Saha’s electronics notebook: interactive circuit mathematics, PWM timing, communication diagrams and embedded firmware experiments."
+    />
+    <meta name="theme-color" content="#f4f4ec" />
+    <script src="/assets/theme.js?v=bb1"></script>
+    <link rel="canonical" href="https://iamaritrasaha.github.io/embedded/" />
+    <meta property="og:title" content="Embedded Systems Lab | Aritra Saha" />
+    <meta
+      property="og:description"
+      content="An open electronics notebook. Explore circuits, timing, signals and firmware with Aritra Saha."
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="https://iamaritrasaha.github.io/embedded/"
+    />
+    <meta
+      property="og:image"
+      content="https://iamaritrasaha.github.io/assets/portfolio-social-20261105.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Aritra Saha’s cobalt and citron portfolio"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Embedded Systems Lab | Aritra Saha" />
+    <meta
+      name="twitter:description"
+      content="Circuits, timing, signals and firmware in an interactive electronics notebook."
+    />
+    <meta
+      name="twitter:image"
+      content="https://iamaritrasaha.github.io/assets/portfolio-social-20261105.png"
+    />
+    <meta
+      name="twitter:image:alt"
+      content="Aritra Saha’s cobalt and citron portfolio"
+    />
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+    <link
+      rel="preload"
+      href="/assets/fonts/Literata-Latin-Variable.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/assets/fonts/JetBrainsMono-Regular.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="/styles.css?v=r1" />
+    <link rel="stylesheet" href="/assets/editorial.css?v=r1" />
+    <link rel="stylesheet" href="/assets/creative.css?v=r1" />
+    <link rel="stylesheet" href="/assets/bitbench.css?v=r1" />
+    <link rel="stylesheet" href="/assets/embedded.css?v=1" />
+    <script type="module" src="/assets/embedded.js?v=1"></script>
+  </head>
+  <body class="embedded-page">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <nav class="nav wrap" aria-label="Primary navigation">
+        <a class="brand" href="/" aria-label="Aritra Saha, portfolio home"
+          >Aritra Saha<span class="brand-dot" aria-hidden="true"></span
+        ></a>
+        <div class="nav-tools">
+          <label class="theme-control"
+            ><span class="sr-only">Color theme</span
+            ><select id="theme-select" name="theme">
+              <option value="system">System</option>
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+            </select></label
+          ><button
+            type="button"
+            class="menu-toggle"
+            aria-expanded="false"
+            aria-controls="nav-panel"
+            hidden
+          >
+            Menu <span aria-hidden="true">+</span>
+          </button>
+        </div>
+        <div class="nav-panel" id="nav-panel">
+          <a href="/">Portfolio</a
+          ><a href="/embedded/" aria-current="page">Embedded Lab</a
+          ><a href="/#work">Work</a><a href="/#contact">Get in touch ↗</a>
+        </div>
+      </nav>
+    </header>
+    <script src="/assets/navigation.js?v=1"></script>
+    <main id="main">
+      <section class="lab-hero lab-scene" aria-labelledby="lab-title">
+        <div class="wrap lab-hero-grid">
+          <div class="lab-hero-copy">
+            <p class="lab-eyebrow">FIELD NOTES / HARDWARE &amp; FIRMWARE</p>
+            <h1 id="lab-title">
+              Embedded<br />Systems Lab<span class="lab-period">.</span>
+            </h1>
+            <p class="lab-lead">Where code meets current.</p>
+            <p>
+              My open notebook for electronics, microcontrollers and the
+              software that makes physical things respond.
+            </p>
+            <div class="lab-hero-links">
+              <a href="#circuits">Open the notebook ↓</a
+              ><a href="#projects">On the bench ↘</a>
+            </div>
+          </div>
+          <figure class="lab-cover-art">
+            <svg
+              viewBox="0 0 640 480"
+              role="img"
+              aria-labelledby="cover-title cover-desc"
+            >
+              <title id="cover-title">
+                An original microcontroller and signal-path sketch
+              </title>
+              <desc id="cover-desc">
+                A hand-drawn ESP32-style board, GPIO traces, resistor, LED and
+                oscilloscope waveform connect the notebook’s themes of code,
+                timing and signals. This is a conceptual illustration, not a pin
+                map.
+              </desc>
+              <g
+                class="lab-sketch"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  class="lab-draw"
+                  pathLength="1"
+                  d="M28 48H111L125 62M505 54H602V148M29 358V433H133M491 430H605V332"
+                  opacity=".4"
+                />
+                <g transform="rotate(-7 238 224)">
+                  <path
+                    class="lab-draw"
+                    pathLength="1"
+                    d="M144 94Q232 88 330 96L333 349Q241 357 141 350Z"
+                  />
+                  <path
+                    class="lab-draw"
+                    pathLength="1"
+                    d="M161 112H312V187H161Z M174 127V148H191V126H207V148H223V126H240V148H256V126H273V148H296"
+                  />
+                  <rect x="182" y="209" width="109" height="92" rx="3" />
+                  <path
+                    d="M216 333V351H260V333Z M171 200V313H303V199 M159 318H187 M289 317H315"
+                    opacity=".6"
+                  />
+                  <path d="M143 136l-19 1m208 -1l19 -1" />
+                  <path d="M143 153l-19 1m208 -1l19 -1" />
+                  <path d="M143 170l-19 1m208 -1l19 -1" />
+                  <path d="M143 187l-19 1m208 -1l19 -1" />
+                  <path d="M143 204l-19 1m208 -1l19 -1" />
+                  <path d="M143 221l-19 1m208 -1l19 -1" />
+                  <path d="M143 238l-19 1m208 -1l19 -1" />
+                  <path d="M143 255l-19 1m208 -1l19 -1" />
+                  <path d="M143 272l-19 1m208 -1l19 -1" />
+                  <path d="M143 289l-19 1m208 -1l19 -1" />
+                  <path d="M143 306l-19 1m208 -1l19 -1" />
+                  <path d="M143 323l-19 1m208 -1l19 -1" />
+                  <circle cx="154" cy="104" r="4" />
+                  <circle cx="320" cy="339" r="4" />
+                  <text x="203" y="248">ESP32</text>
+                  <text x="210" y="272" class="lab-svg-small">MCU</text>
+                </g>
+                <path
+                  class="lab-draw"
+                  pathLength="1"
+                  d="M354 205H393L404 193L416 218L428 193L440 217L451 205H503 M503 205V238M487 238L503 261L519 238ZM489 265H518M503 266V304H556"
+                />
+                <path
+                  d="M523 237L536 224M531 240L545 227M530 224H536V230M539 227H545V233"
+                />
+                <path
+                  class="lab-signal"
+                  d="M354 205H393L404 193L416 218L428 193L440 217L451 205H503"
+                />
+                <path
+                  d="M92 126Q66 136 66 184M60 176L66 187L75 179 M365 112Q433 110 446 163M439 156L446 167L449 153"
+                  opacity=".65"
+                />
+                <text x="30" y="110">pins → possibilities</text>
+                <text x="400" y="96">V = IR</text>
+                <text x="456" y="186" class="lab-svg-small">R</text>
+                <text x="548" y="251" class="lab-svg-small">light</text>
+                <path d="M374 328H600V408H374Z" opacity=".5" />
+                <path
+                  d="M385 387H414V349H452V387H490V349H528V387H565V349H590"
+                  class="lab-wave-ink"
+                />
+                <path d="M385 400H590M385 338V400" opacity=".35" />
+                <text x="390" y="449">state → timing → signal</text>
+              </g>
+              <circle class="lab-cover-point" cx="414" cy="349" r="4" />
+            </svg>
+            <figcaption>
+              01 / THE OPEN BENCH
+              <span>Concept sketch · not a wiring diagram</span>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="wrap lab-index-strip">
+          <span>Read the circuit. Follow the signal.</span
+          ><button type="button" data-lab-motion hidden>Pause motion</button>
+        </div>
+      </section>
+      <section
+        class="wrap lab-section lab-scene"
+        id="circuits"
+        aria-labelledby="circuit-title"
+      >
+        <div class="lab-section-head">
+          <p class="lab-eyebrow">01 / CIRCUIT FUNDAMENTALS</p>
+          <h2 id="circuit-title">
+            A loop. A few laws.<br />A lot of possibilities.
+          </h2>
+          <p>
+            Start with an ideal resistor. Change the source voltage or
+            resistance and follow the same quantities through three forms of the
+            power equation.
+          </p>
+        </div>
+        <div class="lab-circuit-grid">
+          <figure class="lab-paper lab-circuit">
+            <div class="lab-figure-top">
+              <span>FIG. 01 / RESISTIVE LOOP</span><span>IDEAL DC</span>
+            </div>
+            <svg
+              viewBox="0 0 560 330"
+              role="img"
+              aria-labelledby="circuit-svg-title"
+            >
+              <title id="circuit-svg-title">
+                An ideal voltage source drives current clockwise through a
+                resistor. The resistor’s voltage drop equals the source voltage.
+              </title>
+              <g
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linejoin="round"
+                stroke-linecap="round"
+              >
+                <path
+                  class="lab-draw"
+                  pathLength="1"
+                  d="M103 132V70H228L239 55L253 85L267 55L281 85L295 55L309 85L322 70H452V258H103V202"
+                />
+                <circle cx="103" cy="167" r="35" />
+                <path
+                  d="M94 153H112M103 144V162M95 180H111 M180 47H210L201 40M210 47L201 54 M337 102H430M337 96V108M430 96V108 M452 258V283M435 283H469M441 291H463M447 299H457"
+                />
+                <path
+                  class="lab-signal"
+                  d="M103 70H228M322 70H452V258H103V202"
+                />
+                <path
+                  d="M312 143Q369 175 428 145M420 141L430 145L422 152"
+                  opacity=".5"
+                />
+              </g>
+              <g class="lab-diagram-label">
+                <text x="65" y="223">V</text>
+                <text x="264" y="39">R</text>
+                <text x="187" y="32">I</text>
+                <text x="353" y="133">V_R = IR</text>
+                <text x="175" y="229">+V − IR = 0</text>
+              </g>
+            </svg>
+
+            <fieldset class="lab-controls" data-lab-enhance hidden>
+              <legend>Explore the circuit</legend>
+              <div>
+                <label for="lab-voltage">Source voltage</label
+                ><output id="lab-voltage-label" for="lab-voltage">5.0 V</output>
+              </div>
+              <input
+                id="lab-voltage"
+                type="range"
+                min="1"
+                max="12"
+                step="0.5"
+                value="5"
+              /><label for="lab-resistance">Resistance</label
+              ><select id="lab-resistance">
+                <option value="100">100 Ω</option>
+                <option value="220" selected>220 Ω</option>
+                <option value="470">470 Ω</option>
+                <option value="1000">1 kΩ</option>
+              </select>
+            </fieldset>
+            <figcaption>
+              One loop, one ideal resistor. The source supplies the power
+              dissipated by the resistor.
+            </figcaption>
+          </figure>
+          <div class="lab-circuit-notes">
+            <p class="lab-margin-note">
+              The same energy, written three ways ↙
+            </p>
+            <div class="lab-equation lab-ohm">V = IR</div>
+            <ol class="lab-derivation">
+              <li>
+                <span>01 / DEFINITION</span>
+                <p>P = VI</p>
+              </li>
+              <li>
+                <span>02 / SUBSTITUTE V = IR</span>
+                <p>P = I<sup>2</sup>R</p>
+              </li>
+              <li>
+                <span>03 / SUBSTITUTE I = V/R</span>
+                <p>P = V<sup>2</sup>/R</p>
+              </li>
+            </ol>
+            <div class="lab-readings" aria-live="polite" aria-atomic="true">
+              <p>
+                <span>Current</span><strong id="lab-current">22.73</strong> mA
+              </p>
+              <p><span>Power</span><strong id="lab-power">113.64</strong> mW</p>
+            </div>
+            <p class="lab-note">
+              Calculated from 5.0 V and 220 Ω initially. Ideal relationships,
+              not component ratings or measured readings.
+            </p>
+          </div>
+        </div>
+        <div class="lab-law-pair">
+          <article>
+            <svg viewBox="0 0 220 100" aria-hidden="true">
+              <g fill="none" stroke="currentColor" stroke-width="1.5">
+                <path
+                  d="M15 50H105L191 14M105 50L191 87 M64 43L73 50L64 57 M155 23L166 24L161 34M158 69L166 78L155 79"
+                />
+                <circle cx="105" cy="50" r="5" />
+              </g>
+            </svg>
+            <div>
+              <p class="lab-eyebrow">AT A JUNCTION / KCL</p>
+              <h3>Current balances.</h3>
+              <p class="lab-equation">Σ I<sub>in</sub> = Σ I<sub>out</sub></p>
+              <p>
+                With no net charge accumulation at the node, currents entering
+                equal currents leaving.
+              </p>
+            </div>
+          </article>
+          <article>
+            <svg viewBox="0 0 220 100" aria-hidden="true">
+              <g fill="none" stroke="currentColor" stroke-width="1.5">
+                <path
+                  d="M27 24H180V78H27Z M77 48Q112 12 146 49M146 49L134 46M146 49L146 36"
+                />
+                <path
+                  d="M62 16V32M69 20V28M127 24L134 15L143 32L152 15L160 24"
+                />
+              </g>
+            </svg>
+            <div>
+              <p class="lab-eyebrow">AROUND A LOOP / KVL</p>
+              <h3>Voltage balances.</h3>
+              <p class="lab-equation">Σ ΔV = 0</p>
+              <p>
+                Sum signed rises and drops around a lumped circuit loop with no
+                changing linked magnetic flux.
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+      <section
+        class="lab-timing lab-scene"
+        id="timing"
+        aria-labelledby="timing-title"
+      >
+        <div class="wrap">
+          <div class="lab-section-head">
+            <p class="lab-eyebrow">02 / PWM &amp; MICROCONTROLLER TIMING</p>
+            <h2 id="timing-title">Time is part<br />of the circuit.</h2>
+            <p>
+              A digital output has two levels. Pulse-width modulation changes
+              the fraction of each period spent high. Frequency sets how often
+              that period repeats.
+            </p>
+          </div>
+          <div class="lab-timing-grid">
+            <div class="lab-timing-notes">
+              <div class="lab-equation">
+                D =
+                <span class="lab-fraction"
+                  ><span>t<sub>on</sub></span
+                  ><span>T</span></span
+                >
+              </div>
+              <div class="lab-equation">
+                f =
+                <span class="lab-fraction"><span>1</span><span>T</span></span>
+              </div>
+              <fieldset class="lab-controls" data-lab-enhance hidden>
+                <legend>Shape the waveform</legend>
+                <div>
+                  <label for="lab-duty">Duty cycle</label
+                  ><output id="lab-duty-label" for="lab-duty">35%</output>
+                </div>
+                <input
+                  id="lab-duty"
+                  type="range"
+                  min="10"
+                  max="90"
+                  step="5"
+                  value="35"
+                /><label for="lab-frequency">Frequency</label
+                ><select id="lab-frequency">
+                  <option value="500">500 Hz</option>
+                  <option value="1000" selected>1 kHz</option>
+                  <option value="2000">2 kHz</option>
+                </select>
+              </fieldset>
+            </div>
+            <figure class="lab-scope">
+              <div class="lab-figure-top">
+                <span>PWM / LOGIC-LEVEL SKETCH</span><span>WINDOW: 2 ms</span>
+              </div>
+              <div class="lab-scope-axis">
+                <span>HIGH · 3.3 V</span><span>LOW · 0 V</span>
+              </div>
+              <svg
+                id="lab-pwm-svg"
+                viewBox="0 0 640 240"
+                role="img"
+                aria-labelledby="pwm-svg-title"
+              >
+                <title id="pwm-svg-title">
+                  PWM waveform: initially 35 percent duty cycle at 1 kilohertz.
+                  High for 350 microseconds in each 1000 microsecond period.
+                </title>
+                <path
+                  class="lab-scope-grid"
+                  d="M32 48H608M32 152H608M32 200H608M32 30V210M320 30V210M608 30V210"
+                />
+                <path
+                  id="lab-pwm-path"
+                  d="M32 152V48H133V152H320V48H421V152H608"
+                />
+                <path id="lab-period-bracket" d="M32 184V192H320V184" />
+                <path id="lab-on-bracket" d="M32 30V22H133V30" />
+                <circle class="lab-scan-dot" cx="32" cy="152" r="5" />
+                <text x="172" y="222">T</text>
+                <text id="lab-on-label" x="70" y="17">t_on</text>
+              </svg>
+              <figcaption>
+                <p id="lab-pwm-summary" aria-live="polite">
+                  35% duty · T = 1,000 µs · t_on = 350 µs · f = 1,000 Hz
+                </p>
+                <p class="lab-note">
+                  Illustrative logic levels. The scan is slowed for reading; it
+                  is not an oscilloscope capture. GPIO drive limits and output
+                  voltage depend on the board.
+                </p>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+      <section
+        class="wrap lab-section lab-scene"
+        id="communication"
+        aria-labelledby="comm-title"
+      >
+        <div class="lab-section-head">
+          <p class="lab-eyebrow">03 / DIGITAL COMMUNICATION</p>
+          <h2 id="comm-title">
+            Different wires.<br />Different conversations.
+          </h2>
+          <p>
+            Read the timing relationships, not just the names on a connector.
+            These are representative simulations, not captured traffic.
+          </p>
+        </div>
+        <div
+          class="lab-protocol-switch"
+          data-lab-enhance
+          hidden
+          role="group"
+          aria-label="Communication protocol"
+        >
+          <button
+            type="button"
+            data-protocol="uart"
+            aria-pressed="true"
+            aria-controls="protocol-uart"
+          >
+            <span>01</span>UART</button
+          ><button
+            type="button"
+            data-protocol="i2c"
+            aria-pressed="false"
+            aria-controls="protocol-i2c"
+          >
+            <span>02</span>I²C</button
+          ><button
+            type="button"
+            data-protocol="spi"
+            aria-pressed="false"
+            aria-controls="protocol-spi"
+          >
+            <span>03</span>SPI</button
+          ><button
+            type="button"
+            data-protocol="can"
+            aria-pressed="false"
+            aria-controls="protocol-can"
+          >
+            <span>04</span>CAN bus
+          </button>
+        </div>
+        <div class="lab-protocols">
+          <article class="lab-protocol-card" id="protocol-uart">
+            <div class="lab-protocol-copy">
+              <p class="lab-eyebrow">
+                Asynchronous · TX / RX · common reference
+              </p>
+              <h3>
+                UART<br /><span
+                  >One wire per direction. A shared baud rate.</span
+                >
+              </h3>
+              <p>
+                8N1 example: idle high, a low start bit, eight data bits sent
+                least significant bit first, then a high stop bit. Byte 0x53 is
+                shown.
+              </p>
+              <p class="lab-note">
+                No clock wire. Both ends agree on baud rate and framing.
+                Logic-level UART is distinct from RS-232 electrical signaling.
+              </p>
+            </div>
+            <figure class="lab-protocol-figure">
+              <div class="lab-figure-top">
+                <span>UART / TIMING RELATIONSHIP</span><span>SIMULATED</span>
+              </div>
+              <svg
+                class="lab-protocol-svg"
+                data-waveform="uart"
+                viewBox="0 0 640 145"
+                role="img"
+                aria-label="8N1 example: idle high, a low start bit, eight data bits sent least significant bit first, then a high stop bit. Byte 0x53 is shown."
+              >
+                <text x="32" y="23">TX · 8N1</text>
+                <path
+                  d="M32 35H80V85H128V35H176V35H224V85H272V85H320V35H368V85H416V35H464V85H512V35H560V35H608"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+              </svg>
+              <figcaption>A timing sketch, read from left to right.</figcaption>
+            </figure>
+          </article>
+          <article class="lab-protocol-card" id="protocol-i2c">
+            <div class="lab-protocol-copy">
+              <p class="lab-eyebrow">Synchronous · SDA / SCL · open-drain</p>
+              <h3>
+                I²C<br /><span>A clock, a data line, many addresses.</span>
+              </h3>
+              <p>
+                A representative data byte plus acknowledge. SDA stays stable
+                while SCL is high, except at START and STOP. The receiver drives
+                the ninth clock’s ACK low.
+              </p>
+              <p class="lab-note">
+                Pull-ups establish the high level. Real transactions also carry
+                an address and read/write bit; clock stretching and arbitration
+                are omitted here.
+              </p>
+            </div>
+            <figure class="lab-protocol-figure">
+              <div class="lab-figure-top">
+                <span>I²C / TIMING RELATIONSHIP</span><span>SIMULATED</span>
+              </div>
+              <svg
+                class="lab-protocol-svg"
+                data-waveform="i2c"
+                viewBox="0 0 640 245"
+                role="img"
+                aria-label="A representative data byte plus acknowledge. SDA stays stable while SCL is high, except at START and STOP. The receiver drives the ninth clock’s ACK low."
+              >
+                <text x="32" y="23">SCL</text>
+                <path
+                  d="M32 35H49.45454545454545V35H66.9090909090909V85H84.36363636363636V85H101.81818181818181V35H119.27272727272727V85H136.72727272727272V85H154.1818181818182V35H171.63636363636363V85H189.09090909090907V85H206.54545454545453V35H224V85H241.45454545454544V85H258.9090909090909V35H276.3636363636364V85H293.8181818181818V85H311.27272727272725V35H328.7272727272727V85H346.18181818181813V85H363.6363636363636V35H381.09090909090907V85H398.5454545454545V85H416V35H433.45454545454544V85H450.9090909090909V85H468.3636363636363V35H485.81818181818176V85H503.27272727272725V85H520.7272727272727V35H538.1818181818181V85H555.6363636363636V35H573.090909090909V35H590.5454545454545V35H608"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+                <text x="32" y="123">SDA · ACK = 0</text>
+                <path
+                  d="M32 135H49.45454545454545V185H66.9090909090909V185H84.36363636363636V185H101.81818181818181V185H119.27272727272727V185H136.72727272727272V135H154.1818181818182V135H171.63636363636363V135H189.09090909090907V185H206.54545454545453V185H224V185H241.45454545454544V135H258.9090909090909V135H276.3636363636364V135H293.8181818181818V185H311.27272727272725V185H328.7272727272727V185H346.18181818181813V185H363.6363636363636V185H381.09090909090907V185H398.5454545454545V135H416V135H433.45454545454544V135H450.9090909090909V135H468.3636363636363V135H485.81818181818176V135H503.27272727272725V185H520.7272727272727V185H538.1818181818181V185H555.6363636363636V185H573.090909090909V135H590.5454545454545V135H608"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+              </svg>
+              <figcaption>A timing sketch, read from left to right.</figcaption>
+            </figure>
+          </article>
+          <article class="lab-protocol-card" id="protocol-spi">
+            <div class="lab-protocol-copy">
+              <p class="lab-eyebrow">Synchronous · SCLK / MOSI / MISO / CS</p>
+              <h3>
+                SPI<br /><span>A shared clock. Two directions at once.</span>
+              </h3>
+              <p>
+                Mode 0: the clock idles low; receivers sample on rising edges.
+                Chip select is active low. MOSI shows 0xA5 and MISO shows 0x3C,
+                most significant bit first.
+              </p>
+              <p class="lab-note">
+                This is one common SPI mode. Clock polarity, phase, framing and
+                select behavior must match the peripheral’s datasheet.
+              </p>
+            </div>
+            <figure class="lab-protocol-figure">
+              <div class="lab-figure-top">
+                <span>SPI / TIMING RELATIONSHIP</span><span>SIMULATED</span>
+              </div>
+              <svg
+                class="lab-protocol-svg"
+                data-waveform="spi"
+                viewBox="0 0 640 445"
+                role="img"
+                aria-label="Mode 0: the clock idles low; receivers sample on rising edges. Chip select is active low. MOSI shows 0xA5 and MISO shows 0x3C, most significant bit first."
+              >
+                <text x="32" y="23">SCLK · MODE 0</text>
+                <path
+                  d="M32 85H62.315789473684205V85H92.63157894736841V35H122.94736842105263V85H153.26315789473682V35H183.57894736842104V85H213.89473684210526V35H244.21052631578945V85H274.52631578947364V35H304.84210526315786V85H335.1578947368421V35H365.4736842105263V85H395.7894736842105V35H426.10526315789474V85H456.4210526315789V35H486.7368421052631V85H517.0526315789473V35H547.3684210526316V85H577.6842105263157V85H608"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+                <text x="32" y="123">MOSI</text>
+                <path
+                  d="M32 185H62.315789473684205V135H92.63157894736841V135H122.94736842105263V185H153.26315789473682V185H183.57894736842104V135H213.89473684210526V135H244.21052631578945V185H274.52631578947364V185H304.84210526315786V185H335.1578947368421V185H365.4736842105263V135H395.7894736842105V135H426.10526315789474V185H456.4210526315789V185H486.7368421052631V135H517.0526315789473V135H547.3684210526316V135H577.6842105263157V135H608"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+                <text x="32" y="223">MISO</text>
+                <path
+                  d="M32 285H62.315789473684205V285H92.63157894736841V285H122.94736842105263V285H153.26315789473682V285H183.57894736842104V235H213.89473684210526V235H244.21052631578945V235H274.52631578947364V235H304.84210526315786V235H335.1578947368421V235H365.4736842105263V235H395.7894736842105V235H426.10526315789474V285H456.4210526315789V285H486.7368421052631V285H517.0526315789473V285H547.3684210526316V285H577.6842105263157V285H608"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+                <text x="32" y="323">CS · ACTIVE LOW</text>
+                <path
+                  d="M32 335H62.315789473684205V385H92.63157894736841V385H122.94736842105263V385H153.26315789473682V385H183.57894736842104V385H213.89473684210526V385H244.21052631578945V385H274.52631578947364V385H304.84210526315786V385H335.1578947368421V385H365.4736842105263V385H395.7894736842105V385H426.10526315789474V385H456.4210526315789V385H486.7368421052631V385H517.0526315789473V385H547.3684210526316V385H577.6842105263157V335H608"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+              </svg>
+              <figcaption>A timing sketch, read from left to right.</figcaption>
+            </figure>
+          </article>
+          <article class="lab-protocol-card" id="protocol-can">
+            <div class="lab-protocol-copy">
+              <p class="lab-eyebrow">
+                Differential · CAN_H / CAN_L · shared bus
+              </p>
+              <h3>
+                CAN bus<br /><span>The difference carries the message.</span>
+              </h3>
+              <p>
+                Illustrative high-speed CAN: recessive levels are both near 2.5
+                V; a dominant state raises CAN_H near 3.5 V and lowers CAN_L
+                near 1.5 V. Dominant is logical 0.
+              </p>
+              <p class="lab-note">
+                PulseShift’s CAN work is experimental and receive-only.
+                Listen-only suppresses transmission and acknowledgements, but
+                does not qualify wiring, a transceiver or automotive protection.
+              </p>
+            </div>
+            <figure class="lab-protocol-figure">
+              <div class="lab-figure-top">
+                <span>CAN bus / TIMING RELATIONSHIP</span><span>SIMULATED</span>
+              </div>
+              <svg
+                class="lab-protocol-svg"
+                data-waveform="can"
+                viewBox="0 0 640 245"
+                role="img"
+                aria-label="Illustrative high-speed CAN: recessive levels are both near 2.5 V; a dominant state raises CAN_H near 3.5 V and lowers CAN_L near 1.5 V. Dominant is logical 0."
+              >
+                <text x="32" y="23">CAN_H · V</text>
+                <path
+                  d="M32 60H104V60H176V35H248V35H320V60H392V35H464V60H536V60H608"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+                <text x="32" y="123">CAN_L · V</text>
+                <path
+                  d="M32 160H104V160H176V185H248V185H320V160H392V185H464V160H536V160H608"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+              </svg>
+              <figcaption>V_diff = V_CAN_H − V_CAN_L</figcaption>
+            </figure>
+          </article>
+        </div>
+      </section>
+      <section
+        class="lab-code-section lab-scene"
+        id="firmware"
+        aria-labelledby="firmware-title"
+      >
+        <div class="wrap">
+          <div class="lab-section-head">
+            <p class="lab-eyebrow">04 / EMBEDDED C++</p>
+            <h2 id="firmware-title">
+              Small programs.<br />Physical consequences.
+            </h2>
+            <p>
+              Three independent Arduino Uno sketches. Each starts in
+              <code>setup()</code>, then returns to <code>loop()</code>. Adapt
+              pins and electrical limits to the actual board.
+            </p>
+          </div>
+          <div class="lab-code-grid">
+            <aside class="lab-code-margin">
+              <svg viewBox="0 0 300 380" role="img" aria-labelledby="uno-title">
+                <title id="uno-title">
+                  Original Arduino-style board and component sketches,
+                  illustrating firmware and hardware together
+                </title>
+                <g
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <g transform="rotate(5 150 130)">
+                    <path
+                      class="lab-draw"
+                      pathLength="1"
+                      d="M35 40L245 37L265 60V206L244 224H38Z M29 64H63V108H29Z M88 87H211V145H88Z M46 178H78V205H46Z"
+                    />
+                    <path
+                      d="M93 79V87M107 79V87M121 79V87M135 79V87M149 79V87M163 79V87M177 79V87M191 79V87M205 79V87M93 145V153M107 145V153M121 145V153M135 145V153M149 145V153M163 145V153M177 145V153M191 145V153M205 145V153"
+                    />
+                    <path
+                      d="M78 55H235M84 197H235"
+                      stroke-dasharray="3 8"
+                      stroke-width="6"
+                    />
+                    <circle cx="247" cy="66" r="4" />
+                    <circle cx="48" cy="212" r="4" />
+                    <text x="103" y="122">MCU</text>
+                    <text x="98" y="178">UNO-STYLE</text>
+                  </g>
+                  <path
+                    d="M48 257V278M37 278H59M37 284H59M48 284V307 M102 258V269L94 276L110 286L94 296L102 302V314 M159 260V276M145 276L159 295L173 276ZM145 299H173M159 299V314 M219 257V271M219 302V319M203 286H219M219 274V300M219 281L239 268M219 293L239 307M231 298L239 307L229 305"
+                  />
+                  <path
+                    d="M36 340Q127 362 264 339M251 334L265 339L254 347"
+                    opacity=".5"
+                  />
+                </g>
+              </svg>
+              <p class="lab-margin-note">inputs → state → outputs</p>
+              <p class="lab-note">
+                Board silhouette and component symbols are conceptual. Use the
+                board’s documentation for its pinout and supported APIs.
+              </p>
+              <a
+                class="inline-link"
+                href="https://docs.arduino.cc/language-reference/"
+                >Arduino language reference ↗</a
+              >
+            </aside>
+            <div>
+              <div
+                class="lab-code-switch"
+                data-lab-enhance
+                hidden
+                role="group"
+                aria-label="Firmware example"
+              >
+                <button
+                  type="button"
+                  data-code="loop"
+                  aria-pressed="true"
+                  aria-controls="code-loop"
+                >
+                  GPIO &amp; time</button
+                ><button
+                  type="button"
+                  data-code="pwm"
+                  aria-pressed="false"
+                  aria-controls="code-pwm"
+                >
+                  PWM &amp; sensing</button
+                ><button
+                  type="button"
+                  data-code="interrupt"
+                  aria-pressed="false"
+                  aria-controls="code-interrupt"
+                >
+                  Interrupts
+                </button>
+              </div>
+              <article class="lab-code-card" id="code-loop">
+                <div class="lab-figure-top">
+                  <span>ARDUINO UNO / GPIO &amp; TIME</span><span>C++</span>
+                </div>
+                <h3>A small loop, without blocking.</h3>
+                <pre
+                  tabindex="0"
+                  aria-label="GPIO &amp; time Arduino Uno example"
+                ><code>#include &lt;Arduino.h&gt;
+uint32_t previous = 0;
+bool lit = false;
+
+void setup() {
+  pinMode(LED_BUILTIN, OUTPUT);
+  Serial.begin(115200);
+}
+
+void loop() {
+  const uint32_t now = millis();
+  if (now - previous &gt;= 500) {
+    previous = now;
+    lit = !lit;
+    digitalWrite(LED_BUILTIN, lit);
+    Serial.println(lit);
+  }
+}</code></pre>
+                <p>
+                  Unsigned subtraction keeps this millis() interval comparison
+                  valid across wraparound. This is software scheduling, not a
+                  hard real-time guarantee.
+                </p>
+              </article>
+              <article class="lab-code-card" id="code-pwm">
+                <div class="lab-figure-top">
+                  <span>ARDUINO UNO / PWM &amp; SENSING</span><span>C++</span>
+                </div>
+                <h3>From an ADC code to a duty cycle.</h3>
+                <pre
+                  tabindex="0"
+                  aria-label="PWM &amp; sensing Arduino Uno example"
+                ><code>#include &lt;Arduino.h&gt;
+
+void setup() {
+  pinMode(9, OUTPUT);
+  Serial.begin(115200);
+}
+
+void loop() {
+  const uint16_t raw = analogRead(A0);
+  const uint8_t duty = raw &gt;&gt; 2;
+  analogWrite(9, duty);
+  Serial.println(raw);
+  delay(20);
+}</code></pre>
+                <p>
+                  Arduino Uno: A0 supplies a 10-bit ADC code; pin 9 supports
+                  8-bit analogWrite PWM. PWM is not an analog voltage output.
+                  Other boards have different pins, ranges and APIs.
+                </p>
+              </article>
+              <article class="lab-code-card" id="code-interrupt">
+                <div class="lab-figure-top">
+                  <span>ARDUINO UNO / INTERRUPTS</span><span>C++</span>
+                </div>
+                <h3>Notice the edge. Do the work later.</h3>
+                <pre
+                  tabindex="0"
+                  aria-label="Interrupts Arduino Uno example"
+                ><code>#include &lt;Arduino.h&gt;
+volatile uint16_t edges = 0;
+void onRise() { ++edges; }
+
+void setup() {
+  pinMode(2, INPUT_PULLUP);
+  Serial.begin(115200);
+  attachInterrupt(digitalPinToInterrupt(2),
+                  onRise, RISING);
+}
+
+void loop() {
+  noInterrupts();
+  const uint16_t snapshot = edges;
+  interrupts();
+  Serial.println(snapshot);
+  delay(100);
+}</code></pre>
+                <p>
+                  Arduino Uno: pin 2 supports an external interrupt. Keep the
+                  ISR short. Copy the shared 16-bit count atomically on the
+                  8-bit AVR; this example counter wraps at 65,536.
+                </p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section
+        class="wrap lab-section"
+        id="projects"
+        aria-labelledby="projects-title"
+      >
+        <div class="lab-section-head">
+          <p class="lab-eyebrow">05 / ON THE BENCH</p>
+          <h2 id="projects-title">
+            Built in software.<br />Qualified in stages.
+          </h2>
+          <p>
+            A place for the work as it is, with the unfinished parts kept
+            visible.
+          </p>
+        </div>
+        <article class="lab-project lab-scene">
+          <div class="lab-project-art">
+            <svg
+              viewBox="0 0 640 270"
+              role="img"
+              aria-labelledby="pulse-board-title"
+            >
+              <title id="pulse-board-title">
+                A conceptual ESP32 and six-LED PulseShift signal path
+              </title>
+              <g fill="none" stroke="currentColor" stroke-width="1.6">
+                <path
+                  class="lab-draw"
+                  pathLength="1"
+                  d="M35 73L154 68L159 198L34 204Z M51 89H138V122H51Z M64 145H127V184H64Z M159 153H193L201 146L211 159L220 146L231 159L239 153H275 M275 153V74H601V193H275Z"
+                />
+                <path
+                  d="M16 96H36M16 117H36M16 138H36M16 159H36M16 180H36M156 96H173M156 117H173M156 138H173M156 180H173"
+                />
+                <path class="lab-signal" d="M159 153H275V74H601" />
+              </g>
+              <g class="lab-led-sketch">
+                <rect x="291" y="107" width="34" height="42" rx="3" />
+                <rect x="341" y="107" width="34" height="42" rx="3" />
+                <rect x="391" y="107" width="34" height="42" rx="3" />
+                <rect x="441" y="107" width="34" height="42" rx="3" />
+                <rect x="491" y="107" width="34" height="42" rx="3" />
+                <rect x="541" y="107" width="34" height="42" rx="3" />
+              </g>
+              <g class="lab-diagram-label">
+                <text x="65" y="166">ESP32</text>
+                <text x="190" y="128">DATA</text>
+                <text x="301" y="178">6 × WS2812B</text>
+                <text x="35" y="241">
+                  A firmware study, not qualified motorcycle telemetry.
+                </text>
+              </g>
+            </svg>
+          </div>
+          <div>
+            <p class="lab-status">EXISTING PROJECT / SOFTWARE PRERELEASE</p>
+            <h3>PulseShift</h3>
+            <p>
+              ESP32 firmware for a six-LED shift light, with a standalone RPM
+              demo, visual styles, Arduino IDE packaging and Wokwi simulation.
+            </p>
+            <p>
+              <strong>v0.3.0</strong> is the repository’s current verified
+              software prerelease. Physical motorcycle qualification remains
+              pending.
+            </p>
+            <div class="lab-project-links">
+              <a
+                class="inline-link"
+                href="https://github.com/iamaritrasaha/PulseShift"
+                >GitHub repository ↗</a
+              ><a class="inline-link" href="/#pulseshift"
+                >Portfolio presentation ↗</a
+              >
+            </div>
+          </div>
+          <details class="lab-project-status">
+            <summary>Work in progress: hardware and CAN qualification</summary>
+            <p>
+              The repository describes experimental receive-only CAN tools. Its
+              2025 Indian Bajaj Pulsar NS125 ABS profile remains UNVERIFIED,
+              bitrate is 0 and live decoding is disabled. The standard
+              demonstration does not measure engine RPM, and its thresholds are
+              synthetic.
+            </p>
+            <p>
+              Software listen-only does not qualify the physical connection. The
+              project’s power, signal-level, transceiver, termination and
+              automotive protection requirements still apply. The isolated TWAI
+              test also has an unresolved transmission-completion limitation.
+            </p>
+            <a
+              class="inline-link"
+              href="https://github.com/iamaritrasaha/PulseShift#safety-limitations"
+              >Read the source qualifications ↗</a
+            >
+          </details>
+        </article>
+        <div class="lab-future-heading">
+          <p class="lab-eyebrow">PLANNED EXPLORATIONS</p>
+          <h3>Next pages to fill.</h3>
+          <p>
+            Directions I want to explore, not completed projects or tested
+            prototypes.
+          </p>
+        </div>
+        <div class="lab-future-grid">
+          <article>
+            <span class="lab-future-number">01</span>
+            <h4>Sense &amp; respond.</h4>
+            <p>
+              Arduino and ESP32 experiments with sensors, actuators, ADC
+              readings and control signals.
+            </p>
+            <span class="lab-status">PLANNED / SENSORS &amp; ACTUATORS</span>
+          </article>
+          <article>
+            <span class="lab-future-number">02</span>
+            <h4>Connect &amp; observe.</h4>
+            <p>
+              Small IoT devices, communication protocols and ways to make device
+              state understandable.
+            </p>
+            <span class="lab-status">PLANNED / NETWORKED DEVICES</span>
+          </article>
+          <article>
+            <span class="lab-future-number">03</span>
+            <h4>Measure &amp; refine.</h4>
+            <p>
+              Embedded C/C++, timers, interrupt handling and hardware–firmware
+              experiments with explicit limits.
+            </p>
+            <span class="lab-status">PLANNED / FIRMWARE STUDIES</span>
+          </article>
+        </div>
+      </section>
+      <section class="wrap lab-outro">
+        <p class="lab-eyebrow">THE NOTEBOOK STAYS OPEN</p>
+        <h2>From a question<br />to a circuit.</h2>
+        <div>
+          <p>
+            My main work is in AI/ML and applied AI. This lab follows the same
+            curiosity into hardware.
+          </p>
+          <a class="inline-link" href="/">Back to the portfolio ↗</a
+          ><a class="inline-link" href="mailto:thisisaritrasaha@gmail.com"
+            >Get in touch ↗</a
+          >
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer wrap">
+      <p>© 2026 Aritra Saha</p>
+      <p class="footer-note">Signals, sketches and work in progress.</p>
+      <button type="button" data-lab-motion hidden>Pause motion</button
+      ><a href="#main">Back to top ↑</a>
+    </footer>
+  </body>
+</html>

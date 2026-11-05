@@ -217,6 +217,11 @@ export function mountNeuronDemo(host) {
       )
       .join("");
     math.innerHTML = renderNeuronEquation(phase, values, unit);
+    math
+      .querySelectorAll(".neuron-formula, .neuron-working, .neuron-result")
+      .forEach((region) => {
+        region.tabIndex = 0;
+      });
     if (manual)
       announcement.textContent = `Known digit ${sample.label}. Predicted digit ${winner}, ${percent(values.probabilities[winner])}. ${LABELS[phase]} stage. Inspecting first-layer unit ${unit + 1}.`;
   }

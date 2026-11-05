@@ -1,4 +1,4 @@
-/* Bitbench: paper folios around a cobalt instrument. */
+/* Paper folios around a cobalt instrument. */
 :root {
   --paper: #f4f4ec;
   --surface: #fffef4;
@@ -59,14 +59,14 @@ html[data-theme="dark"] {
 .bench-links,
 .bench-panel button,
 .bb-entry small {
-  font: 12px/1.6 var(--mono);
+  font: 0.75rem/1.6 var(--mono);
 }
 .bench-heading .tech,
 .bench-panel .tech {
   color: var(--lime);
 }
 .bench-heading h1 {
-  font-size: clamp(52px, 7.4vw, 110px);
+  font-size: clamp(3.25rem, 7.4vw, 6.875rem);
   letter-spacing: -0.06em;
   line-height: 1.05;
   margin: 12px 0;
@@ -75,7 +75,7 @@ html[data-theme="dark"] {
   display: inline-block;
 }
 .bench-copy > p:not(.tech) {
-  font-size: clamp(16px, 1.7vw, 23px);
+  font-size: clamp(1rem, 1.7vw, 1.4375rem);
   margin: 0;
 }
 .bench-panel {
@@ -94,6 +94,7 @@ html[data-theme="dark"] {
 .bench-input {
   justify-self: center;
 }
+.site-header :focus-visible,
 .bench-panel button:focus-visible,
 .bench-hero a:focus-visible {
   outline: 3px solid var(--lime);
@@ -140,12 +141,12 @@ html[data-theme="dark"] {
 }
 .bench-result strong {
   display: block;
-  font: 400 clamp(88px, 10vw, 158px) / 1.1 var(--display);
+  font: 400 clamp(5.5rem, 10vw, 9.875rem) / 1.1 var(--display);
   color: var(--lime);
 }
 #confidence,
 #layer-note {
-  font: 12px/1.65 var(--mono);
+  font: 0.75rem/1.65 var(--mono);
 }
 #distribution {
   display: flex;
@@ -156,6 +157,7 @@ html[data-theme="dark"] {
 }
 #distribution span {
   flex: 1;
+  min-width: 0;
   height: 100%;
   display: grid;
   grid-template-rows: 1fr auto;
@@ -167,7 +169,7 @@ html[data-theme="dark"] {
   transition: transform var(--settle) var(--spring);
 }
 #distribution b {
-  font: 10px var(--mono);
+  font: 0.625rem var(--mono);
   margin-top: 5px;
 }
 #activations {
@@ -210,9 +212,9 @@ html[data-theme="dark"] {
   gap: 14px;
 }
 .bb-entry strong {
-  max-width: 96vw;
-  white-space: nowrap;
-  font: clamp(56px, 9vw, 135px) / 1 var(--display);
+  max-width: calc(100vw - 2rem);
+  text-align: center;
+  font: clamp(3.5rem, 9vw, 8.4375rem) / 1 var(--display);
   animation: entry-type 0.76s 0.08s both;
 }
 .boot-grid {
@@ -257,7 +259,7 @@ html[data-theme="dark"] {
   margin-block: 72px;
 }
 .geometry h2 {
-  font-size: clamp(40px, 5vw, 74px);
+  font-size: clamp(2.5rem, 5vw, 4.625rem);
 }
 .geometry .instrument {
   background: #c6d5ff;
@@ -357,7 +359,7 @@ html[data-theme="dark"] {
 }
 @media (max-width: 600px) {
   .bench-heading h1 {
-    font-size: clamp(42px, 10.6vw, 64px);
+    font-size: clamp(2.625rem, 10.6vw, 4rem);
   }
   .bench-panel {
     padding: 16px 12px;
@@ -372,15 +374,15 @@ html[data-theme="dark"] {
     max-width: 232px;
   }
   .bench-result strong {
-    font-size: 76px;
+    font-size: 4.75rem;
   }
   .tech,
   #confidence,
   #layer-note {
-    font-size: 11px;
+    font-size: 0.6875rem;
   }
   .bench-panel button:not(.pixel) {
-    font-size: 11px;
+    font-size: 0.6875rem;
     padding: 6px 9px;
   }
   .bench-inspector {
@@ -389,7 +391,7 @@ html[data-theme="dark"] {
   }
   .bench-links {
     gap: 0 16px;
-    font-size: 11px;
+    font-size: 0.6875rem;
   }
   .geometry {
     display: block;
@@ -402,35 +404,6 @@ html[data-theme="dark"] {
     height: 48px;
   }
 }
-@media (max-width: 379px) {
-  .bench-panel {
-    grid-template-columns: 1fr;
-  }
-  .bench-input {
-    width: 210px;
-  }
-  .bench-result {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 4px 18px;
-    align-items: center;
-  }
-  .bench-result .tech {
-    grid-column: 1/-1;
-  }
-  .bench-result strong {
-    grid-row: span 2;
-  }
-  .bench-result #distribution {
-    margin: 0;
-  }
-  .bench-inspector {
-    display: block;
-  }
-  .bench-inspector #layer-note {
-    max-width: none;
-  }
-}
 
 .bench-inspector select {
   display: block;
@@ -440,7 +413,7 @@ html[data-theme="dark"] {
   padding: 8px;
   min-height: 44px;
   margin-top: 10px;
-  font: 12px var(--mono);
+  font: 0.75rem var(--mono);
 }
 .bench-heading {
   position: relative;
@@ -514,7 +487,7 @@ html[data-theme="dark"] {
 
 @media (max-width: 600px) {
   .bb-entry strong {
-    font-size: clamp(38px, 11vw, 64px);
+    font-size: clamp(2.375rem, 11vw, 4rem);
   }
 }
 @media (max-height: 360px) {
@@ -526,11 +499,11 @@ html[data-theme="dark"] {
     height: 52px;
   }
   .bb-entry strong {
-    font-size: clamp(38px, 8vw, 64px);
+    font-size: clamp(2.375rem, 8vw, 4rem);
   }
 }
 
-.bench-heading:has(.pixel-relief:not([hidden])) {
+.bench-heading:has(.pixel-relief) {
   display: grid;
   grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
   gap: clamp(20px, 4vw, 68px);
@@ -540,11 +513,11 @@ html[data-theme="dark"] {
 .bench-copy h1 span {
   display: block;
 }
-.bench-heading:has(.pixel-relief:not([hidden])) .bench-copy > p:not(.tech) {
+.bench-heading:has(.pixel-relief) .bench-copy > p:not(.tech) {
   max-width: 43ch;
 }
 .pixel-relief button {
-  font: 11px/1.5 var(--mono);
+  font: 0.6875rem/1.5 var(--mono);
   color: #fffdec;
   min-height: 44px;
   text-decoration: underline;
@@ -566,7 +539,7 @@ html[data-theme="dark"] {
   justify-content: space-between;
   padding: 3px 8px;
   gap: 8px;
-  font: 10px/1.6 var(--mono);
+  font: 0.625rem/1.6 var(--mono);
   color: #d5def9;
 }
 .pixel-relief b,
@@ -580,7 +553,7 @@ html[data-theme="dark"] {
   letter-spacing: 0.1em;
 }
 @media (max-width: 700px) {
-  .bench-heading:has(.pixel-relief:not([hidden])) {
+  .bench-heading:has(.pixel-relief) {
     grid-template-columns: 1fr;
     gap: 6px;
   }
@@ -588,10 +561,145 @@ html[data-theme="dark"] {
     display: inline-block;
   }
   .bench-copy .tech {
-    font-size: 10px;
+    font-size: 0.625rem;
   }
   .pixel-relief canvas {
     width: min(100%, 340px);
     margin: auto;
+  }
+}
+
+/* Scalable type and content-sized tracks. */
+.bench-copy .tech,
+.tech,
+#confidence,
+#layer-note,
+.bench-panel button:not(.pixel),
+.bench-links,
+.pixel-relief button,
+.pixel-relief figcaption {
+  font-size: 0.75rem;
+}
+.bench-heading h1 {
+  font-size: clamp(2.625rem, 0.5rem + 6.85vw, 6.875rem);
+}
+.bench-copy > p:not(.tech) {
+  font-size: clamp(1rem, 0.875rem + 0.6vw, 1.4375rem);
+}
+.bench-panel {
+  container-type: inline-size;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr) minmax(0, 1fr);
+}
+.bench-inspector select {
+  max-width: 100%;
+  width: 100%;
+}
+.bench-heading,
+.bench-panel,
+.bench-links {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 850px) {
+  .bench-panel {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+/* Wrap when the input plus readable output no longer fit the component. */
+@media (max-width: 600px) {
+  .bench-panel {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .bench-input {
+    flex: 1 1 12.875rem;
+    width: auto;
+  }
+  #pixels {
+    width: 100%;
+    max-width: 16.5rem;
+    margin-inline: auto;
+  }
+  .bench-result {
+    flex: 1 1 5rem;
+  }
+  .bench-inspector {
+    flex-basis: 100%;
+  }
+}
+@container (max-width: 20rem) {
+  .bench-result {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.25rem 1.125rem;
+    align-items: center;
+  }
+  .bench-result .tech {
+    grid-column: 1 / -1;
+  }
+  .bench-result strong {
+    grid-row: span 2;
+  }
+  .bench-inspector {
+    display: block;
+  }
+}
+
+/* Reserve enhanced content before modules load. */
+@media (scripting: enabled) {
+  .pixel-relief[hidden],
+  .menu-toggle[hidden] {
+    display: block !important;
+    visibility: hidden;
+  }
+}
+@media (scripting: none) {
+  .bench-heading:has(.pixel-relief) {
+    display: block;
+  }
+}
+.geometry {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+}
+.geometry .instrument {
+  width: 100%;
+  aspect-ratio: auto;
+}
+.geometry .instrument svg {
+  flex: none;
+  height: auto;
+  aspect-ratio: 1.8;
+}
+@media (max-width: 600px) {
+  .geometry {
+    display: block;
+  }
+}
+
+.bb-entry > small {
+  max-width: calc(100vw - 2rem);
+  text-align: center;
+}
+
+@media (max-height: 280px) {
+  .bb-entry {
+    place-content: center start;
+    padding-left: 2vw;
+    gap: 6px;
+  }
+  .bb-entry strong {
+    font-size: 1.75rem;
+    max-width: 52vw;
+  }
+  .bb-entry > small {
+    max-width: 50vw;
+    font-size: 0.625rem;
+  }
+  .bb-entry .epoch-meter {
+    width: min(180px, 50vw);
+  }
+  .boot-grid {
+    width: 36px;
+    height: 36px;
   }
 }

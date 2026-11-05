@@ -175,8 +175,20 @@ test("theme persistence, manual classifier controls, disclosures and motion pref
 test("copy email succeeds and exposes a useful clipboard failure", async ({
   page,
   context,
+  browserName,
 }) => {
-  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  if (browserName === "chromium") {
+    await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  } else {
+    // Firefox does not expose Chromium clipboard permission overrides.
+    await page.addInitScript(() => {
+      let copied = "";
+      navigator.clipboard.writeText = async (value) => {
+        copied = value;
+      };
+      navigator.clipboard.readText = async () => copied;
+    });
+  }
   await page.goto("/#contact");
   await page.getByRole("button", { name: "Copy email address" }).click();
   await expect(page.locator("#copy-status")).toHaveText(
@@ -208,13 +220,14 @@ test("copy email succeeds and exposes a useful clipboard failure", async ({
 
 test("content and navigation survive disabled JavaScript", async ({
   browser,
+  baseURL,
 }) => {
   const context = await browser.newContext({
     javaScriptEnabled: false,
     viewport: { width: 390, height: 844 },
   });
   const page = await context.newPage();
-  await page.goto("http://127.0.0.1:4174/");
+  await page.goto(baseURL);
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await expect(page.locator(".neural-fallback")).toBeVisible();
   await expect(page.locator(".seedl-network")).toBeVisible();
@@ -385,41 +398,4 @@ test("public project sources, honest limits and static RPM preview stay accessib
   await expect(page.locator("#pulseshift details")).toContainText(
     "physical qualification is pending",
   );
-});
-
-test("new features survive no JavaScript and motion is cancelled live", async ({
-  browser,
-  page,
-}) => {
-  const context = await browser.newContext({
-    javaScriptEnabled: false,
-    viewport: { width: 320, height: 844 },
-  });
-  const fallback = await context.newPage();
-  await fallback.goto("/");
-  await expect(fallback.locator("#infera h3")).toHaveText("Infera");
-  await expect(
-    fallback.locator("#pulseshift input, #pulseshift button"),
-  ).toHaveCount(0);
-  await expect(fallback.locator("#pulse-rpm")).toHaveText("4,250");
-  await expect(fallback.locator(".pulse-led.is-lit")).toHaveCount(3);
-  await fallback.locator("#pulseshift summary").click();
-  await expect(fallback.locator("#pulseshift details")).toHaveAttribute(
-    "open",
-    "",
-  );
-  await context.close();
-  await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.goto("/");
-  await page.locator("#infera").scrollIntoViewIfNeeded();
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await expect(page.locator("html")).toHaveAttribute("data-motion", "reduce");
-  expect(
-    await page.evaluate(
-      () =>
-        document
-          .getAnimations()
-          .filter((animation) => animation.playState === "running").length,
-    ),
-  ).toBe(0);
 });

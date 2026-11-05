@@ -1,6 +1,6 @@
 import { mountRpmPreview } from "./assets/pulse-rpm.js?v=2";
 import { mountResearchPlate } from "./assets/research-plate.js?v=20260930.1";
-import { mountNeuronDemo } from "./assets/neuron-demo.js?v=20260930.8";
+import { mountNeuronDemo } from "./assets/neuron-demo.js?v=r1";
 import { createSurfacePhysics } from "./assets/surface-physics.js?v=20260930.1";
 
 // Native navigation and progressive enhancements. All content exists without JS.
@@ -106,36 +106,6 @@ networkButton?.addEventListener("click", () => {
 });
 document.addEventListener("visibilitychange", updateScenes);
 syncMotion();
-
-const nav = document.querySelector(".nav");
-const menu = document.querySelector(".menu-toggle");
-const panel = document.getElementById("nav-panel");
-const mobile = matchMedia("(max-width: 650px)");
-function closeMenu(returnFocus = false) {
-  const wasOpen = menu?.getAttribute("aria-expanded") === "true";
-  menu?.setAttribute("aria-expanded", "false");
-  panel?.classList.remove("is-open");
-  if (wasOpen && returnFocus) menu.focus();
-}
-if (menu && panel && nav) {
-  menu.hidden = false;
-  nav.classList.add("nav-ready");
-  menu.addEventListener("click", () => {
-    const open = menu.getAttribute("aria-expanded") !== "true";
-    menu.setAttribute("aria-expanded", String(open));
-    panel.classList.toggle("is-open", open);
-  });
-  panel
-    .querySelectorAll("a")
-    .forEach((a) => a.addEventListener("click", () => closeMenu()));
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeMenu(true);
-  });
-  document.addEventListener("pointerdown", (e) => {
-    if (!nav.contains(e.target)) closeMenu();
-  });
-  mobile.addEventListener("change", () => closeMenu());
-}
 
 if ("IntersectionObserver" in window) {
   const sceneObserver = new IntersectionObserver(

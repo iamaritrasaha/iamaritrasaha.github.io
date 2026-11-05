@@ -21,7 +21,7 @@
 
 .research-plate__topline {
   padding-top: 23px;
-  font: 400 10px/1.4 var(--mono);
+  font: 400 0.75rem/1.4 var(--mono);
   letter-spacing: 0.075em;
   text-transform: uppercase;
   color: var(--plate-muted);
@@ -231,7 +231,7 @@ html[data-motion="reduce"] .research-plate *::after {
   }
 
   .research-plate__switch button {
-    font-size: 10px;
+    font-size: 0.75rem;
   }
 
   .research-plate__formula {
