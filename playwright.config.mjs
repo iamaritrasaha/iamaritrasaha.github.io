@@ -7,7 +7,12 @@ export default defineConfig({
   reporter: "list",
   use: {
     baseURL: "http://127.0.0.1:4174",
-    channel: process.env.PLAYWRIGHT_CHANNEL || "msedge",
+    browserName: process.env.PLAYWRIGHT_BROWSER || "chromium",
+    channel:
+      process.env.PLAYWRIGHT_BROWSER &&
+      process.env.PLAYWRIGHT_BROWSER !== "chromium"
+        ? undefined
+        : process.env.PLAYWRIGHT_CHANNEL || "msedge",
     screenshot: "only-on-failure",
     trace: "retain-on-failure",
   },

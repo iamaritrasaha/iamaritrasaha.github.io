@@ -14,7 +14,7 @@ export function mountWelcomeMath(veil) {
       </g>
     </svg>
     <div class="math-group math-power">
-      <span class="math-label">01 / CURRENT → POWER</span>
+      <span class="manuscript-topic">01 / CURRENT → POWER</span>
       <p class="math-line ohm" data-equation="ohm">V = IR</p>
       <div class="power-derivation">
         <p class="power-step" data-equation="power-start">P = VI</p>
@@ -23,34 +23,34 @@ export function mountWelcomeMath(veil) {
       </div>
     </div>
     <div class="math-group math-current">
-      <span class="math-label">02 / AT A JUNCTION</span>
+      <span class="manuscript-topic">02 / AT A JUNCTION</span>
       <p class="math-line" data-equation="kirchhoff">Σ I<sub>in</sub> = Σ I<sub>out</sub></p>
-      <span class="math-caption">charge in = charge out</span>
+      <span class="manuscript-caption">charge in = charge out</span>
     </div>
     <div class="math-group math-probability">
-      <span class="math-label">03 / LOGITS → PROBABILITY</span>
+      <span class="manuscript-topic">03 / LOGITS → PROBABILITY</span>
       <p class="math-line linear" data-equation="linear">z = Wx + b</p>
       <p class="math-line softmax" data-equation="softmax"><span>p<sub>i</sub> = </span><span class="math-fraction"><span>exp(z<sub>i</sub>)</span><span>Σ<sub>j</sub> exp(z<sub>j</sub>)</span></span></p>
     </div>
     <div class="math-group math-gradient">
-      <span class="math-label">04 / LOSS → GRADIENT</span>
+      <span class="manuscript-topic">04 / LOSS → GRADIENT</span>
       <p class="math-line loss" data-equation="loss">L = −log(p<sub>y</sub>)</p>
       <p class="math-line gradient" data-equation="gradient"><span class="math-fraction"><span>∂L</span><span>∂z<sub>i</sub></span></span><span> = p<sub>i</sub> − 1[i = y]</span></p>
     </div>
     <div class="math-group math-calculus">
-      <span class="math-label">05 / ACCUMULATION → CHANGE</span>
+      <span class="manuscript-topic">05 / ACCUMULATION → CHANGE</span>
       <p class="math-line" data-equation="calculus">∫<sub>a</sub><sup>b</sup> f′(x) dx = f(b) − f(a)</p>
       <p class="math-line tangent" data-equation="tangent">f(x + h) = f(x) + hf′(x) + O(h<sup>2</sup>)</p>
-      <span class="math-caption">local expansion · smooth f, h → 0</span>
+      <span class="manuscript-caption">local expansion · smooth f, h → 0</span>
     </div>
     <div class="math-group math-curvature">
-      <span class="math-label">06 / HOW A CURVE BENDS</span>
+      <span class="manuscript-topic">06 / HOW A CURVE BENDS</span>
       <p class="math-line" data-equation="curvature"><span>κ(x) = </span><span class="math-fraction"><span>|f″(x)|</span><span>(1 + [f′(x)]<sup>2</sup>)<sup>3/2</sup></span></span></p>
-      <span class="math-caption">graph y = f(x)</span>
+      <span class="manuscript-caption">graph y = f(x)</span>
       <svg class="curve-doodle" viewBox="0 0 260 65" fill="none" stroke="currentColor" stroke-width="1.2"><path pathLength="1" d="M8 52Q60 60 94 30T172 24T252 10 M60 60L128 0"/><circle cx="94" cy="30" r="3"/><path d="M20 59H246M20 59V5" opacity=".35"/></svg>
     </div>
     <div class="math-group hardware-doodle">
-      <span class="math-label">07 / ESP32 · CIRCUIT DOODLE</span>
+      <span class="manuscript-topic">07 / ESP32 · CIRCUIT DOODLE</span>
       <svg viewBox="0 0 330 150" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
         <g transform="rotate(-5 95 75)">
           <path pathLength="1" d="M40 20Q92 16 149 21L151 123Q98 128 39 123Z M59 31H130V65H59Z M66 37V45H77V37H88V45H99V37H110V45H121 M66 78L126 79L125 111L65 110Z"/>
@@ -61,7 +61,7 @@ export function mountWelcomeMath(veil) {
         <text x="182" y="33">R</text><text x="289" y="77">LED</text><text x="169" y="140">pins → wires → light</text>
       </svg>
     </div>
-    <span class="manuscript-note">Illustrative relationships · no model training</span>`;
+    `;
   veil.append(paper);
   const epoch = document.createElement("div");
   epoch.className = "epoch-meter";

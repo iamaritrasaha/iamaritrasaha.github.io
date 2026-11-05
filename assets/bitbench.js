@@ -1,4 +1,4 @@
-import { mountWelcomeMath } from "./welcome-math.js?v=2";
+import { mountWelcomeMath } from "./welcome-math.js?v=3";
 import { DIGIT_SAMPLES } from "./digit-model.js";
 import { evaluateNetwork } from "./neural-network.js";
 import { mountRelief } from "./pixel-relief.js";

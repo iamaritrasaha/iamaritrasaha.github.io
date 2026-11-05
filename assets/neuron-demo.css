@@ -12,18 +12,21 @@
 .neuron-eyebrow {
   display: block;
   color: var(--muted);
-  font: 10px/1.5 var(--mono);
+  font: 0.75rem/1.5 var(--mono);
   margin-bottom: 7px;
 }
 .neuron-demo-header h2 {
   color: var(--ink);
-  font: 400 clamp(24px, 2.8vw, 34px) / 1.13 var(--display);
+  font: 400 clamp(1.5rem, 2.8vw, 2.125rem) / 1.13 var(--display);
   letter-spacing: -0.035em;
   margin: 0;
 }
 .neuron-input-actions {
   display: flex;
-  flex: none;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
+  flex-wrap: wrap;
   align-items: center;
   gap: 18px;
 }
@@ -34,12 +37,15 @@
   gap: 16px;
   min-height: 44px;
   flex-shrink: 0;
+  max-width: 100%;
+  white-space: normal;
+  text-align: left;
   border: 0;
   border-bottom: 1px solid var(--line);
   padding: 8px 0;
   background: transparent;
   color: var(--ink);
-  font: 11px/1.4 var(--mono);
+  font: 0.75rem/1.4 var(--mono);
   cursor: pointer;
 }
 .neuron-input-button:hover {
@@ -47,7 +53,7 @@
 }
 .neuron-input-button > span {
   color: var(--accent);
-  font-size: 18px;
+  font-size: 1.125rem;
   transition: transform 220ms var(--ease);
 }
 .neuron-input-button:hover > span {
@@ -67,7 +73,7 @@
   display: grid;
   grid-template-columns: 24% 28% 27% 21%;
   color: var(--ink);
-  font: 11px/1.5 var(--mono);
+  font: 0.75rem/1.5 var(--mono);
   text-align: center;
 }
 .neuron-layer-labels > span:first-child {
@@ -79,7 +85,7 @@
 .neuron-layer-labels small {
   display: block;
   color: var(--muted);
-  font-size: 10px;
+  font-size: 0.75rem;
 }
 .neuron-graph {
   position: relative;
@@ -174,12 +180,12 @@
 .neuron-node text,
 .neuron-input-label {
   fill: var(--muted);
-  font: 11px var(--mono);
+  font: 0.75rem var(--mono);
 }
 .neuron-demo .neuron-legend {
   margin: 1px 0 17px;
   color: var(--muted);
-  font: 10px/1.6 var(--mono);
+  font: 0.75rem/1.6 var(--mono);
 }
 .neuron-legend [data-signal-legend] {
   display: inline-block;
@@ -189,24 +195,25 @@
   display: flex;
   justify-content: space-between;
   gap: 12px;
-  font: 10px/1.5 var(--mono);
+  font: 0.75rem/1.5 var(--mono);
   color: var(--muted);
 }
 .neuron-readout-label > span {
   color: var(--accent);
 }
 .neuron-probabilities {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
   gap: 18px;
   margin-top: 8px;
 }
 .neuron-probability > span {
   display: flex;
+  flex-wrap: wrap;
+  white-space: nowrap;
   justify-content: space-between;
   gap: 8px;
   color: var(--muted);
-  font: 11px/1.4 var(--mono);
+  font: 0.75rem/1.4 var(--mono);
 }
 .neuron-probability strong {
   font-weight: 400;
@@ -258,7 +265,7 @@
 .neuron-demo .neuron-selection-hint {
   margin: 4px 0 10px;
   color: var(--muted);
-  font: 10px/1.7 var(--mono);
+  font: 0.75rem/1.7 var(--mono);
 }
 .neuron-selection-hint > span {
   color: var(--accent);
@@ -277,11 +284,11 @@
 .neuron-equation-title {
   display: block;
   color: var(--muted);
-  font: 10px/1.5 var(--mono);
+  font: 0.75rem/1.5 var(--mono);
 }
 .neuron-demo .neuron-formula {
   color: var(--ink);
-  font-size: clamp(18px, 1.65vw, 23px);
+  font-size: clamp(1.125rem, 1.65vw, 1.4375rem);
   margin: 22px 0;
   overflow-wrap: normal;
 }
@@ -291,7 +298,7 @@
 }
 .neuron-working {
   color: var(--ink);
-  font: 12px/1.95 var(--mono);
+  font: 0.75rem/1.95 var(--mono);
   overflow-wrap: normal;
 }
 .neuron-working strong {
@@ -300,13 +307,13 @@
 }
 .neuron-demo .neuron-result {
   color: var(--muted);
-  font: 11px/1.8 var(--mono);
+  font: 0.75rem/1.8 var(--mono);
   margin: 15px 0 0;
   overflow-wrap: normal;
 }
 .neuron-demo .neuron-explanation {
   color: var(--muted);
-  font-size: 12px;
+  font-size: 0.75rem;
   line-height: 1.7;
   margin: 17px 0 0;
   max-width: 43ch;
@@ -330,14 +337,14 @@
   border-top: 1px solid var(--line);
   padding: 10px 0;
   cursor: pointer;
-  font: 11px/1.5 var(--mono);
+  font: 0.75rem/1.5 var(--mono);
   color: var(--muted);
   transition:
     color 180ms,
     border-color 180ms;
 }
 .neuron-phases button > span {
-  font-size: 10px;
+  font-size: 0.75rem;
 }
 .neuron-phases button[aria-current],
 .neuron-phases button:hover {
@@ -347,7 +354,7 @@
 .neuron-demo-caption,
 .neuron-demo .neuron-demo-note {
   color: var(--muted);
-  font: 10px/1.7 var(--mono);
+  font: 0.75rem/1.7 var(--mono);
   margin: 0;
 }
 .neuron-demo-caption > span {
@@ -364,7 +371,7 @@
 .neuron-provenance {
   margin-top: 10px;
   color: var(--muted);
-  font: 11px/1.8 var(--mono);
+  font: 0.75rem/1.8 var(--mono);
 }
 .neuron-provenance summary {
   display: list-item;
@@ -375,7 +382,7 @@
 .neuron-demo .neuron-provenance p {
   max-width: 80ch;
   margin: 0 0 12px;
-  font: 12px/1.8 var(--sans);
+  font: 0.75rem/1.8 var(--sans);
 }
 .neuron-announcement {
   position: absolute;
@@ -409,7 +416,7 @@
     gap: 18px;
   }
   .neuron-demo-header h2 {
-    font-size: 27px;
+    font-size: 1.6875rem;
     max-width: 17ch;
   }
   .neuron-study {
@@ -425,7 +432,7 @@
     align-items: start;
   }
   .neuron-demo .neuron-formula {
-    font-size: 22px;
+    font-size: 1.375rem;
     margin: 15px 0;
   }
   .neuron-demo .neuron-explanation {
@@ -438,7 +445,7 @@
     flex-direction: column;
     align-items: start;
     gap: 3px;
-    font-size: 10px;
+    font-size: 0.75rem;
   }
 }
 @media (max-width: 480px) {
@@ -451,39 +458,39 @@
   }
   .neuron-demo-header h2 {
     max-width: none;
-    font-size: 26px;
+    font-size: 1.625rem;
   }
   .neuron-input-button {
-    font-size: 11px;
+    font-size: 0.75rem;
     gap: 22px;
   }
   .neuron-layer-labels {
-    font-size: 10px;
+    font-size: 0.75rem;
   }
   .neuron-layer-labels small {
-    font-size: 10px;
+    font-size: 0.75rem;
   }
   .neuron-probabilities {
     gap: 12px;
   }
   .neuron-probability > span {
-    font-size: 10px;
+    font-size: 0.75rem;
     gap: 4px;
   }
   .neuron-readout-label {
-    font-size: 10px;
+    font-size: 0.75rem;
   }
   .neuron-equation {
     min-height: 375px;
   }
   .neuron-demo .neuron-formula {
-    font-size: 21px;
+    font-size: 1.3125rem;
   }
   .neuron-working {
-    font-size: 11px;
+    font-size: 0.75rem;
   }
   .neuron-demo .neuron-result {
-    font-size: 10px;
+    font-size: 0.75rem;
   }
   .neuron-phases {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -493,7 +500,7 @@
   .neuron-phases button {
     flex-direction: row;
     align-items: center;
-    font-size: 11px;
+    font-size: 0.75rem;
   }
   .neuron-phases button > span {
     display: none;
@@ -528,7 +535,6 @@
   animation: none;
 }
 
-/* Typeset mathematics stays local to the neural study. */
 .neuron-demo math {
   font-family: var(--display);
   font-weight: 400;
@@ -543,7 +549,7 @@
   margin: 0;
 }
 .neuron-working {
-  font-size: 17px;
+  font-size: 1.0625rem;
   padding-block: 15px;
   border-block: 1px solid var(--line);
 }
@@ -555,44 +561,39 @@
 }
 .neuron-known-label {
   display: block;
-  font: 10px/1.7 var(--mono);
+  font: 0.75rem/1.7 var(--mono);
   margin-bottom: 12px;
   color: var(--muted);
 }
 .neuron-demo .neuron-result math {
   margin-top: 10px;
-  font-size: 16px;
+  font-size: 1rem;
   color: var(--muted);
 }
 .neuron-equation {
   align-items: start;
   min-height: 460px;
 }
-@media (max-width: 900px) {
-  .neuron-equation {
-    min-height: 460px;
-  }
-}
 @media (max-width: 480px) {
   .neuron-demo .neuron-formula {
-    font-size: 18px;
+    font-size: 1.125rem;
   }
   .neuron-working {
-    font-size: 15px;
+    font-size: 0.9375rem;
   }
   .neuron-demo .neuron-result math {
-    font-size: 15px;
+    font-size: 0.9375rem;
   }
 }
 @media (max-width: 360px) {
   .neuron-demo .neuron-formula {
-    font-size: 16px;
+    font-size: 1rem;
   }
   .neuron-working {
-    font-size: 13px;
+    font-size: 0.8125rem;
   }
   .neuron-demo .neuron-result math {
-    font-size: 14px;
+    font-size: 0.875rem;
   }
 }
 
@@ -605,4 +606,32 @@
 }
 .neuron-result .neuron-math-line {
   margin-top: 10px;
+}
+
+/* Local equation scrolling. */
+.neuron-demo-header > div,
+.neuron-demo-header,
+.neuron-equation-content,
+.neuron-study,
+.neuron-equation,
+.neuron-readout {
+  min-width: 0;
+}
+.neuron-probabilities,
+.neuron-layer-labels,
+.neuron-demo-header {
+  flex-wrap: wrap;
+}
+.neuron-demo .neuron-formula,
+.neuron-working,
+.neuron-demo .neuron-result {
+  max-width: 100%;
+  overflow-x: auto;
+}
+.neuron-probability {
+  flex: 1 1 5rem;
+  min-width: 0;
+}
+.neuron-demo-header h2 {
+  overflow-wrap: anywhere;
 }

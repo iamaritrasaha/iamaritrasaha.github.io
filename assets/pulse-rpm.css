@@ -11,7 +11,7 @@
   min-width: 0;
 }
 .pulse-kicker {
-  font: 10px/1.7 var(--mono);
+  font: 0.625rem/1.7 var(--mono);
   letter-spacing: 0.07em;
   color: #d8e2bb;
   margin: 0 0 20px;
@@ -22,17 +22,17 @@
   flex-wrap: wrap;
   gap: 0 12px;
   color: #f8f8e9;
-  font: 500 clamp(42px, 5.5vw, 82px) / 1.15 var(--mono);
+  font: 500 clamp(2.625rem, 5.5vw, 5.125rem) / 1.15 var(--mono);
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.07em;
 }
 .pulse-value > span:last-child {
-  font-size: 12px;
+  font-size: 0.75rem;
   letter-spacing: 0.08em;
   color: #d5dfec;
 }
 .pulse-state {
-  font: 10px/1.7 var(--mono);
+  font: 0.625rem/1.7 var(--mono);
   letter-spacing: 0.04em;
   min-height: 3.4em;
   color: #d8e2bb;
@@ -125,7 +125,7 @@
     margin-top: 26px;
   }
   .pulse-value {
-    font-size: clamp(48px, 12vw, 76px);
+    font-size: clamp(3rem, 12vw, 4.75rem);
   }
   .pulse-study .pulse-led {
     border-width: 4px;
@@ -149,4 +149,13 @@ html[data-motion="reduce"] .pulse-study .pulse-led {
 }
 html[data-motion="reduce"] :is(.pulse-value, .pulse-state, .pulse-board) {
   transition: none;
+}
+
+.pulse-kicker,
+.pulse-state {
+  font-size: 0.75rem;
+}
+.pulse-value {
+  font-size: clamp(2.625rem, 1.5rem + 3vw, 5.125rem);
+  overflow-wrap: anywhere;
 }

@@ -50,7 +50,7 @@ html[data-theme="dark"] {
   padding: 0;
 }
 .hero h1 {
-  font-size: clamp(65px, 9vw, 150px);
+  font-size: clamp(4.0625rem, 9vw, 9.375rem);
   line-height: 1.06;
   white-space: normal;
   margin: 12px 0 20px;
@@ -64,7 +64,7 @@ html[data-theme="dark"] {
   margin: 0;
 }
 .role-label {
-  font: 13px/1.6 var(--mono);
+  font: 0.8125rem/1.6 var(--mono);
   max-width: none;
 }
 .hero-statement {
@@ -72,7 +72,7 @@ html[data-theme="dark"] {
   max-width: 38ch;
 }
 .hero-statement > p {
-  font-size: clamp(18px, 1.7vw, 26px);
+  font-size: clamp(1.125rem, 1.7vw, 1.625rem);
 }
 .instrument {
   grid-column: 2;
@@ -86,17 +86,18 @@ html[data-theme="dark"] {
   min-width: 0;
   padding: 24px;
   aspect-ratio: 1;
-  overflow: hidden;
+  overflow: visible;
 }
 .instrument svg {
   width: 100%;
+  max-height: 100%;
   min-height: 0;
   flex: 1;
 }
 .instrument figcaption,
 .axis-control,
 .instrument > p {
-  font: 12px/1.5 var(--mono);
+  font: 0.75rem/1.5 var(--mono);
 }
 .instrument figcaption,
 .axis-control {
@@ -165,7 +166,7 @@ html[data-theme="dark"] {
 }
 .trace-control button,
 .pipeline-switch button {
-  font: 12px var(--mono);
+  font: 0.75rem var(--mono);
   padding: 12px;
   border: 1px solid currentColor;
   min-height: 44px;
@@ -247,7 +248,7 @@ html[data-theme="dark"] {
   margin-block: 72px;
 }
 .laboratory h2 {
-  font-size: clamp(48px, 6vw, 90px);
+  font-size: clamp(3rem, 6vw, 5.625rem);
   margin-bottom: 24px;
 }
 .about-section {
@@ -275,7 +276,7 @@ html[data-theme="dark"] {
   overflow: visible;
 }
 .entry strong {
-  font: 400 clamp(48px, 9vw, 140px) var(--display);
+  font: 400 clamp(3rem, 9vw, 8.75rem) var(--display);
   animation: entry-type 0.8s both;
 }
 @keyframes entry-type {
@@ -359,7 +360,7 @@ html[data-theme="dark"] {
     grid-template-columns: 1fr;
   }
   .hero h1 {
-    font-size: clamp(46px, 13vw, 78px);
+    font-size: clamp(2.875rem, 13vw, 4.875rem);
     margin: 12px 0;
   }
   .hero h1 span {
@@ -367,7 +368,7 @@ html[data-theme="dark"] {
     margin: 0;
   }
   .role-label {
-    font-size: 12px;
+    font-size: 0.75rem;
   }
   .hero-statement {
     margin-top: 10px;
@@ -377,7 +378,7 @@ html[data-theme="dark"] {
     margin-top: 20px;
   }
   .hero-footnote {
-    font-size: 12px;
+    font-size: 0.75rem;
   }
   .infera-pipeline ol {
     grid-template-columns: 1fr;
@@ -398,7 +399,7 @@ html[data-theme="dark"] {
     width: 100%;
   }
   .instrument figcaption {
-    font-size: 10px;
+    font-size: 0.75rem;
   }
 }
 
@@ -414,7 +415,7 @@ html[data-theme="dark"] {
   max-width: 440px;
 }
 .data-example p {
-  font: 14px/1.6 var(--mono);
+  font: 0.875rem/1.6 var(--mono);
   max-width: 42ch;
 }
 .fit-line {
@@ -501,7 +502,7 @@ html[data-theme="dark"] {
   }
   .project-jump a:before {
     content: counter(study, decimal-leading-zero);
-    font: 10px var(--mono);
+    font: 0.625rem var(--mono);
     color: var(--muted);
   }
 }
@@ -569,7 +570,7 @@ html[data-theme="dark"] {
   --line: #895237;
 }
 .contact-email {
-  font-size: clamp(17px, 3.4vw, 56px);
+  font-size: clamp(1.0625rem, 3.4vw, 3.5rem);
 }
 .about-layout h2 {
   max-width: 13ch;
@@ -594,4 +595,15 @@ html[data-theme="dark"] {
   .practice-list {
     padding-left: 10px;
   }
+}
+
+.instrument {
+  min-height: 18rem;
+}
+.instrument figcaption,
+.axis-control {
+  flex-wrap: wrap;
+}
+.instrument svg {
+  min-height: 6rem;
 }
