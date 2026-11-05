@@ -8,7 +8,7 @@ Branch `feat/portfolio-creative-overhaul` starts at recovery commit `64842db`. P
 
 Before changing the site I captured ten matching positions at each width. The original first viewport was a broad, single-line nameplate with parallel text columns and a full-width classifier below. The original motion largely entered groups vertically. The new first viewport has an offset two-line name and a bright square projection surface. The phone reads from identity to controls to a compact instrument. The real classifier now has its own lab, linked directly from the hero.
 
-The comparison sheets cover the hero, work index, three public features, Orion, archive, practice, biography and contact. Individual JPEGs sit beside the sheets. The later research and historical sections keep more of their previous structure than the opening and featured work.
+The comparison sheets cover the hero, work index, three public features, Orion, archive, practice, biography and contact. The 40 individual JPEGs are archived in [the pre-maintenance Git snapshot](https://github.com/iamaritrasaha/iamaritrasaha.github.io/tree/7dd38970da66fd3a2f2c679691ff47b9e0a19bf3/docs/creative-review); the two comparison sheets retain all twenty before/after views at each width. The later research and historical sections keep more of their previous structure than the opening and featured work.
 
 ## Motion and computation
 

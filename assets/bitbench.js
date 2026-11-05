@@ -10,22 +10,22 @@ const reduce = () =>
   navigator.connection?.saveData ||
   new URLSearchParams(location.search).get("motion") === "reduce";
 const animations = new Set();
-function animate(el, frames, duration = 320, delay = 0) {
-  if (reduce() || !el.animate || document.hidden) return;
-  const a = el.animate(frames, {
+function animate(element, frames, duration = 320, delay = 0) {
+  if (reduce() || !element.animate || document.hidden) return;
+  const animation = element.animate(frames, {
     duration,
     delay,
     easing: "cubic-bezier(.2,.8,.2,1)",
   });
-  animations.add(a);
-  a.onfinish = a.oncancel = () => animations.delete(a);
-  return a;
+  animations.add(animation);
+  animation.onfinish = animation.oncancel = () => animations.delete(animation);
+  return animation;
 }
 let specimen = 0,
   layer = 1,
   input = [...DIGIT_SAMPLES[0].input],
   focusIndex = 0,
-  previous = -1;
+  previousPrediction = -1;
 const cells = Array.from({ length: 64 }, (_, i) => {
   const cell = document.createElement("button");
   cell.type = "button";
@@ -45,7 +45,7 @@ const cells = Array.from({ length: 64 }, (_, i) => {
     cell.tabIndex = 0;
   };
   cell.onkeydown = (e) => {
-    const dest = {
+    const destination = {
       ArrowRight: i + 1,
       ArrowLeft: i - 1,
       ArrowDown: i + 8,
@@ -53,9 +53,9 @@ const cells = Array.from({ length: 64 }, (_, i) => {
       Home: 0,
       End: 63,
     }[e.key];
-    if (dest === undefined) return;
+    if (destination === undefined) return;
     e.preventDefault();
-    cells[Math.max(0, Math.min(63, dest))].focus();
+    cells[Math.max(0, Math.min(63, destination))].focus();
   };
   $("pixels").append(cell);
   return cell;
@@ -78,10 +78,10 @@ const stamp = Array.from({ length: 64 }, () => {
 $("end-pixels").parentElement.hidden = false;
 const updateRelief = mountRelief(document.querySelector(".pixel-relief"));
 function paint(manual = false) {
-  const r = evaluateNetwork(input, DIGIT_SAMPLES[specimen].label);
-  cells.forEach((c, i) => {
-    c.style.setProperty("--intensity", input[i]);
-    c.setAttribute(
+  const result = evaluateNetwork(input, DIGIT_SAMPLES[specimen].label);
+  cells.forEach((cell, i) => {
+    cell.style.setProperty("--intensity", input[i]);
+    cell.setAttribute(
       "aria-label",
       "Row " +
         (1 + Math.floor(i / 8)) +
@@ -94,30 +94,48 @@ function paint(manual = false) {
   stamp.forEach((dot, i) => (dot.style.opacity = 0.08 + input[i] * 0.92));
   updateRelief(input);
   const confidence =
-    (100 * r.probabilities[r.prediction]).toFixed(1) + "% probability";
-  $("winner").textContent = r.prediction;
+    (100 * result.probabilities[result.prediction]).toFixed(1) +
+    "% probability";
+  $("winner").textContent = result.prediction;
   $("confidence").textContent = confidence;
-  if (manual && previous !== r.prediction)
+  if (manual && previousPrediction !== result.prediction)
     animate($("winner"), [
       { transform: "translateY(.14em) rotate(-4deg)", opacity: 0.5 },
       { transform: "none", opacity: 1 },
     ]);
-  previous = r.prediction;
-  bins.forEach((b, i) => {
-    b.firstChild.style.transform =
-      "scaleY(" + Math.max(0.035, r.probabilities[i]) + ")";
-    b.title = "Digit " + i + ": " + (100 * r.probabilities[i]).toFixed(2) + "%";
+  previousPrediction = result.prediction;
+  bins.forEach((bin, i) => {
+    bin.firstChild.style.transform =
+      "scaleY(" + Math.max(0.035, result.probabilities[i]) + ")";
+    bin.title =
+      "Digit " + i + ": " + (100 * result.probabilities[i]).toFixed(2) + "%";
   });
-  const values = layer === 1 ? r.h1 : r.h2,
-    max = Math.max(0.001, ...values.map(Math.abs));
+  renderActivations(layer === 1 ? result.h1 : result.h2);
+  if (manual)
+    $("bench-status").textContent =
+      "Predicted " +
+      result.prediction +
+      ", " +
+      confidence +
+      ". Hidden layer " +
+      layer +
+      ".";
+}
+
+function renderActivations(values) {
+  // Normalize only the bars. Inspection still reports the signed GELU value.
+  const maximumMagnitude = Math.max(0.001, ...values.map(Math.abs));
   const bars = $("activations");
   if (values.length !== bars.children.length)
     bars.replaceChildren(...values.map(() => document.createElement("span")));
-  values.forEach((v, i) => {
-    const u = bars.children[i];
-    u.style.setProperty("--mag", Math.max(0.02, Math.abs(v) / max));
-    u.classList.toggle("negative", v < 0);
-    u.title = "Unit " + (i + 1) + ": " + v.toFixed(3);
+  values.forEach((value, i) => {
+    const bar = bars.children[i];
+    bar.style.setProperty(
+      "--mag",
+      Math.max(0.02, Math.abs(value) / maximumMagnitude),
+    );
+    bar.classList.toggle("negative", value < 0);
+    bar.title = "Unit " + (i + 1) + ": " + value.toFixed(3);
   });
   if (unit.options.length !== values.length) {
     unit.replaceChildren(
@@ -133,15 +151,6 @@ function paint(manual = false) {
     values.length +
     " GELU units. Bars show relative magnitude. Striped bars are negative.";
   $("inspect").textContent = "Inspect hidden layer " + (3 - layer) + " →";
-  if (manual)
-    $("bench-status").textContent =
-      "Predicted " +
-      r.prediction +
-      ", " +
-      confidence +
-      ". Hidden layer " +
-      layer +
-      ".";
 }
 $("specimen").hidden = $("inspect").hidden = false;
 $("specimen").onclick = () => {
@@ -198,6 +207,8 @@ function startup() {
     if (e.key === "Escape" || e.key === "Tab") dismiss();
   };
   let timer, alignmentTimer;
+  // Every exit path shares cleanup, so delayed timers cannot reopen the cover
+  // or steal focus after a keyboard, visibility or motion-preference dismissal.
   dismiss = () => {
     const returnFocus = veil.contains(document.activeElement);
     veil.getAnimations({ subtree: true }).forEach((a) => a.cancel());

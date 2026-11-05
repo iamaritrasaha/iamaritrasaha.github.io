@@ -5,11 +5,11 @@
   "description": "Static, accessible portfolio for Aritra Saha. No production dependencies.",
   "scripts": {
     "start": "node scripts/serve.mjs",
-    "lint": "prettier --check index.html 404.html embedded/index.html styles.css script.js assets/*.js assets/*.css scripts/*.mjs tests/*.mjs playwright.config.mjs docs/*.md README.md && html-validate index.html 404.html embedded/index.html && node --check script.js && node --check assets/research-plate.js && node --check assets/surface-physics.js && node --check assets/neuron-demo.js && node --check assets/neuron-math.js && node --check assets/neural-network.js && node --check assets/digit-model.js && node --check assets/theme.js && node --check scripts/serve.mjs && node --check scripts/python.mjs",
+    "lint": "prettier --check index.html 404.html embedded/index.html styles.css script.js assets/*.js assets/*.css scripts/*.mjs tests/*.mjs playwright.config.mjs docs/*.md README.md package.json .github/workflows/*.yml && html-validate index.html 404.html embedded/index.html && node scripts/lint_syntax.mjs",
     "test": "node scripts/python.mjs scripts/check_site.py && node --test scripts/check_*.mjs",
     "test:browser": "playwright test",
     "build": "npm test && node scripts/python.mjs scripts/build.py",
-    "format": "prettier --write index.html 404.html embedded/index.html styles.css script.js assets/*.js assets/*.css scripts/*.mjs tests/*.mjs playwright.config.mjs docs/*.md README.md"
+    "format": "prettier --write index.html 404.html embedded/index.html styles.css script.js assets/*.js assets/*.css scripts/*.mjs tests/*.mjs playwright.config.mjs docs/*.md README.md package.json .github/workflows/*.yml"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",

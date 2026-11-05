@@ -7,8 +7,6 @@
 }
 .embedded-page .nav-panel a[aria-current="page"] {
   color: var(--lime);
-  text-decoration: underline;
-  text-underline-offset: 0.4em;
 }
 .embedded-page .nav-panel a[aria-current="page"]:hover {
   color: var(--deep);

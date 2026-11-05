@@ -3,11 +3,14 @@ import { mountResearchPlate } from "./assets/research-plate.js?v=20260930.1";
 import { mountNeuronDemo } from "./assets/neuron-demo.js?v=r1";
 import { createSurfacePhysics } from "./assets/surface-physics.js?v=20260930.1";
 
-// Native navigation and progressive enhancements. All content exists without JS.
+// Homepage scene lifecycles and progressive enhancements. The independent
+// navigation.js controller is ready before these heavier modules load.
 const root = document.documentElement;
 const disclosureAnimations = new Map();
 const entranceAnimations = new Set();
 function settleDisclosure(details, entry) {
+  // Detach callbacks before cancelling: settling must commit the requested
+  // native state rather than run the interrupted animation's cleanup twice.
   entry.animation.onfinish = null;
   entry.animation.oncancel = null;
   entry.animation.cancel();
@@ -144,24 +147,8 @@ if ("IntersectionObserver" in window) {
           );
           // A pipeline reads in order, rather than arriving as one static panel.
           // No fill mode: cancelling motion returns immediately to authored CSS.
-          if (entry.target.matches(".infera-pipeline")) {
-            entry.target.querySelectorAll("li").forEach((item, index) => {
-              const animation = item.animate(
-                [
-                  { opacity: 0.3, transform: "translateX(-18px)" },
-                  { opacity: 1, transform: "translateX(0)" },
-                ],
-                {
-                  duration: 650,
-                  delay: index * 100,
-                  easing: "cubic-bezier(.22,1,.36,1)",
-                },
-              );
-              entranceAnimations.add(animation);
-              animation.onfinish = animation.oncancel = () =>
-                entranceAnimations.delete(animation);
-            });
-          }
+          if (entry.target.matches(".infera-pipeline"))
+            animatePipelineEntrance(entry.target);
         }
         revealObserver.unobserve(entry.target);
       });
@@ -199,8 +186,27 @@ if ("IntersectionObserver" in window) {
   updateScenes();
 }
 
+function animatePipelineEntrance(pipeline) {
+  pipeline.querySelectorAll("li").forEach((item, index) => {
+    const animation = item.animate(
+      [
+        { opacity: 0.3, transform: "translateX(-18px)" },
+        { opacity: 1, transform: "translateX(0)" },
+      ],
+      {
+        duration: 650,
+        delay: index * 100,
+        easing: "cubic-bezier(.22,1,.36,1)",
+      },
+    );
+    entranceAnimations.add(animation);
+    animation.onfinish = animation.oncancel = () =>
+      entranceAnimations.delete(animation);
+  });
+}
+
 // Animate the disclosure as a single measured block; cancellation preserves native state.
-document.querySelectorAll("details").forEach((details) => {
+function mountDisclosure(details) {
   const summary = details.querySelector("summary");
   summary.addEventListener("click", (event) => {
     if (reduced() || typeof details.animate !== "function") return;
@@ -241,7 +247,8 @@ document.querySelectorAll("details").forEach((details) => {
       disclosureAnimations.delete(details);
     };
   });
-});
+}
+document.querySelectorAll("details").forEach(mountDisclosure);
 function revealHashTarget() {
   let target;
   try {

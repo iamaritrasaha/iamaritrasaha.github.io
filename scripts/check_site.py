@@ -8,6 +8,11 @@ import struct
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def source_size(filename):
+    """Budget canonical UTF-8/LF source, independent of checkout line endings."""
+    return len((ROOT / filename).read_text(encoding='utf-8').encode('utf-8'))
+
+
 class Page(HTMLParser):
     def __init__(self, filename):
         super().__init__(convert_charrefs=True)
@@ -82,6 +87,12 @@ for css_file in [ROOT / 'styles.css', *sorted((ROOT / 'assets').rglob('*.css'))]
             target = ROOT / relative.lstrip('/') if relative.startswith('/') else css_file.parent / relative
             assert target.is_file(), f'{css_file.relative_to(ROOT)}: missing CSS asset {asset}'
 
+# Imports are dependencies too: a page can exist while an indirect module is missing.
+for module in [ROOT / 'script.js', *sorted((ROOT / 'assets').glob('*.js'))]:
+    for ref in re.findall(r'(?:from\s+|import\s*)[\'\"](\.[^\'\"]+)[\'\"]', module.read_text(encoding='utf-8')):
+        target = (module.parent / unquote(urlsplit(ref).path)).resolve()
+        assert target.is_relative_to(ROOT) and target.is_file(), f'{module.name}: missing module {ref}'
+
 # Social crawlers read the source HTML without running the welcome scripts.
 for filename, page in pages.items():
     meta = page.metadata
@@ -110,10 +121,10 @@ for anchor in [
     assert anchor in homepage.ids, f'Missing preserved anchor: #{anchor}'
 for filename, budget in [('index.html', 60000), ('embedded/index.html', 50000), ('assets/embedded.css', 18000), ('assets/electronics-math.js', 5000), ('assets/embedded.js', 18000), ('assets/navigation.js', 2500), ('assets/bitbench.css', 13500), ('assets/bitbench.js', 11000), ('styles.css', 45000), ('assets/editorial.css', 22000), ('script.js', 14000), ('assets/research-plate.js', 8000), ('assets/research-plate.css', 8000), ('assets/surface-physics.js', 8000), ('assets/neuron-demo.js', 20000), ('assets/neuron-demo.css', 12800), ('assets/neuron-math.js', 16000), ('assets/neural-network.js', 8000), ('assets/digit-model.js', 32000), ('assets/theme.js', 4000)]:
     # Git's Windows checkout may use CRLF; budget the canonical UTF-8/LF source.
-    size = len((ROOT / filename).read_text(encoding='utf-8').encode('utf-8'))
+    size = source_size(filename)
     assert size <= budget, f'{filename}: {size} exceeds {budget} bytes'
 for filename, budget in [('assets/welcome-start.js', 3000), ('assets/welcome-math.js', 6500), ('assets/welcome-math.css', 9500), ('assets/pulse-rpm.js', 4000), ('assets/pulse-rpm.css', 5000)]:
-    assert (ROOT / filename).stat().st_size <= budget, f'{filename}: scoped motion asset exceeds budget'
+    assert source_size(filename) <= budget, f'{filename}: scoped motion asset exceeds budget'
 assert (ROOT / 'app-ads.txt').is_file()
-assert (ROOT / 'assets/seedl-feature.css').stat().st_size <= 6000, 'SeeDL styles exceed the scoped feature budget'
+assert source_size('assets/seedl-feature.css') <= 6000, 'SeeDL styles exceed the scoped feature budget'
 print('PASS: 3 pages, IDs, internal links, controls, image geometry, all CSS assets, three public features plus four preserved studies, anchors and size budgets.')
