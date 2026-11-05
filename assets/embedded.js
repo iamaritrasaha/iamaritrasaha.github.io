@@ -24,6 +24,17 @@ let frame = 0,
   phase = 0,
   selectedProtocol = "uart";
 const geometry = new Map();
+const heroScene = document.querySelector(".lab-hero");
+const timingScene = document.querySelector(".lab-timing");
+const signalScene = $("communication");
+const coverPoint = document.querySelector(".lab-cover-point");
+const pwmSvg = $("lab-pwm-svg");
+function renderPwmMarker(g) {
+  const time = ((phase % 4) / 4) * 0.002;
+  const dot = pwmSvg.querySelector(".lab-scan-dot");
+  dot.setAttribute("cx", String(32 + (time / 0.002) * g.width));
+  dot.setAttribute("cy", time % g.period < g.onTime ? "48" : "152");
+}
 function updateMotion() {
   root.dataset.motion = reduced() ? "reduce" : "full";
   for (const scene of scenes)
@@ -41,9 +52,7 @@ function updateMotion() {
   const running =
     !reduced() &&
     !document.hidden &&
-    [".lab-hero", ".lab-timing", "#communication"].some((s) =>
-      visible.has(document.querySelector(s)),
-    );
+    [heroScene, timingScene, signalScene].some((scene) => visible.has(scene));
   root.dataset.labRunning = String(running);
   if (running && !frame) frame = requestAnimationFrame(tick);
   if (!running) {
@@ -56,23 +65,15 @@ function tick(now) {
   if (root.dataset.labRunning !== "true") return;
   if (last) phase = (phase + Math.min(now - last, 100) / 1000) % 12;
   last = now;
-  if (visible.has(document.querySelector(".lab-hero"))) {
+  if (visible.has(heroScene)) {
     const x = 385 + ((phase % 3) / 3) * 205;
     const high = (x >= 414 && x < 452) || (x >= 490 && x < 528) || x >= 565;
-    const point = document.querySelector(".lab-cover-point");
-    point.setAttribute("cx", x.toFixed(2));
-    point.setAttribute("cy", high ? "349" : "387");
+    coverPoint.setAttribute("cx", x.toFixed(2));
+    coverPoint.setAttribute("cy", high ? "349" : "387");
   }
-  const svg = $("lab-pwm-svg"),
-    g = geometry.get(svg);
-  if (g && visible.has(document.querySelector(".lab-timing"))) {
-    const time = ((phase % 4) / 4) * 0.002;
-    const high = time % g.period < g.onTime;
-    const dot = svg.querySelector(".lab-scan-dot");
-    dot.setAttribute("cx", String(32 + (time / 0.002) * g.width));
-    dot.setAttribute("cy", high ? "48" : "152");
-  }
-  if (visible.has($("communication"))) {
+  const g = geometry.get(pwmSvg);
+  if (g && visible.has(timingScene)) renderPwmMarker(g);
+  if (visible.has(signalScene)) {
     const active = document.querySelector(
       `[data-waveform="${selectedProtocol}"]`,
     );
@@ -98,6 +99,18 @@ for (const button of motionButtons)
   });
 preference.addEventListener("change", updateMotion);
 navigator.connection?.addEventListener("change", updateMotion);
+window.addEventListener("storage", (event) => {
+  try {
+    if (event.storageArea !== localStorage) return;
+  } catch {
+    return;
+  }
+  if (event.key !== "portfolio-reduced-motion" && event.key !== null) return;
+  userReduced =
+    event.newValue === "true" ||
+    new URLSearchParams(location.search).get("motion") === "reduce";
+  updateMotion();
+});
 document.addEventListener("visibilitychange", updateMotion);
 window.addEventListener("pageshow", updateMotion);
 if ("IntersectionObserver" in window) {
@@ -119,6 +132,10 @@ function renderCircuit() {
     resistance = Number($("lab-resistance").value);
   const { current, power } = resistorReadings(voltage, resistance);
   $("lab-voltage-label").value = voltage.toFixed(1) + " V";
+  $("lab-voltage").setAttribute(
+    "aria-valuetext",
+    `${voltage.toFixed(1)} volts`,
+  );
   $("lab-current").textContent = (current * 1000).toFixed(2);
   $("lab-power").textContent = (power * 1000).toFixed(2);
   document
@@ -155,11 +172,14 @@ function renderPwm() {
     .querySelector("text:not(#lab-on-label)")
     .setAttribute("x", String((32 + x(period)) / 2));
   $("lab-duty-label").value = duty + "%";
+  $("lab-duty").setAttribute("aria-valuetext", `${duty} percent duty cycle`);
   $("lab-pwm-summary").textContent =
     `${duty}% duty · T = ${number(period * 1e6)} µs · t_on = ${number(onTime * 1e6)} µs · f = ${number(frequency)} Hz`;
   $("pwm-svg-title").textContent =
     `PWM: ${duty}% duty at ${frequency} hertz. High for ${number(onTime * 1e6)} microseconds each ${number(period * 1e6)} microsecond period.`;
-  geometry.set(svg, { width: plot, period, onTime });
+  const timing = { width: plot, period, onTime };
+  geometry.set(svg, timing);
+  renderPwmMarker(timing);
 }
 $("lab-duty").addEventListener("input", renderPwm);
 $("lab-frequency").addEventListener("change", renderPwm);

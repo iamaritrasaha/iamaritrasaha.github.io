@@ -12,7 +12,7 @@ Open [localhost:4173](http://localhost:4173). Node.js 22+ is sufficient for this
 
 ## Development
 
-Optional checks require Node.js 22.12+ and Python 3:
+Optional checks require Node.js 22.22+ on the 22 release line, or Node.js 24.8+ and Python 3. The supported versions match the HTML validator:
 
 ```bash
 npm ci
@@ -50,7 +50,7 @@ Browser tests start a separate server on port 4174. They cover both themes at fi
 
 SeeDL leads selected work as the flagship, using a concept illustration in the existing palette and links to its scientific viewers. [SeeDL feature notes](seedl-feature.md) record verified release information and artwork provenance. Infera and PulseShift follow with verified implementation notes and an explicitly illustrative automatic RPM preview. Orion’s private research spread, SysAI’s deep-green diagnostic section, and the offset Relay/Vyren pair remain discoverable. Preserve each project's problem, personal engineering contribution, implementation choices and current state. Keep smaller projects in the compact index and Aether outside the main features. The hero is a real small digit classifier trained for this interactive study. Its held-out result is a demo evaluation, not an Orion result. The weight-space surface remains an illustration. See [model provenance and reproduction](digit-model.md) for the training configuration, split, source attribution and numerical checks. Training is optional and uses a separate Python environment; serving the exported model requires no Python ML packages.
 
-Change shared colors and fonts in the tokens at the start of `styles.css`. `assets/editorial.css` supplies the redesigned compositions without replacing the existing laboratory components. Literata is a self-hosted variable Latin WOFF2 with optical sizing, paired with the retained regular JetBrains Mono font. Their SIL OFL licenses and source information live in `assets/fonts/`. Update visible copy and social metadata together. Increment changed asset `?v=` references in both HTML pages to avoid stale browser caches.
+Change shared colors and fonts in the tokens at the start of `styles.css`. `assets/editorial.css` supplies the redesigned compositions without replacing the existing laboratory components. Literata is a self-hosted variable Latin WOFF2 with optical sizing, paired with the retained regular JetBrains Mono font. Their SIL OFL licenses and source information live in `assets/fonts/`. Update visible copy and social metadata together. Increment changed asset `?v=` references in the homepage, lab and error pages to avoid stale browser caches.
 
 The native theme selector defaults to System and follows live OS changes. Light and Dark save an explicit local override; System clears it. The hero-caption and footer motion controls remember a separate preference. OS reduced motion and data saving take precedence; `?motion=reduce` previews the reduced experience.
 

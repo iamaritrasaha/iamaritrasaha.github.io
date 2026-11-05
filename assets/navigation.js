@@ -26,6 +26,9 @@
     document.addEventListener("pointerdown", (e) => {
       if (!nav.contains(e.target)) closeMenu();
     });
+    nav.addEventListener("focusout", (event) => {
+      if (!nav.contains(event.relatedTarget)) closeMenu();
+    });
     mobile.addEventListener("change", () => closeMenu());
   }
 })();

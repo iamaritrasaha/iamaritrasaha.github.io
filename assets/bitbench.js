@@ -131,7 +131,7 @@ function paint(manual = false) {
     layer +
     " · " +
     values.length +
-    " GELU units. Bars show relative magnitude. Pink marks negative values.";
+    " GELU units. Bars show relative magnitude. Striped bars are negative.";
   $("inspect").textContent = "Inspect hidden layer " + (3 - layer) + " →";
   if (manual)
     $("bench-status").textContent =

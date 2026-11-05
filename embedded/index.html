@@ -9,7 +9,7 @@
       content="Aritra Saha’s electronics notebook: interactive circuit mathematics, PWM timing, communication diagrams and embedded firmware experiments."
     />
     <meta name="theme-color" content="#f4f4ec" />
-    <script src="/assets/theme.js?v=bb1"></script>
+    <script src="/assets/theme.js?v=a2"></script>
     <link rel="canonical" href="https://iamaritrasaha.github.io/embedded/" />
     <meta property="og:title" content="Embedded Systems Lab | Aritra Saha" />
     <meta
@@ -62,10 +62,10 @@
     />
     <link rel="stylesheet" href="/styles.css?v=r1" />
     <link rel="stylesheet" href="/assets/editorial.css?v=r1" />
-    <link rel="stylesheet" href="/assets/creative.css?v=r1" />
+    <link rel="stylesheet" href="/assets/creative.css?v=a2" />
     <link rel="stylesheet" href="/assets/bitbench.css?v=r1" />
-    <link rel="stylesheet" href="/assets/embedded.css?v=1" />
-    <script type="module" src="/assets/embedded.js?v=1"></script>
+    <link rel="stylesheet" href="/assets/embedded.css?v=a2" />
+    <script type="module" src="/assets/embedded.js?v=a2"></script>
   </head>
   <body class="embedded-page">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -99,8 +99,8 @@
         </div>
       </nav>
     </header>
-    <script src="/assets/navigation.js?v=1"></script>
-    <main id="main">
+    <script src="/assets/navigation.js?v=a2"></script>
+    <main id="main" tabindex="-1">
       <section class="lab-hero lab-scene" aria-labelledby="lab-title">
         <div class="wrap lab-hero-grid">
           <div class="lab-hero-copy">
@@ -217,13 +217,20 @@
           </figure>
         </div>
         <div class="wrap lab-index-strip">
-          <span>Read the circuit. Follow the signal.</span
-          ><button type="button" data-lab-motion hidden>Pause motion</button>
+          <nav class="lab-notebook-nav" aria-label="Notebook sections">
+            <a href="#circuits">01 Circuits</a>
+            <a href="#timing">02 PWM</a>
+            <a href="#communication">03 Signals</a>
+            <a href="#firmware">04 Code</a>
+            <a href="#projects">05 Projects</a>
+          </nav>
+          <button type="button" data-lab-motion hidden>Pause motion</button>
         </div>
       </section>
       <section
         class="wrap lab-section lab-scene"
         id="circuits"
+        tabindex="-1"
         aria-labelledby="circuit-title"
       >
         <div class="lab-section-head">
@@ -293,6 +300,7 @@
               </div>
               <input
                 id="lab-voltage"
+                aria-valuetext="5.0 volts"
                 type="range"
                 min="1"
                 max="12"
@@ -388,6 +396,7 @@
       <section
         class="lab-timing lab-scene"
         id="timing"
+        tabindex="-1"
         aria-labelledby="timing-title"
       >
         <div class="wrap">
@@ -421,6 +430,7 @@
                 </div>
                 <input
                   id="lab-duty"
+                  aria-valuetext="35 percent duty cycle"
                   type="range"
                   min="10"
                   max="90"
@@ -482,6 +492,7 @@
       <section
         class="wrap lab-section lab-scene"
         id="communication"
+        tabindex="-1"
         aria-labelledby="comm-title"
       >
         <div class="lab-section-head">
@@ -732,6 +743,7 @@
       <section
         class="lab-code-section lab-scene"
         id="firmware"
+        tabindex="-1"
         aria-labelledby="firmware-title"
       >
         <div class="wrap">
@@ -929,6 +941,7 @@ void loop() {
       <section
         class="wrap lab-section"
         id="projects"
+        tabindex="-1"
         aria-labelledby="projects-title"
       >
         <div class="lab-section-head">

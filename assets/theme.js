@@ -48,6 +48,21 @@
   if (system?.addEventListener) system.addEventListener("change", followSystem);
   else system?.addListener(followSystem);
 
+  window.addEventListener("storage", (event) => {
+    try {
+      if (event.storageArea !== localStorage) return;
+    } catch {
+      return;
+    }
+    if (event.key !== key && event.key !== null) return;
+    preference = ["light", "dark"].includes(event.newValue)
+      ? event.newValue
+      : "system";
+    const select = document.getElementById("theme-select");
+    if (select) select.value = preference;
+    apply();
+  });
+
   // Run synchronously in the head so the first styled frame has the right theme.
   apply();
 
