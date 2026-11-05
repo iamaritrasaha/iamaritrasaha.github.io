@@ -45,6 +45,9 @@ test("Chromium browser zoom at 200% and 400% preserves reflow and controls", asy
     );
     const page = await context.newPage();
     await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto(baseURL);
+    // Native window borders vary by platform; zoom scales the content viewport.
+    const unzoomedWidth = await page.evaluate(() => innerWidth);
     for (const zoom of [2, 4]) {
       await page.goto(`${baseURL}/?auditZoom=${zoom}`);
       await expect.poll(() => page.evaluate(() => devicePixelRatio)).toBe(zoom);
@@ -52,7 +55,7 @@ test("Chromium browser zoom at 200% and 400% preserves reflow and controls", asy
         width: innerWidth,
         scroll: document.documentElement.scrollWidth,
       }));
-      expect(geometry.width).toBe(1280 / zoom);
+      expect(geometry.width).toBeCloseTo(unzoomedWidth / zoom, 0);
       expect(geometry.scroll).toBeLessThanOrEqual(geometry.width);
       const pixel = page.locator("#pixels button").first();
       await pixel.focus();
@@ -63,9 +66,12 @@ test("Chromium browser zoom at 200% and 400% preserves reflow and controls", asy
       await expect(page.locator("#nav-panel")).toBeVisible();
       await page.goto(`${baseURL}/embedded/?auditZoom=${zoom}`);
       await expect.poll(() => page.evaluate(() => devicePixelRatio)).toBe(zoom);
-      expect(
-        await page.evaluate(() => document.documentElement.scrollWidth),
-      ).toBeLessThanOrEqual(1280 / zoom);
+      const labGeometry = await page.evaluate(() => ({
+        width: innerWidth,
+        scroll: document.documentElement.scrollWidth,
+      }));
+      expect(labGeometry.width).toBeCloseTo(unzoomedWidth / zoom, 0);
+      expect(labGeometry.scroll).toBeLessThanOrEqual(labGeometry.width);
       await page.locator("#lab-duty").focus();
       const duty = await page.locator("#lab-duty").inputValue();
       await page.keyboard.press("ArrowRight");

@@ -5,6 +5,9 @@ import {
   stepPath,
 } from "./electronics-math.js";
 const $ = (id) => document.getElementById(id);
+// The scope displays two milliseconds; its scan takes four animation seconds.
+const PWM_WINDOW_SECONDS = 0.002;
+const PWM_SCAN_SECONDS = 4;
 const root = document.documentElement;
 const preference = matchMedia("(prefers-reduced-motion: reduce)");
 let userReduced =
@@ -29,11 +32,15 @@ const timingScene = document.querySelector(".lab-timing");
 const signalScene = $("communication");
 const coverPoint = document.querySelector(".lab-cover-point");
 const pwmSvg = $("lab-pwm-svg");
-function renderPwmMarker(g) {
-  const time = ((phase % 4) / 4) * 0.002;
+function renderPwmMarker(timing) {
+  const time =
+    ((phase % PWM_SCAN_SECONDS) / PWM_SCAN_SECONDS) * PWM_WINDOW_SECONDS;
   const dot = pwmSvg.querySelector(".lab-scan-dot");
-  dot.setAttribute("cx", String(32 + (time / 0.002) * g.width));
-  dot.setAttribute("cy", time % g.period < g.onTime ? "48" : "152");
+  dot.setAttribute(
+    "cx",
+    String(32 + (time / PWM_WINDOW_SECONDS) * timing.width),
+  );
+  dot.setAttribute("cy", time % timing.period < timing.onTime ? "48" : "152");
 }
 function updateMotion() {
   root.dataset.motion = reduced() ? "reduce" : "full";
@@ -57,12 +64,14 @@ function updateMotion() {
   if (running && !frame) frame = requestAnimationFrame(tick);
   if (!running) {
     cancelAnimationFrame(frame);
+    // Keep the phase on pause, but discard elapsed wall time before resuming.
     frame = last = 0;
   }
 }
 function tick(now) {
   frame = 0;
   if (root.dataset.labRunning !== "true") return;
+  // Cap a delayed frame at 100 ms; all three scans share this 12-second phase.
   if (last) phase = (phase + Math.min(now - last, 100) / 1000) % 12;
   last = now;
   if (visible.has(heroScene)) {
@@ -71,8 +80,8 @@ function tick(now) {
     coverPoint.setAttribute("cx", x.toFixed(2));
     coverPoint.setAttribute("cy", high ? "349" : "387");
   }
-  const g = geometry.get(pwmSvg);
-  if (g && visible.has(timingScene)) renderPwmMarker(g);
+  const timing = geometry.get(pwmSvg);
+  if (timing && visible.has(timingScene)) renderPwmMarker(timing);
   if (visible.has(signalScene)) {
     const active = document.querySelector(
       `[data-waveform="${selectedProtocol}"]`,
@@ -145,40 +154,50 @@ function renderCircuit() {
 $("lab-voltage").addEventListener("input", renderCircuit);
 $("lab-resistance").addEventListener("change", renderCircuit);
 renderCircuit();
-const number = (n) => n.toLocaleString("en-US", { maximumFractionDigits: 1 });
+const formatReading = (value) =>
+  value.toLocaleString("en-US", { maximumFractionDigits: 1 });
+function pwmWaveformPath(period, onTime, timeToX) {
+  let path = "M32 152";
+  // The epsilon excludes an extra cycle from floating-point accumulation.
+  for (let time = 0; time < PWM_WINDOW_SECONDS - 1e-9; time += period)
+    path += `V48H${timeToX(Math.min(time + onTime, PWM_WINDOW_SECONDS))}V152H${timeToX(Math.min(time + period, PWM_WINDOW_SECONDS))}`;
+  return path;
+}
+
 function renderPwm() {
   const duty = Number($("lab-duty").value),
     frequency = Number($("lab-frequency").value);
   const { period, onTime } = pwmTiming(duty, frequency);
   const svg = $("lab-pwm-svg"),
     width = Math.max(200, svg.clientWidth),
-    plot = width - 64;
+    plotWidth = width - 64;
   svg.setAttribute("viewBox", `0 0 ${width} 240`);
-  const x = (time) => 32 + (time / 0.002) * plot;
-  let path = "M32 152";
-  for (let time = 0; time < 0.002 - 1e-9; time += period)
-    path += `V48H${x(Math.min(time + onTime, 0.002))}V152H${x(Math.min(time + period, 0.002))}`;
-  $("lab-pwm-path").setAttribute("d", path);
+  const timeToX = (time) => 32 + (time / PWM_WINDOW_SECONDS) * plotWidth;
+  $("lab-pwm-path").setAttribute("d", pwmWaveformPath(period, onTime, timeToX));
   svg
     .querySelector(".lab-scope-grid")
     .setAttribute(
       "d",
       `M32 48H${width - 32}M32 152H${width - 32}M32 200H${width - 32}M32 30V210M${width - 32} 30V210`,
     );
-  $("lab-period-bracket").setAttribute("d", `M32 184V192H${x(period)}V184`);
-  $("lab-on-bracket").setAttribute("d", `M32 30V22H${x(onTime)}V30`);
-  $("lab-on-label").setAttribute("x", String((32 + x(onTime)) / 2));
+  $("lab-period-bracket").setAttribute(
+    "d",
+    `M32 184V192H${timeToX(period)}V184`,
+  );
+  $("lab-on-bracket").setAttribute("d", `M32 30V22H${timeToX(onTime)}V30`);
+  $("lab-on-label").setAttribute("x", String((32 + timeToX(onTime)) / 2));
   svg
     .querySelector("text:not(#lab-on-label)")
-    .setAttribute("x", String((32 + x(period)) / 2));
+    .setAttribute("x", String((32 + timeToX(period)) / 2));
   $("lab-duty-label").value = duty + "%";
   $("lab-duty").setAttribute("aria-valuetext", `${duty} percent duty cycle`);
   $("lab-pwm-summary").textContent =
-    `${duty}% duty · T = ${number(period * 1e6)} µs · t_on = ${number(onTime * 1e6)} µs · f = ${number(frequency)} Hz`;
+    `${duty}% duty · T = ${formatReading(period * 1e6)} µs · t_on = ${formatReading(onTime * 1e6)} µs · f = ${formatReading(frequency)} Hz`;
   $("pwm-svg-title").textContent =
-    `PWM: ${duty}% duty at ${frequency} hertz. High for ${number(onTime * 1e6)} microseconds each ${number(period * 1e6)} microsecond period.`;
-  const timing = { width: plot, period, onTime };
+    `PWM: ${duty}% duty at ${frequency} hertz. High for ${formatReading(onTime * 1e6)} microseconds each ${formatReading(period * 1e6)} microsecond period.`;
+  const timing = { width: plotWidth, period, onTime };
   geometry.set(svg, timing);
+  // Input and resize events must also update the marker while motion is paused.
   renderPwmMarker(timing);
 }
 $("lab-duty").addEventListener("input", renderPwm);

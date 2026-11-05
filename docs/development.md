@@ -1,71 +1,86 @@
-# Aritra Saha | portfolio
+# Developing the portfolio
 
-An editorial portfolio of independent work in machine learning, local AI, Android and Linux systems. Project stories, calculated neural-network visualizations and a cobalt, citron and paper palette carry the presentation. Built with semantic HTML, CSS and progressive vanilla JavaScript. No production dependencies, external font requests, analytics or model API endpoints.
+This is a static portfolio with two public pages: the [homepage](https://iamaritrasaha.github.io/) and [Embedded Systems Lab](https://iamaritrasaha.github.io/embedded/), plus a shared 404 page. HTML, layered CSS and native JavaScript modules provide the current cobalt, citron and paper presentation. There are no production dependencies, remote fonts, analytics or model endpoints.
 
-## Run locally
+## Local preview and checks
+
+Use Node.js `^22.22.0 || >=24.8.0` and Python 3 for development, matching `package.json`. CI checks the supported 22, 24 and 26 release lines. The preview itself needs no dependency installation or build:
 
 ```bash
 npm start
 ```
 
-Open [localhost:4173](http://localhost:4173). Node.js 22+ is sufficient for this preview; no dependency installation or build is required. The local server serves public files, uses the site's 404 page for missing routes, and listens only on your machine. A plain static host can also serve the repository directly.
-
-## Development
-
-Optional checks require Node.js 22.22+ on the 22 release line, or Node.js 24.8+ and Python 3. The supported versions match the HTML validator:
+Open [localhost:4173](http://localhost:4173) or [the local lab](http://localhost:4173/embedded/). The server binds to loopback, serves public files only, redirects `/embedded` to `/embedded/`, and returns the actual 404 page/status for missing routes.
 
 ```bash
 npm ci
 npm run lint
 npm test
 npm run build
+npx playwright install chromium firefox
 npm run test:browser
 ```
 
-Lint checks formatting, HTML and JavaScript syntax. Tests cover static site integrity, neural-network arithmetic, spring behavior and theme preferences. The Python launcher accepts `PYTHON` or an optional ignored `.python-path` file, then tries `python3`, `python` and `py`. The build runs tests and copies deployable files into `dist/`. Preview the build with `npm start -- dist`.
+`lint` checks Prettier formatting, all three HTML pages and syntax in every top-level JavaScript module under `assets/`, `scripts/` and `tests/`, plus the root script and Playwright configuration. `npm run format` formats the same authored files, including package/workflow configuration. Static tests check local page links and fragments, controls, image geometry, CSS resources, module imports, social-preview compatibility and source-size budgets. Text budgets normalize CRLF to LF; binary image dimensions and sizes use actual bytes.
 
-Browser tests start a separate server on port 4174. They cover both themes at five widths, all neural stages, automated accessibility checks, navigation focus, clipboard success/failure, disclosures, motion preferences, no-JavaScript behavior and the nested 404. An installed Microsoft Edge is used by default; use `PLAYWRIGHT_CHANNEL=chromium npm run test:browser` after `npx playwright install chromium` to use Chromium in a cloud environment. Tests are emulation, not physical-device validation. Use `npm run format` to format authored source and documentation. Recorded browser checks and their limits belong in [docs/validation.md](validation.md); the [October upgrade report](portfolio-upgrade.md) records the layout and accessibility refinements.
+Python resolution uses `PYTHON`, an optional ignored `.python-path`, then `python3`, `python` and `py`. `build` runs the static/unit checks and copies public files to `dist/`; it does not publish. Preview it with `npm start -- dist`. The model-training environment is separate and optional; see [digit-model.md](digit-model.md).
 
-## Structure
+## Browser selection and coverage
 
-| File                                | Responsibility                                                                                                                       |
-| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| `index.html`                        | Content, project spreads, native engineering disclosures, navigation and metadata. Core content remains readable without JavaScript. |
-| `styles.css`                        | Local fonts, visual tokens, page compositions, responsive layouts, print and accessibility rules.                                    |
-| `script.js`                         | Navigation, one-time entrances, disclosure transitions, visible-scene motion and user motion preferences.                            |
-| `assets/research-plate.js` / `.css` | Original SVG weight-space study inside Orion's engineering notebook, with Base weights / Low-rank update controls.                   |
-| `assets/neuron-demo.js` / `.css`    | Trained 64 → 16 → 12 → 10 digit recognizer with real image inputs, calculated inference and backpropagation.                         |
-| `assets/neural-network.js`          | Pure forward/backward mathematics shared by the visualization and numerical tests.                                                   |
-| `assets/digit-model.js`             | Exported learned weights, small held-out image examples and training metadata.                                                       |
-| `assets/surface-physics.js`         | Bounded fine-pointer spring response for Relay and Vyren artwork.                                                                    |
-| `assets/theme.js`                   | First-paint theme selection, live OS preference and saved manual overrides.                                                          |
-| `assets/fonts/`                     | Local Literata and JetBrains Mono WOFF2 fonts with licenses.                                                                         |
-| `assets/projects/`                  | Preserved project identities and source artwork.                                                                                     |
-| `404.html`                          | Matching error page with root-relative assets for nested missing URLs.                                                               |
-| `scripts/`                          | Static integrity checks, module tests and optional artifact build.                                                                   |
+Playwright starts its own preview on port 4174 with one worker. Microsoft Edge is the local default. To use the installed Playwright browsers in PowerShell:
 
-[Design decisions](design-decisions.md) documents the visual system, component structure, content provenance and motion architecture.
+```powershell
+$env:PLAYWRIGHT_CHANNEL = "chromium"
+npm run test:browser
+$env:PLAYWRIGHT_BROWSER = "firefox"
+npm run test:browser
+Remove-Item Env:PLAYWRIGHT_BROWSER, Env:PLAYWRIGHT_CHANNEL
+```
 
-## Editing content and appearance
+On a POSIX shell use `PLAYWRIGHT_CHANNEL=chromium npm run test:browser` and `PLAYWRIGHT_BROWSER=firefox npm run test:browser`. CI installs browser system dependencies with `npx playwright install --with-deps` as described in the [Playwright CI guide](https://playwright.dev/docs/ci).
 
-SeeDL leads selected work as the flagship, using a concept illustration in the existing palette and links to its scientific viewers. [SeeDL feature notes](seedl-feature.md) record verified release information and artwork provenance. Infera and PulseShift follow with verified implementation notes and an explicitly illustrative automatic RPM preview. Orion’s private research spread, SysAI’s deep-green diagnostic section, and the offset Relay/Vyren pair remain discoverable. Preserve each project's problem, personal engineering contribution, implementation choices and current state. Keep smaller projects in the compact index and Aether outside the main features. The hero is a real small digit classifier trained for this interactive study. Its held-out result is a demo evaluation, not an Orion result. The weight-space surface remains an illustration. See [model provenance and reproduction](digit-model.md) for the training configuration, split, source attribution and numerical checks. Training is optional and uses a separate Python environment; serving the exported model requires no Python ML packages.
+There are 27 unit tests and 94 browser scenarios. Chromium runs all 94; Firefox skips the one test that explicitly uses Chromium's extension API for native browser zoom. Coverage includes:
 
-Change shared colors and fonts in the tokens at the start of `styles.css`. `assets/editorial.css` supplies the redesigned compositions without replacing the existing laboratory components. Literata is a self-hosted variable Latin WOFF2 with optical sizing, paired with the retained regular JetBrains Mono font. Their SIL OFL licenses and source information live in `assets/fonts/`. Update visible copy and social metadata together. Increment changed asset `?v=` references in the homepage, lab and error pages to avoid stale browser caches.
+- Independent neural forward/backward fixtures, all 1,438 derivatives, numerical stability, immutable inference, spring integration, RPM/LED continuity, theme persistence, Ohm's law, PWM timing and UART/I2C/SPI/CAN teaching signals.
+- Both pages in light/dark themes, 13 widths from 320 to 2560px, enlarged text and spacing, short landscape, touch targets, keyboard navigation, disclosures and clipboard success/failure.
+- Classifier pixel edits and layer inspection, the projection and regression controls, lab circuit/PWM/protocol controls, forced colors and automated axe accessibility checks.
+- Welcome timing and grid handoff, delayed/failed modules, focus-safe dismissal, reduced motion, data saving, offscreen/hidden-tab suspension and cross-tab preferences.
+- JavaScript-disabled content, missing routes and preview-server path boundaries. Chromium additionally checks actual 200% and 400% browser zoom, calibrated to the native content viewport.
 
-The native theme selector defaults to System and follows live OS changes. Light and Dark save an explicit local override; System clears it. The hero-caption and footer motion controls remember a separate preference. OS reduced motion and data saving take precedence; `?motion=reduce` previews the reduced experience.
+Screenshots and failure traces go to ignored `test-results/`. These checks use browser emulation; they do not establish physical-device, Safari or screen-reader coverage. [Validation history](validation.md) contains dated earlier results, not the current test count. The [maintenance record](maintenance.md) records the cleanup baseline and evidence.
 
-Scene animation runs only while its artwork is visible and the document is active. Section entrances run once. Native details retain keyboard behavior and receive a short transition when motion is allowed. Touch scrolling remains native, and every disclosure and illustration control remains usable with motion reduced.
+## Module map
 
-## Deployment
+| Entry or module                                                                | Responsibility                                                                                                                                                                          |
+| ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `index.html`, `embedded/index.html`, `404.html`                                | Public content, semantic controls, metadata and static fallbacks.                                                                                                                       |
+| `assets/theme.js`, `assets/navigation.js`                                      | Early theme selection and independent mobile navigation. Navigation stays usable while application modules load.                                                                        |
+| `script.js`                                                                    | Homepage scene visibility, shared motion preference, entrances, disclosure transitions, hash focus and email copy. Mounts the notebook visualizations, RPM preview and surface physics. |
+| `assets/bitbench.js`                                                           | Editable 8×8 hero input, prediction distribution, hidden-layer inspection and welcome lifecycle.                                                                                        |
+| `assets/welcome-start.js`, `assets/welcome-math.js`                            | Synchronous first-paint cover gate and mathematical manuscript construction; `bitbench.js` owns the handoff and dismissal.                                                              |
+| `assets/creative.js`, `assets/projection.js`                                   | Separate mounts for helicoid rotation, SeeDL isolation and the Infera worked example; pure helicoid-to-SVG geometry.                                                                    |
+| `assets/pixel-relief.js`                                                       | Canvas projection of the same editable intensities; idle camera motion never changes inference.                                                                                         |
+| `assets/neuron-demo.js`, `assets/neuron-math.js`                               | Notebook classifier interaction, SVG diagram and native MathML explanations.                                                                                                            |
+| `assets/neural-network.js`, `assets/digit-model.js`                            | Pure forward/backward arithmetic and fixed exported weights/samples, shared by both classifier views and tests.                                                                         |
+| `assets/research-plate.js`, `assets/surface-physics.js`, `assets/pulse-rpm.js` | Illustrated low-rank surface, bounded pointer springs and synthetic six-LED RPM cycle.                                                                                                  |
+| `assets/embedded.js`, `assets/electronics-math.js`                             | Lab rendering/events/animation lifecycle and separate pure electrical/protocol calculations.                                                                                            |
+| `scripts/`, `tests/`                                                           | Preview/build tools, integrity checks, numerical fixtures, model reproduction and Playwright scenarios.                                                                                 |
+| `concepts/`, `docs/*-review/`, `docs/review/`                                  | Historical prototypes and selected evidence; not imported by the current website or copied into `dist/`. Retention decisions are in the maintenance record.                             |
 
-Publish the repository root or generated `dist/` to static hosting. Keep `404.html`, `robots.txt`, `sitemap.xml` and `app-ads.txt`. The canonical URL is `https://iamaritrasaha.github.io/`; update canonical/social metadata and the sitemap if the domain changes. No server runtime or API key is required. GitHub Pages publishes the repository root automatically when `main` is pushed. The `.nojekyll` marker keeps the site on the plain static publishing path. Building locally writes `dist/` without publishing.
+## Styles and behavior
 
-## Copyright
+Load order is intentional. `styles.css` supplies foundations; component styles support the neural, research and SeeDL studies; `editorial.css` and `creative.css` retain active layout rules; `bitbench.css` supplies the current final shared palette. The homepage then adds welcome/RPM styles, while the lab adds `embedded.css`. Earlier stylesheet names do not mean the files are obsolete. See [design decisions](design-decisions.md) for current tokens and provenance.
 
-© 2026 Aritra Saha. All rights reserved.
+Preserve calculations, event ordering, animation durations and static fallbacks when refactoring. Motion controllers separately manage page-specific lifecycles while sharing the stored `portfolio-reduced-motion` preference; OS reduced motion and data saving take precedence. Theme and motion preferences synchronize across tabs. Bump changed asset query versions in their importing pages/modules to avoid stale caches.
 
-This notice applies to the original content and code in this portfolio. Third-party fonts, datasets, libraries and other attributed materials remain subject to their respective licenses.
+## CI and deployment
 
-## November editorial redesign
+`.github/workflows/ci.yml` checks PRs and pushes to `main`, with read-only repository permissions. Three Node jobs run install, lint, static/unit tests and build; two browser jobs run Chromium and Firefox on Node 24. Failure traces are retained for seven days. Pinned action commits make workflow dependencies reviewable.
 
-See [the design specification](editorial-redesign-spec.md) and [the implementation and validation report](editorial-redesign-report.md). The approved redesign is published at the canonical portfolio URL.
+GitHub Pages remains configured to publish the root of `main` using its existing Pages build/deployment workflow. CI neither deploys nor changes that configuration. Keep `.nojekyll`, `404.html`, `robots.txt`, `sitemap.xml` and `app-ads.txt`. The canonical URL remains `https://iamaritrasaha.github.io/`. A local `dist/` build is an optional static-hosting artifact.
+
+Before merging, require the five CI checks, an up-to-date PR branch and resolved review conversations. No outside approval is required for this individually maintained repository. Force pushes and branch deletion must stay disabled for `main`; merged feature branches can be deleted automatically. Repository administration permission is needed to change these settings; fine-grained API tokens need **Administration: write**, in addition to **Contents: write** for branch operations and **Pull requests: write** for PRs.
+
+## Ownership
+
+© 2026 Aritra Saha. All rights reserved for original portfolio code/content. Third-party fonts, datasets and attributed material retain their own licenses. Preserve font notices, model provenance, source attribution and intentional compatibility assets, including the legacy social-preview PNG.

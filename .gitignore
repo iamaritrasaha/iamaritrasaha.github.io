@@ -6,3 +6,6 @@ dist/
 test-results/
 playwright-report/
 .python-path
+# Individual review captures are archived in Git; keep curated comparison sheets.
+docs/creative-review/before-*.jpg
+docs/creative-review/after-*.jpg
