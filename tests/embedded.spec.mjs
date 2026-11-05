@@ -118,6 +118,7 @@ test("embedded mobile navigation, preferences and keyboard controls", async ({
   await page.getByRole("link", { name: "Embedded Lab", exact: true }).tap();
   await expect(page).toHaveURL(/\/embedded\/$/);
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await expect(page.locator("#lab-duty")).toBeVisible();
   await page.locator("#lab-duty").focus();
   const before = +(await page.locator("#lab-duty").inputValue());
   await page.keyboard.press("ArrowRight");
