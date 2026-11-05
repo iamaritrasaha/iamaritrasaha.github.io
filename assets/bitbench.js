@@ -1,11 +1,12 @@
 import { mountWelcomeMath } from "./welcome-math.js?v=3";
 import { DIGIT_SAMPLES } from "./digit-model.js";
 import { evaluateNetwork } from "./neural-network.js";
-import { mountRelief } from "./pixel-relief.js";
+import { mountRelief } from "./pixel-relief.js?v=morph1";
 
 const $ = (id) => document.getElementById(id);
 const DIGIT_COUNT = 10;
 const CYCLE_DELAY = 4800;
+const SAMPLE_TRANSITION_MS = 700;
 const specimenKey = "portfolio-hero-digit";
 function randomSpecimen() {
   let previous = NaN;
@@ -56,7 +57,7 @@ const cells = Array.from({ length: 64 }, (_, i) => {
   cell.onclick = () => {
     holdSpecimen();
     input[i] = input[i] >= 0.5 ? 0 : 1;
-    paint(true);
+    paint({ manual: true });
     animate(
       cell,
       [{ transform: "scale(.76)" }, { transform: "scale(1)" }],
@@ -105,8 +106,17 @@ const stamp = Array.from({ length: 64 }, () => {
 });
 $("end-pixels").parentElement.hidden = false;
 const updateRelief = mountRelief(document.querySelector(".pixel-relief"));
-function paint(manual = false, animatePrediction = manual) {
+function paint({ manual = false, transition = false } = {}) {
   const result = evaluateNetwork(input, DIGIT_SAMPLES[specimen].label);
+  const duration = transition && !reduce() ? SAMPLE_TRANSITION_MS : 0;
+  $("pixels").style.setProperty(
+    "--pixel-duration",
+    duration ? `${duration}ms` : "var(--fast)",
+  );
+  $("pixels").style.setProperty(
+    "--pixel-easing",
+    duration ? "cubic-bezier(.45,0,.55,1)" : "ease",
+  );
   cells.forEach((cell, i) => {
     cell.style.setProperty("--intensity", input[i]);
     cell.setAttribute(
@@ -120,17 +130,18 @@ function paint(manual = false, animatePrediction = manual) {
     );
   });
   stamp.forEach((dot, i) => (dot.style.opacity = 0.08 + input[i] * 0.92));
-  updateRelief(input);
+  updateRelief(input, duration);
   const confidence =
     (100 * result.probabilities[result.prediction]).toFixed(1) +
     "% probability";
   $("winner").textContent = result.prediction;
   $("confidence").textContent = confidence;
-  if (animatePrediction && previousPrediction !== result.prediction)
-    animate($("winner"), [
-      { transform: "translateY(.14em) rotate(-4deg)", opacity: 0.5 },
-      { transform: "none", opacity: 1 },
-    ]);
+  if ((manual || transition) && previousPrediction !== result.prediction)
+    animate(
+      $("winner"),
+      [{ opacity: 0.65 }, { opacity: 1 }],
+      SAMPLE_TRANSITION_MS,
+    );
   previousPrediction = result.prediction;
   bins.forEach((bin, i) => {
     bin.firstChild.style.transform =
@@ -192,28 +203,9 @@ function changeSpecimen(next, manual = false) {
   specimen = next;
   input = [...DIGIT_SAMPLES[specimen].input];
   rememberSpecimen();
-  // Inference uses the complete new sample. Only its presentation ripples;
+  // Inference uses the complete new sample. Only its presentation morphs;
   // automatic changes stay out of the manual-control live announcement.
-  paint(manual, true);
-  cells.forEach((cell, index) =>
-    animate(
-      cell,
-      [
-        { opacity: 0.3, transform: "scale(.84)" },
-        { opacity: 1, transform: "scale(1)" },
-      ],
-      360,
-      (Math.floor(index / 8) + (index % 8)) * 14,
-    ),
-  );
-  animate(
-    document.querySelector(".pixel-relief canvas"),
-    [
-      { opacity: 0.4, transform: "translateY(6px)" },
-      { opacity: 1, transform: "none" },
-    ],
-    420,
-  );
+  paint({ manual, transition: true });
   syncCycle();
 }
 function syncCycle() {
@@ -243,7 +235,7 @@ $("specimen").onclick = () => {
 $("inspect").onclick = () => {
   holdSpecimen();
   layer = 3 - layer;
-  paint(true);
+  paint({ manual: true });
   animate($("activations"), [
     { transform: "scaleY(.35)" },
     { transform: "scaleY(1)" },

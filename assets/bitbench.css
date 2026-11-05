@@ -134,7 +134,8 @@ html[data-theme="dark"] {
   min-height: 0;
   aspect-ratio: 1;
   border: 0;
-  transition: background-color var(--fast);
+  transition: background-color var(--pixel-duration, var(--fast))
+    var(--pixel-easing, ease);
 }
 #pixels button:hover {
   box-shadow: inset 0 0 0 2px white;

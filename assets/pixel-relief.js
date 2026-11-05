@@ -1,11 +1,12 @@
-// An orthographic drawing of the editable raster. This renderer animates only
-// the camera and height scale; the hero controller supplies sample changes.
+// An orthographic drawing of the editable raster. The hero controller supplies
+// samples; this renderer blends their heights/colors while the camera moves.
 export function mountRelief(figure) {
   const canvas = figure.querySelector("canvas");
   const ctx = canvas.getContext("2d");
   if (!ctx) return () => {};
   figure.hidden = false;
   let pixels,
+    morph,
     frame = 0,
     last = 0,
     phase = 2.6;
@@ -68,8 +69,25 @@ export function mountRelief(figure) {
       last = 0;
       return;
     }
-    if (!last || now - last >= 1000 / 30) {
+    // Use display cadence during a sample morph, retaining the lighter 30 Hz
+    // idle camera. Both use elapsed time, so refresh rate never changes speed.
+    if (morph || !last || now - last >= 1000 / 30) {
       if (last) phase = (phase + Math.min(100, now - last) / 1000) % 8;
+      if (morph) {
+        const progress = Math.min(
+          1,
+          Math.max(0, (now - morph.start) / morph.duration),
+        );
+        // Smootherstep has zero velocity and acceleration at both endpoints.
+        const blend = progress ** 3 * (progress * (progress * 6 - 15) + 10);
+        pixels = morph.from.map(
+          (value, index) => value + (morph.to[index] - value) * blend,
+        );
+        if (progress === 1) {
+          pixels = morph.to;
+          morph = null;
+        }
+      }
       draw();
       last = now;
     }
@@ -80,6 +98,13 @@ export function mountRelief(figure) {
     if (!running()) {
       cancelAnimationFrame(frame);
       frame = last = 0;
+      // A paused/reduced-motion drawing must show the actual current input,
+      // not a half-morphed specimen. Hidden scenes resume from that same state.
+      if (morph) {
+        pixels = morph.to;
+        morph = null;
+        draw();
+      }
     }
   }
   new MutationObserver(sync).observe(figure, {
@@ -98,8 +123,20 @@ export function mountRelief(figure) {
     draw();
   }).observe(canvas);
   sync();
-  return (values) => {
-    pixels = values;
+  return (values, duration = 0) => {
+    if (pixels && duration > 0 && running()) {
+      // Retarget from the last rendered values, including on rapid Next clicks.
+      // Presentation blends; the classifier still receives the complete sample.
+      morph = {
+        from: [...pixels],
+        to: [...values],
+        start: performance.now(),
+        duration,
+      };
+    } else {
+      pixels = [...values];
+      morph = null;
+    }
     draw();
   };
 }
