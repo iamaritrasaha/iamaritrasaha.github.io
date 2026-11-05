@@ -4,6 +4,22 @@ import { evaluateNetwork } from "./neural-network.js";
 import { mountRelief } from "./pixel-relief.js";
 
 const $ = (id) => document.getElementById(id);
+const DIGIT_COUNT = 10;
+const CYCLE_DELAY = 4800;
+const specimenKey = "portfolio-hero-digit";
+function randomSpecimen() {
+  let previous = NaN;
+  try {
+    previous = Number.parseInt(sessionStorage.getItem(specimenKey), 10);
+  } catch {
+    /* Random selection still works without storage. */
+  }
+  const choices = Array.from(
+    { length: DIGIT_COUNT },
+    (_, digit) => digit,
+  ).filter((digit) => digit !== previous);
+  return choices[Math.floor(Math.random() * choices.length)];
+}
 const reduce = () =>
   document.documentElement.dataset.motion === "reduce" ||
   matchMedia("(prefers-reduced-motion: reduce)").matches ||
@@ -21,16 +37,24 @@ function animate(element, frames, duration = 320, delay = 0) {
   animation.onfinish = animation.oncancel = () => animations.delete(animation);
   return animation;
 }
-let specimen = 0,
+let specimen = randomSpecimen(),
   layer = 1,
-  input = [...DIGIT_SAMPLES[0].input],
+  input = [...DIGIT_SAMPLES[specimen].input],
   focusIndex = 0,
   previousPrediction = -1;
+let cycleTimer = 0,
+  heroVisible = false,
+  editing = false;
+function holdSpecimen() {
+  editing = true;
+  clearTimeout(cycleTimer);
+}
 const cells = Array.from({ length: 64 }, (_, i) => {
   const cell = document.createElement("button");
   cell.type = "button";
   cell.tabIndex = i === 0 ? 0 : -1;
   cell.onclick = () => {
+    holdSpecimen();
     input[i] = input[i] >= 0.5 ? 0 : 1;
     paint(true);
     animate(
@@ -54,6 +78,7 @@ const cells = Array.from({ length: 64 }, (_, i) => {
       End: 63,
     }[e.key];
     if (destination === undefined) return;
+    holdSpecimen();
     e.preventDefault();
     cells[Math.max(0, Math.min(63, destination))].focus();
   };
@@ -69,7 +94,10 @@ const bins = Array.from({ length: 10 }, (_, i) => {
 const unit = document.createElement("select");
 unit.setAttribute("aria-label", "Inspect activation of unit");
 $("layer-note").before(unit);
-unit.onchange = () => paint();
+unit.onchange = () => {
+  holdSpecimen();
+  paint();
+};
 const stamp = Array.from({ length: 64 }, () => {
   const dot = document.createElement("i");
   $("end-pixels").append(dot);
@@ -77,7 +105,7 @@ const stamp = Array.from({ length: 64 }, () => {
 });
 $("end-pixels").parentElement.hidden = false;
 const updateRelief = mountRelief(document.querySelector(".pixel-relief"));
-function paint(manual = false) {
+function paint(manual = false, animatePrediction = manual) {
   const result = evaluateNetwork(input, DIGIT_SAMPLES[specimen].label);
   cells.forEach((cell, i) => {
     cell.style.setProperty("--intensity", input[i]);
@@ -98,7 +126,7 @@ function paint(manual = false) {
     "% probability";
   $("winner").textContent = result.prediction;
   $("confidence").textContent = confidence;
-  if (manual && previousPrediction !== result.prediction)
+  if (animatePrediction && previousPrediction !== result.prediction)
     animate($("winner"), [
       { transform: "translateY(.14em) rotate(-4deg)", opacity: 0.5 },
       { transform: "none", opacity: 1 },
@@ -153,16 +181,67 @@ function renderActivations(values) {
   $("inspect").textContent = "Inspect hidden layer " + (3 - layer) + " →";
 }
 $("specimen").hidden = $("inspect").hidden = false;
-$("specimen").onclick = () => {
-  specimen = (specimen + 1) % DIGIT_SAMPLES.length;
+function rememberSpecimen() {
+  try {
+    sessionStorage.setItem(specimenKey, String(DIGIT_SAMPLES[specimen].label));
+  } catch {
+    /* Optional no-repeat memory for the next page load. */
+  }
+}
+function changeSpecimen(next, manual = false) {
+  specimen = next;
   input = [...DIGIT_SAMPLES[specimen].input];
-  paint(true);
-  animate($("pixels"), [
-    { clipPath: "inset(0 0 80%)" },
-    { clipPath: "inset(0)" },
-  ]);
+  rememberSpecimen();
+  // Inference uses the complete new sample. Only its presentation ripples;
+  // automatic changes stay out of the manual-control live announcement.
+  paint(manual, true);
+  cells.forEach((cell, index) =>
+    animate(
+      cell,
+      [
+        { opacity: 0.3, transform: "scale(.84)" },
+        { opacity: 1, transform: "scale(1)" },
+      ],
+      360,
+      (Math.floor(index / 8) + (index % 8)) * 14,
+    ),
+  );
+  animate(
+    document.querySelector(".pixel-relief canvas"),
+    [
+      { opacity: 0.4, transform: "translateY(6px)" },
+      { opacity: 1, transform: "none" },
+    ],
+    420,
+  );
+  syncCycle();
+}
+function syncCycle() {
+  clearTimeout(cycleTimer);
+  const welcome = document.documentElement.dataset.welcomeState;
+  if (
+    !heroVisible ||
+    editing ||
+    reduce() ||
+    document.hidden ||
+    welcome === "pending" ||
+    welcome === "running"
+  )
+    return;
+  // A fresh dwell after resuming prevents catch-up jumps. The ten canonical
+  // samples cycle in digit order; manual Next also retains the challenge sample.
+  cycleTimer = setTimeout(() => {
+    // Preferences can change before their event reaches this controller.
+    if (reduce() || document.hidden) return;
+    changeSpecimen((DIGIT_SAMPLES[specimen].label + 1) % DIGIT_COUNT);
+  }, CYCLE_DELAY);
+}
+$("specimen").onclick = () => {
+  editing = false;
+  changeSpecimen((specimen + 1) % DIGIT_SAMPLES.length, true);
 };
 $("inspect").onclick = () => {
+  holdSpecimen();
   layer = 3 - layer;
   paint(true);
   animate($("activations"), [
@@ -171,6 +250,7 @@ $("inspect").onclick = () => {
   ]);
 };
 paint();
+rememberSpecimen();
 let dismiss = () => {};
 function startup() {
   if (!window.portfolioWelcome?.pending || document.querySelector(".bb-entry"))
@@ -267,17 +347,32 @@ matchMedia("(prefers-reduced-motion: reduce)").addEventListener(
   "change",
   () => {
     if (reduce()) dismiss();
+    syncCycle();
   },
 );
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) dismiss();
+  syncCycle();
 });
 new MutationObserver(() => {
   if (reduce()) {
     animations.forEach((a) => a.cancel());
     dismiss();
   }
+  syncCycle();
 }).observe(document.documentElement, {
   attributes: true,
-  attributeFilter: ["data-motion"],
+  attributeFilter: ["data-motion", "data-welcome-state"],
 });
+navigator.connection?.addEventListener("change", syncCycle);
+window.addEventListener("pagehide", () => clearTimeout(cycleTimer));
+window.addEventListener("pageshow", syncCycle);
+if ("IntersectionObserver" in window) {
+  new IntersectionObserver(([entry]) => {
+    heroVisible = entry.isIntersecting;
+    syncCycle();
+  }).observe(document.querySelector(".bench-hero"));
+} else {
+  heroVisible = true;
+  syncCycle();
+}

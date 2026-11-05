@@ -1,5 +1,5 @@
-// An orthographic drawing of the editable raster. Only the camera and height
-// scale move; the source intensities and the classifier never change on idle.
+// An orthographic drawing of the editable raster. This renderer animates only
+// the camera and height scale; the hero controller supplies sample changes.
 export function mountRelief(figure) {
   const canvas = figure.querySelector("canvas");
   const ctx = canvas.getContext("2d");
