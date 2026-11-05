@@ -230,10 +230,11 @@ function syncCycle() {
     return;
   // A fresh dwell after resuming prevents catch-up jumps. The ten canonical
   // samples cycle in digit order; manual Next also retains the challenge sample.
-  cycleTimer = setTimeout(
-    () => changeSpecimen((DIGIT_SAMPLES[specimen].label + 1) % DIGIT_COUNT),
-    CYCLE_DELAY,
-  );
+  cycleTimer = setTimeout(() => {
+    // Preferences can change before their event reaches this controller.
+    if (reduce() || document.hidden) return;
+    changeSpecimen((DIGIT_SAMPLES[specimen].label + 1) % DIGIT_COUNT);
+  }, CYCLE_DELAY);
 }
 $("specimen").onclick = () => {
   editing = false;
