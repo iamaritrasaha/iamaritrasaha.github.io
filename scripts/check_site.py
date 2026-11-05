@@ -3,6 +3,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlsplit, unquote
 import re
+import struct
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -12,11 +13,14 @@ class Page(HTMLParser):
         super().__init__(convert_charrefs=True)
         self.ids, self.refs, self.controls = set(), [], []
         self.featured_cases = []
+        self.metadata = {}
         self.h1 = 0
         self.file = filename
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
+        if tag == 'meta' and (attrs.get('property') or attrs.get('name')):
+            self.metadata[attrs.get('property') or attrs.get('name')] = attrs.get('content', '')
         if 'id' in attrs:
             assert attrs['id'] not in self.ids, f"Duplicate ID: {attrs['id']}"
             self.ids.add(attrs['id'])
@@ -72,6 +76,23 @@ for css_file in [ROOT / 'styles.css', *sorted((ROOT / 'assets').rglob('*.css'))]
             relative = unquote(url.path)
             target = ROOT / relative.lstrip('/') if relative.startswith('/') else css_file.parent / relative
             assert target.is_file(), f'{css_file.relative_to(ROOT)}: missing CSS asset {asset}'
+
+# Social crawlers read the source HTML without running the welcome scripts.
+for filename, page in pages.items():
+    meta = page.metadata
+    image_url = urlsplit(meta['og:image'])
+    assert image_url.scheme == 'https' and image_url.netloc == 'iamaritrasaha.github.io', f'{filename}: social image must be publicly hosted on the canonical site'
+    assert meta['twitter:image'] == meta['og:image'], f'{filename}: social image sources disagree'
+    assert image_url.path != '/assets/portfolio-open-graph.png', f'{filename}: use a fresh image URL to avoid the old preview cache'
+    image = (ROOT / image_url.path.lstrip('/')).read_bytes()
+    assert image[:8] == b'\x89PNG\r\n\x1a\n', 'Social card must be a crawler-compatible PNG'
+    width, height = struct.unpack('>II', image[16:24])
+    assert (width, height) == (1200, 630), 'Social card must be 1200 by 630'
+    assert (int(meta['og:image:width']), int(meta['og:image:height'])) == (width, height), 'Social metadata dimensions do not match the actual image'
+    assert meta['twitter:card'] == 'summary_large_image'
+    assert 'Aritra Saha' in meta['og:image:alt'] and 'Aritra Saha' in meta['twitter:image:alt']
+    assert len(image) < 500_000, 'Keep the preview image small enough for chat crawlers'
+    assert (ROOT / 'assets/portfolio-open-graph.png').read_bytes() == image, 'The legacy image URL should serve the current card for cached metadata'
 
 homepage = pages['index.html']
 assert homepage.featured_cases == ['seedl', 'infera', 'pulseshift', 'orion', 'sysai', 'relay', 'vyren'], 'Expected three public features followed by four preserved project studies'
