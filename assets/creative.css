@@ -607,3 +607,37 @@ html[data-theme="dark"] {
 .instrument svg {
   min-height: 6rem;
 }
+
+/* Preserve image-like intensity data while the surrounding UI uses system colors. */
+@media (forced-colors: active) {
+  #pixels,
+  #distribution,
+  #activations {
+    forced-color-adjust: none;
+    background: #192352;
+    color: #fffdec;
+  }
+  #pixels button:focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+    box-shadow:
+      inset 0 0 0 2px #fff,
+      inset 0 0 0 4px #000;
+  }
+  .neuron-network {
+    forced-color-adjust: none;
+    background: var(--paper);
+  }
+  .pulse-study .pulse-board {
+    forced-color-adjust: none;
+  }
+}
+
+/* Sign remains distinguishable without relying on the bar color. */
+.bench-inspector #activations .negative {
+  background-image: repeating-linear-gradient(
+    135deg,
+    transparent 0 4px,
+    #192352b3 4px 6px
+  );
+}

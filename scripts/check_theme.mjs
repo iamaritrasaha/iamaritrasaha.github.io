@@ -35,23 +35,27 @@ function page({ dark = false, saved, blocked = false, control = true } = {}) {
   function checkStorage() {
     if (blocked) throw new Error("Storage unavailable");
   }
+  const storageApi = {
+    getItem(key) {
+      checkStorage();
+      return storage.get(key);
+    },
+    setItem(key, value) {
+      checkStorage();
+      storage.set(key, value);
+    },
+    removeItem(key) {
+      checkStorage();
+      storage.delete(key);
+    },
+  };
   runInNewContext(source, {
     document,
-    window: { matchMedia: () => media },
-    localStorage: {
-      getItem(key) {
-        checkStorage();
-        return storage.get(key);
-      },
-      setItem(key, value) {
-        checkStorage();
-        storage.set(key, value);
-      },
-      removeItem(key) {
-        checkStorage();
-        storage.delete(key);
-      },
+    window: {
+      matchMedia: () => media,
+      addEventListener: (name, handler) => (listeners[name] = handler),
     },
+    localStorage: storageApi,
     CustomEvent: class {
       constructor(type, { detail }) {
         this.type = type;
@@ -74,6 +78,13 @@ function page({ dark = false, saved, blocked = false, control = true } = {}) {
     choose(value) {
       select.value = value;
       select.change();
+    },
+    external(key, newValue, sameStorage = true) {
+      listeners.storage({
+        key,
+        newValue,
+        storageArea: sameStorage ? storageApi : {},
+      });
     },
     select,
   };
@@ -124,5 +135,24 @@ test("pages without a theme selector still follow the system", () => {
   const p = page({ control: false });
   p.load();
   p.system(true);
+  assert.equal(p.root.dataset.theme, "dark");
+});
+
+test("external theme changes synchronize controls and ignore other storage", () => {
+  const p = page({ dark: true });
+  p.load();
+  p.external("portfolio-theme", "light");
+  assert.equal(p.root.dataset.theme, "light");
+  assert.equal(p.select.value, "light");
+  assert.equal(
+    p.storage.size,
+    0,
+    "Incoming changes must not write back and cause loops",
+  );
+  p.external("unrelated", "dark");
+  p.external("portfolio-theme", "dark", false);
+  assert.equal(p.root.dataset.theme, "light");
+  p.external(null, null);
+  assert.equal(p.select.value, "system");
   assert.equal(p.root.dataset.theme, "dark");
 });

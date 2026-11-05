@@ -1,4 +1,4 @@
-// Runs in the head, before the homepage can paint. No model dependencies.
+// First-paint guard, independent of the model.
 (() => {
   const root = document.documentElement;
   const motion = matchMedia("(prefers-reduced-motion: reduce)");
@@ -36,12 +36,17 @@
   const preference = () => {
     if (reduced()) cancel();
   };
+  const storedPreference = (event) => {
+    if (event.key === "portfolio-reduced-motion" || event.key === null)
+      preference();
+  };
   function disarm() {
     clearTimeout(timer);
     document.removeEventListener("keydown", key);
     document.removeEventListener("visibilitychange", visibility);
     window.removeEventListener("hashchange", cancel);
     window.removeEventListener("pagehide", cancel);
+    window.removeEventListener("storage", storedPreference);
     motion.removeEventListener("change", preference);
     connection?.removeEventListener("change", preference);
   }
@@ -80,8 +85,9 @@
   document.addEventListener("visibilitychange", visibility);
   window.addEventListener("hashchange", cancel);
   window.addEventListener("pagehide", cancel);
+  window.addEventListener("storage", storedPreference);
   motion.addEventListener("change", preference);
   connection?.addEventListener("change", preference);
-  // If a module fails or stalls, reveal the portfolio and suppress a late intro.
+  // Release the page if a module stalls.
   timer = setTimeout(cancel, 4000);
 })();

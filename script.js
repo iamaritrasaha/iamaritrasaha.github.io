@@ -104,6 +104,18 @@ networkButton?.addEventListener("click", () => {
   networkPaused = !networkPaused;
   updateScenes();
 });
+window.addEventListener("storage", (event) => {
+  try {
+    if (event.storageArea !== localStorage) return;
+  } catch {
+    return;
+  }
+  if (event.key !== "portfolio-reduced-motion" && event.key !== null) return;
+  userReduced =
+    event.newValue === "true" ||
+    new URLSearchParams(location.search).get("motion") === "reduce";
+  syncMotion();
+});
 document.addEventListener("visibilitychange", updateScenes);
 syncMotion();
 
