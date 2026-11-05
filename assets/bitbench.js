@@ -164,20 +164,8 @@ $("inspect").onclick = () => {
 paint();
 let dismiss = () => {};
 function startup() {
-  const reload =
-    performance.getEntriesByType("navigation")[0]?.type === "reload";
-  if (
-    reduce() ||
-    (location.hash && !reload) ||
-    !Element.prototype.animate ||
-    document.querySelector(".bb-entry")
-  )
+  if (!window.portfolioWelcome?.pending || document.querySelector(".bb-entry"))
     return;
-  try {
-    if (localStorage.getItem("portfolio-reduced-motion") === "true") return;
-  } catch {
-    /* Storage is optional. */
-  }
   const veil = document.createElement("div");
   veil.className = "entry bb-entry";
   veil.setAttribute("role", "dialog");
@@ -189,13 +177,17 @@ function startup() {
   let returning = false;
   try {
     returning = sessionStorage.getItem("portfolio-welcomed") === "true";
-    sessionStorage.setItem("portfolio-welcomed", "true");
   } catch {
     /* A fresh short welcome still works when storage is blocked. */
   }
   veil.classList.toggle("is-returning", returning);
   mountWelcomeMath(veil);
-  document.body.append(veil);
+  if (!window.portfolioWelcome.show(veil)) return;
+  try {
+    sessionStorage.setItem("portfolio-welcomed", "true");
+  } catch {
+    /* Optional session preference. */
+  }
   const glyph = veil.firstChild;
   for (const v of input) {
     const tile = document.createElement("i");
@@ -210,6 +202,7 @@ function startup() {
     const returnFocus = veil.contains(document.activeElement);
     veil.getAnimations({ subtree: true }).forEach((a) => a.cancel());
     veil.remove();
+    window.portfolioWelcome.finish();
     if (returnFocus) cells[focusIndex].focus({ preventScroll: true });
     clearTimeout(timer);
     clearTimeout(alignmentTimer);
