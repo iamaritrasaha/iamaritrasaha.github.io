@@ -39,7 +39,7 @@ Remove-Item Env:PLAYWRIGHT_BROWSER, Env:PLAYWRIGHT_CHANNEL
 
 On a POSIX shell use `PLAYWRIGHT_CHANNEL=chromium npm run test:browser` and `PLAYWRIGHT_BROWSER=firefox npm run test:browser`. CI installs browser system dependencies with `npx playwright install --with-deps` as described in the [Playwright CI guide](https://playwright.dev/docs/ci).
 
-There are 27 unit tests and 98 browser scenarios. Chromium runs all 98; Firefox skips the one test that explicitly uses Chromium's extension API for native browser zoom. Coverage includes:
+There are 27 unit tests and 99 browser scenarios. Chromium runs all 99; Firefox skips the one test that explicitly uses Chromium's extension API for native browser zoom. Coverage includes:
 
 - Independent neural forward/backward fixtures, all 1,438 derivatives, numerical stability, immutable inference, spring integration, RPM/LED continuity, theme persistence, Ohm's law, PWM timing and UART/I2C/SPI/CAN teaching signals.
 - Both pages in light/dark themes, 13 widths from 320 to 2560px, enlarged text and spacing, short landscape, touch targets, keyboard navigation, disclosures and clipboard success/failure.
@@ -71,7 +71,7 @@ Screenshots and failure traces go to ignored `test-results/`. These checks use b
 
 Load order is intentional. `styles.css` supplies foundations; component styles support the neural, research and SeeDL studies; `editorial.css` and `creative.css` retain active layout rules; `bitbench.css` supplies the current final shared palette. The homepage then adds welcome/RPM styles, while the lab adds `embedded.css`. Earlier stylesheet names do not mean the files are obsolete. See [design decisions](design-decisions.md) for current tokens and provenance.
 
-The hero selects a random canonical digit on load and avoids the last displayed digit when session storage is available. After the welcome, it advances through 0–9 every 4.8 seconds with a staggered pixel transition. Motion reduction, hidden tabs and an offscreen hero suspend cycling. Editing pixels or inspecting activations holds the sample until Next specimen; manual Next retains the additional challenge example. Automatic updates do not announce through the manual-control live region.
+The hero selects a random canonical digit on load and avoids the last displayed digit when session storage is available. After the welcome, it advances through 0–9 every 4.8 seconds with a 700 ms continuous morph of the relief heights/colors and a matching grid color transition. The canvas and grid stay stationary; rapid changes retarget from the current drawing. Only presentation interpolates, while inference uses the complete selected sample. Motion reduction, hidden tabs and an offscreen hero suspend cycling. Editing pixels or inspecting activations holds the sample until Next specimen; manual Next retains the additional challenge example. Automatic updates do not announce through the manual-control live region.
 
 Preserve calculations, event ordering, animation durations and static fallbacks when refactoring. Motion controllers separately manage page-specific lifecycles while sharing the stored `portfolio-reduced-motion` preference; OS reduced motion and data saving take precedence. Theme and motion preferences synchronize across tabs. Bump changed asset query versions in their importing pages/modules to avoid stale caches.
 

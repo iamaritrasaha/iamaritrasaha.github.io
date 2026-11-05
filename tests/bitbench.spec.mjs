@@ -147,19 +147,58 @@ test("hero waits for the welcome then animates real samples in digit order with 
   await expectSample(page, 9);
   await page.clock.fastForward(200);
   await expectSample(page, 0);
-  const timings = await page.locator("#pixels button").evaluateAll((cells) =>
-    cells.flatMap((cell) =>
-      cell
-        .getAnimations()
-        .filter((animation) => animation.effect.getTiming().duration === 360)
-        .map((animation) => animation.effect.getTiming().delay),
-    ),
+  await expect(page.locator(".pixel-relief canvas")).toHaveCSS("opacity", "1");
+  await expect(page.locator(".pixel-relief canvas")).toHaveCSS(
+    "transform",
+    "none",
   );
-  expect(timings).toHaveLength(64);
-  expect(Math.max(...timings)).toBe(196);
+  await expect(page.locator("#pixels button").first()).toHaveCSS(
+    "transform",
+    "none",
+  );
   await expect(page.locator("#bench-status")).toBeEmpty();
   await page.clock.fastForward(4800);
   await expectSample(page, 1);
+});
+
+test("relief morphs continuously, retargets without snapping and settles to the exact sample", async ({
+  page,
+}) => {
+  await freezeClock(page);
+  await page.addInitScript(() => {
+    Math.random = () => 0.3;
+  });
+  await page.goto("/#top");
+  await expect(page.locator(".pixel-relief")).toHaveClass(/scene-active/);
+  await page.clock.runFor(50);
+  const image = () =>
+    page
+      .locator(".pixel-relief canvas")
+      .evaluate((canvas) => canvas.toDataURL());
+  const before = await image();
+  // Dispatch within the frozen clock so no camera frame intervenes.
+  await page.locator("#specimen").evaluate((button) => button.click());
+  await expectSample(page, 4);
+  expect(await image()).toBe(before);
+  await page.clock.runFor(350);
+  const middle = await image();
+  expect(middle).not.toBe(before);
+  await page.locator("#specimen").evaluate((button) => button.click());
+  await expectSample(page, 5);
+  expect(await image()).toBe(middle);
+  await page.clock.runFor(800);
+  const settled = await image();
+  expect(settled).not.toBe(middle);
+  await page
+    .locator(".pixel-relief button")
+    .evaluate((button) => button.click());
+  await expect(page.locator("html")).toHaveAttribute("data-motion", "reduce");
+  expect(await image()).toBe(settled);
+  // Repainting the exact input at the frozen camera must match the morph endpoint.
+  await page.locator("#inspect").evaluate((button) => button.click());
+  expect(await image()).toBe(settled);
+  await page.clock.runFor(1000);
+  expect(await image()).toBe(settled);
 });
 
 test("cycling pauses for motion, visibility and manual edits and resumes from Next specimen", async ({
