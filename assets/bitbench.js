@@ -1,4 +1,5 @@
-import { mountWelcomeMath } from "./welcome-math.js?v=decode1";
+import { mountWelcomeMath } from "./welcome-math.js?v=glyph1";
+import { constructWelcomeName } from "./welcome-name.js?v=glyph1";
 import { DIGIT_SAMPLES } from "./digit-model.js";
 import { evaluateNetwork } from "./neural-network.js";
 import { mountRelief } from "./pixel-relief.js?v=morph1";
@@ -278,11 +279,14 @@ function startup() {
   const key = (e) => {
     if (e.key === "Escape" || e.key === "Tab") dismiss();
   };
+  const navigate = () => dismiss();
   let timer, alignmentTimer;
+  const stopName = constructWelcomeName(veil.querySelector("strong"));
   // Every exit path shares cleanup, so delayed timers cannot reopen the cover
   // or steal focus after a keyboard, visibility or motion-preference dismissal.
   dismiss = () => {
     const returnFocus = veil.contains(document.activeElement);
+    stopName();
     veil.getAnimations({ subtree: true }).forEach((a) => a.cancel());
     veil.remove();
     window.portfolioWelcome.finish();
@@ -290,9 +294,13 @@ function startup() {
     clearTimeout(timer);
     clearTimeout(alignmentTimer);
     document.removeEventListener("keydown", key);
+    window.removeEventListener("hashchange", navigate);
+    window.removeEventListener("pagehide", navigate);
     dismiss = () => {};
   };
   document.addEventListener("keydown", key);
+  window.addEventListener("hashchange", navigate);
+  window.addEventListener("pagehide", navigate);
   veil.focus({ preventScroll: true });
   const duration = returning ? 4600 : 5600;
   veil.style.setProperty("--entry-duration", duration + "ms");
@@ -356,7 +364,10 @@ new MutationObserver(() => {
   attributes: true,
   attributeFilter: ["data-motion", "data-welcome-state"],
 });
-navigator.connection?.addEventListener("change", syncCycle);
+navigator.connection?.addEventListener("change", () => {
+  if (reduce()) dismiss();
+  syncCycle();
+});
 window.addEventListener("pagehide", () => clearTimeout(cycleTimer));
 window.addEventListener("pageshow", syncCycle);
 if ("IntersectionObserver" in window) {
