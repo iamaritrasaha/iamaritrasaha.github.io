@@ -141,10 +141,6 @@ if ("IntersectionObserver" in window) {
             () => entry.target.classList.remove("is-entering"),
             { once: true },
           );
-          // A pipeline reads in order, rather than arriving as one static panel.
-          // No fill mode: cancelling motion returns immediately to authored CSS.
-          if (entry.target.matches(".infera-pipeline"))
-            animatePipelineEntrance(entry.target);
         }
         revealObserver.unobserve(entry.target);
       });
@@ -164,25 +160,6 @@ if ("IntersectionObserver" in window) {
 } else {
   scenes.forEach((scene) => visible.add(scene));
   updateScenes();
-}
-
-function animatePipelineEntrance(pipeline) {
-  pipeline.querySelectorAll("li").forEach((item, index) => {
-    const animation = item.animate(
-      [
-        { opacity: 0.3, transform: "translateX(-18px)" },
-        { opacity: 1, transform: "translateX(0)" },
-      ],
-      {
-        duration: 650,
-        delay: index * 100,
-        easing: "cubic-bezier(.22,1,.36,1)",
-      },
-    );
-    entranceAnimations.add(animation);
-    animation.onfinish = animation.oncancel = () =>
-      entranceAnimations.delete(animation);
-  });
 }
 
 // Animate the disclosure as a single measured block; cancellation preserves native state.

@@ -1,0 +1,118 @@
+.case-quanta {
+  margin-bottom: 100px;
+}
+.quanta-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 64px);
+  align-items: center;
+  margin-block: 36px;
+}
+.quanta-study {
+  min-width: 0;
+  background: var(--deep);
+  color: var(--lime);
+  padding: clamp(14px, 2vw, 28px);
+}
+.quanta-study svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.quanta-study text {
+  font: 14px var(--mono);
+  fill: currentColor;
+}
+.quanta-study .plate-label {
+  letter-spacing: 1px;
+}
+.quanta-study path {
+  fill: none;
+  stroke: currentColor;
+}
+.quanta-axis {
+  stroke-width: 1;
+  opacity: 0.32;
+}
+.quanta-density {
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.quanta-node {
+  stroke-width: 1;
+  stroke-dasharray: 3 5;
+  opacity: 0.65;
+}
+.quanta-level {
+  stroke-width: 1.5;
+}
+.quanta-emission {
+  stroke-width: 2;
+}
+.quanta-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  border-top: 1px solid #e4f48955;
+  padding-top: 16px;
+}
+.quanta-controls button {
+  font: 0.75rem/1.5 var(--mono);
+  min-height: 44px;
+  border: 1px solid currentColor;
+  padding: 10px 14px;
+}
+.quanta-controls button[aria-pressed="true"] {
+  background: var(--lime);
+  color: var(--deep);
+}
+.quanta-study figcaption {
+  font: 0.75rem/1.7 var(--mono);
+  margin-top: 16px;
+  max-width: 62ch;
+}
+.quanta-reading {
+  display: block;
+  margin-bottom: 8px;
+}
+.quanta-links {
+  display: flex;
+  gap: 16px 24px;
+  flex-wrap: wrap;
+}
+.case-quanta > .case-details {
+  margin-top: 12px;
+}
+@media (max-width: 850px) {
+  .quanta-layout {
+    grid-template-columns: 1fr;
+  }
+  .quanta-study {
+    max-width: 680px;
+  }
+}
+@media (max-width: 600px) {
+  .quanta-study {
+    padding: 12px;
+  }
+  .quanta-study text {
+    font-size: 16px;
+  }
+  .quanta-study .plate-label {
+    letter-spacing: 0;
+  }
+  .case-quanta {
+    margin-bottom: 70px;
+  }
+}
+@media (forced-colors: active) {
+  .quanta-study {
+    background: Canvas;
+    color: CanvasText;
+  }
+  .quanta-controls button[aria-pressed="true"] {
+    border-width: 3px;
+  }
+}

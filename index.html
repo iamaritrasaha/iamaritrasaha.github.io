@@ -16,7 +16,7 @@
         display: grid !important;
       }
     </style>
-    <script src="assets/legacy-fragments.js?v=1"></script>
+    <script src="assets/legacy-fragments.js?v=q1"></script>
     <script src="assets/welcome-start.js?v=a2"></script>
     <link rel="canonical" href="https://iamaritrasaha.github.io/" />
     <meta
@@ -79,14 +79,15 @@
     <link rel="stylesheet" href="assets/neuron-demo.css?v=r1" />
     <link rel="stylesheet" href="assets/research-plate.css?v=r1" />
     <link rel="stylesheet" href="assets/seedl-feature.css?v=20261024.2" />
-    <link rel="stylesheet" href="assets/editorial.css?v=r1" />
-    <link rel="stylesheet" href="assets/creative.css?v=a2" />
-    <script type="module" src="assets/creative.js?v=m1"></script>
-    <link rel="stylesheet" href="assets/bitbench.css?v=morph1" />
+    <link rel="stylesheet" href="assets/editorial.css?v=q1" />
+    <link rel="stylesheet" href="assets/creative.css?v=q1" />
+    <script type="module" src="assets/creative.js?v=q1"></script>
+    <link rel="stylesheet" href="assets/bitbench.css?v=q1" />
+    <link rel="stylesheet" href="assets/quanta-feature.css?v=q1" />
     <link rel="stylesheet" href="assets/welcome-math.css?v=pen1" />
     <link rel="stylesheet" href="assets/architecture.css?v=1" />
     <script type="module" src="assets/bitbench.js?v=pen1"></script>
-    <script type="module" src="script.js?v=arch1"></script>
+    <script type="module" src="script.js?v=q1"></script>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -247,8 +248,8 @@
             ><span>SeeDL <span aria-hidden="true">↘</span></span
             ><small>Flagship / The Neural Observatory</small></a
           >
-          <a href="#infera"
-            ><span>Infera <span aria-hidden="true">↘</span></span
+          <a href="#quanta"
+            ><span>QUANTA <span aria-hidden="true">↘</span></span
             ><small>Inspectable data analysis</small></a
           >
 
@@ -533,90 +534,158 @@
           </details>
         </article>
         <article
-          class="case-infera wrap"
-          id="infera"
-          aria-labelledby="infera-title"
+          class="case-quanta wrap"
+          id="quanta"
+          aria-labelledby="quanta-title"
         >
           <div class="feature-heading" data-reveal>
-            <h3 id="infera-title">Infera</h3>
-            <p class="mono">Data analysis / Independently built</p>
+            <h3 id="quanta-title">QUANTA</h3>
+            <p class="mono">Scientific computing / Interactive visualization</p>
           </div>
-          <div class="infera-layout">
-            <div class="feature-story" data-reveal>
-              <h4>Turn data into evidence.</h4>
-              <p>
-                Exploring a dataset should leave a trail you can inspect. I
-                built Infera to turn CSV files into descriptive statistics,
-                correlations, a regression model and a downloadable Markdown
-                report.
-              </p>
-              <p>
-                The Python engine does the computation. A Next.js interface
-                presents the findings and their limits, without an external AI
-                API.
-              </p>
-              <p class="stack-line">
-                Python · FastAPI · pandas · scikit-learn · TypeScript
-              </p>
-              <a
-                class="inline-link"
-                href="https://github.com/iamaritrasaha/Infera"
-                >View source <span aria-hidden="true">↗</span></a
+          <div class="quanta-layout">
+            <figure class="quanta-study" data-reveal>
+              <svg
+                viewBox="0 0 640 440"
+                role="img"
+                aria-labelledby="quanta-plot-title quanta-plot-desc"
               >
-            </div>
-            <figure class="infera-pipeline" data-reveal>
-              <div class="pipeline-head">
-                <span class="mono">An inspectable path</span
-                ><span aria-hidden="true">↘</span>
+                <title id="quanta-plot-title">
+                  Hydrogen: probability and energy
+                </title>
+                <desc id="quanta-plot-desc">
+                  The normalized 1s radial probability peaks at one Bohr radius.
+                  The energy ladder shows ideal hydrogen levels n equals one,
+                  two and three, with an emission from three to two.
+                </desc>
+                <text x="28" y="36" class="plate-label">
+                  H / FROM AMPLITUDE TO PROBABILITY
+                </text>
+                <text x="45" y="86">a₀ P(r)</text>
+                <path
+                  class="quanta-axis"
+                  d="M45 105V280H360M45 120H350M45 200H350"
+                />
+                <text x="16" y="124">0.6</text>
+                <text x="28" y="285">0</text>
+                <path
+                  class="quanta-density"
+                  d="M45.00 280.00 L46.88 277.59 L48.75 271.27 L50.63 262.22 L52.50 251.40 L54.38 239.56 L56.25 227.31 L58.13 215.11 L60.00 203.31 L61.88 192.18 L63.75 181.90 L65.63 172.59 L67.50 164.34 L69.38 157.18 L71.25 151.11 L73.13 146.12 L75.00 142.17 L76.88 139.21 L78.75 137.18 L80.63 136.02 L82.50 135.64 L84.38 135.99 L86.25 136.99 L88.13 138.57 L90.00 140.66 L91.88 143.19 L93.75 146.11 L95.63 149.35 L97.50 152.87 L99.38 156.60 L101.25 160.51 L103.13 164.55 L105.00 168.69 L106.88 172.89 L108.75 177.12 L110.63 181.36 L112.50 185.57 L114.38 189.74 L116.25 193.86 L118.13 197.90 L120.00 201.85 L121.88 205.71 L123.75 209.46 L125.63 213.10 L127.50 216.62 L129.38 220.01 L131.25 223.28 L133.13 226.42 L135.00 229.44 L136.88 232.32 L138.75 235.08 L140.63 237.71 L142.50 240.22 L144.38 242.61 L146.25 244.88 L148.13 247.03 L150.00 249.08 L151.88 251.01 L153.75 252.84 L155.63 254.57 L157.50 256.20 L159.38 257.74 L161.25 259.20 L163.13 260.56 L165.00 261.85 L166.88 263.06 L168.75 264.20 L170.63 265.27 L172.50 266.27 L174.38 267.21 L176.25 268.08 L178.13 268.91 L180.00 269.68 L181.88 270.40 L183.75 271.07 L185.63 271.70 L187.50 272.29 L189.38 272.84 L191.25 273.35 L193.13 273.83 L195.00 274.27 L196.88 274.69 L198.75 275.08 L200.63 275.43 L202.50 275.77 L204.38 276.08 L206.25 276.37 L208.13 276.64 L210.00 276.89 L211.88 277.12 L213.75 277.33 L215.63 277.53 L217.50 277.72 L219.38 277.89 L221.25 278.05 L223.13 278.20 L225.00 278.34 L226.88 278.46 L228.75 278.58 L230.63 278.69 L232.50 278.79 L234.38 278.88 L236.25 278.97 L238.13 279.05 L240.00 279.12 L241.88 279.19 L243.75 279.25 L245.63 279.31 L247.50 279.37 L249.38 279.42 L251.25 279.46 L253.13 279.50 L255.00 279.54 L256.88 279.58 L258.75 279.61 L260.63 279.64 L262.50 279.67 L264.38 279.70 L266.25 279.72 L268.13 279.74 L270.00 279.76 L271.88 279.78 L273.75 279.80 L275.63 279.82 L277.50 279.83 L279.38 279.84 L281.25 279.86 L283.13 279.87 L285.00 279.88 L286.88 279.89 L288.75 279.90 L290.63 279.91 L292.50 279.91 L294.38 279.92 L296.25 279.93 L298.13 279.93 L300.00 279.94 L301.88 279.94 L303.75 279.95 L305.63 279.95 L307.50 279.96 L309.38 279.96 L311.25 279.96 L313.13 279.97 L315.00 279.97 L316.88 279.97 L318.75 279.97 L320.63 279.98 L322.50 279.98 L324.38 279.98 L326.25 279.98 L328.13 279.98 L330.00 279.98 L331.88 279.99 L333.75 279.99 L335.63 279.99 L337.50 279.99 L339.38 279.99 L341.25 279.99 L343.13 279.99 L345.00 279.99"
+                />
+                <path class="quanta-node" d="M82.5 280V136" />
+                <text class="quanta-node-label" x="66" y="304">a₀</text>
+                <text x="330" y="304">8a₀</text>
+                <text x="45" y="338" class="quanta-state-label">
+                  1s / peak at r = a₀
+                </text>
+                <text x="45" y="368" class="quanta-formula">
+                  a₀ P(r) = 4ρ² e⁻²ρ
+                </text>
+                <text x="45" y="395">ρ = r/a₀ · probability, not a path</text>
+                <path class="quanta-axis" d="M416 100V286" />
+                <path
+                  class="quanta-level"
+                  d="M438 110H577M438 129H577M438 152H577M438 278H577"
+                />
+                <text x="587" y="114">∞</text>
+                <text x="587" y="133">3</text>
+                <text x="587" y="156">2</text>
+                <text x="587" y="282">1</text>
+                <path
+                  class="quanta-emission"
+                  d="M476 131V150M471 144L476 150L481 144"
+                />
+                <text x="438" y="86">Eₙ ≈ −13.6/n² eV</text>
+                <text x="438" y="316">3 → 2 / Hα</text>
+                <text x="438" y="342">ΔE ≈ 1.89 eV</text>
+                <text x="438" y="368">λ ≈ 656 nm</text>
+                <text x="438" y="395">hν = Eᵢ − E𝒻</text>
+              </svg>
+              <div
+                class="quanta-controls"
+                hidden
+                aria-label="Hydrogen radial state"
+              >
+                <button type="button" data-radial="1" aria-pressed="true">
+                  1s ground state
+                </button>
+                <button type="button" data-radial="2" aria-pressed="false">
+                  2s excited state
+                </button>
               </div>
-              <ol>
-                <li>
-                  <b>CSV</b><span>Parse &amp; profile</span
-                  ><small>Types, missing values, distributions</small>
-                </li>
-                <li>
-                  <b>Model</b><span>Split before fitting</span
-                  ><small>80/20 split, train-only imputation</small>
-                </li>
-                <li>
-                  <b>Evidence</b><span>Evaluate &amp; export</span
-                  ><small>Coefficients, errors, Markdown report</small>
-                </li>
-              </ol>
               <figcaption>
-                Architecture diagram. No dataset or benchmark result is
-                simulated here.
+                <span class="quanta-reading" aria-live="polite"
+                  >1s: no radial nodes; most probable radius a₀.</span
+                >
+                Ideal nonrelativistic hydrogen. Energy spacings follow 1/n²;
+                fine structure is omitted.
               </figcaption>
             </figure>
+            <div class="feature-story" data-reveal>
+              <h4>The shape of a possibility.</h4>
+              <p>
+                What does an equation let us see? I built QUANTA to connect
+                atomic states, probability distributions, energy levels and
+                spectroscopy in an interactive scientific observatory covering
+                all 118 elements.
+              </p>
+              <p>
+                Analytical hydrogen solutions sit alongside screened
+                approximations for many-electron atoms, empirical reference
+                levels where available and theoretical predictions for
+                superheavy elements. Each model has a scope; the interface makes
+                those limits part of the explanation.
+              </p>
+              <p class="stack-line">
+                TypeScript · React · Three.js · Scientific modeling
+              </p>
+              <div class="quanta-links">
+                <a
+                  class="inline-link"
+                  href="https://iamaritrasaha.github.io/quanta/"
+                  >Explore QUANTA <span aria-hidden="true">↗</span></a
+                ><a
+                  class="inline-link"
+                  href="https://github.com/iamaritrasaha/quanta"
+                  >View source <span aria-hidden="true">↗</span></a
+                >
+              </div>
+            </div>
           </div>
           <details class="case-details">
             <summary>
-              Method, decisions &amp; current limits
+              Models, mathematics &amp; current limits
               <span aria-hidden="true">+</span>
             </summary>
             <div class="detail-body">
               <div>
-                <h5>Keep evaluation separate.</h5>
+                <h5>Make the model inspectable.</h5>
                 <p>
-                  I fit missing-value imputation on training data only, then
-                  evaluate linear regression on the held-out split. The
-                  interface exposes coefficients and errors so the result can be
-                  examined. A random split assumes independent observations;
-                  correlation does not establish causation.
+                  The normalized radial convention gives P(r) = r² |Rₙₗ(r)|²,
+                  with ∫₀∞ P(r) dr = 1. The sketch uses the analytical hydrogen
+                  1s and 2s states. A probability distribution describes
+                  possible measurements, not a classical electron orbit.
+                </p>
+                <p>
+                  QUANTA connects state selection to radial functions, angular
+                  shapes and energy differences. Derived wavelengths do not by
+                  themselves establish transition strength or probability.
                 </p>
               </div>
               <div>
-                <h5>A focused local application.</h5>
+                <h5>Different atoms, different fidelity.</h5>
                 <p>
-                  The current implementation supports one regression algorithm.
-                  Datasets live in process memory and disappear on restart.
-                  Public deployment needs authentication and API hardening. No
-                  production deployment or user count is claimed.
+                  Hydrogen uses analytical solutions of the ideal
+                  nonrelativistic model. Many-electron views use
+                  effective-charge screening and approximate orbital shapes,
+                  with empirical NIST reference levels where available.
+                  Superheavy states include theoretical predictions; missing
+                  measured spectra remain explicit. These are not exact
+                  many-electron solutions for every element.
                 </p>
                 <a
                   class="inline-link"
-                  href="https://github.com/iamaritrasaha/Infera/blob/main/infera/ml.py"
-                  >Read the evaluation code
+                  href="https://github.com/iamaritrasaha/quanta/blob/main/docs/science/orbital-models.md"
+                  >Read the orbital model notes
                   <span aria-hidden="true">↗</span></a
                 >
               </div>
@@ -906,7 +975,9 @@
                 </p>
                 <small>pandas / scikit-learn / Statistical analysis</small>
               </div>
-              <a href="#infera" aria-label="See evaluation in Infera">↗</a>
+              <a href="#quanta" aria-label="See mathematical modeling in QUANTA"
+                >↗</a
+              >
             </article>
           </div>
         </div>
@@ -1116,10 +1187,12 @@
           >Continue to Vector ↗</a
         >
       </p>
-      <p class="legacy-link" id="quanta">
-        This notebook entry has moved.
-        <a class="inline-link" href="/explorations/#quanta"
-          >Continue to Quanta ↗</a
+      <p class="legacy-link" id="infera" tabindex="-1">
+        <span id="infera-title"
+          >Infera is in progress and is not currently featured.</span
+        >
+        <a href="https://github.com/iamaritrasaha/Infera"
+          >Development source ↗</a
         >
       </p>
       <p class="legacy-link" id="veyra">

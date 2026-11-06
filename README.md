@@ -6,14 +6,16 @@ I’m Aritra, and I’m interested in how machine learning becomes useful softwa
 
 The portfolio has three connected areas:
 
-- [AI & Machine Learning](https://iamaritrasaha.github.io/): SeeDL, Infera, Orion, SysAI, learning and the interactive classifier.
+- [AI & Machine Learning](https://iamaritrasaha.github.io/): SeeDL, QUANTA, Orion, SysAI, learning and the interactive classifier.
 - [Embedded Systems Lab](https://iamaritrasaha.github.io/embedded/): PulseShift, circuit mathematics, PWM, protocols and firmware experiments.
 - [Explorations](https://iamaritrasaha.github.io/explorations/): scientific visualization, Vyren and independent software studies.
 
 A few selected projects:
 
 - [SeeDL](https://github.com/iamaritrasaha/seedl): tools for exploring deep learning through scientific viewers.
-- [Infera](https://github.com/iamaritrasaha/Infera): a small machine-learning project focused on a clear regression workflow.
+- [QUANTA](https://iamaritrasaha.github.io/quanta/): an atomic-physics observatory for all 118 elements, with analytical hydrogen, approximate many-electron models and clearly qualified reference data. [Source](https://github.com/iamaritrasaha/quanta).
+- [Orion](https://iamaritrasaha.github.io/#orion): a private neural-network research project, presented with a browser-based digit-classification study.
+- [SysAI](https://github.com/iamaritrasaha/sysai): a developing Linux diagnostic assistant with inspectable system context.
 - [PulseShift](https://github.com/iamaritrasaha/PulseShift): ESP32 firmware for a six-LED shift light, with simulation and qualification work kept explicit.
 
 [Visit my portfolio](https://iamaritrasaha.github.io/) · [GitHub](https://github.com/iamaritrasaha) · [Email me](mailto:thisisaritrasaha@gmail.com)

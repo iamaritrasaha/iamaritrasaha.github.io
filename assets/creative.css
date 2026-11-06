@@ -164,8 +164,7 @@ html[data-theme="dark"] {
 .trace-control {
   grid-column: 1/-1;
 }
-.trace-control button,
-.pipeline-switch button {
+.trace-control button {
   font: 0.75rem var(--mono);
   padding: 12px;
   border: 1px solid currentColor;
@@ -184,42 +183,6 @@ html[data-theme="dark"] {
 }
 .isolated .seedl-art {
   background: #423646;
-}
-.infera-layout {
-  display: flex;
-  flex-direction: column-reverse;
-  gap: 32px;
-}
-.infera-pipeline {
-  align-self: stretch;
-  background: #c6d8fa;
-  color: #202840;
-}
-.infera-pipeline ol {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-.infera-pipeline li {
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  transition: background 0.3s;
-}
-.infera-pipeline li.examined {
-  background: #263650;
-  color: #fff;
-}
-.pipeline-switch {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 22px;
-}
-.pipeline-switch button[aria-pressed="true"] {
-  background: #263650;
-  color: white;
-}
-.infera-layout .feature-story {
-  max-width: 780px;
 }
 .case-pulseshift {
   background: #30231f;
@@ -344,9 +307,6 @@ html[data-theme="dark"] {
     grid-column: auto;
     grid-row: auto;
   }
-  .infera-pipeline li {
-    padding: 12px;
-  }
 }
 @media (max-width: 650px) {
   .hero {
@@ -380,12 +340,6 @@ html[data-theme="dark"] {
   .hero-footnote {
     font-size: 0.75rem;
   }
-  .infera-pipeline ol {
-    grid-template-columns: 1fr;
-  }
-  .infera-pipeline li {
-    display: grid;
-  }
   .pulse-layout {
     grid-template-columns: 1fr;
   }
@@ -402,45 +356,9 @@ html[data-theme="dark"] {
     font-size: 0.75rem;
   }
 }
-
-.data-example {
-  display: grid;
-  grid-template-columns: minmax(150px, 1fr) 1fr;
-  gap: 24px;
-  align-items: center;
-  padding: 18px 0;
-}
-.data-example svg {
-  width: 100%;
-  max-width: 440px;
-}
-.data-example p {
-  font: 0.875rem/1.6 var(--mono);
-  max-width: 42ch;
-}
-.fit-line {
-  stroke-dasharray: 220;
-  transition: stroke-dashoffset 0.45s;
-}
-.data-example[data-stage="0"] .fit-line {
-  stroke-dashoffset: 220;
-}
-.residual {
-  transition: opacity 0.25s;
-}
-.data-example:not([data-stage="2"]) .residual {
-  opacity: 0;
-}
 @media (max-width: 650px) {
   .instrument {
     aspect-ratio: 1;
-  }
-  .data-example {
-    grid-template-columns: 1fr;
-    gap: 6px;
-  }
-  .data-example p {
-    min-height: 4.8em;
   }
 }
 .site-header {

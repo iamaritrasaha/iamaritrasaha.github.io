@@ -41,8 +41,12 @@ test("reduced motion bypasses entry and instruments work by keyboard", async ({
   await page.locator("#angle").focus();
   await page.keyboard.press("ArrowRight");
   await expect(page.locator(".axis-control output")).toHaveText("23°");
-  await page.getByRole("button", { name: "Report", exact: true }).click();
-  await expect(page.locator(".data-example p")).toContainText("Residual +1");
+  await page
+    .getByRole("button", { name: "2s excited state", exact: true })
+    .click();
+  await expect(page.locator(".quanta-reading")).toContainText(
+    "one radial node at 2a₀",
+  );
   await page.getByRole("button", { name: "Isolate signal path" }).click();
   await expect(page.locator("#seedl")).toHaveClass(/isolated/);
 });

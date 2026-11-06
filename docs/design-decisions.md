@@ -4,7 +4,7 @@
 
 The portfolio presents a personal body of work through editorial typography, a calculated neural-network visualization and varied project spreads. A ruled cobalt masthead, pale paper, blue ink and citron details establish the current visual language. Content sits in the page grid rather than repeated floating cards. There is no full-page ambient animation or glass layer.
 
-The first screen introduces Aritra through a personal nameplate, a clear professional direction and an editable 8×8 digit workbench with real predictions, hidden-layer activations and a pixel relief. The detailed neural study remains in the notebook; its forward pass, loss and backward pass connect the animation to mathematics. SeeDL, Infera and PulseShift lead the public work. Orion retains its private research spread; SysAI changes the rhythm with a deep-green diagnostic composition, and Relay/Vyren preserve their offset artwork. Smaller work lives in a compact ruled index. Practice, personal context and contact complete the page without repeating the project layout.
+The first screen introduces Aritra through a personal nameplate, a clear professional direction and an editable 8×8 digit workbench with real predictions, hidden-layer activations and a pixel relief. The detailed neural study remains in the notebook; its forward pass, loss and backward pass connect the animation to mathematics. SeeDL remains the flagship; QUANTA adds scientific computing, followed by Orion and SysAI. PulseShift lives in the Embedded Lab, while scientific and systems studies remain discoverable in Explorations. Practice, personal context and contact complete the page without repeating the project layout.
 
 ## Small design system
 

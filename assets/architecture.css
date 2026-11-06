@@ -40,7 +40,8 @@
 .legacy-link {
   display: none;
 }
-.legacy-link:target {
+.legacy-link:target,
+.legacy-link:has(:target) {
   display: block;
   max-width: 65ch;
   margin: 3rem auto;

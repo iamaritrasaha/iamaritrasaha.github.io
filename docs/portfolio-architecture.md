@@ -6,7 +6,7 @@ The homepage presents Aritra Saha as an AI/ML Engineer and Applied AI Developer.
 
 | Route            | Content                                                                                                |
 | ---------------- | ------------------------------------------------------------------------------------------------------ |
-| `/`              | SeeDL, Infera, Orion, SysAI, classifier, learning, two editorial gateways, About and Contact           |
+| `/`              | SeeDL, QUANTA, Orion, SysAI, classifier, learning, two editorial gateways, About and Contact           |
 | `/embedded/`     | Circuit fundamentals, PWM/GPIO, protocols, embedded C/C++, PulseShift and planned hardware/IoT studies |
 | `/explorations/` | VECTOR, QUANTA, Arthrekha, Vyren, Aether, Orbis, Serein and compact earlier work                       |
 
@@ -16,9 +16,9 @@ Vyren is the substantive systems feature. Its application source is private; the
 
 Reviewed current repository README files and source metadata on 6 November 2026. Primary public references:
 
-- [SeeDL](https://github.com/iamaritrasaha/seedl), [Infera](https://github.com/iamaritrasaha/infera), [SysAI](https://github.com/iamaritrasaha/sysai) and [PulseShift](https://github.com/iamaritrasaha/PulseShift).
+- [SeeDL](https://github.com/iamaritrasaha/seedl), [SysAI](https://github.com/iamaritrasaha/sysai) and [PulseShift](https://github.com/iamaritrasaha/PulseShift).
 - [VECTOR](https://github.com/iamaritrasaha/vector): SGP4 propagation is distinct from aircraft observations and spacecraft telemetry.
-- [QUANTA](https://github.com/iamaritrasaha/quanta): analytical hydrogen densities, schematic models for other elements and reference spectra where available.
+- [QUANTA](https://github.com/iamaritrasaha/quanta): analytical hydrogen densities, screened many-electron approximations, empirical reference levels where available and theoretical superheavy states.
 - [Arthrekha](https://github.com/iamaritrasaha/arthrekha): annual Budget Estimates and cumulative provisional actuals retain their reporting scope.
 - [Aether](https://github.com/iamaritrasaha/aether), [Orbis](https://github.com/iamaritrasaha/orbis), [Serein](https://github.com/iamaritrasaha/serein) and [Foresight Labs](https://github.com/iamaritrasaha/foresight-labs).
 
@@ -36,19 +36,21 @@ PulseShift uses the original `pulse-rpm.js` module in one place. Its existing of
 
 `assets/legacy-fragments.js` runs before the homepage welcome bootstrap and only on `/` or `/index.html`. An exact allowlist uses `location.replace` for known moved fragments, preserves query parameters, handles percent encoding, and ignores unknown or malformed fragments. Nested pages never redirect back. No-JavaScript arrivals expose a meaningful `:target` link to the relocated section.
 
-| Old homepage fragments                                                                                         | Destination                       |
-| -------------------------------------------------------------------------------------------------------------- | --------------------------------- |
-| `pulseshift`, `pulseshift-title`, `pulse-rpm`                                                                  | `/embedded/#pulseshift`           |
-| `vyren`, `vyren-title`                                                                                         | `/explorations/#vyren`            |
-| `relay`, `relay-title`                                                                                         | `/explorations/#relay`            |
-| `index`                                                                                                        | `/explorations/#index`            |
-| `vector`, `quanta`, `arthrekha`, `aether`, `orbis`, `serein`, `veyra`, `aura`, `lumina`, `foresight`, `novarx` | Same fragment on `/explorations/` |
+| Old homepage fragments                                                                               | Destination                       |
+| ---------------------------------------------------------------------------------------------------- | --------------------------------- |
+| `pulseshift`, `pulseshift-title`, `pulse-rpm`                                                        | `/embedded/#pulseshift`           |
+| `vyren`, `vyren-title`                                                                               | `/explorations/#vyren`            |
+| `relay`, `relay-title`                                                                               | `/explorations/#relay`            |
+| `index`                                                                                              | `/explorations/#index`            |
+| `vector`, `arthrekha`, `aether`, `orbis`, `serein`, `veyra`, `aura`, `lumina`, `foresight`, `novarx` | Same fragment on `/explorations/` |
+
+`#quanta` now opens the featured homepage case study; `/explorations/#quanta` remains a shorter companion entry. `#infera` and `#infera-title` expose an honest in-progress notice with the development source.
 
 All other existing IDs remain on the homepage, including `systems`, `principles`, `approach` and `future`. Shared navigation owns fragment focus, opens enclosing disclosures and preserves Escape/focus restoration. Each primary route has one `aria-current="page"` link. Theme and motion choices synchronize between tabs.
 
 ## Chapter entrances
 
-The homepage welcome preserves its timing, manuscript and pixel-grid handoff. Its name now resolves left to right from each letter's eight-bit ASCII representation into the existing Literata lettering. A stable accessible name remains available throughout, while the decorative bits are hidden from assistive technology. Embedded and Explorations use `chapter-entry.js` and `chapter-entry.css` for a 2.2-second introduction on ordinary visits and reloads: 1.6 seconds of staged drawing followed by a 600 ms geometric handoff into the existing hero SVG. Embedded adds a conceptual signal bus, six sequential LEDs and `f = 1/T` to the existing board sketch. Explorations stages its coordinates, orbital geometry, probability wave and network nodes. The SVG artwork is reused, without copying application runtimes or creating duplicate IDs.
+The homepage welcome preserves its timing, manuscript and pixel-grid handoff. Its name uses [binary calligraphy](welcome-construction.md): actual rasterized Literata fragments gather along stroke guides and join into ink, one letter at a time. A stable accessible name remains available throughout, while the decorative bits are hidden from assistive technology. Embedded and Explorations use `chapter-entry.js` and `chapter-entry.css` for a 2.2-second introduction on ordinary visits and reloads: 1.6 seconds of staged drawing followed by a 600 ms geometric handoff into the existing hero SVG. Embedded adds a conceptual signal bus, six sequential LEDs and `f = 1/T` to the existing board sketch. Explorations stages its coordinates, orbital geometry, probability wave and network nodes. The SVG artwork is reused, without copying application runtimes or creating duplicate IDs.
 
 The welcomes have no visible skip button. A slim citron progress bar tracks the secondary entrance's 2.2-second timeline, matching the homepage's existing epoch progress bar. It represents animation progress, not network loading. Escape, Tab, tapping the introductory artwork, scrolling, resizing, hidden tabs and motion-preference changes release the page. History navigation, fragments, reduced motion and data saving bypass the new intros. Previous session flags no longer suppress return entrances. The destination h1 remains in the accessibility tree, and completion or explicit skipping places focus there. A bounded watchdog and CSS cover timeout fail open; no-JavaScript content is visible normally. Page-level animation controllers pause during the introduction.
 

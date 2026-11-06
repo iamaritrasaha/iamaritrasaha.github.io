@@ -79,7 +79,7 @@ for (const width of widths) {
     await enlarged.evaluate((el) => el.remove());
     await page.addStyleTag({ content: spacing });
     await checkReflow(page);
-    for (const id of ["seedl", "infera", "orion"]) {
+    for (const id of ["seedl", "quanta", "orion"]) {
       await page.locator(`#${id} details`).evaluate((el) => (el.open = true));
     }
     await checkReflow(page);
@@ -180,8 +180,12 @@ test("touch controls keep their targets and preserve real classifier interaction
   await expect(pixel).not.toHaveAttribute("aria-label", label);
   await page.locator(".menu-toggle").tap();
   await expect(page.locator("#nav-panel")).toBeVisible();
-  await page.getByRole("button", { name: "Report", exact: true }).tap();
-  await expect(page.locator(".data-example p")).toContainText("Residual +1");
+  await page
+    .getByRole("button", { name: "2s excited state", exact: true })
+    .tap();
+  await expect(page.locator(".quanta-reading")).toContainText(
+    "one radial node at 2a₀",
+  );
   await context.close();
 });
 
