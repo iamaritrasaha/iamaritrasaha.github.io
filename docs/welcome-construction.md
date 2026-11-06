@@ -31,7 +31,9 @@ The crops enlarge the bits for inspection. [Recorded geometry](welcome-construct
 
 Deterministic browser tests inspect actual binary draw positions against raster alpha for all ten letters, exclusive sequencing, fragment growth, native dimensions, accessibility and cleanup. Unit tests verify stroke ordering, curved endpoints and lossless raster coverage. Lifecycle cases cover Escape, Tab, hidden tabs, live/manual motion, data saving, navigation, resize, late/failed fonts, Canvas/readback failure and missing animation support. Existing manuscript, classifier, responsive, no-JavaScript and three-page coverage remains intact.
 
-Local lint, static integrity, 30 unit tests and build pass. The full Windows browser suite and Linux Chromium/Firefox CI are run for the final revision. The pre-existing Windows live-media-query test failure was independently reproduced against baseline welcome assets; its assertions are unchanged. Local Firefox has a window-resize timeout in the existing suite; initial-viewport visual checks and the no-resize lifecycle cases supplement full Linux Firefox CI.
+Local lint, static integrity, 30 welcome-revision unit tests and build pass. The final welcome revision passed all 154 browser tests in both Chromium and Firefox CI before merge. A later post-merge Chromium run reproduced an existing live-media test race. The portfolio refinement strengthens that test's precondition: it first verifies the page is rendered and has running animations, then changes the native emulated preference and retains both original cancellation assertions. No application event is synthesized and no assertion is removed. This avoids toggling the emulated preference before the initial animation state is established.
+
+Local Firefox has a window-resize timeout in the existing full suite; initial-viewport visual checks and the no-resize lifecycle cases supplement full Linux Firefox CI.
 
 ## Sources and implementation choice
 

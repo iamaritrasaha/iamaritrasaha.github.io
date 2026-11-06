@@ -79,7 +79,7 @@ try {
     <header><span><i></i>ARITRA SAHA / PORTFOLIO</span><span>AI · SOFTWARE · SYSTEMS</span></header>
     <main><div><h1>Aritra<br>Saha.</h1><p class="role">AI/ML Engineer<br>Applied AI Developer</p></div>
     <figure><svg viewBox="0 0 500 340" aria-label="A handwritten digit represented as a relief of pixels">${relief}</svg><figcaption><span class="note">A TRAINED, EDITABLE DIGIT CLASSIFIER</span>Change one pixel.</figcaption></figure></main>
-    <footer><span>iamaritrasaha.github.io</span><span>SeeDL · Infera · PulseShift</span></footer>
+    <footer><span>iamaritrasaha.github.io</span><span>SeeDL · QUANTA · Orion · SysAI</span></footer>
   </body></html>`,
     { waitUntil: "load" },
   );
@@ -92,16 +92,20 @@ try {
   if (overflow) throw new Error("Social image exceeds the 1200 × 630 frame");
   await page.screenshot({
     path: fileURLToPath(
-      new URL("../assets/portfolio-social-20261105.png", import.meta.url),
+      new URL("../assets/portfolio-social-20261106.png", import.meta.url),
     ),
     type: "png",
   });
   // Keep old cached metadata useful when a crawler refetches the legacy URL.
   await copyFile(
-    new URL("../assets/portfolio-social-20261105.png", import.meta.url),
+    new URL("../assets/portfolio-social-20261106.png", import.meta.url),
     new URL("../assets/portfolio-open-graph.png", import.meta.url),
   );
-  console.log("Rendered assets/portfolio-social-20261105.png (1200 × 630)");
+  await copyFile(
+    new URL("../assets/portfolio-social-20261106.png", import.meta.url),
+    new URL("../assets/portfolio-social-20261105.png", import.meta.url),
+  );
+  console.log("Rendered assets/portfolio-social-20261106.png (1200 × 630)");
 } finally {
   await browser.close();
 }

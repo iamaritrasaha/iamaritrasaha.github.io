@@ -14,7 +14,6 @@
     orbis: "/explorations/#orbis",
     arthrekha: "/explorations/#arthrekha",
     vector: "/explorations/#vector",
-    quanta: "/explorations/#quanta",
     veyra: "/explorations/#veyra",
     serein: "/explorations/#serein",
     aura: "/explorations/#aura",

@@ -235,9 +235,6 @@ html[data-theme="dark"] {
 .isolated .seedl-art {
   background: #313e76;
 }
-.infera-pipeline {
-  background: #d8e2ff;
-}
 .case-pulseshift {
   background: #24253b;
   --paper: #24253b;
@@ -266,7 +263,7 @@ html[data-theme="dark"] {
   background: #c6d5ff;
   grid-row: auto;
   grid-column: auto;
-  aspect-ratio: 1.6;
+  aspect-ratio: auto;
   margin: 0;
 }
 .contact-section {

@@ -111,13 +111,13 @@ for filename, page in pages.items():
     assert (ROOT / 'assets/portfolio-open-graph.png').read_bytes() == image, 'The legacy image URL should serve the current card for cached metadata'
 
 homepage = pages['index.html']
-assert homepage.featured_cases == ['seedl', 'infera', 'orion', 'sysai'], 'The homepage features AI/ML work only'
+assert homepage.featured_cases == ['seedl', 'quanta', 'orion', 'sysai'], 'The homepage features the selected AI/ML and scientific computing work'
 assert pages['embedded/index.html'].featured_cases == ['pulseshift'], 'PulseShift retains one full presentation in the Embedded Lab'
 assert pages['explorations/index.html'].featured_cases == ['vyren'], 'Vyren, not Relay, is the featured systems study'
 for anchor in ['vector', 'quanta', 'arthrekha', 'vyren', 'aether', 'orbis', 'serein', 'veyra', 'aura', 'lumina', 'foresight', 'novarx', 'relay']:
     assert anchor in pages['explorations/index.html'].ids, f'Missing exploration: {anchor}'
 for anchor in [
-    'top', 'main', 'work', 'expertise', 'about', 'contact',
+    'top', 'main', 'work', 'expertise', 'about', 'contact', 'infera', 'infera-title',
     'seedl', 'orion', 'sysai', 'relay', 'vyren', 'aether', 'orbis', 'arthrekha',
     'vector', 'quanta', 'veyra', 'serein', 'aura', 'lumina', 'foresight', 'novarx',
     'systems', 'index', 'principles', 'approach', 'future',
@@ -132,6 +132,9 @@ for filename, budget in [('assets/welcome-start.js', 3000), ('assets/welcome-mat
 assert (ROOT / 'app-ads.txt').is_file()
 assert source_size('assets/welcome-strokes.js') <= 7000, 'Stroke ordering exceeds its scoped budget'
 assert source_size('assets/welcome-name.js') <= 11000, 'Glyph construction exceeds its scoped budget'
+assert source_size('assets/projection-motion.js') <= 4000
+assert source_size('assets/quanta-feature.js') <= 5000
+assert source_size('assets/quanta-feature.css') <= 5000
 assert source_size('assets/seedl-feature.css') <= 6000, 'SeeDL styles exceed the scoped feature budget'
 for filename, budget in [('explorations/index.html', 36000), ('assets/explorations.css', 10000), ('assets/explorations.js', 5000), ('assets/architecture.css', 4000), ('assets/legacy-fragments.js', 2500)]:
     assert source_size(filename) <= budget, f'{filename}: scoped page budget exceeded'

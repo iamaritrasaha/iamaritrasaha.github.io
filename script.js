@@ -1,3 +1,4 @@
+import { mountProjection } from "./assets/projection-motion.js?v=p1";
 import { mountResearchPlate } from "./assets/research-plate.js?v=20260930.1";
 import { mountNeuronDemo } from "./assets/neuron-demo.js?v=r1";
 import { createSurfacePhysics } from "./assets/surface-physics.js?v=20260930.1";
@@ -6,7 +7,6 @@ import { createSurfacePhysics } from "./assets/surface-physics.js?v=20260930.1";
 // navigation.js controller is ready before these heavier modules load.
 const root = document.documentElement;
 const disclosureAnimations = new Map();
-const entranceAnimations = new Set();
 function settleDisclosure(details, entry) {
   // Detach callbacks before cancelling: settling must commit the requested
   // native state rather than run the interrupted animation's cleanup twice.
@@ -33,6 +33,8 @@ const playNetwork = mountNeuronDemo(document.getElementById("neuron-demo"));
 const setSurfaceMotion = createSurfacePhysics(
   document.querySelectorAll(".project-art"),
 );
+const projection = document.querySelector(".instrument");
+const playProjection = mountProjection(projection);
 const scenes = [...document.querySelectorAll(".motion-scene")];
 const visible = new Set();
 const network = document.querySelector(".neural-study");
@@ -44,6 +46,7 @@ function updateScenes() {
   scenes.forEach((scene) =>
     scene.classList.toggle("scene-active", allowed && visible.has(scene)),
   );
+  playProjection(allowed && visible.has(projection));
   playNetwork(allowed && visible.has(network) && !networkPaused);
   if (networkButton) {
     networkButton.hidden = false;
@@ -64,10 +67,6 @@ function updateScenes() {
   }
 }
 function syncMotion() {
-  if (reduced()) {
-    entranceAnimations.forEach((animation) => animation.cancel());
-    entranceAnimations.clear();
-  }
   if (reduced())
     disclosureAnimations.forEach((entry, details) =>
       settleDisclosure(details, entry),
@@ -116,6 +115,8 @@ window.addEventListener("storage", (event) => {
   syncMotion();
 });
 document.addEventListener("visibilitychange", updateScenes);
+window.addEventListener("pagehide", () => playProjection(false));
+window.addEventListener("pageshow", updateScenes);
 syncMotion();
 
 if ("IntersectionObserver" in window) {
@@ -141,10 +142,6 @@ if ("IntersectionObserver" in window) {
             () => entry.target.classList.remove("is-entering"),
             { once: true },
           );
-          // A pipeline reads in order, rather than arriving as one static panel.
-          // No fill mode: cancelling motion returns immediately to authored CSS.
-          if (entry.target.matches(".infera-pipeline"))
-            animatePipelineEntrance(entry.target);
         }
         revealObserver.unobserve(entry.target);
       });
@@ -164,25 +161,6 @@ if ("IntersectionObserver" in window) {
 } else {
   scenes.forEach((scene) => visible.add(scene));
   updateScenes();
-}
-
-function animatePipelineEntrance(pipeline) {
-  pipeline.querySelectorAll("li").forEach((item, index) => {
-    const animation = item.animate(
-      [
-        { opacity: 0.3, transform: "translateX(-18px)" },
-        { opacity: 1, transform: "translateX(0)" },
-      ],
-      {
-        duration: 650,
-        delay: index * 100,
-        easing: "cubic-bezier(.22,1,.36,1)",
-      },
-    );
-    entranceAnimations.add(animation);
-    animation.onfinish = animation.oncancel = () =>
-      entranceAnimations.delete(animation);
-  });
 }
 
 // Animate the disclosure as a single measured block; cancellation preserves native state.

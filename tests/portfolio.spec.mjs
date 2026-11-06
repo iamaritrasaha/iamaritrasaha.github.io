@@ -110,7 +110,7 @@ test("mobile menu and project shortcuts move keyboard focus to their destination
     await expect(page.locator("#about")).toBeFocused();
     await expect(menu).toHaveAttribute("aria-expanded", "false");
   }
-  for (const id of ["seedl", "infera", "orion", "sysai"]) {
+  for (const id of ["seedl", "quanta", "orion", "sysai"]) {
     await page.locator(`.project-jump a[href="#${id}"]`).click();
     await expect(page.locator(`#${id}`)).toBeFocused();
   }
@@ -368,17 +368,16 @@ test("public project sources, honest limits and static RPM preview stay accessib
 }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
-  for (const [id, repository] of [["infera", "Infera"]]) {
+  for (const [id, repository] of [["quanta", "quanta"]]) {
     await page.locator(`.project-jump a[href="#${id}"]`).click();
     await expect(page.locator(`#${id}`)).toBeFocused();
-    await expect(page.locator(`#${id} .feature-story a`)).toHaveAttribute(
-      "href",
-      `https://github.com/iamaritrasaha/${repository}`,
-    );
+    await expect(
+      page.locator(`#${id} .feature-story a[href*="github.com"]`),
+    ).toHaveAttribute("href", `https://github.com/iamaritrasaha/${repository}`);
   }
-  await page.locator("#infera summary").click();
-  await expect(page.locator("#infera details")).toContainText(
-    "one regression algorithm",
+  await page.locator("#quanta summary").click();
+  await expect(page.locator("#quanta details")).toContainText(
+    "not exact many-electron solutions",
   );
   await page.goto("/embedded/#pulseshift");
   await expect(page.locator("#pulseshift .feature-story a")).toHaveAttribute(

@@ -13,7 +13,7 @@ test("new features survive no JavaScript and motion is cancelled live", async ({
   });
   const fallback = await context.newPage();
   await fallback.goto("/");
-  await expect(fallback.locator("#infera h3")).toHaveText("Infera");
+  await expect(fallback.locator("#quanta h3")).toHaveText("QUANTA");
   await fallback.goto("/embedded/#pulseshift");
   await expect(
     fallback.locator("#pulseshift input, #pulseshift button"),
@@ -28,7 +28,19 @@ test("new features survive no JavaScript and motion is cancelled live", async ({
   await context.close();
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/");
-  await page.locator("#infera").scrollIntoViewIfNeeded();
+  await page.locator("#quanta").scrollIntoViewIfNeeded();
+  // Establish a rendered, actively moving page before changing the preference.
+  // Otherwise Chromium can coalesce its initial styles and the emulation change.
+  await expect(page.locator("html")).toHaveAttribute("data-motion", "full");
+  await expect
+    .poll(() =>
+      page.evaluate(() =>
+        document
+          .getAnimations()
+          .some((animation) => animation.playState === "running"),
+      ),
+    )
+    .toBe(true);
   await page.emulateMedia({ reducedMotion: "reduce" });
   await expect(page.locator("html")).toHaveAttribute("data-motion", "reduce");
   expect(
