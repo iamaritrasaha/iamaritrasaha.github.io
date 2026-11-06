@@ -1,46 +1,40 @@
-# Sequential binary welcome
+# Binary calligraphy welcome
 
-Baseline: `da1e6b4e141b4c860e8e7f288b0ce3bfcdf5c54f` (latest `main` when work began).
-Branch: `codex/sequential-glyph-welcome`.
+Baseline: `da1e6b4e141b4c860e8e7f288b0ce3bfcdf5c54f` (latest main when work began). Revised on `codex/sequential-glyph-welcome`, PR #16.
 
-The homepage now assembles each letter of **Aritra Saha** from moving binary symbols. An offscreen Canvas renders the complete, kerned Literata string using the computed font and a measured DOM baseline. Alpha sampling produces bounded stroke targets, snapped onto actual ink pixels. DOM ranges preserve each character's real position and the natural word space.
+The complete, kerned **Aritra Saha** string reserves the original Literata layout. After a bounded font load, Canvas rasterizes that same string at its measured DOM baseline. Alpha sampling partitions its actual ink into bounded fragments; every nonzero pixel, including antialiased serifs, belongs to exactly one fragment. Each binary destination is snapped onto ink. DOM ranges preserve proportional advances, kerning and the word space.
 
-Each letter accumulates bits from bottom to top, holds its binary silhouette, then contracts the symbols into expanding mask openings at those same positions. The SVG mask reveals the original native text. The text is never replaced, translated, scaled, or given artificial character widths. Completed letters stay visible. Only `identity-resolve` controls the title's existing exit; the obsolete ASCII-string animations are removed.
+Letter-specific pen guides order those measured fragments: A's left diagonal, right diagonal, crossbar, then terminal details; bowls and shoulders follow their curves. Cubic trajectories turn into the local stroke direction. A quiet field of three waiting bits per future letter establishes the composition. Only one letter constructs at a time. The bits gather into a recognizable silhouette, then contract while their own raster fragments expand from those same positions and join into continuous ink. There is no SVG mask, clipping reveal, horizontal wipe or opacity crossfade. Completed ink is cached on an offscreen canvas.
 
-The construction takes 3,210 ms after font preparation: an 80 ms opening, 440 ms for A, 290 ms for each remaining letter, and an 80 ms word-space pause. Font preparation is capped at 350 ms. The existing 5,600/4,600 ms welcome timelines, mathematical manuscript and pixel-grid handoff are unchanged.
+The visible canvas and native title share the same geometry. After a 240 ms hold on the assembled wordmark, the temporary canvas is removed and the reserved native text resumes rendering. Browser screenshots verify unchanged bounds; Canvas/DOM edge antialiasing differs slightly (mean maximum-channel difference below 3/255 in the 390/1440px comparison), without a visible position or size change. Only the existing `identity-resolve` animation controls the title's exit.
 
-One decorative Canvas and at most 180 mask circles exist at a time. Glyph targets are prepared once; frames perform no layout reads. Completion and dismissal cancel the frame, clear the font timeout, disconnect the resize observer, remove the resize listener and delete both temporary surfaces. Resize falls back to responsive native text. Font failure/timeout selects a stable readable fallback for the remainder of the welcome. Canvas/readback failure also reveals the native title. One stable accessible text node remains throughout.
+Timing after font preparation: 180 ms anticipation, 420 ms for A, 260 ms for each remaining letter, 70 ms word separation, 240 ms final hold: **3,250 ms** total. Font preparation is capped at 300 ms. The original **5,600/4,600 ms** welcome, manuscript, epoch and pixel-grid handoff timelines are unchanged.
 
-## Visual evidence
+One decorative canvas exists in the DOM, with at most 180 active bits plus the small waiting field. Targets and raster fragments are prepared once, with no frame-by-frame layout reads. Completion or cancellation cancels frames, clears the timeout, disconnects the observer and listener, and removes temporary nodes. Resize shows responsive native text. Failed/slow fonts use a stable serif fallback; Canvas/readback failures reveal readable text. Below a 40px title size, the normal wordmark is the compact fallback. One stable accessible name remains throughout.
 
-Normal-speed Playwright recordings, with no clock manipulation:
+## Visual review and iteration
 
-- [Desktop, first visit](welcome-construction/desktop-first.webm)
-- [Desktop, returning visit](welcome-construction/desktop-returning.webm)
-- [Mobile, first visit](welcome-construction/mobile-first.webm)
-- [Mobile, returning visit](welcome-construction/mobile-returning.webm)
+The first PR experiment used a bottom-up sampling order and SVG openings. It was rejected; its recordings are retained for comparison: [before desktop](welcome-construction/before-desktop.webm), [before mobile](welcome-construction/before-mobile.webm).
 
-[Frames decoded from the real-time desktop video](welcome-construction/video-frames.png) show accumulating A strokes, its binary silhouette, subsequent letters, the word space, S and the final title. The video includes navigation/loading time before construction starts.
+The second version replaced that mechanism with pen-guided trajectories and physical ink fragments. Inspection found clipped anticipation bits and serif terminals arriving too early. The final revision adds drawing overscan and schedules those terminal details after the structural strokes. The reviewed frames show a partial diagonal A, a complete binary A, a resolved A before r, the word-space pause, curved S construction, completed name and unchanged classifier handoff.
 
-Controlled intermediate browser captures supplement those recordings:
+Normal-speed Playwright recordings, without clock manipulation:
 
-- [Desktop construction and handoff](welcome-construction/desktop-sequence.png)
-- [Mobile construction and handoff](welcome-construction/mobile-sequence.png)
+- [Desktop 1440px, first visit](welcome-construction/desktop-first.webm) and [returning visit](welcome-construction/desktop-returning.webm)
+- [Mobile 390px, first visit](welcome-construction/mobile-first.webm) and [returning visit](welcome-construction/mobile-returning.webm)
+- [Frames decoded from the actual desktop recording](welcome-construction/video-frames.png)
+- Controlled intermediate captures: [desktop](welcome-construction/desktop-sequence.png), [mobile](welcome-construction/mobile-sequence.png)
 
-The detail crops enlarge the bits for inspection. Full-frame handoff images retain the surrounding manuscript and classifier. [Recorded geometry](welcome-construction/recording.json) is identical before/after construction on all four runs: desktop 685.984 × 129.594 CSS px and mobile 229.813 × 42.906 CSS px, with unchanged x/y coordinates. No page errors occurred in those recordings.
-
-Reproduce with `npm start`, then `node scripts/record-welcome.mjs`. Optional arguments select the URL and output directory; `PLAYWRIGHT_CHANNEL=chromium` selects bundled Chromium instead of the local Windows Edge channel.
+The crops enlarge the bits for inspection. [Recorded geometry](welcome-construction/recording.json) is identical before/after on all four runs: desktop 685.984 × 129.594 CSS px; mobile 229.813 × 42.906 CSS px, with unchanged x/y coordinates and no page errors. Reproduce with `npm start`, then `node scripts/record-welcome.mjs [URL] [output-directory]`.
 
 ## Verification
 
-The new browser tests replace the two obsolete ASCII-decode assertions with stronger desktop/mobile checks of actual Canvas output, all ten letters, sampled ink, exclusive sequencing, native dimensions, accessibility and cleanup. Additional cases cover Escape, Tab, visibility, manual/system motion changes, data saving, navigation, resize, late/failed fonts, Canvas/readback failure and missing animation capability. Existing manuscript, handoff, responsive, no-JavaScript and three-page regression coverage remains intact.
+Deterministic browser tests inspect actual binary draw positions against raster alpha for all ten letters, exclusive sequencing, fragment growth, native dimensions, accessibility and cleanup. Unit tests verify stroke ordering, curved endpoints and lossless raster coverage. Lifecycle cases cover Escape, Tab, hidden tabs, live/manual motion, data saving, navigation, resize, late/failed fonts, Canvas/readback failure and missing animation support. Existing manuscript, classifier, responsive, no-JavaScript and three-page coverage remains intact.
 
-Local `npm ci`, `npm run lint`, `npm test` (27 tests) and `npm run build` pass. The full Windows Chromium run passes 153/154 browser tests, including all 19 construction cases. The remaining existing live-media-preference test also fails when the three welcome assets are served from the unchanged baseline SHA; the media-query change is not delivered in that local scenario. Its assertions and timeout remain unchanged.
+Local lint, static integrity, 30 unit tests and build pass. The full Windows browser suite and Linux Chromium/Firefox CI are run for the final revision. The pre-existing Windows live-media-query test failure was independently reproduced against baseline welcome assets; its assertions are unchanged. Local Firefox has a window-resize timeout in the existing suite; initial-viewport visual checks and the no-resize lifecycle cases supplement full Linux Firefox CI.
 
-Local Firefox can construct the welcome at desktop and mobile sizes and passes the 16 lifecycle/fallback tests that do not resize its window. The full Windows Firefox run encountered `page.setViewportSize` timeouts before navigation in existing Explorations tests. The unchanged Linux Firefox CI suite is the full cross-browser release gate.
+## Sources and implementation choice
 
-## API references
-
-- [Canvas fillText](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillText) and [getImageData](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/getImageData) provide the raster glyph silhouette and alpha samples.
-- [FontFaceSet.load](https://developer.mozilla.org/en-US/docs/Web/API/FontFaceSet/load) loads the specific font used for the name, bounded here by an independent timeout.
-- [TextMetrics](https://developer.mozilla.org/en-US/docs/Web/API/TextMetrics) describes Canvas metrics; DOM ranges and a baseline probe are used here to retain the final HTML text's exact layout instead of assuming fixed advances.
+- [FreeType outline conventions](https://freetype.org/freetype2/docs/glyphs/glyphs-6.html) and [OpenType glyph contours](https://learn.microsoft.com/en-us/typography/opentype/spec/glyf) distinguish true outlines from rectangular text bounds. This implementation samples the browser's rasterized font, preserving its hinting and antialiasing without a font parser or dependency.
+- [HTML Canvas text preparation](https://html.spec.whatwg.org/multipage/canvas.html#text-preparation-algorithm), [fillText](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillText), [getImageData](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/getImageData) and [FontFaceSet.load](https://developer.mozilla.org/en-US/docs/Web/API/FontFaceSet/load) inform font loading, measurement and raster sampling.
+- [CMU kinetic typography work](https://www.cs.cmu.edu/~johnny/kt/) informs explicit per-letter temporal choreography; no external animation engine is used.

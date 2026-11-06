@@ -295,25 +295,20 @@
   animation: identity-resolve var(--entry-duration) linear both;
 }
 /* The complete native text reserves its original, kerned layout throughout.
-   Only its decorative mask changes; identity-resolve owns the parent's exit. */
+   Only its decorative canvas changes; identity-resolve owns the parent's exit. */
 .bb-entry > strong {
   position: relative;
 }
 .name-visual {
   display: block;
 }
-.name-pending .name-visual {
+.name-pending .name-visual,
+.name-constructing .name-visual {
   visibility: hidden;
 }
 .name-bits {
   position: absolute;
   inset: 0;
-  pointer-events: none;
-}
-.name-mask {
-  position: absolute;
-  width: 0;
-  height: 0;
   pointer-events: none;
 }
 .bb-entry > small {

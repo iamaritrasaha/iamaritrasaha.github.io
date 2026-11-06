@@ -63,12 +63,12 @@ for (const [device, viewport] of [
   let elapsed = 0;
   for (const [at, label] of [
     [100, "Initial field"],
-    [260, "A accumulating"],
-    [400, "A in binary"],
-    [510, "A resolved"],
-    [730, "r in binary"],
-    [1970, "Word space"],
-    [2260, "S in binary"],
+    [290, "A accumulating"],
+    [480, "A in binary"],
+    [610, "A resolved"],
+    [790, "r in binary"],
+    [1930, "Word space"],
+    [2160, "S in binary"],
     [3300, "Complete name"],
     [4900, "Pixel handoff"],
     [5500, "Classifier arrival"],

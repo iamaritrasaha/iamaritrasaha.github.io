@@ -9,28 +9,52 @@ async function freeze(page) {
 // Observe actual Canvas output and lifecycle, without a production test API.
 async function instrument(page) {
   await page.addInitScript(() => {
-    window.nameProbe = { bits: [], draws: 0, observers: 0, listeners: 0 };
+    window.nameProbe = {
+      bits: [],
+      fragments: [],
+      draws: 0,
+      observers: 0,
+      listeners: 0,
+    };
     const proto = CanvasRenderingContext2D.prototype;
     const fill = proto.fillText,
       clear = proto.clearRect,
-      read = proto.getImageData;
+      read = proto.getImageData,
+      draw = proto.drawImage;
+    proto.drawImage = function (source, ...args) {
+      if (
+        source === window.nameProbe.raster &&
+        this.canvas.className === "name-bits"
+      )
+        window.nameProbe.fragments.push(args);
+      return draw.call(this, source, ...args);
+    };
     proto.fillText = function (text, ...args) {
       if (this.canvas.className === "name-bits") {
         const m = this.getTransform();
         const dpr = Math.min(devicePixelRatio, 2);
-        window.nameProbe.bits.push({ text, x: m.e / dpr, y: m.f / dpr });
+        window.nameProbe.bits.push({
+          text,
+          x: m.e / dpr + parseFloat(this.canvas.style.left),
+          y: m.f / dpr + parseFloat(this.canvas.style.top),
+          alpha: this.globalAlpha,
+        });
         window.nameProbe.draws++;
       }
       return fill.call(this, text, ...args);
     };
     proto.clearRect = function (...args) {
-      if (this.canvas.className === "name-bits") window.nameProbe.bits = [];
+      if (this.canvas.className === "name-bits") {
+        window.nameProbe.bits = [];
+        window.nameProbe.fragments = [];
+      }
       return clear.apply(this, args);
     };
     proto.getImageData = function (...args) {
       const result = read.apply(this, args);
       if (this.font.includes("Literata") && this.canvas.className === "") {
         window.nameProbe.ink = result;
+        window.nameProbe.raster = this.canvas;
       }
       return result;
     };
@@ -71,7 +95,7 @@ async function ready(page) {
   await page.evaluate(() => document.fonts.ready);
   await expect(page.locator(".bb-entry > strong")).toHaveAttribute(
     "data-construction",
-    "running",
+    "anticipation",
   );
 }
 
@@ -129,66 +153,66 @@ for (const width of [390, 1440]) {
     expect(half).not.toEqual(initial);
     expect(half.length).toBeGreaterThan(initial.length);
     expect(initial.every((p) => p.text === "0" || p.text === "1")).toBe(true);
-    // No native ink is revealed before the binary silhouette is complete.
-    expect(
-      await name
-        .locator("circle")
-        .evaluateAll((nodes) => nodes.every((n) => +n.getAttribute("r") === 0)),
-    ).toBe(true);
+    expect(await page.evaluate(() => window.nameProbe.fragments.length)).toBe(
+      0,
+    );
+    await expect(name.locator("svg,mask,clipPath")).toHaveCount(0);
     let elapsed = 300;
-    let start = 80;
+    let start = 180;
     for (let index = 0; index < 10; index++) {
-      if (index === 6) start += 80;
-      const duration = index === 0 ? 440 : 290;
-      const at = start + duration * 0.73;
+      if (index === 6) start += 70;
+      const duration = index === 0 ? 420 : 260;
+      const at = start + duration * 0.71;
       await page.clock.runFor(at - elapsed);
       elapsed = at;
       await expect(name).toHaveAttribute("data-letter", String(index));
-      const formation = await name.evaluate((el) => {
-        const { bits, ink } = window.nameProbe;
-        const targets = [...el.querySelectorAll("circle")].map((n) => ({
-          x: +n.getAttribute("cx"),
-          y: +n.getAttribute("cy"),
-          r: +n.getAttribute("r"),
-        }));
-        const occupied = targets.every((p) => {
-          // Alpha-weighted centroids can fall between two edges in a tiny tile.
-          for (let y = Math.max(0, Math.floor(p.y) - 1); y <= p.y + 1; y++)
-            for (let x = Math.max(0, Math.floor(p.x) - 1); x <= p.x + 1; x++)
-              if (ink.data[(y * ink.width + x) * 4 + 3] > 48) return true;
-          return false;
-        });
+      const formation = await name.evaluate((el, index) => {
+        const { bits, ink, fragments } = window.nameProbe;
+        const scale = Math.min(devicePixelRatio, 2);
+        const active = bits.filter((p) => p.alpha === 1);
+        const visual = el.querySelector(".name-visual");
+        const range = document.createRange();
+        const character = index < 6 ? index : index + 1;
+        range.setStart(visual.firstChild, character);
+        range.setEnd(visual.firstChild, character + 1);
+        const glyph = range.getBoundingClientRect();
+        const base = visual.getBoundingClientRect();
         return {
-          bits,
-          targets,
-          occupied,
-          completed: +el.querySelector("mask > rect").getAttribute("width"),
-          left: +el.querySelector("clipPath rect").getAttribute("x"),
+          count: active.length,
+          occupied: active.every(
+            (p) =>
+              ink.data[
+                (Math.floor(p.y * scale) * ink.width +
+                  Math.floor(p.x * scale)) *
+                  4 +
+                  3
+              ] > 0,
+          ),
+          withinGlyph: active.every(
+            (p) =>
+              p.x >= glyph.left - base.left - 1 &&
+              p.x <= glyph.right - base.left + 1,
+          ),
+          fragments: fragments.length,
         };
-      });
-      expect(formation.targets.length).toBeGreaterThan(10);
-      expect(formation.targets.length).toBeLessThanOrEqual(180);
+      }, index);
+      expect(formation.count).toBeGreaterThan(5);
+      expect(formation.count).toBeLessThanOrEqual(180);
       expect(formation.occupied).toBe(true);
-      expect(formation.completed).toBe(formation.left);
-      expect(formation.bits).toHaveLength(formation.targets.length);
-      formation.bits.forEach((p, i) => {
-        expect(p.x).toBeCloseTo(formation.targets[i].x, 1);
-        expect(p.y).toBeCloseTo(formation.targets[i].y, 1);
-        expect(formation.targets[i].r).toBe(0);
-      });
+      expect(formation.withinGlyph).toBe(true);
+      // The binary silhouette exists before any of its raster material grows.
+      expect(formation.fragments).toBe(0);
       const box = await name.boundingBox();
       expect(box).toEqual(original);
       expect(box.x).toBeGreaterThanOrEqual(0);
       expect(box.x + box.width).toBeLessThanOrEqual(width);
-      // Spatial ink grows at the settled bit locations, before the next letter.
-      await page.clock.runFor(duration * 0.24);
-      elapsed += duration * 0.24;
+      await page.clock.runFor(duration * 0.25);
+      elapsed += duration * 0.25;
       await expect(name).toHaveAttribute("data-letter", String(index));
-      expect(
-        await name
-          .locator("circle")
-          .evaluateAll((nodes) => nodes.every((n) => +n.getAttribute("r") > 0)),
-      ).toBe(true);
+      const joining = await page.evaluate(() => window.nameProbe.fragments);
+      expect(joining.length).toBe(formation.count);
+      // Actual raster pieces expand spatially from the occupied targets.
+      expect(joining.every((p) => p[6] > 0 && p[7] > 0)).toBe(true);
       start += duration;
     }
     await page.clock.runFor(3300 - elapsed);

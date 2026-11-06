@@ -1,5 +1,5 @@
-import { mountWelcomeMath } from "./welcome-math.js?v=glyph1";
-import { constructWelcomeName } from "./welcome-name.js?v=glyph1";
+import { mountWelcomeMath } from "./welcome-math.js?v=pen1";
+import { constructWelcomeName } from "./welcome-name.js?v=pen1";
 import { DIGIT_SAMPLES } from "./digit-model.js";
 import { evaluateNetwork } from "./neural-network.js";
 import { mountRelief } from "./pixel-relief.js?v=morph1";
