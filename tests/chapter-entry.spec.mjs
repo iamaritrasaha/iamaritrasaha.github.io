@@ -2,11 +2,16 @@ import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
 for (const route of ["/embedded/", "/explorations/"]) {
-  test(`${route} first entrance draws its subject, hands off and skips repeats`, async ({
+  test(`${route} entrance draws its subject and replays on reload and return visits`, async ({
     page,
   }) => {
     const errors = [];
     page.on("pageerror", (error) => errors.push(error.message));
+    await page.addInitScript(() => {
+      // Existing visitors may retain flags written by the previous release.
+      sessionStorage.setItem("portfolio-chapter-embedded", "seen");
+      sessionStorage.setItem("portfolio-chapter-explorations", "seen");
+    });
     await page.goto(route);
     const entry = page.locator(".chapter-entry");
     await expect(entry).toBeVisible();
@@ -45,11 +50,17 @@ for (const route of ["/embedded/", "/explorations/"]) {
     await expect(entry).toHaveCount(0);
     await expect(page.getByRole("heading", { level: 1 })).toBeFocused();
     await page.reload();
-    await expect(entry).toHaveCount(0);
+    await expect(entry).toBeVisible();
     await expect(page.locator("html")).toHaveAttribute(
       "data-chapter-state",
-      "bypassed",
+      "running",
     );
+    await page.keyboard.press("Escape");
+    await page.goto("/#about");
+    await page.locator(`.nav-panel a[href="${route}"]`).click();
+    await expect(entry).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(entry).toHaveCount(0);
     expect(errors).toEqual([]);
   });
   for (const action of ["Escape", "Tab", "tap"]) {

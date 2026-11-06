@@ -7,13 +7,6 @@
   const preference = matchMedia("(prefers-reduced-motion: reduce)");
   const connection = navigator.connection;
   const navType = performance.getEntriesByType("navigation")[0]?.type;
-  const key = "portfolio-chapter-" + chapter;
-  let seen = false;
-  try {
-    seen = sessionStorage.getItem(key) === "seen";
-  } catch {
-    /* Optional storage. */
-  }
   function reduced() {
     let saved = false;
     try {
@@ -30,10 +23,8 @@
     );
   }
   let pending =
-    !seen &&
     !location.hash &&
     !reduced() &&
-    navType !== "reload" &&
     navType !== "back_forward" &&
     typeof Element.prototype.animate === "function";
   let veil,
@@ -215,11 +206,6 @@
       pending = false;
       root.dataset.chapterState = "running";
       document.getElementById("chapter-paint")?.remove();
-      try {
-        sessionStorage.setItem(key, "seen");
-      } catch {
-        /* Animation is still skippable when storage is unavailable. */
-      }
       veil.addEventListener("click", () => finish("skip"));
       veil.focus({ preventScroll: true });
       window.addEventListener("resize", onResize);

@@ -1,5 +1,32 @@
 // A manuscript around the existing pixel-grid handoff. Illustration, not training.
 export function mountWelcomeMath(veil) {
+  // Keep one stable accessible name while its decorative ASCII bits resolve.
+  const name = veil.querySelector("strong");
+  const label = name.textContent;
+  const accessible = document.createElement("span");
+  accessible.className = "sr-only";
+  accessible.textContent = label;
+  const visual = document.createElement("span");
+  visual.className = "name-visual";
+  visual.setAttribute("aria-hidden", "true");
+  for (const [index, letter] of [...label].entries()) {
+    if (letter === " ") {
+      visual.append(" ");
+      continue;
+    }
+    const character = document.createElement("span");
+    character.className = "name-character";
+    character.style.setProperty("--decode-delay", 180 + index * 65 + "ms");
+    const glyph = document.createElement("span");
+    glyph.className = "name-letter";
+    glyph.textContent = letter;
+    const bits = document.createElement("span");
+    bits.className = "name-code";
+    bits.textContent = letter.charCodeAt(0).toString(2).padStart(8, "0");
+    character.append(glyph, bits);
+    visual.append(character);
+  }
+  name.replaceChildren(accessible, visual);
   const paper = document.createElement("div");
   paper.className = "welcome-math";
   paper.setAttribute("aria-hidden", "true");

@@ -18,6 +18,8 @@
   };
   addEventListener("pageswap", (event) => {
     if (!event.viewTransition) return;
+    // Either document can skip the shared transition and reject ready.
+    event.viewTransition.ready.catch(() => {});
     const destination = event.activation?.entry?.url;
     const target = destination ? new URL(destination) : null;
     if (
@@ -32,6 +34,7 @@
   });
   addEventListener("pagereveal", (event) => {
     if (!event.viewTransition) return;
+    event.viewTransition.ready.catch(() => {});
     const root = document.documentElement;
     if (
       reduced() ||

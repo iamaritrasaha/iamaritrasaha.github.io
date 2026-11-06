@@ -292,9 +292,56 @@
 }
 
 .bb-entry > strong {
-  animation:
-    entry-type 760ms 80ms both,
-    identity-resolve var(--entry-duration) linear both;
+  animation: identity-resolve var(--entry-duration) linear both;
+}
+.name-character {
+  display: inline-grid;
+  position: relative;
+  vertical-align: baseline;
+}
+.name-letter {
+  display: block;
+  animation: name-decode 620ms var(--decode-delay)
+    cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.name-code {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 2ch;
+  overflow-wrap: anywhere;
+  font: 0.16em/1.15 var(--mono);
+  letter-spacing: 0;
+  text-shadow: none;
+  transform: translate(-50%, -50%);
+  animation: name-bits 620ms var(--decode-delay) ease both;
+}
+@keyframes name-bits {
+  0%,
+  30% {
+    opacity: 0.85;
+    transform: translate(-50%, -50%);
+  }
+  55% {
+    opacity: 0.45;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -65%) scale(0.8);
+  }
+}
+@keyframes name-decode {
+  0%,
+  30% {
+    opacity: 0;
+    filter: blur(3px);
+    transform: translateY(0.12em);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
 }
 .bb-entry > small {
   animation: identity-resolve var(--entry-duration) linear both;
