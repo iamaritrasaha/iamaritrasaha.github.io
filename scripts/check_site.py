@@ -123,7 +123,7 @@ for anchor in [
     'systems', 'index', 'principles', 'approach', 'future',
 ]:
     assert anchor in homepage.ids, f'Missing preserved anchor: #{anchor}'
-for filename, budget in [('index.html', 60000), ('embedded/index.html', 56000), ('assets/embedded.css', 18000), ('assets/electronics-math.js', 5000), ('assets/embedded.js', 18000), ('assets/navigation.js', 3500), ('assets/bitbench.css', 13500), ('assets/bitbench.js', 13000), ('styles.css', 45000), ('assets/editorial.css', 22000), ('script.js', 14000), ('assets/research-plate.js', 8000), ('assets/research-plate.css', 8000), ('assets/surface-physics.js', 8000), ('assets/neuron-demo.js', 20000), ('assets/neuron-demo.css', 12800), ('assets/neuron-math.js', 16000), ('assets/neural-network.js', 8000), ('assets/digit-model.js', 32000), ('assets/theme.js', 4000)]:
+for filename, budget in [('index.html', 62000), ('embedded/index.html', 56000), ('assets/embedded.css', 18000), ('assets/electronics-math.js', 5000), ('assets/embedded.js', 18000), ('assets/navigation.js', 3500), ('assets/bitbench.css', 13500), ('assets/bitbench.js', 13000), ('styles.css', 45000), ('assets/editorial.css', 22000), ('script.js', 14000), ('assets/research-plate.js', 8000), ('assets/research-plate.css', 8000), ('assets/surface-physics.js', 8000), ('assets/neuron-demo.js', 20000), ('assets/neuron-demo.css', 12800), ('assets/neuron-math.js', 16000), ('assets/neural-network.js', 8000), ('assets/digit-model.js', 32000), ('assets/theme.js', 4000)]:
     # Git's Windows checkout may use CRLF; budget the canonical UTF-8/LF source.
     size = source_size(filename)
     assert size <= budget, f'{filename}: {size} exceeds {budget} bytes'
@@ -133,6 +133,9 @@ assert (ROOT / 'app-ads.txt').is_file()
 assert source_size('assets/welcome-strokes.js') <= 7000, 'Stroke ordering exceeds its scoped budget'
 assert source_size('assets/welcome-name.js') <= 11000, 'Glyph construction exceeds its scoped budget'
 assert source_size('assets/projection-motion.js') <= 4000
+assert source_size('assets/projection-renderer.js') <= 7000
+assert (ROOT / 'assets/fonts/PortfolioMath.woff2').stat().st_size <= 80000
+assert source_size('assets/helicoid.svg') <= 300000
 assert source_size('assets/quanta-feature.js') <= 5000
 assert source_size('assets/quanta-feature.css') <= 5000
 assert source_size('assets/seedl-feature.css') <= 6000, 'SeeDL styles exceed the scoped feature budget'

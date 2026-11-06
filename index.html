@@ -80,14 +80,14 @@
     <link rel="stylesheet" href="assets/research-plate.css?v=r1" />
     <link rel="stylesheet" href="assets/seedl-feature.css?v=20261024.2" />
     <link rel="stylesheet" href="assets/editorial.css?v=q1" />
-    <link rel="stylesheet" href="assets/creative.css?v=q1" />
+    <link rel="stylesheet" href="assets/creative.css?v=s1" />
     <script type="module" src="assets/creative.js?v=p1"></script>
     <link rel="stylesheet" href="assets/bitbench.css?v=q1" />
     <link rel="stylesheet" href="assets/quanta-feature.css?v=q1" />
     <link rel="stylesheet" href="assets/welcome-math.css?v=pen1" />
     <link rel="stylesheet" href="assets/architecture.css?v=1" />
     <script type="module" src="assets/bitbench.js?v=pen1"></script>
-    <script type="module" src="script.js?v=p1"></script>
+    <script type="module" src="script.js?v=s1"></script>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -894,47 +894,245 @@
           </figcaption>
         </figure>
       </section>
-      <section class="wrap geometry">
-        <h2>Projection study.</h2>
-        <figure class="instrument motion-scene">
+      <section
+        class="wrap geometry"
+        id="projection"
+        aria-labelledby="projection-title"
+      >
+        <div class="projection-story">
+          <p class="eyebrow">A small study in perspective</p>
+          <h2 id="projection-title">Change one angle.</h2>
+          <p class="projection-lead">The plot is not the whole picture.</p>
+          <p>
+            Turn this helicoid to reveal its folds. The surface stays the same;
+            only the view changes. A useful reminder when I read embeddings and
+            model visualizations: one projected view can hide structure.
+          </p>
+          <p>An illustrative surface, not a learned embedding.</p>
+          <p class="projection-aside">
+            Same object. Different angle. If only debugging were this easy.
+          </p>
+        </div>
+        <figure
+          class="instrument motion-scene"
+          aria-describedby="projection-description"
+        >
           <figcaption>
             <span>FIG 01 / HELICOID</span><span>ORTHOGRAPHIC</span>
           </figcaption>
-          <svg
-            viewBox="-220 -195 440 390"
-            role="img"
-            aria-label="Projected wireframe of a helicoid"
-          >
-            <image
-              href="assets/helicoid.svg"
-              x="-220"
-              y="-195"
-              width="440"
-              height="390"
-            ></image>
-          </svg>
+          <div class="projection-drawing">
+            <img
+              class="projection-fallback"
+              src="assets/helicoid.svg?v=s1"
+              width="800"
+              height="600"
+              alt="A shaded helicoid: a continuous spiral surface with citron and blue sides, viewed at 22 degrees."
+            />
+            <canvas
+              width="800"
+              height="600"
+              role="img"
+              aria-label="Rotatable shaded helicoid"
+              aria-describedby="projection-help"
+              hidden
+            ></canvas>
+          </div>
           <div class="projection-readout">
-            <output aria-live="off">α = 22.0°</output
-            ><button type="button" aria-pressed="false" hidden>
-              Pause rotation
-            </button>
+            <span>Viewing angle <output aria-live="off">22.0°</output></span>
+            <div>
+              <button
+                type="button"
+                data-projection-pause
+                data-projection-control
+                aria-pressed="false"
+                hidden
+              >
+                Pause rotation</button
+              ><button
+                type="button"
+                data-projection-reset
+                data-projection-control
+                hidden
+              >
+                Reset view
+              </button>
+            </div>
           </div>
-          <div class="projection-math">
-            <p><b>Surface</b> S(r, θ) = (r cos θ, r sin θ, 23θ)</p>
-            <p><b>Viewing angle</b> α(t) = (22 + 12t)π/180</p>
-            <p>
-              <b>Rotate about z</b> x = r cos(θ + α), y = r sin(θ + α), z = 23θ
-            </p>
-            <p><b>Tilt &amp; project</b> v = y sin β − z cos β</p>
-            <p>X = x cos γ − v sin γ<br />Y = x sin γ + v cos γ</p>
-            <p class="projection-note">
-              β = 0.48 rad · γ = 0.25 rad<br />r ∈ [−140, 140], θ ∈ [−4.1, 4.1].
-              t is active time in seconds; coordinates are drawing units.
-              Trigonometric angles are in radians; the readout wraps at 360°.
-              Orthographic projection has no perspective scaling.
-            </p>
-          </div>
+          <p
+            id="projection-help"
+            class="projection-help"
+            data-projection-control
+            hidden
+          >
+            Drag horizontally or use ← / → on the drawing. Home resets. Manual
+            inspection pauses rotation.
+          </p>
+          <section
+            class="projection-equation"
+            tabindex="0"
+            aria-label="Helicoid parameterization"
+          >
+            <math display="block"
+              ><mi>S</mi><mo>(</mo><mi>r</mi><mo>,</mo><mi>θ</mi><mo>)</mo
+              ><mo>=</mo><mo>(</mo><mi>r</mi><mspace width="0.15em"></mspace
+              ><mi mathvariant="normal">cos</mi><mi>θ</mi><mo>,</mo><mi>r</mi
+              ><mspace width="0.15em"></mspace><mi mathvariant="normal">sin</mi
+              ><mi>θ</mi><mo>,</mo><mn>23</mn><mi>θ</mi><mo>)</mo></math
+            >
+          </section>
+          <p id="projection-description" class="projection-description">
+            One surface, two sides. Shading and a few contours reveal depth;
+            hidden lines stay hidden.
+          </p>
         </figure>
+        <details class="projection-derivation">
+          <summary>
+            How the projection works <span aria-hidden="true">+</span>
+          </summary>
+          <div class="projection-math">
+            <section>
+              <h3>01 / Define the surface</h3>
+              <section
+                class="projection-equation"
+                tabindex="0"
+                aria-label="Surface coordinates"
+              >
+                <math display="block"
+                  ><mi>S</mi><mo>(</mo><mi>r</mi><mo>,</mo><mi>θ</mi><mo>)</mo
+                  ><mo>=</mo><mo>(</mo><mi>r</mi><mspace width="0.15em"></mspace
+                  ><mi mathvariant="normal">cos</mi><mi>θ</mi><mo>,</mo
+                  ><mi>r</mi><mspace width="0.15em"></mspace
+                  ><mi mathvariant="normal">sin</mi><mi>θ</mi><mo>,</mo
+                  ><mn>23</mn><mi>θ</mi><mo>)</mo></math
+                >
+              </section>
+              <p>
+                The radial coordinate <var>r</var> runs from −140 to 140 drawing
+                units; the twist <var>θ</var> runs from −4.1 to 4.1 radians. The
+                pitch is 23 drawing units per radian.
+              </p>
+            </section>
+            <section>
+              <h3>02 / Rotate the view</h3>
+              <section
+                class="projection-equation"
+                tabindex="0"
+                aria-label="Rotation about the vertical axis"
+              >
+                <math display="block"
+                  ><mtable columnalign="left"
+                    ><mtr
+                      ><mtd
+                        ><msub><mi>x</mi><mi>α</mi></msub
+                        ><mo>=</mo><mi>r</mi><mspace width="0.15em"></mspace
+                        ><mi mathvariant="normal">cos</mi><mo>(</mo><mi>θ</mi
+                        ><mo>+</mo><mi>α</mi><mo>)</mo></mtd
+                      ></mtr
+                    ><mtr
+                      ><mtd
+                        ><msub><mi>y</mi><mi>α</mi></msub
+                        ><mo>=</mo><mi>r</mi><mspace width="0.15em"></mspace
+                        ><mi mathvariant="normal">sin</mi><mo>(</mo><mi>θ</mi
+                        ><mo>+</mo><mi>α</mi><mo>)</mo></mtd
+                      ></mtr
+                    ><mtr
+                      ><mtd><mi>z</mi><mo>=</mo><mn>23</mn><mi>θ</mi></mtd></mtr
+                    ></mtable
+                  ></math
+                >
+              </section>
+              <section
+                class="projection-equation"
+                tabindex="0"
+                aria-label="Convert the displayed angle from degrees to radians"
+              >
+                <math display="block"
+                  ><mi>α</mi><mo>=</mo><mi>A</mi
+                  ><mfrac><mi>π</mi><mn>180</mn></mfrac></math
+                >
+              </section>
+              <p>
+                <var>A</var> is the angle shown in degrees; <var>α</var> is its
+                value in radians. Automatic rotation starts at 22° and advances
+                12° per active second. Pausing or leaving the panel stops that
+                clock.
+              </p>
+            </section>
+            <section>
+              <h3>03 / Tilt the camera</h3>
+              <section
+                class="projection-equation"
+                tabindex="0"
+                aria-label="Camera tilt and depth"
+              >
+                <math display="block"
+                  ><mtable columnalign="left"
+                    ><mtr
+                      ><mtd
+                        ><mi>v</mi><mo>=</mo><msub><mi>y</mi><mi>α</mi></msub
+                        ><mspace width="0.15em"></mspace
+                        ><mi mathvariant="normal">sin</mi><mi>β</mi><mo>−</mo
+                        ><mi>z</mi><mspace width="0.15em"></mspace
+                        ><mi mathvariant="normal">cos</mi><mi>β</mi></mtd
+                      ></mtr
+                    ><mtr
+                      ><mtd
+                        ><mi>d</mi><mo>=</mo><msub><mi>y</mi><mi>α</mi></msub
+                        ><mspace width="0.15em"></mspace
+                        ><mi mathvariant="normal">cos</mi><mi>β</mi><mo>+</mo
+                        ><mi>z</mi><mspace width="0.15em"></mspace
+                        ><mi mathvariant="normal">sin</mi><mi>β</mi></mtd
+                      ></mtr
+                    ></mtable
+                  ></math
+                >
+              </section>
+              <p>
+                The fixed tilt is <var>β</var> = 0.48 rad. Here <var>v</var> is
+                the vertical camera coordinate and <var>d</var> is depth. At
+                each pixel, the nearer surface wins: larger <var>d</var> is
+                closer.
+              </p>
+            </section>
+            <section>
+              <h3>04 / Project onto the page</h3>
+              <section
+                class="projection-equation"
+                tabindex="0"
+                aria-label="Orthographic drawing coordinates"
+              >
+                <math display="block"
+                  ><mtable columnalign="left"
+                    ><mtr
+                      ><mtd
+                        ><mi>X</mi><mo>=</mo><msub><mi>x</mi><mi>α</mi></msub
+                        ><mspace width="0.15em"></mspace
+                        ><mi mathvariant="normal">cos</mi><mi>γ</mi><mo>−</mo
+                        ><mi>v</mi><mspace width="0.15em"></mspace
+                        ><mi mathvariant="normal">sin</mi><mi>γ</mi></mtd
+                      ></mtr
+                    ><mtr
+                      ><mtd
+                        ><mi>Y</mi><mo>=</mo><msub><mi>x</mi><mi>α</mi></msub
+                        ><mspace width="0.15em"></mspace
+                        ><mi mathvariant="normal">sin</mi><mi>γ</mi><mo>+</mo
+                        ><mi>v</mi><mspace width="0.15em"></mspace
+                        ><mi mathvariant="normal">cos</mi><mi>γ</mi></mtd
+                      ></mtr
+                    ></mtable
+                  ></math
+                >
+              </section>
+              <p>
+                A final in-plane turn of <var>γ</var> = 0.25 rad gives drawing
+                coordinates <var>X</var> and <var>Y</var>, with
+                <var>Y</var> increasing downward. The drawing is centered and
+                uniformly scaled to fit. Orthographic projection has no
+                perspective scaling.
+              </p>
+            </section>
+          </div>
+        </details>
       </section>
       <section
         class="practice-section wrap"

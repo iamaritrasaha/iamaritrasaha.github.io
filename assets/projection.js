@@ -1,3 +1,45 @@
+// Drawing units and camera angles shared by the sculpture and its derivation.
+export const VIEW = Object.freeze({
+  pitch: 23,
+  radius: 140,
+  theta: 4.1,
+  tilt: 0.48,
+  roll: 0.25,
+  initial: 22,
+  speed: 12,
+});
+export const radians = (degrees) => (degrees * Math.PI) / 180;
+export function surface(radius, theta) {
+  return [
+    radius * Math.cos(theta),
+    radius * Math.sin(theta),
+    VIEW.pitch * theta,
+  ];
+}
+// Orthogonal camera basis. Positive depth is nearer the viewer; X and Y are
+// drawing coordinates (Y increases downward). No perspective division occurs.
+export function project([x, y, z], degrees) {
+  const alpha = radians(degrees);
+  const rotatedX = x * Math.cos(alpha) - y * Math.sin(alpha);
+  const rotatedY = x * Math.sin(alpha) + y * Math.cos(alpha);
+  const vertical = rotatedY * Math.sin(VIEW.tilt) - z * Math.cos(VIEW.tilt);
+  return [
+    rotatedX * Math.cos(VIEW.roll) - vertical * Math.sin(VIEW.roll),
+    rotatedX * Math.sin(VIEW.roll) + vertical * Math.cos(VIEW.roll),
+    rotatedY * Math.cos(VIEW.tilt) + z * Math.sin(VIEW.tilt),
+  ];
+}
+export function normal(radius, theta) {
+  // dS/dr × dS/dθ, normalized. Lighting never deforms the surface.
+  const length = Math.hypot(VIEW.pitch, radius);
+  return [
+    (VIEW.pitch * Math.sin(theta)) / length,
+    (-VIEW.pitch * Math.cos(theta)) / length,
+    radius / length,
+  ];
+}
+
+// Retained for the historical concept and its reproducibility checks.
 // Orthographic projection of (r cos t, r sin t, pitch * t).
 export function mesh(angle) {
   const azimuth = (angle * Math.PI) / 180;
