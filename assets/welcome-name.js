@@ -194,8 +194,8 @@ export function constructWelcomeName(name) {
             name.dataset.construction =
               elapsed < 180 ? "anticipation" : "constructing";
             g.points.forEach((p, i) => {
-              const delay = p.order * 0.39;
-              const travel = clamp((progress - delay) / 0.3);
+              const delay = p.order * 0.31;
+              const travel = clamp((progress - delay) / 0.26);
               // Hold a complete binary letter before its pieces join into ink.
               const material = smooth(
                 (progress - 0.72 - p.order * 0.04) / 0.24,

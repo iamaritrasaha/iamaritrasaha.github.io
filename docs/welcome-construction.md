@@ -16,7 +16,7 @@ One decorative canvas exists in the DOM, with at most 180 active bits plus the s
 
 The first PR experiment used a bottom-up sampling order and SVG openings. It was rejected; its recordings are retained for comparison: [before desktop](welcome-construction/before-desktop.webm), [before mobile](welcome-construction/before-mobile.webm).
 
-The second version replaced that mechanism with pen-guided trajectories and physical ink fragments. Inspection found clipped anticipation bits and serif terminals arriving too early. The final revision adds drawing overscan and schedules those terminal details after the structural strokes. The reviewed frames show a partial diagonal A, a complete binary A, a resolved A before r, the word-space pause, curved S construction, completed name and unchanged classifier handoff.
+The second version replaced that mechanism with pen-guided trajectories and physical ink fragments. Inspection found clipped anticipation bits and serif terminals arriving too early. The final revision adds drawing overscan, schedules terminal details after the structural strokes, and holds each binary silhouette for at least 39 ms before its material starts joining. This last timing adjustment prevents a late frame from skipping the complete binary silhouette. The reviewed frames show a partial diagonal A, a complete binary A, a resolved A before r, the word-space pause, curved S construction, completed name and unchanged classifier handoff.
 
 Normal-speed Playwright recordings, without clock manipulation:
 
