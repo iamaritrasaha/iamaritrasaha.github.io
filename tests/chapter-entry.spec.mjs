@@ -11,7 +11,23 @@ for (const route of ["/embedded/", "/explorations/"]) {
     const entry = page.locator(".chapter-entry");
     await expect(entry).toBeVisible();
     await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
-    await expect(entry.locator(".chapter-skip")).toBeFocused();
+    await expect(entry).toBeFocused();
+    await expect(entry.locator("button")).toHaveCount(0);
+    await expect(entry.locator(".chapter-progress")).toBeVisible();
+    expect(
+      await entry.locator(".chapter-progress i").evaluate((el) => {
+        const animation = el.getAnimations()[0];
+        const duration = animation.effect.getTiming().duration;
+        animation.pause();
+        animation.currentTime = duration / 4;
+        const early = new DOMMatrix(getComputedStyle(el).transform).a;
+        animation.currentTime = (duration * 3) / 4;
+        const late = new DOMMatrix(getComputedStyle(el).transform).a;
+        animation.currentTime = 0;
+        animation.play();
+        return { duration, early, late };
+      }),
+    ).toEqual({ duration: 2200, early: 0.25, late: 0.75 });
     await expect(entry.locator("svg")).toHaveCount(1);
     if (route === "/embedded/") {
       await expect(entry.locator(".chapter-led")).toHaveCount(6);
@@ -36,14 +52,16 @@ for (const route of ["/embedded/", "/explorations/"]) {
     );
     expect(errors).toEqual([]);
   });
-  for (const action of ["Escape", "Tab", "skip"]) {
+  for (const action of ["Escape", "Tab", "tap"]) {
     test(`${route} ${action} immediately reveals a usable destination`, async ({
       page,
     }) => {
       await page.goto(route);
       await expect(page.locator(".chapter-entry")).toBeVisible();
-      if (action === "skip")
-        await page.getByRole("button", { name: "Skip introduction" }).click();
+      if (action === "tap")
+        await page
+          .locator(".chapter-entry")
+          .click({ position: { x: 20, y: 20 } });
       else await page.keyboard.press(action);
       await expect(page.locator(".chapter-entry")).toHaveCount(0);
       await expect(page.locator("html")).toHaveAttribute(
@@ -171,7 +189,7 @@ for (const route of ["/embedded/", "/explorations/"]) {
         ".chapter-art",
         ".chapter-title",
         ".chapter-caption",
-        ".chapter-skip",
+        ".chapter-progress",
       ]) {
         const box = await page.locator(selector).boundingBox();
         expect(box.x).toBeGreaterThanOrEqual(0);

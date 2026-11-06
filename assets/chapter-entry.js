@@ -175,8 +175,12 @@
       veil.className = "chapter-entry";
       veil.dataset.chapter = chapter;
       veil.setAttribute("role", "region");
-      veil.setAttribute("aria-label", title + " introduction");
-      veil.innerHTML = `<div class="chapter-paper"></div><div class="chapter-caption" aria-hidden="true"><span>ARITRA SAHA / ENGINEERING NOTEBOOK</span><span>${chapter === "embedded" ? "CHAPTER 02 / SIGNAL" : "CHAPTER 03 / DISCOVERY"}</span></div><div class="chapter-art" aria-hidden="true"></div><p class="chapter-title" aria-hidden="true">${title}<small>${chapter === "embedded" ? "state → timing → signal" : "observe → model → question"}</small></p><button class="chapter-skip" type="button">Skip introduction <span aria-hidden="true">↗</span></button>`;
+      veil.tabIndex = -1;
+      veil.setAttribute(
+        "aria-label",
+        title + " introduction. Press Escape or Tab to continue.",
+      );
+      veil.innerHTML = `<div class="chapter-paper"></div><div class="chapter-caption" aria-hidden="true"><span>ARITRA SAHA / ENGINEERING NOTEBOOK</span><span>${chapter === "embedded" ? "CHAPTER 02 / SIGNAL" : "CHAPTER 03 / DISCOVERY"}</span></div><div class="chapter-art" aria-hidden="true"></div><p class="chapter-title" aria-hidden="true">${title}<small>${chapter === "embedded" ? "state → timing → signal" : "observe → model → question"}</small></p><div class="chapter-progress" aria-hidden="true"><i></i></div>`;
       const svg = target.cloneNode(true);
       svg.removeAttribute("role");
       svg.removeAttribute("aria-labelledby");
@@ -216,9 +220,8 @@
       } catch {
         /* Animation is still skippable when storage is unavailable. */
       }
-      const skip = veil.querySelector(".chapter-skip");
-      skip.addEventListener("click", () => finish("skip"));
-      skip.focus({ preventScroll: true });
+      veil.addEventListener("click", () => finish("skip"));
+      veil.focus({ preventScroll: true });
       window.addEventListener("resize", onResize);
       signal();
       for (const [index, line] of [
