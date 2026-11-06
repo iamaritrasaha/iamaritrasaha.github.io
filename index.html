@@ -81,13 +81,13 @@
     <link rel="stylesheet" href="assets/seedl-feature.css?v=20261024.2" />
     <link rel="stylesheet" href="assets/editorial.css?v=q1" />
     <link rel="stylesheet" href="assets/creative.css?v=q1" />
-    <script type="module" src="assets/creative.js?v=q1"></script>
+    <script type="module" src="assets/creative.js?v=p1"></script>
     <link rel="stylesheet" href="assets/bitbench.css?v=q1" />
     <link rel="stylesheet" href="assets/quanta-feature.css?v=q1" />
     <link rel="stylesheet" href="assets/welcome-math.css?v=pen1" />
     <link rel="stylesheet" href="assets/architecture.css?v=1" />
     <script type="module" src="assets/bitbench.js?v=pen1"></script>
-    <script type="module" src="script.js?v=q1"></script>
+    <script type="module" src="script.js?v=p1"></script>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -602,6 +602,7 @@
               </svg>
               <div
                 class="quanta-controls"
+                role="group"
                 hidden
                 aria-label="Hydrogen radial state"
               >
@@ -895,7 +896,7 @@
       </section>
       <section class="wrap geometry">
         <h2>Projection study.</h2>
-        <figure class="instrument">
+        <figure class="instrument motion-scene">
           <figcaption>
             <span>FIG 01 / HELICOID</span><span>ORTHOGRAPHIC</span>
           </figcaption>
@@ -912,17 +913,27 @@
               height="390"
             ></image>
           </svg>
-          <div class="axis-control" hidden>
-            <label for="angle">Rotate surface</label
-            ><input
-              id="angle"
-              type="range"
-              min="-90"
-              max="90"
-              value="22"
-            /><output for="angle">22°</output>
+          <div class="projection-readout">
+            <output aria-live="off">α = 22.0°</output
+            ><button type="button" aria-pressed="false" hidden>
+              Pause rotation
+            </button>
           </div>
-          <p>r cos θ, r sin θ, kθ</p>
+          <div class="projection-math">
+            <p><b>Surface</b> S(r, θ) = (r cos θ, r sin θ, 23θ)</p>
+            <p><b>Viewing angle</b> α(t) = (22 + 12t)π/180</p>
+            <p>
+              <b>Rotate about z</b> x = r cos(θ + α), y = r sin(θ + α), z = 23θ
+            </p>
+            <p><b>Tilt &amp; project</b> v = y sin β − z cos β</p>
+            <p>X = x cos γ − v sin γ<br />Y = x sin γ + v cos γ</p>
+            <p class="projection-note">
+              β = 0.48 rad · γ = 0.25 rad<br />r ∈ [−140, 140], θ ∈ [−4.1, 4.1].
+              t is active time in seconds; coordinates are drawing units.
+              Trigonometric angles are in radians; the readout wraps at 360°.
+              Orthographic projection has no perspective scaling.
+            </p>
+          </div>
         </figure>
       </section>
       <section

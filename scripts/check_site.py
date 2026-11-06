@@ -132,6 +132,7 @@ for filename, budget in [('assets/welcome-start.js', 3000), ('assets/welcome-mat
 assert (ROOT / 'app-ads.txt').is_file()
 assert source_size('assets/welcome-strokes.js') <= 7000, 'Stroke ordering exceeds its scoped budget'
 assert source_size('assets/welcome-name.js') <= 11000, 'Glyph construction exceeds its scoped budget'
+assert source_size('assets/projection-motion.js') <= 4000
 assert source_size('assets/quanta-feature.js') <= 5000
 assert source_size('assets/quanta-feature.css') <= 5000
 assert source_size('assets/seedl-feature.css') <= 6000, 'SeeDL styles exceed the scoped feature budget'

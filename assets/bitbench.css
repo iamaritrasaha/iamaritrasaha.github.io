@@ -263,7 +263,7 @@ html[data-theme="dark"] {
   background: #c6d5ff;
   grid-row: auto;
   grid-column: auto;
-  aspect-ratio: 1.6;
+  aspect-ratio: auto;
   margin: 0;
 }
 .contact-section {

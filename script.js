@@ -1,3 +1,4 @@
+import { mountProjection } from "./assets/projection-motion.js?v=p1";
 import { mountResearchPlate } from "./assets/research-plate.js?v=20260930.1";
 import { mountNeuronDemo } from "./assets/neuron-demo.js?v=r1";
 import { createSurfacePhysics } from "./assets/surface-physics.js?v=20260930.1";
@@ -6,7 +7,6 @@ import { createSurfacePhysics } from "./assets/surface-physics.js?v=20260930.1";
 // navigation.js controller is ready before these heavier modules load.
 const root = document.documentElement;
 const disclosureAnimations = new Map();
-const entranceAnimations = new Set();
 function settleDisclosure(details, entry) {
   // Detach callbacks before cancelling: settling must commit the requested
   // native state rather than run the interrupted animation's cleanup twice.
@@ -33,6 +33,8 @@ const playNetwork = mountNeuronDemo(document.getElementById("neuron-demo"));
 const setSurfaceMotion = createSurfacePhysics(
   document.querySelectorAll(".project-art"),
 );
+const projection = document.querySelector(".instrument");
+const playProjection = mountProjection(projection);
 const scenes = [...document.querySelectorAll(".motion-scene")];
 const visible = new Set();
 const network = document.querySelector(".neural-study");
@@ -44,6 +46,7 @@ function updateScenes() {
   scenes.forEach((scene) =>
     scene.classList.toggle("scene-active", allowed && visible.has(scene)),
   );
+  playProjection(allowed && visible.has(projection));
   playNetwork(allowed && visible.has(network) && !networkPaused);
   if (networkButton) {
     networkButton.hidden = false;
@@ -64,10 +67,6 @@ function updateScenes() {
   }
 }
 function syncMotion() {
-  if (reduced()) {
-    entranceAnimations.forEach((animation) => animation.cancel());
-    entranceAnimations.clear();
-  }
   if (reduced())
     disclosureAnimations.forEach((entry, details) =>
       settleDisclosure(details, entry),
@@ -116,6 +115,8 @@ window.addEventListener("storage", (event) => {
   syncMotion();
 });
 document.addEventListener("visibilitychange", updateScenes);
+window.addEventListener("pagehide", () => playProjection(false));
+window.addEventListener("pageshow", updateScenes);
 syncMotion();
 
 if ("IntersectionObserver" in window) {

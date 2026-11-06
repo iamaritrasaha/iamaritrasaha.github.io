@@ -1013,9 +1013,6 @@ html[data-motion="reduce"] .pulse-led.is-lit {
     flex-wrap: wrap;
     font-size: 0.75rem;
   }
-  .axis-control {
-    flex-wrap: wrap;
-  }
 }
 
 /* Grid items may shrink and long technical words wrap at enlarged sizes. */

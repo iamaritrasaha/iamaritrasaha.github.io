@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { radialCurve } from "../assets/quanta-feature.js";
+import { mesh } from "../assets/projection.js";
 
 test("QUANTA replaces the featured project and its radial study follows the equations", async ({
   page,
@@ -72,8 +73,97 @@ test("QUANTA and Infera bookmarks stay honest with and without JavaScript", asyn
       "d",
       radialCurve(1),
     );
+    await expect(page.locator(".projection-math")).toContainText(
+      "Orthographic projection has no perspective scaling",
+    );
+    if (!javaScriptEnabled)
+      await expect(page.locator(".instrument svg image")).toHaveCount(1);
     await page.goto(new URL("/explorations/#quanta", baseURL).href);
     await expect(page.locator('#quanta a[href="/#quanta"]')).toBeVisible();
     await context.close();
   }
+});
+
+test("projection rotates automatically, agrees with its angle and pauses without phase jumps", async ({
+  page,
+}) => {
+  const time = new Date("2026-11-06T12:00:00Z");
+  await page.clock.install({ time });
+  await page.clock.pauseAt(time);
+  await page.goto("/#work");
+  const panel = page.locator(".instrument");
+  const drawing = panel.locator("svg path");
+  await expect(page.locator("#angle")).toHaveCount(0);
+  await expect(drawing).toHaveAttribute("d", mesh(22));
+  await panel.scrollIntoViewIfNeeded();
+  await expect(panel).toHaveClass(/scene-active/);
+  await page.clock.runFor(1000);
+  const angle = await panel.locator("output").innerText();
+  expect(parseFloat(angle.slice(4))).toBeGreaterThan(32);
+  const moving = await drawing.getAttribute("d");
+  expect(moving).not.toBe(mesh(22));
+  const pause = panel.getByRole("button", { name: "Pause rotation" });
+  await pause.focus();
+  await page.keyboard.press("Enter");
+  await page.clock.runFor(1000);
+  await expect(drawing).toHaveAttribute("d", moving);
+  await expect(panel.locator("output")).toHaveText(angle);
+  await panel.getByRole("button", { name: "Resume rotation" }).click();
+  await page.clock.runFor(100);
+  const resumed = parseFloat(
+    (await panel.locator("output").innerText()).slice(4),
+  );
+  expect(resumed - parseFloat(angle.slice(4))).toBeLessThan(1.5);
+  await page.locator("h1").scrollIntoViewIfNeeded();
+  await expect(panel).not.toHaveClass(/scene-active/);
+  const offscreen = await drawing.getAttribute("d");
+  await page.clock.runFor(1000);
+  await expect(drawing).toHaveAttribute("d", offscreen);
+  await panel.scrollIntoViewIfNeeded();
+  await expect(panel).toHaveClass(/scene-active/);
+  await page.clock.runFor(100);
+  await page.evaluate(() => {
+    Object.defineProperty(document, "hidden", {
+      configurable: true,
+      value: true,
+    });
+    document.dispatchEvent(new Event("visibilitychange"));
+  });
+  const hidden = await drawing.getAttribute("d");
+  await page.clock.runFor(1000);
+  await expect(drawing).toHaveAttribute("d", hidden);
+  await page.evaluate(() => {
+    Object.defineProperty(document, "hidden", {
+      configurable: true,
+      value: false,
+    });
+    document.dispatchEvent(new Event("visibilitychange"));
+  });
+  await page.locator("[data-motion-toggle]").first().click();
+  await panel.scrollIntoViewIfNeeded();
+  await expect(
+    panel.getByRole("button", { name: "Motion off" }),
+  ).toBeDisabled();
+  const reduced = await drawing.getAttribute("d");
+  await page.clock.runFor(1000);
+  await expect(drawing).toHaveAttribute("d", reduced);
+});
+
+test("data saving keeps a complete static projection with its equations", async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    const connection = new EventTarget();
+    connection.saveData = true;
+    Object.defineProperty(navigator, "connection", { value: connection });
+  });
+  await page.goto("/");
+  await expect(page.locator(".instrument svg path")).toHaveAttribute(
+    "d",
+    mesh(22),
+  );
+  await expect(page.locator(".projection-readout button")).toBeDisabled();
+  await expect(page.locator(".projection-math")).toContainText(
+    "v = y sin β − z cos β",
+  );
 });
