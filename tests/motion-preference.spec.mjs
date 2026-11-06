@@ -14,6 +14,7 @@ test("new features survive no JavaScript and motion is cancelled live", async ({
   const fallback = await context.newPage();
   await fallback.goto("/");
   await expect(fallback.locator("#infera h3")).toHaveText("Infera");
+  await fallback.goto("/embedded/#pulseshift");
   await expect(
     fallback.locator("#pulseshift input, #pulseshift button"),
   ).toHaveCount(0);

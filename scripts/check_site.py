@@ -46,7 +46,7 @@ class Page(HTMLParser):
 
 
 pages = {}
-for filename in ['index.html', '404.html', 'embedded/index.html']:
+for filename in ['index.html', '404.html', 'embedded/index.html', 'explorations/index.html']:
     page = Page(filename)
     source = (ROOT / filename).read_text()
     assert not re.search(r'\u2014|&mdash;|&#8212;|&#x2014;', source, re.I), 'Em dash in page copy'
@@ -111,7 +111,11 @@ for filename, page in pages.items():
     assert (ROOT / 'assets/portfolio-open-graph.png').read_bytes() == image, 'The legacy image URL should serve the current card for cached metadata'
 
 homepage = pages['index.html']
-assert homepage.featured_cases == ['seedl', 'infera', 'pulseshift', 'orion', 'sysai', 'relay', 'vyren'], 'Expected three public features followed by four preserved project studies'
+assert homepage.featured_cases == ['seedl', 'infera', 'orion', 'sysai'], 'The homepage features AI/ML work only'
+assert pages['embedded/index.html'].featured_cases == ['pulseshift'], 'PulseShift retains one full presentation in the Embedded Lab'
+assert pages['explorations/index.html'].featured_cases == ['vyren'], 'Vyren, not Relay, is the featured systems study'
+for anchor in ['vector', 'quanta', 'arthrekha', 'vyren', 'aether', 'orbis', 'serein', 'veyra', 'aura', 'lumina', 'foresight', 'novarx', 'relay']:
+    assert anchor in pages['explorations/index.html'].ids, f'Missing exploration: {anchor}'
 for anchor in [
     'top', 'main', 'work', 'expertise', 'about', 'contact',
     'seedl', 'orion', 'sysai', 'relay', 'vyren', 'aether', 'orbis', 'arthrekha',
@@ -119,7 +123,7 @@ for anchor in [
     'systems', 'index', 'principles', 'approach', 'future',
 ]:
     assert anchor in homepage.ids, f'Missing preserved anchor: #{anchor}'
-for filename, budget in [('index.html', 60000), ('embedded/index.html', 50000), ('assets/embedded.css', 18000), ('assets/electronics-math.js', 5000), ('assets/embedded.js', 18000), ('assets/navigation.js', 2500), ('assets/bitbench.css', 13500), ('assets/bitbench.js', 13000), ('styles.css', 45000), ('assets/editorial.css', 22000), ('script.js', 14000), ('assets/research-plate.js', 8000), ('assets/research-plate.css', 8000), ('assets/surface-physics.js', 8000), ('assets/neuron-demo.js', 20000), ('assets/neuron-demo.css', 12800), ('assets/neuron-math.js', 16000), ('assets/neural-network.js', 8000), ('assets/digit-model.js', 32000), ('assets/theme.js', 4000)]:
+for filename, budget in [('index.html', 60000), ('embedded/index.html', 56000), ('assets/embedded.css', 18000), ('assets/electronics-math.js', 5000), ('assets/embedded.js', 18000), ('assets/navigation.js', 3500), ('assets/bitbench.css', 13500), ('assets/bitbench.js', 13000), ('styles.css', 45000), ('assets/editorial.css', 22000), ('script.js', 14000), ('assets/research-plate.js', 8000), ('assets/research-plate.css', 8000), ('assets/surface-physics.js', 8000), ('assets/neuron-demo.js', 20000), ('assets/neuron-demo.css', 12800), ('assets/neuron-math.js', 16000), ('assets/neural-network.js', 8000), ('assets/digit-model.js', 32000), ('assets/theme.js', 4000)]:
     # Git's Windows checkout may use CRLF; budget the canonical UTF-8/LF source.
     size = source_size(filename)
     assert size <= budget, f'{filename}: {size} exceeds {budget} bytes'
@@ -127,4 +131,8 @@ for filename, budget in [('assets/welcome-start.js', 3000), ('assets/welcome-mat
     assert source_size(filename) <= budget, f'{filename}: scoped motion asset exceeds budget'
 assert (ROOT / 'app-ads.txt').is_file()
 assert source_size('assets/seedl-feature.css') <= 6000, 'SeeDL styles exceed the scoped feature budget'
-print('PASS: 3 pages, IDs, internal links, controls, image geometry, all CSS assets, three public features plus four preserved studies, anchors and size budgets.')
+for filename, budget in [('explorations/index.html', 36000), ('assets/explorations.css', 10000), ('assets/explorations.js', 5000), ('assets/architecture.css', 4000), ('assets/legacy-fragments.js', 2500)]:
+    assert source_size(filename) <= budget, f'{filename}: scoped page budget exceeded'
+for filename, budget in [('assets/chapter-entry.js', 13000), ('assets/chapter-entry.css', 7000), ('assets/page-transitions.js', 3000)]:
+    assert source_size(filename) <= budget, f'{filename}: chapter entrance budget exceeded'
+print('PASS: 4 pages, IDs, internal links, controls, image geometry, CSS assets, AI/ML features, relocated studies, legacy anchors and size budgets.')

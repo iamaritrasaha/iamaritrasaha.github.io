@@ -184,10 +184,7 @@ test("no-JavaScript and fragment navigation bypass the cover", async ({
   await expect(plain.locator(".nav-panel a").first()).toBeVisible();
   await context.close();
   await page.goto("/#pulseshift");
-  await expect(page.locator("html")).toHaveAttribute(
-    "data-welcome-state",
-    "bypassed",
-  );
+  await expect(page).toHaveURL(/\/embedded\/#pulseshift$/);
   await expect(page.locator("#welcome-paint")).toBeHidden();
   await expect(page.locator(".bb-entry")).toHaveCount(0);
   await expect(page.locator(".pulse-kicker")).toHaveText(

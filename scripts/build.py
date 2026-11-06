@@ -7,5 +7,6 @@ output.mkdir(exist_ok=True)
 for name in ['.nojekyll', 'index.html', '404.html', 'styles.css', 'script.js', 'robots.txt', 'sitemap.xml', 'app-ads.txt']:
     shutil.copy2(ROOT / name, output / name)
 shutil.copytree(ROOT / 'embedded', output / 'embedded', dirs_exist_ok=True)
+shutil.copytree(ROOT / 'explorations', output / 'explorations', dirs_exist_ok=True)
 shutil.copytree(ROOT / 'assets', output / 'assets', dirs_exist_ok=True)
 print('Static deployment artifact: dist/ (no server runtime required).')

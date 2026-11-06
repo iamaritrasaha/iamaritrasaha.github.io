@@ -79,7 +79,7 @@ for (const width of widths) {
     await enlarged.evaluate((el) => el.remove());
     await page.addStyleTag({ content: spacing });
     await checkReflow(page);
-    for (const id of ["seedl", "infera", "pulseshift", "orion"]) {
+    for (const id of ["seedl", "infera", "orion"]) {
       await page.locator(`#${id} details`).evaluate((el) => (el.open = true));
     }
     await checkReflow(page);

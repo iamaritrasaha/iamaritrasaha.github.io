@@ -1,4 +1,3 @@
-import { mountRpmPreview } from "./assets/pulse-rpm.js?v=2";
 import { mountResearchPlate } from "./assets/research-plate.js?v=20260930.1";
 import { mountNeuronDemo } from "./assets/neuron-demo.js?v=r1";
 import { createSurfacePhysics } from "./assets/surface-physics.js?v=20260930.1";
@@ -36,8 +35,6 @@ const setSurfaceMotion = createSurfacePhysics(
 );
 const scenes = [...document.querySelectorAll(".motion-scene")];
 const visible = new Set();
-const pulse = document.querySelector(".pulse-study");
-const playPulse = mountRpmPreview(pulse);
 const network = document.querySelector(".neural-study");
 const networkButton = document.getElementById("sequence-toggle");
 const motionButtons = [...document.querySelectorAll("[data-motion-toggle]")];
@@ -47,7 +44,6 @@ function updateScenes() {
   scenes.forEach((scene) =>
     scene.classList.toggle("scene-active", allowed && visible.has(scene)),
   );
-  playPulse(allowed && visible.has(pulse), reduced());
   playNetwork(allowed && visible.has(network) && !networkPaused);
   if (networkButton) {
     networkButton.hidden = false;
@@ -165,22 +161,6 @@ if ("IntersectionObserver" in window) {
     );
     revealObserver.observe(el);
   });
-  const navObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        document.querySelectorAll('.nav-panel a[href^="#"]').forEach((link) => {
-          if (link.hash === `#${entry.target.id}`)
-            link.setAttribute("aria-current", "location");
-          else link.removeAttribute("aria-current");
-        });
-      });
-    },
-    { rootMargin: "-10% 0px -70% 0px" },
-  );
-  document
-    .querySelectorAll("main > section[id]")
-    .forEach((section) => navObserver.observe(section));
 } else {
   scenes.forEach((scene) => visible.add(scene));
   updateScenes();
@@ -249,37 +229,6 @@ function mountDisclosure(details) {
   });
 }
 document.querySelectorAll("details").forEach(mountDisclosure);
-function revealHashTarget() {
-  let target;
-  try {
-    target = document.getElementById(
-      decodeURIComponent(location.hash.slice(1)),
-    );
-  } catch {
-    return;
-  }
-  if (!target) return;
-  const details = target.closest("details");
-  if (details && !details.open) {
-    details.open = true;
-    target.scrollIntoView({ behavior: "instant", block: "start" });
-  }
-  // Move keyboard reading order to the destination, including after the mobile
-  // panel is hidden. Native anchors still own the URL and scrolling.
-  if (!target.matches("a, button, input, select, textarea, [tabindex]")) {
-    target.setAttribute("tabindex", "-1");
-  }
-  target.focus({ preventScroll: true });
-}
-window.addEventListener("hashchange", revealHashTarget);
-document.addEventListener("click", (event) => {
-  const link = event.target.closest('a[href^="#"]');
-  // Clicking the current fragment does not fire hashchange.
-  if (link?.hash && link.hash === location.hash)
-    requestAnimationFrame(revealHashTarget);
-});
-revealHashTarget();
-
 const copyEmail = document.getElementById("copy-email");
 const copyStatus = document.getElementById("copy-status");
 if (copyEmail && copyStatus && navigator.clipboard?.writeText) {

@@ -76,6 +76,15 @@ test("Chromium browser zoom at 200% and 400% preserves reflow and controls", asy
       const duty = await page.locator("#lab-duty").inputValue();
       await page.keyboard.press("ArrowRight");
       expect(await page.locator("#lab-duty").inputValue()).not.toBe(duty);
+      await page.goto(`${baseURL}/explorations/?auditZoom=${zoom}`);
+      await expect.poll(() => page.evaluate(() => devicePixelRatio)).toBe(zoom);
+      expect(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth <= innerWidth,
+        ),
+      ).toBe(true);
+      await page.locator('.exploration-index a[href="#science"]').click();
+      await expect(page.locator("#science")).toBeFocused();
     }
   } finally {
     await context?.close();

@@ -1,3 +1,4 @@
+import { mountRpmPreview } from "./pulse-rpm.js?v=2";
 import {
   resistorReadings,
   pwmTiming,
@@ -21,6 +22,8 @@ const reduced = () =>
   preference.matches || userReduced || Boolean(navigator.connection?.saveData);
 const scenes = [...document.querySelectorAll(".lab-scene")];
 const visible = new Set();
+const pulse = document.querySelector(".pulse-study");
+const playPulse = mountRpmPreview(pulse);
 const motionButtons = [...document.querySelectorAll("[data-lab-motion]")];
 let frame = 0,
   last = 0,
@@ -42,12 +45,19 @@ function renderPwmMarker(timing) {
   );
   dot.setAttribute("cy", time % timing.period < timing.onTime ? "48" : "152");
 }
+const entering = () =>
+  ["pending", "running"].includes(root.dataset.chapterState);
+document.addEventListener("portfolio:chapter", updateMotion);
 function updateMotion() {
+  playPulse(
+    !reduced() && !entering() && !document.hidden && visible.has(pulse),
+    reduced(),
+  );
   root.dataset.motion = reduced() ? "reduce" : "full";
   for (const scene of scenes)
     scene.classList.toggle(
       "is-visible",
-      visible.has(scene) && !reduced() && !document.hidden,
+      visible.has(scene) && !reduced() && !entering() && !document.hidden,
     );
   for (const button of motionButtons) {
     button.hidden = false;
@@ -58,6 +68,7 @@ function updateMotion() {
   }
   const running =
     !reduced() &&
+    !entering() &&
     !document.hidden &&
     [heroScene, timingScene, signalScene].some((scene) => visible.has(scene));
   root.dataset.labRunning = String(running);

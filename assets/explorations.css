@@ -1,0 +1,323 @@
+/* An illustrated folio within the existing cobalt and citron portfolio. */
+.explorations-page {
+  overflow-wrap: anywhere;
+}
+.explorations-hero {
+  background: var(--blue);
+  color: #fffdec;
+  padding-top: clamp(2rem, 5vw, 5rem);
+}
+.exploration-cover {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+.explorations-hero h1 {
+  font-size: clamp(2.8rem, 5.6vw, 5.8rem);
+  line-height: 1.1;
+  letter-spacing: -0.055em;
+  font-weight: 450;
+  margin: 1.5rem 0;
+}
+.explorations-hero h1 span,
+.explorations-hero .eyebrow {
+  color: var(--lime);
+}
+.exploration-lead {
+  font-size: clamp(1.5rem, 2.5vw, 2.4rem);
+  line-height: 1.4;
+}
+.exploration-cover p:not(.eyebrow) {
+  max-width: 46ch;
+}
+.exploration-cover figure {
+  margin: 0;
+}
+.exploration-cover figcaption {
+  font-size: 0.7rem;
+  text-align: center;
+}
+.exploration-index {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  padding-block: 1.8rem;
+  margin-top: 3.5rem;
+  border-top: 1px solid #6578c0;
+  font: 0.75rem/1.6 var(--mono);
+}
+.exploration-index a {
+  padding-block: 0.5rem;
+}
+.exploration-index a:hover {
+  color: var(--lime);
+}
+.exploration-section,
+.earlier-studies {
+  padding-top: clamp(3.5rem, 7vw, 7rem);
+}
+.explorations-page .section-bar h2 {
+  max-width: 20ch;
+}
+.exploration-entry {
+  border-top: 1px solid var(--line);
+  padding-block: 2rem 4rem;
+  margin-top: 2rem;
+}
+.entry-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+.entry-heading h3 {
+  font-size: clamp(2rem, 4vw, 3.8rem);
+  font-weight: 450;
+  margin: 0;
+  letter-spacing: -0.045em;
+}
+.entry-spread {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: clamp(2rem, 4vw, 4rem);
+  align-items: center;
+  margin-top: 2rem;
+}
+.entry-story h4 {
+  font-size: clamp(1.5rem, 2.4vw, 2.1rem);
+  font-weight: 450;
+  line-height: 1.3;
+  margin: 0 0 1.4rem;
+}
+.entry-story p {
+  max-width: 56ch;
+}
+.entry-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.5rem;
+}
+.notebook-figure {
+  margin: 0;
+  padding: 1rem 0;
+  background-image: linear-gradient(var(--line) 1px, transparent 1px);
+  background-size: 100% 2rem;
+  background-color: var(--surface);
+}
+.notebook-figure figcaption {
+  padding: 1rem 1.4rem;
+  font: 0.7rem/1.8 var(--mono);
+  background: var(--paper);
+  border-top: 1px solid var(--line);
+}
+.notebook-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  color: var(--accent);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.notebook-svg text {
+  fill: currentColor;
+  stroke: none;
+  font: 12px var(--mono);
+}
+.explorations-hero .notebook-svg {
+  color: #e4f489;
+}
+.sketch-grid {
+  opacity: 0.55;
+}
+.earth-lines {
+  stroke-width: 1;
+}
+.node-plane,
+.orbit-radius {
+  stroke-dasharray: 4 6;
+  opacity: 0.7;
+}
+.ink-point,
+.orbit-satellite {
+  fill: currentColor;
+}
+.wave-lobes ellipse {
+  fill: currentColor;
+  fill-opacity: 0.12;
+}
+.budget-bars {
+  fill: currentColor;
+  fill-opacity: 0.18;
+}
+.density-curve,
+.chart-trace {
+  stroke-width: 2.5;
+}
+.orbit-turn {
+  transform-origin: 0 0;
+  animation: notebook-orbit 14s linear infinite paused;
+}
+.density-curve,
+.chart-trace[pathLength] {
+  animation: notebook-trace 6s ease-in-out infinite paused;
+}
+.exploration-scene.scene-active .orbit-turn,
+.exploration-scene.scene-active .density-curve,
+.exploration-scene.scene-active .chart-trace {
+  animation-play-state: running;
+}
+.explorations-page .case-vyren {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  column-gap: 3rem;
+}
+.explorations-page .case-vyren .case-heading,
+.explorations-page .case-vyren .case-details {
+  grid-column: 1 / -1;
+}
+.explorations-page .case-vyren .pair-story {
+  padding-top: 1rem;
+}
+.explorations-page .case-vyren .pair-story h3 {
+  font-size: 3.5rem;
+}
+.explorations-page .vyren-study {
+  margin-top: 1.5rem;
+}
+.explorations-page .math-expression {
+  font-size: clamp(1rem, 1.7vw, 1.4rem);
+  overflow-wrap: anywhere;
+}
+.software-row {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 3rem;
+  padding-block: 2.5rem;
+  border-top: 1px solid var(--line);
+}
+.software-row .notebook-svg {
+  align-self: center;
+}
+.software-row h3 {
+  font-size: 2rem;
+  font-weight: 450;
+  margin: 0;
+}
+.software-row p {
+  max-width: 65ch;
+}
+.earlier-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 3rem;
+  margin-top: 2rem;
+}
+.earlier-list article {
+  border-top: 1px solid var(--line);
+  padding-block: 1.5rem;
+}
+.earlier-list h3 {
+  font-size: 1.4rem;
+  font-weight: 450;
+  margin: 0;
+}
+.earlier-list p {
+  font-size: 0.9rem;
+  max-width: 52ch;
+}
+.exploration-outro {
+  padding-block: 5rem;
+}
+.exploration-outro h2 {
+  font-size: clamp(2rem, 4vw, 4rem);
+  font-weight: 450;
+  line-height: 1.2;
+}
+.exploration-outro p {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+}
+@keyframes notebook-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes notebook-trace {
+  0%,
+  100% {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+  }
+  35% {
+    stroke-dashoffset: 1;
+  }
+  75% {
+    stroke-dashoffset: 0;
+  }
+}
+@media (max-width: 900px) {
+  .exploration-cover,
+  .entry-spread,
+  .explorations-page .case-vyren {
+    grid-template-columns: 1fr;
+  }
+  .exploration-cover figure {
+    max-width: 600px;
+  }
+  .notebook-figure {
+    max-width: 680px;
+    width: 100%;
+  }
+  .explorations-page .case-vyren .pair-story {
+    max-width: 65ch;
+  }
+  .explorations-page .case-vyren .case-details {
+    grid-column: 1;
+  }
+}
+@media (max-width: 650px) {
+  .entry-heading {
+    display: block;
+  }
+  .entry-heading h3 {
+    margin-top: 1rem;
+  }
+  .exploration-cover {
+    gap: 1.5rem;
+  }
+  .exploration-index {
+    margin-top: 2rem;
+  }
+  .software-row {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  .software-row .notebook-svg {
+    width: 130px;
+  }
+  .earlier-list {
+    grid-template-columns: 1fr;
+  }
+  .explorations-page .case-vyren .pair-story h3 {
+    font-size: 2.5rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .exploration-scene * {
+    animation: none !important;
+  }
+}
+html[data-motion="reduce"] .exploration-scene * {
+  animation: none !important;
+}
+@media (forced-colors: active) {
+  .notebook-svg {
+    color: CanvasText;
+  }
+}

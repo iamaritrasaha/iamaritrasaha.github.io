@@ -74,7 +74,7 @@ for (const width of widths)
         await reflow(page);
       }
       await page
-        .locator(".lab-project-status")
+        .locator("#pulseshift details")
         .evaluate((el) => (el.open = true));
       await reflow(page);
       await style.evaluate((el) => el.remove());
@@ -135,7 +135,7 @@ test("embedded mobile navigation, preferences and keyboard controls", async ({
     "false",
   );
   await page.locator(".menu-toggle").tap();
-  await page.getByRole("link", { name: "Portfolio", exact: true }).tap();
+  await page.getByRole("link", { name: "AI/ML", exact: true }).tap();
   await expect(page).toHaveURL(/\/$/);
   await context.close();
 });
@@ -252,8 +252,9 @@ test("shared navigation works while application modules are delayed", async ({
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.emulateMedia({ reducedMotion: "reduce" });
-  const modules = /\/(script|embedded|bitbench|creative)\.js(?:\?|$)/;
-  for (const path of ["/", "/embedded/"]) {
+  const modules =
+    /\/(script|embedded|explorations|bitbench|creative)\.js(?:\?|$)/;
+  for (const path of ["/", "/embedded/", "/explorations/"]) {
     let release;
     const gate = new Promise((resolve) => {
       release = resolve;
