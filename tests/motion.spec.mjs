@@ -107,7 +107,7 @@ test("automatic RPM traverses low, shift and deceleration with the same six LEDs
   page,
 }) => {
   await freezeClock(page);
-  await page.goto("/#pulseshift");
+  await page.goto("/embedded/#pulseshift");
   const figure = page.locator(".pulse-study");
   await figure.scrollIntoViewIfNeeded();
   await expect(figure).toHaveAttribute("data-running", "true");
@@ -152,7 +152,7 @@ test("RPM suspends offscreen and in a hidden tab, resumes smoothly, and becomes 
   page,
 }) => {
   await freezeClock(page);
-  await page.goto("/#pulseshift");
+  await page.goto("/embedded/#pulseshift");
   const figure = page.locator(".pulse-study");
   await figure.scrollIntoViewIfNeeded();
   await expect(figure).toHaveAttribute("data-running", "true");
@@ -203,6 +203,7 @@ test("data-saving bypasses welcome and retains a meaningful static instrument", 
   );
   await page.goto("/");
   await expect(page.locator(".bb-entry")).toHaveCount(0);
+  await page.goto("/embedded/#pulseshift");
   await expect(page.locator(".pulse-study")).toHaveAttribute(
     "data-running",
     "false",
@@ -253,7 +254,7 @@ test("LED brightness blends before thresholds and RPM updates at display cadence
   page,
 }) => {
   await freezeClock(page);
-  await page.goto("/#pulseshift");
+  await page.goto("/embedded/#pulseshift");
   const figure = page.locator(".pulse-study");
   await figure.scrollIntoViewIfNeeded();
   await expect(figure).toHaveAttribute("data-running", "true");

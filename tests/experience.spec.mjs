@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-for (const route of ["/", "/embedded/"]) {
+for (const route of ["/", "/embedded/", "/explorations/"]) {
   test(`keyboard exit closes mobile navigation on ${route}`, async ({
     page,
   }) => {
@@ -217,12 +217,7 @@ test("forced colors preserve digit intensity and visible graphical feedback", as
   const before = await pixels.first().getAttribute("aria-label");
   await page.keyboard.press("Space");
   await expect(pixels.first()).not.toHaveAttribute("aria-label", before);
-  for (const selector of [
-    "#activations",
-    "#distribution",
-    ".neuron-network",
-    ".pulse-board",
-  ])
+  for (const selector of ["#activations", "#distribution", ".neuron-network"])
     expect(
       await page
         .locator(selector)
@@ -233,6 +228,18 @@ test("forced colors preserve digit intensity and visible graphical feedback", as
       .locator("body")
       .evaluate((el) => getComputedStyle(el).forcedColorAdjust),
   ).toBe("auto");
+});
+
+test("moved RPM illustration retains forced-color feedback", async ({
+  page,
+}) => {
+  await page.emulateMedia({ forcedColors: "active", reducedMotion: "reduce" });
+  await page.goto("/embedded/#pulseshift");
+  expect(
+    await page
+      .locator(".pulse-board")
+      .evaluate((el) => getComputedStyle(el).forcedColorAdjust),
+  ).toBe("none");
 });
 
 for (const javaScriptEnabled of [true, false]) {

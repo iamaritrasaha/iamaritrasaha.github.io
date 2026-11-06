@@ -64,10 +64,30 @@
     <link rel="stylesheet" href="/assets/editorial.css?v=r1" />
     <link rel="stylesheet" href="/assets/creative.css?v=a2" />
     <link rel="stylesheet" href="/assets/bitbench.css?v=morph1" />
-    <link rel="stylesheet" href="/assets/embedded.css?v=m1" />
-    <script type="module" src="/assets/embedded.js?v=m1"></script>
+    <link rel="stylesheet" href="/assets/embedded.css?v=arch1" />
+    <link rel="stylesheet" href="/assets/pulse-rpm.css?v=r1" />
+    <link rel="stylesheet" href="/assets/architecture.css?v=1" />
+    <script type="module" src="/assets/embedded.js?v=arch1"></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "Embedded Systems Lab | Aritra Saha",
+        "url": "https://iamaritrasaha.github.io/embedded/",
+        "description": "Circuits, microcontrollers, firmware and a qualified illustrative PulseShift preview.",
+        "author": {
+          "@type": "Person",
+          "name": "Aritra Saha",
+          "url": "https://iamaritrasaha.github.io/"
+        }
+      }
+    </script>
+    <link rel="stylesheet" href="/assets/chapter-entry.css?v=1" />
+    <script src="/assets/page-transitions.js?v=1"></script>
+    <script src="/assets/chapter-entry.js?v=1"></script>
   </head>
   <body class="embedded-page">
+    <div id="chapter-paint" aria-hidden="true"></div>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
       <nav class="nav wrap" aria-label="Primary navigation">
@@ -93,13 +113,14 @@
           </button>
         </div>
         <div class="nav-panel" id="nav-panel">
-          <a href="/">Portfolio</a
+          <a href="/">AI/ML</a
           ><a href="/embedded/" aria-current="page">Embedded Lab</a
-          ><a href="/#work">Work</a><a href="/#contact">Get in touch ↗</a>
+          ><a href="/explorations/">Explorations</a><a href="/#about">About</a
+          ><a href="/#contact">Contact</a>
         </div>
       </nav>
     </header>
-    <script src="/assets/navigation.js?v=a2"></script>
+    <script src="/assets/navigation.js?v=arch1"></script>
     <main id="main" tabindex="-1">
       <section class="lab-hero lab-scene" aria-labelledby="lab-title">
         <div class="wrap lab-hero-grid">
@@ -954,88 +975,178 @@ void loop() {
             visible.
           </p>
         </div>
-        <article class="lab-project lab-scene">
-          <div class="lab-project-art">
-            <svg
-              viewBox="0 0 640 270"
-              role="img"
-              aria-labelledby="pulse-board-title"
-            >
-              <title id="pulse-board-title">
-                A conceptual ESP32 and six-LED PulseShift signal path
-              </title>
-              <g fill="none" stroke="currentColor" stroke-width="1.6">
-                <path
-                  class="lab-draw"
-                  pathLength="1"
-                  d="M35 73L154 68L159 198L34 204Z M51 89H138V122H51Z M64 145H127V184H64Z M159 153H193L201 146L211 159L220 146L231 159L239 153H275 M275 153V74H601V193H275Z"
-                />
-                <path
-                  d="M16 96H36M16 117H36M16 138H36M16 159H36M16 180H36M156 96H173M156 117H173M156 138H173M156 180H173"
-                />
-                <path class="lab-signal" d="M159 153H275V74H601" />
-              </g>
-              <g class="lab-led-sketch">
-                <rect x="291" y="107" width="34" height="42" rx="3" />
-                <rect x="341" y="107" width="34" height="42" rx="3" />
-                <rect x="391" y="107" width="34" height="42" rx="3" />
-                <rect x="441" y="107" width="34" height="42" rx="3" />
-                <rect x="491" y="107" width="34" height="42" rx="3" />
-                <rect x="541" y="107" width="34" height="42" rx="3" />
-              </g>
-              <g class="lab-diagram-label">
-                <text x="65" y="166">ESP32</text>
-                <text x="190" y="128">DATA</text>
-                <text x="301" y="178">6 × WS2812B</text>
-                <text x="35" y="241">
-                  A firmware study, not qualified motorcycle telemetry.
-                </text>
-              </g>
-            </svg>
-          </div>
-          <div>
-            <p class="lab-status">EXISTING PROJECT / SOFTWARE PRERELEASE</p>
-            <h3>PulseShift</h3>
-            <p>
-              ESP32 firmware for a six-LED shift light, with a standalone RPM
-              demo, visual styles, Arduino IDE packaging and Wokwi simulation.
-            </p>
-            <p>
-              <strong>v0.3.0</strong> is the repository’s current verified
-              software prerelease. Physical motorcycle qualification remains
-              pending.
-            </p>
-            <div class="lab-project-links">
-              <a
-                class="inline-link"
-                href="https://github.com/iamaritrasaha/PulseShift"
-                >GitHub repository ↗</a
-              ><a class="inline-link" href="/#pulseshift"
-                >Portfolio presentation ↗</a
-              >
+        <article
+          class="case-pulseshift"
+          id="pulseshift"
+          aria-labelledby="pulseshift-title"
+        >
+          <div class="wrap">
+            <div class="feature-heading">
+              <h3 id="pulseshift-title">PulseShift</h3>
+              <p class="mono">Embedded C++ / Software prerelease</p>
             </div>
+            <div class="lab-project-art">
+              <svg
+                viewBox="0 0 640 270"
+                role="img"
+                aria-labelledby="pulse-board-title"
+              >
+                <title id="pulse-board-title">
+                  A conceptual ESP32 and six-LED PulseShift signal path
+                </title>
+                <g fill="none" stroke="currentColor" stroke-width="1.6">
+                  <path
+                    class="lab-draw"
+                    pathLength="1"
+                    d="M35 73L154 68L159 198L34 204Z M51 89H138V122H51Z M64 145H127V184H64Z M159 153H193L201 146L211 159L220 146L231 159L239 153H275 M275 153V74H601V193H275Z"
+                  />
+                  <path
+                    d="M16 96H36M16 117H36M16 138H36M16 159H36M16 180H36M156 96H173M156 117H173M156 138H173M156 180H173"
+                  />
+                  <path class="lab-signal" d="M159 153H275V74H601" />
+                </g>
+                <g class="lab-led-sketch">
+                  <rect x="291" y="107" width="34" height="42" rx="3" />
+                  <rect x="341" y="107" width="34" height="42" rx="3" />
+                  <rect x="391" y="107" width="34" height="42" rx="3" />
+                  <rect x="441" y="107" width="34" height="42" rx="3" />
+                  <rect x="491" y="107" width="34" height="42" rx="3" />
+                  <rect x="541" y="107" width="34" height="42" rx="3" />
+                </g>
+                <g class="lab-diagram-label">
+                  <text x="65" y="166">ESP32</text>
+                  <text x="190" y="128">DATA</text>
+                  <text x="301" y="178">6 × WS2812B</text>
+                  <text x="35" y="241">
+                    A firmware study, not qualified motorcycle telemetry.
+                  </text>
+                </g>
+              </svg>
+            </div>
+            <div class="pulse-layout">
+              <figure class="pulse-study motion-scene lab-scene" data-reveal>
+                <div class="pulse-board" aria-hidden="true">
+                  <span class="pulse-led is-lit"
+                    ><span class="pulse-light"></span
+                    ><span class="pulse-shift-light"></span
+                  ></span>
+                  <span class="pulse-led is-lit"
+                    ><span class="pulse-light"></span
+                    ><span class="pulse-shift-light"></span
+                  ></span>
+                  <span class="pulse-led is-lit"
+                    ><span class="pulse-light"></span
+                    ><span class="pulse-shift-light"></span
+                  ></span>
+                  <span class="pulse-led"
+                    ><span class="pulse-light"></span
+                    ><span class="pulse-shift-light"></span
+                  ></span>
+                  <span class="pulse-led"
+                    ><span class="pulse-light"></span
+                    ><span class="pulse-shift-light"></span
+                  ></span>
+                  <span class="pulse-led"
+                    ><span class="pulse-light"></span
+                    ><span class="pulse-shift-light"></span
+                  ></span>
+                </div>
+                <div class="pulse-path" aria-hidden="true">
+                  <span>ESP32</span><span>GPIO27 → DIN</span
+                  ><span>6 × WS2812B</span>
+                </div>
+                <div class="pulse-readout">
+                  <p class="pulse-kicker">SIMULATED RPM · VISUAL PREVIEW</p>
+                  <div class="pulse-value" aria-hidden="true">
+                    <span id="pulse-rpm">4,250</span><span>RPM</span>
+                  </div>
+                  <p class="pulse-state" aria-hidden="true">MIDRANGE · 3 / 6</p>
+                  <p class="sr-only">
+                    Illustrative browser simulation of acceleration, a shift
+                    indication and deceleration across six LEDs. With motion
+                    disabled: 4,250 RPM with three LEDs lit. No live engine
+                    telemetry.
+                  </p>
+                </div>
+                <figcaption>
+                  Illustrative settings: 1,200–7,600 RPM; shift indication at
+                  7,300 RPM. Not firmware execution or measured engine RPM.
+                  These settings are not verified motorcycle specifications.
+                </figcaption>
+              </figure>
+              <div class="feature-story" data-reveal>
+                <h4>From software to signal.</h4>
+                <p>
+                  I’m building ESP32 firmware for a six-LED motorcycle shift
+                  light: configurable visual styles, progressive output and
+                  explicit blanking when valid data goes missing.
+                </p>
+                <p>
+                  The standalone demo runs without a motorcycle. Arduino IDE
+                  packaging, Wokwi simulation and passive CAN investigation
+                  tools support development.
+                </p>
+                <p class="stack-line">C++ · ESP32 · WS2812B · Arduino · TWAI</p>
+                <a
+                  class="inline-link"
+                  href="https://github.com/iamaritrasaha/PulseShift"
+                  >View firmware <span aria-hidden="true">↗</span></a
+                >
+              </div>
+            </div>
+            <details class="case-details">
+              <summary>
+                Signal integrity &amp; qualification
+                <span aria-hidden="true">+</span>
+              </summary>
+              <div class="detail-body">
+                <div>
+                  <h5>Missing data stays missing.</h5>
+                  <p>
+                    Vehicle mode never substitutes synthetic RPM when real data
+                    is absent. Receive-only CAN integration remains
+                    experimental. The motorcycle profile is unverified, live
+                    decoding is disabled, and physical qualification is pending.
+                  </p>
+                </div>
+                <div>
+                  <h5>Software first, bench validation next.</h5>
+                  <p>
+                    The software prerelease includes the standalone demo.
+                    Simulation does not validate physical CAN, electrical
+                    protection or motorcycle compatibility. This portfolio
+                    preview illustrates LED progression only.
+                  </p>
+                  <a
+                    class="inline-link"
+                    href="https://github.com/iamaritrasaha/PulseShift/releases/tag/v0.3.0"
+                    >Review the prerelease <span aria-hidden="true">↗</span></a
+                  >
+                </div>
+              </div>
+              <div class="lab-project-status">
+                <p>
+                  The repository describes experimental receive-only CAN tools.
+                  Its 2025 Indian Bajaj Pulsar NS125 ABS profile remains
+                  UNVERIFIED, bitrate is 0 and live decoding is disabled. The
+                  standard demonstration does not measure engine RPM, and its
+                  thresholds are synthetic.
+                </p>
+                <p>
+                  Software listen-only does not qualify the physical connection.
+                  The project’s power, signal-level, transceiver, termination
+                  and automotive protection requirements still apply. The
+                  isolated TWAI test also has an unresolved
+                  transmission-completion limitation.
+                </p>
+                <a
+                  class="inline-link"
+                  href="https://github.com/iamaritrasaha/PulseShift#safety-limitations"
+                  >Read the source qualifications ↗</a
+                >
+              </div>
+            </details>
           </div>
-          <details class="lab-project-status">
-            <summary>Work in progress: hardware and CAN qualification</summary>
-            <p>
-              The repository describes experimental receive-only CAN tools. Its
-              2025 Indian Bajaj Pulsar NS125 ABS profile remains UNVERIFIED,
-              bitrate is 0 and live decoding is disabled. The standard
-              demonstration does not measure engine RPM, and its thresholds are
-              synthetic.
-            </p>
-            <p>
-              Software listen-only does not qualify the physical connection. The
-              project’s power, signal-level, transceiver, termination and
-              automotive protection requirements still apply. The isolated TWAI
-              test also has an unresolved transmission-completion limitation.
-            </p>
-            <a
-              class="inline-link"
-              href="https://github.com/iamaritrasaha/PulseShift#safety-limitations"
-              >Read the source qualifications ↗</a
-            >
-          </details>
         </article>
         <div class="lab-future-heading">
           <p class="lab-eyebrow">PLANNED EXPLORATIONS</p>

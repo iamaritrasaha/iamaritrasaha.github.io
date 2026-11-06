@@ -103,16 +103,14 @@ test("mobile menu and project shortcuts move keyboard focus to their destination
   await page.keyboard.press("Escape");
   await expect(menu).toBeFocused();
   await expect(menu).toHaveAttribute("aria-expanded", "false");
-  await menu.click();
-  await page.keyboard.press("Tab");
-  await page.keyboard.press("Enter");
-  await expect(page.locator("#work")).toBeFocused();
-  await expect(menu).toHaveAttribute("aria-expanded", "false");
-  await menu.click();
-  await page.keyboard.press("Tab");
-  await page.keyboard.press("Enter");
-  await expect(page.locator("#work")).toBeFocused();
-  for (const id of ["seedl", "orion", "sysai", "relay", "vyren"]) {
+  for (let attempt = 0; attempt < 2; attempt++) {
+    await menu.click();
+    await page.locator('.nav-panel a[href="/#about"]').focus();
+    await page.keyboard.press("Enter");
+    await expect(page.locator("#about")).toBeFocused();
+    await expect(menu).toHaveAttribute("aria-expanded", "false");
+  }
+  for (const id of ["seedl", "infera", "orion", "sysai"]) {
     await page.locator(`.project-jump a[href="#${id}"]`).click();
     await expect(page.locator(`#${id}`)).toBeFocused();
   }
@@ -370,10 +368,7 @@ test("public project sources, honest limits and static RPM preview stay accessib
 }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
-  for (const [id, repository] of [
-    ["infera", "Infera"],
-    ["pulseshift", "PulseShift"],
-  ]) {
+  for (const [id, repository] of [["infera", "Infera"]]) {
     await page.locator(`.project-jump a[href="#${id}"]`).click();
     await expect(page.locator(`#${id}`)).toBeFocused();
     await expect(page.locator(`#${id} .feature-story a`)).toHaveAttribute(
@@ -381,6 +376,15 @@ test("public project sources, honest limits and static RPM preview stay accessib
       `https://github.com/iamaritrasaha/${repository}`,
     );
   }
+  await page.locator("#infera summary").click();
+  await expect(page.locator("#infera details")).toContainText(
+    "one regression algorithm",
+  );
+  await page.goto("/embedded/#pulseshift");
+  await expect(page.locator("#pulseshift .feature-story a")).toHaveAttribute(
+    "href",
+    "https://github.com/iamaritrasaha/PulseShift",
+  );
   await expect(
     page.locator("#pulseshift input, #pulseshift button"),
   ).toHaveCount(0);
@@ -389,10 +393,6 @@ test("public project sources, honest limits and static RPM preview stay accessib
   await expect(page.locator(".pulse-led.is-lit")).toHaveCount(3);
   await expect(page.locator(".pulse-study figcaption")).toContainText(
     "Not firmware execution",
-  );
-  await page.locator("#infera summary").click();
-  await expect(page.locator("#infera details")).toContainText(
-    "one regression algorithm",
   );
   await page.locator("#pulseshift summary").click();
   await expect(page.locator("#pulseshift details")).toContainText(

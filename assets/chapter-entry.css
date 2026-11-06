@@ -1,0 +1,189 @@
+/* Native multi-page snapshots are a short bridge, never a second welcome layer. */
+@view-transition {
+  navigation: auto;
+}
+::view-transition-group(root) {
+  animation-duration: 160ms;
+}
+::view-transition-old(root) {
+  animation: chapter-page-out 160ms ease both;
+}
+::view-transition-new(root) {
+  animation: chapter-page-in 160ms ease both;
+}
+@keyframes chapter-page-out {
+  to {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+}
+@keyframes chapter-page-in {
+  from {
+    opacity: 0.85;
+    transform: translateX(8px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+}
+
+#chapter-paint {
+  display: none;
+}
+html[data-chapter-state="pending"] #chapter-paint {
+  display: grid;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: var(--blue, #20369b);
+  pointer-events: none;
+  animation: chapter-failsafe 0s 1500ms forwards;
+}
+@keyframes chapter-failsafe {
+  to {
+    visibility: hidden;
+  }
+}
+.chapter-entry {
+  position: fixed;
+  inset: 0;
+  z-index: 1001;
+  isolation: isolate;
+  color: #e4f489;
+  overflow: hidden;
+  outline: none;
+  pointer-events: auto;
+}
+.chapter-paper {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--blue, #20369b);
+}
+.chapter-paper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(#e4f4890b 1px, transparent 1px),
+    linear-gradient(90deg, #e4f4890b 1px, transparent 1px);
+  background-size: 42px 42px;
+  mask-image: radial-gradient(ellipse, black, transparent 85%);
+}
+.chapter-caption {
+  position: absolute;
+  top: 6vh;
+  left: 5vw;
+  right: 5vw;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem;
+  color: #d8e1fa;
+  font: 0.7rem/1.7 var(--mono);
+  letter-spacing: 0.09em;
+}
+.chapter-art {
+  position: absolute;
+  width: min(650px, 86vw, 78vh);
+  aspect-ratio: 4 / 3;
+  left: 50%;
+  top: 43%;
+  transform: translate(-50%, -50%);
+  transform-origin: top left;
+}
+.chapter-entry[data-chapter="explorations"] .chapter-art {
+  aspect-ratio: 3 / 2;
+}
+.chapter-art svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  color: #e4f489;
+}
+.chapter-art svg * {
+  animation: none !important;
+}
+.chapter-art svg text {
+  fill: currentColor;
+  stroke: none;
+  font-family: var(--mono);
+}
+.chapter-title {
+  position: absolute;
+  top: 76%;
+  left: 5vw;
+  right: 5vw;
+  margin: 0;
+  text-align: center;
+  font: 450 clamp(1.4rem, 3.3vw, 3rem) / 1.18 var(--display);
+  letter-spacing: -0.025em;
+  color: #fffdec;
+}
+.chapter-title small {
+  display: block;
+  margin-top: 0.8rem;
+  font: 0.7rem/1.7 var(--mono);
+  letter-spacing: 0.08em;
+  color: #d8e1fa;
+}
+.chapter-skip {
+  position: absolute;
+  right: 4vw;
+  bottom: 3vh;
+  min-height: 44px;
+  padding: 0.5rem 1rem;
+  pointer-events: auto;
+  color: #fffdec;
+  font: 0.75rem/1.5 var(--mono);
+  border: 1px solid #91a2da;
+  background: var(--deep, #172878);
+}
+.chapter-skip:focus-visible {
+  outline: 2px solid #e4f489;
+  outline-offset: 4px;
+}
+.chapter-extra {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+.chapter-extra .chapter-led {
+  fill: #e4f489;
+  stroke: #e4f489;
+}
+.chapter-entry.is-leaving .chapter-skip {
+  opacity: 0.7;
+}
+.lab-hero[data-chapter-landed] :is(.lab-draw, .lab-sketch text, h1) {
+  animation: none !important;
+}
+@media (max-width: 650px) {
+  .chapter-art {
+    width: min(90vw, 70vh);
+    top: 40%;
+  }
+  .chapter-title {
+    top: 66%;
+  }
+  .chapter-caption {
+    top: 5vh;
+    font-size: 0.625rem;
+  }
+  .chapter-title small {
+    max-width: 26ch;
+    margin-inline: auto;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #chapter-paint,
+  .chapter-entry {
+    display: none !important;
+  }
+}
+html[data-motion="reduce"] :is(#chapter-paint, .chapter-entry) {
+  display: none !important;
+}

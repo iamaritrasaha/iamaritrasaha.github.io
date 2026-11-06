@@ -4,6 +4,12 @@
 
 I’m Aritra, and I’m interested in how machine learning becomes useful software. I work with Python and PyTorch, and I enjoy building developer tools, exploring embedded systems, and working through the practical engineering that connects an idea to something usable. This portfolio brings together the projects I’m developing and the questions I’m exploring along the way.
 
+The portfolio has three connected areas:
+
+- [AI & Machine Learning](https://iamaritrasaha.github.io/): SeeDL, Infera, Orion, SysAI, learning and the interactive classifier.
+- [Embedded Systems Lab](https://iamaritrasaha.github.io/embedded/): PulseShift, circuit mathematics, PWM, protocols and firmware experiments.
+- [Explorations](https://iamaritrasaha.github.io/explorations/): scientific visualization, Vyren and independent software studies.
+
 A few selected projects:
 
 - [SeeDL](https://github.com/iamaritrasaha/seedl): tools for exploring deep learning through scientific viewers.

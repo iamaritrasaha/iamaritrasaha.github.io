@@ -1,0 +1,82 @@
+/* Shared navigation and editorial gateways, using the existing design tokens. */
+.nav-panel a[aria-current="page"] {
+  color: var(--lime);
+}
+.nav-panel a[aria-current="page"]:hover,
+.nav-panel a[aria-current="page"]:focus-visible {
+  color: var(--deep);
+}
+.field-gateways {
+  margin-block: 5rem 7rem;
+}
+.field-gateway {
+  display: grid;
+  grid-template-columns: 0.55fr 1.5fr 0.7fr;
+  gap: 2rem;
+  border-top: 1px solid var(--line);
+  padding-block: 2.5rem;
+  align-items: center;
+}
+.field-gateway h3 {
+  font-size: clamp(1.6rem, 3vw, 2.5rem);
+  font-weight: 450;
+  line-height: 1.25;
+  margin: 0 0 1rem;
+}
+.field-gateway p {
+  max-width: 55ch;
+}
+.field-gateway svg {
+  width: 100%;
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.4;
+}
+.field-gateway svg text {
+  fill: var(--accent);
+  stroke: none;
+  font: 13px var(--mono);
+}
+.legacy-link {
+  display: none;
+}
+.legacy-link:target {
+  display: block;
+  max-width: 65ch;
+  margin: 3rem auto;
+  padding: 2rem;
+  border: 1px solid var(--line);
+}
+.embedded-page #pulseshift {
+  margin-bottom: 2rem;
+}
+.embedded-page #pulseshift > .wrap {
+  width: auto;
+  margin-inline: 0;
+  padding: clamp(1rem, 3vw, 3rem);
+}
+.embedded-page #pulseshift .lab-project-art {
+  max-width: 640px;
+  margin-inline: auto;
+}
+.embedded-page #pulseshift .lab-project-status {
+  border: 0;
+  padding: 0 0 1.5rem;
+}
+.embedded-page #pulseshift details[open] summary > span {
+  transform: rotate(45deg) scale(0.6);
+}
+@media (max-width: 900px) {
+  .field-gateway {
+    grid-template-columns: 1fr 2fr;
+  }
+  .field-gateway svg {
+    display: none;
+  }
+}
+@media (max-width: 650px) {
+  .field-gateway {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}
