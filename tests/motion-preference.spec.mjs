@@ -29,6 +29,18 @@ test("new features survive no JavaScript and motion is cancelled live", async ({
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/");
   await page.locator("#quanta").scrollIntoViewIfNeeded();
+  // Establish a rendered, actively moving page before changing the preference.
+  // Otherwise Chromium can coalesce its initial styles and the emulation change.
+  await expect(page.locator("html")).toHaveAttribute("data-motion", "full");
+  await expect
+    .poll(() =>
+      page.evaluate(() =>
+        document
+          .getAnimations()
+          .some((animation) => animation.playState === "running"),
+      ),
+    )
+    .toBe(true);
   await page.emulateMedia({ reducedMotion: "reduce" });
   await expect(page.locator("html")).toHaveAttribute("data-motion", "reduce");
   expect(

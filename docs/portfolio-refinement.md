@@ -29,3 +29,5 @@ A local Pause rotation button and the existing global motion preference control 
 - The separately reviewed welcome change has [before/after recordings and intermediate construction frames](welcome-construction.md).
 
 Reviewed both QUANTA themes at 1440px and 390px. The plots, state buttons, case-study disclosure and external links fit the established layout; the small-screen caption spells out the scientific meaning beneath the illustration. Projection equations reflow into one column on mobile. Tests retain SeeDL isolation, classifier calculations, keyboard navigation, responsive text enlargement, no-JavaScript content and all three section entrances.
+
+The final audit also refreshes the shared social-preview artwork and keeps the evaluation shortcut attached to the classifier, rather than implying that QUANTA trains ML models. The live-motion regression test now establishes running browser animations before changing the system preference; its existing reduced-state and zero-running-animation assertions remain intact. This strengthened precondition removes the previously observed Chromium emulation race.
