@@ -1,36 +1,50 @@
-/* Subtle graph-paper substrate shared by the whole portfolio.
-   Visual balance: paper is the dominant ground (~60%), cobalt the structural
-   secondary (~30%), and citron a restrained accent (~10%). The existing
-   palette and layout remain authoritative; these are not pixel quotas. */
+/* Engineering-notebook graph-paper substrate — Concept B.
+   Visual balance: paper dominant (~60%), cobalt structural (~30%), citron accent (~10%).
+
+   CASCADE & UNIFORMITY
+   ────────────────────
+   Direct class & element selectors match or exceed competing stylesheet
+   specificities, ensuring background-image is never reset by background
+   shorthands. Sizing (22px fine, 110px major) and line visibility are
+   calibrated to be subtle, delicate, and uniform from the welcome screen
+   through to the homepage hero, project folios, labs, and supporting pages. */
+
+/* ── Design tokens ─────────────────────────────────────────────────────── */
 :root {
-  --notebook-grid-fine: rgb(23 40 120 / 4.2%);
-  --notebook-grid-major: rgb(23 40 120 / 6.8%);
-  --notebook-registration: rgb(23 40 120 / 27%);
+  /* Paper-toned surfaces: subtle, delicate cobalt ink on warm paper */
+  --nbp-fine: rgb(23 40 120 / 3%);
+  --nbp-major: rgb(23 40 120 / 5%);
+  --nbp-reg: rgb(23 40 120 / 22%);
+
+  /* Cobalt surfaces: pale blue-white ink matched in perceived contrast */
+  --nbp-fine-cobalt: rgb(220 232 255 / 3.5%);
+  --nbp-major-cobalt: rgb(220 232 255 / 6%);
+  --nbp-reg-cobalt: rgb(220 232 255 / 24%);
 }
 
 html[data-theme="dark"] {
-  --notebook-grid-fine: rgb(238 243 255 / 4.5%);
-  --notebook-grid-major: rgb(238 243 255 / 7%);
-  --notebook-registration: rgb(238 243 255 / 30%);
+  --nbp-fine: rgb(220 232 255 / 2.6%);
+  --nbp-major: rgb(220 232 255 / 4.4%);
+  --nbp-reg: rgb(220 232 255 / 22%);
+
+  --nbp-fine-cobalt: rgb(200 220 255 / 2.8%);
+  --nbp-major-cobalt: rgb(200 220 255 / 4.8%);
+  --nbp-reg-cobalt: rgb(200 220 255 / 22%);
 }
 
-/* A light grid on paper, raised surfaces, and the citron contact folio.
-   Pages with dedicated diagrams keep their existing specialized backgrounds. */
-:where(
-  body,
-  .site-header,
-  .practice-section,
-  .about-section,
-  .contact-section,
-  .lab-code-section,
-  .lab-protocol-figure,
-  .lab-outro
-) {
+/* ── Paper-toned sections (60% dominant ground) ────────────────────────── */
+body,
+.practice-section,
+.about-section,
+.contact-section,
+.lab-code-section,
+.lab-protocol-figure,
+.lab-outro {
   background-image:
-    linear-gradient(90deg, var(--notebook-grid-major) 1px, transparent 1px),
-    linear-gradient(var(--notebook-grid-major) 1px, transparent 1px),
-    linear-gradient(90deg, var(--notebook-grid-fine) 1px, transparent 1px),
-    linear-gradient(var(--notebook-grid-fine) 1px, transparent 1px);
+    linear-gradient(90deg, var(--nbp-major) 1px, transparent 1px),
+    linear-gradient(var(--nbp-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--nbp-fine) 1px, transparent 1px),
+    linear-gradient(var(--nbp-fine) 1px, transparent 1px);
   background-size:
     110px 110px,
     110px 110px,
@@ -38,41 +52,46 @@ html[data-theme="dark"] {
     22px 22px;
 }
 
-/* Subtle light ink on cobalt technical plates; keep foreground art intact. */
-:where(
-  .site-header,
-  .bench-hero,
-  .bench-panel,
-  .case-seedl,
-  .case-sysai,
-  .case-pulseshift,
-  .lab-hero,
-  .lab-timing,
-  .lab-project,
-  .explorations-hero
-) {
-  --notebook-grid-fine: rgb(235 242 255 / 4.4%);
-  --notebook-grid-major: rgb(235 242 255 / 7%);
-  --notebook-registration: rgb(235 242 255 / 30%);
+/* Bright citron contact section uses cobalt ink on yellow */
+.contact-section {
+  --nbp-fine: rgb(23 40 120 / 3%);
+  --nbp-major: rgb(23 40 120 / 5%);
+}
+html[data-theme="dark"] .contact-section {
+  --nbp-fine: rgb(23 40 120 / 3%);
+  --nbp-major: rgb(23 40 120 / 5%);
+}
+
+/* ── Cobalt surfaces (30% secondary) — uniform continuous grid ─────────── */
+#welcome-paint,
+#chapter-paint,
+.bb-entry::before,
+.chapter-paper::before,
+.site-header,
+.bench-hero,
+.bench-panel,
+.case-seedl,
+.case-sysai,
+.case-pulseshift,
+.quanta-study,
+.lab-hero,
+.lab-timing,
+.lab-project,
+.explorations-hero {
   background-image:
-    linear-gradient(90deg, var(--notebook-grid-major) 1px, transparent 1px),
-    linear-gradient(var(--notebook-grid-major) 1px, transparent 1px),
-    linear-gradient(90deg, var(--notebook-grid-fine) 1px, transparent 1px),
-    linear-gradient(var(--notebook-grid-fine) 1px, transparent 1px);
+    linear-gradient(90deg, var(--nbp-major-cobalt) 1px, transparent 1px),
+    linear-gradient(var(--nbp-major-cobalt) 1px, transparent 1px),
+    linear-gradient(90deg, var(--nbp-fine-cobalt) 1px, transparent 1px),
+    linear-gradient(var(--nbp-fine-cobalt) 1px, transparent 1px);
   background-size:
     110px 110px,
     110px 110px,
     22px 22px,
     22px 22px;
+  mask-image: none;
 }
 
-/* Bright citron surfaces use cobalt ink in either theme, not white lines. */
-:where(.contact-section, .lab-outro) {
-  --notebook-grid-fine: rgb(23 40 120 / 4.2%);
-  --notebook-grid-major: rgb(23 40 120 / 6.8%);
-}
-
-/* A single drafting registration mark introduces Concept B without clutter. */
+/* ── Registration marks (drafting detail) ──────────────────────────────── */
 .selected-work > .section-bar {
   position: relative;
 }
@@ -86,10 +105,8 @@ html[data-theme="dark"] {
   height: 22px;
   pointer-events: none;
   background:
-    linear-gradient(var(--notebook-registration), var(--notebook-registration))
-      center / 1px 22px no-repeat,
-    linear-gradient(var(--notebook-registration), var(--notebook-registration))
-      center / 22px 1px no-repeat;
+    linear-gradient(var(--nbp-reg), var(--nbp-reg)) center / 1px 22px no-repeat,
+    linear-gradient(var(--nbp-reg), var(--nbp-reg)) center / 22px 1px no-repeat;
 }
 
 @media (max-width: 650px) {
@@ -98,26 +115,30 @@ html[data-theme="dark"] {
   }
 }
 
+/* ── Forced colours / print — strip backgrounds ─────────────────────────── */
 @media (forced-colors: active) {
-  :where(
-    body,
-    .site-header,
-    .practice-section,
-    .about-section,
-    .contact-section,
-    .lab-code-section,
-    .lab-protocol-figure,
-    .lab-outro,
-    .bench-hero,
-    .bench-panel,
-    .case-seedl,
-    .case-sysai,
-    .case-pulseshift,
-    .lab-hero,
-    .lab-timing,
-    .lab-project,
-    .explorations-hero
-  ) {
+  body,
+  #welcome-paint,
+  #chapter-paint,
+  .bb-entry::before,
+  .chapter-paper::before,
+  .site-header,
+  .practice-section,
+  .about-section,
+  .contact-section,
+  .lab-code-section,
+  .lab-protocol-figure,
+  .lab-outro,
+  .bench-hero,
+  .bench-panel,
+  .case-seedl,
+  .case-sysai,
+  .case-pulseshift,
+  .quanta-study,
+  .lab-hero,
+  .lab-timing,
+  .lab-project,
+  .explorations-hero {
     background-image: none;
   }
 
@@ -127,29 +148,87 @@ html[data-theme="dark"] {
 }
 
 @media print {
-  :where(
-    body,
-    .site-header,
-    .practice-section,
-    .about-section,
-    .contact-section,
-    .lab-code-section,
-    .lab-protocol-figure,
-    .lab-outro,
-    .bench-hero,
-    .bench-panel,
-    .case-seedl,
-    .case-sysai,
-    .case-pulseshift,
-    .lab-hero,
-    .lab-timing,
-    .lab-project,
-    .explorations-hero
-  ) {
+  body,
+  #welcome-paint,
+  #chapter-paint,
+  .bb-entry::before,
+  .chapter-paper::before,
+  .site-header,
+  .practice-section,
+  .about-section,
+  .contact-section,
+  .lab-code-section,
+  .lab-protocol-figure,
+  .lab-outro,
+  .bench-hero,
+  .bench-panel,
+  .case-seedl,
+  .case-sysai,
+  .case-pulseshift,
+  .quanta-study,
+  .lab-hero,
+  .lab-timing,
+  .lab-project,
+  .explorations-hero {
     background-image: none;
   }
 
   .selected-work > .section-bar::after {
     display: none;
+  }
+}
+
+/* ── Engineering-notebook hero hierarchy ────────────────────────────────── */
+
+/* Eyebrow: author + role identifier above the headline */
+.bench-eyebrow {
+  color: var(--lime);
+  letter-spacing: 0.11em;
+  font-size: 0.6875rem;
+  margin-bottom: 0;
+  opacity: 0.85;
+}
+
+/* Headline: balanced type scaling across viewports to stay <= 2 lines */
+.bench-copy h1 {
+  font-size: clamp(1.625rem, 0.6rem + 2.85vw, 4rem);
+  letter-spacing: -0.055em;
+  line-height: 1.08;
+  margin: 10px 0 14px;
+}
+
+/* Description: slightly recessed behind the headline */
+.bench-copy > p:not(.tech):not(.bench-eyebrow) {
+  opacity: 0.88;
+}
+
+/* Fine rule above the bench-panel — subtle drafting separator */
+.bench-panel {
+  border-top: 1px solid rgb(220 232 255 / 12%);
+}
+
+/* Coordinate label strip below the classifier */
+.bench-links {
+  border-top: 1px solid rgb(220 232 255 / 10%);
+  padding-top: 12px;
+  letter-spacing: 0.03em;
+}
+
+/* Citron hover reinforces 10% accent rule */
+.bench-links a:hover {
+  color: var(--lime);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* In forced-colours mode strip the opacity and use system colours */
+@media (forced-colors: active) {
+  .bench-eyebrow,
+  .bench-copy > p:not(.tech):not(.bench-eyebrow) {
+    opacity: 1;
+  }
+  .bench-panel,
+  .bench-links {
+    border-top: 1px solid ButtonText;
   }
 }
