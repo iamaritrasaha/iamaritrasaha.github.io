@@ -1,0 +1,155 @@
+/* Subtle graph-paper substrate shared by the whole portfolio.
+   Visual balance: paper is the dominant ground (~60%), cobalt the structural
+   secondary (~30%), and citron a restrained accent (~10%). The existing
+   palette and layout remain authoritative; these are not pixel quotas. */
+:root {
+  --notebook-grid-fine: rgb(23 40 120 / 4.2%);
+  --notebook-grid-major: rgb(23 40 120 / 6.8%);
+  --notebook-registration: rgb(23 40 120 / 27%);
+}
+
+html[data-theme="dark"] {
+  --notebook-grid-fine: rgb(238 243 255 / 4.5%);
+  --notebook-grid-major: rgb(238 243 255 / 7%);
+  --notebook-registration: rgb(238 243 255 / 30%);
+}
+
+/* A light grid on paper, raised surfaces, and the citron contact folio.
+   Pages with dedicated diagrams keep their existing specialized backgrounds. */
+:where(
+  body,
+  .site-header,
+  .practice-section,
+  .about-section,
+  .contact-section,
+  .lab-code-section,
+  .lab-protocol-figure,
+  .lab-outro
+) {
+  background-image:
+    linear-gradient(90deg, var(--notebook-grid-major) 1px, transparent 1px),
+    linear-gradient(var(--notebook-grid-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--notebook-grid-fine) 1px, transparent 1px),
+    linear-gradient(var(--notebook-grid-fine) 1px, transparent 1px);
+  background-size:
+    110px 110px,
+    110px 110px,
+    22px 22px,
+    22px 22px;
+}
+
+/* Subtle light ink on cobalt technical plates; keep foreground art intact. */
+:where(
+  .site-header,
+  .bench-hero,
+  .bench-panel,
+  .case-seedl,
+  .case-sysai,
+  .case-pulseshift,
+  .lab-hero,
+  .lab-timing,
+  .lab-project,
+  .explorations-hero
+) {
+  --notebook-grid-fine: rgb(235 242 255 / 4.4%);
+  --notebook-grid-major: rgb(235 242 255 / 7%);
+  --notebook-registration: rgb(235 242 255 / 30%);
+  background-image:
+    linear-gradient(90deg, var(--notebook-grid-major) 1px, transparent 1px),
+    linear-gradient(var(--notebook-grid-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--notebook-grid-fine) 1px, transparent 1px),
+    linear-gradient(var(--notebook-grid-fine) 1px, transparent 1px);
+  background-size:
+    110px 110px,
+    110px 110px,
+    22px 22px,
+    22px 22px;
+}
+
+/* Bright citron surfaces use cobalt ink in either theme, not white lines. */
+:where(.contact-section, .lab-outro) {
+  --notebook-grid-fine: rgb(23 40 120 / 4.2%);
+  --notebook-grid-major: rgb(23 40 120 / 6.8%);
+}
+
+/* A single drafting registration mark introduces Concept B without clutter. */
+.selected-work > .section-bar {
+  position: relative;
+}
+
+.selected-work > .section-bar::after {
+  content: "";
+  position: absolute;
+  top: 60px;
+  right: 0;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--notebook-registration), var(--notebook-registration))
+      center / 1px 22px no-repeat,
+    linear-gradient(var(--notebook-registration), var(--notebook-registration))
+      center / 22px 1px no-repeat;
+}
+
+@media (max-width: 650px) {
+  .selected-work > .section-bar::after {
+    display: none;
+  }
+}
+
+@media (forced-colors: active) {
+  :where(
+    body,
+    .site-header,
+    .practice-section,
+    .about-section,
+    .contact-section,
+    .lab-code-section,
+    .lab-protocol-figure,
+    .lab-outro,
+    .bench-hero,
+    .bench-panel,
+    .case-seedl,
+    .case-sysai,
+    .case-pulseshift,
+    .lab-hero,
+    .lab-timing,
+    .lab-project,
+    .explorations-hero
+  ) {
+    background-image: none;
+  }
+
+  .selected-work > .section-bar::after {
+    display: none;
+  }
+}
+
+@media print {
+  :where(
+    body,
+    .site-header,
+    .practice-section,
+    .about-section,
+    .contact-section,
+    .lab-code-section,
+    .lab-protocol-figure,
+    .lab-outro,
+    .bench-hero,
+    .bench-panel,
+    .case-seedl,
+    .case-sysai,
+    .case-pulseshift,
+    .lab-hero,
+    .lab-timing,
+    .lab-project,
+    .explorations-hero
+  ) {
+    background-image: none;
+  }
+
+  .selected-work > .section-bar::after {
+    display: none;
+  }
+}
