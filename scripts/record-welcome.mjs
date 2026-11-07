@@ -28,7 +28,7 @@ for (const [device, viewport] of [
     const errors = [];
     page.on("pageerror", (e) => errors.push(e.message));
     await page.goto(url, { waitUntil: "domcontentloaded" });
-    await page.locator(".name-bits").waitFor();
+    await page.locator(".name-reel").waitFor();
     const box = await page.locator(".bb-entry > strong").boundingBox();
     await page
       .locator('.bb-entry > strong[data-construction="complete"]')
@@ -51,7 +51,7 @@ for (const [device, viewport] of [
   await page.clock.pauseAt(time);
   await page.goto(url);
   await page.evaluate(() => document.fonts.ready);
-  await page.locator(".name-bits").waitFor();
+  await page.locator(".name-reel").waitFor();
   const box = await page.locator(".bb-entry > strong").boundingBox();
   const clip = {
     x: Math.max(0, box.x - 18),
@@ -62,14 +62,14 @@ for (const [device, viewport] of [
   const frames = [];
   let elapsed = 0;
   for (const [at, label] of [
-    [100, "Initial field"],
-    [290, "A accumulating"],
-    [480, "A in binary"],
-    [610, "A resolved"],
-    [790, "r in binary"],
-    [1930, "Word space"],
-    [2160, "S in binary"],
-    [3300, "Complete name"],
+    [100, "Initial cipher field"],
+    [600, "Rhythmic axial spinning"],
+    [1260, "A resolved in Literata"],
+    [1620, "Ari resolved"],
+    [2160, "Aritra fully resolved"],
+    [2350, "Natural inter-word pause"],
+    [2480, "S resolved"],
+    [3110, "Aritra Saha complete"],
     [4900, "Pixel handoff"],
     [5500, "Classifier arrival"],
   ]) {

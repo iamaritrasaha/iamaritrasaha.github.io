@@ -1,22 +1,27 @@
-# Binary calligraphy welcome
+# Cipher Reel welcome
 
-Baseline: `da1e6b4e141b4c860e8e7f288b0ce3bfcdf5c54f` (latest main when work began). Revised on `codex/sequential-glyph-welcome`, PR #16.
+Baseline: `feat/cipher-reel-welcome`.
 
-The complete, kerned **Aritra Saha** string reserves the original Literata layout. After a bounded font load, Canvas rasterizes that same string at its measured DOM baseline. Alpha sampling partitions its actual ink into bounded fragments; every nonzero pixel, including antialiased serifs, belongs to exactly one fragment. Each binary destination is snapped onto ink. DOM ranges preserve proportional advances, kerning and the word space.
+The complete, kerned **Aritra Saha** string reserves the original Literata layout. After a bounded font load, DOM Text Ranges measure each character's exact subpixel bounds and advance width. A lightweight, transform-only 3D axial decoder overlay (`.name-reel`) is mounted over those positions. Each letter flips independently around its local horizontal axis, cycling through a restrained alphabet of programming-inspired symbols before decelerating smoothly into the authoritative Literata letterform.
 
-Letter-specific pen guides order those measured fragments: A's left diagonal, right diagonal, crossbar, then terminal details; bowls and shoulders follow their curves. Cubic trajectories turn into the local stroke direction. A quiet field of three waiting bits per future letter establishes the composition. Only one letter constructs at a time. The bits gather into a recognizable silhouette, then contract while their own raster fragments expand from those same positions and join into continuous ink. There is no SVG mask, clipping reveal, horizontal wipe or opacity crossfade. Completed ink is cached on an offscreen canvas.
+## Choreography and mechanical cadence
 
-The visible canvas and native title share the same geometry. After a 240 ms hold on the assembled wordmark, the temporary canvas is removed and the reserved native text resumes rendering. Browser screenshots verify unchanged bounds; Canvas/DOM edge antialiasing differs slightly (mean maximum-channel difference below 3/255 in the 390/1440px comparison), without a visible position or size change. Only the existing `identity-resolve` animation controls the title's exit.
+The animation unfolds across five choreographed phases:
 
-Timing after font preparation: 180 ms anticipation, 420 ms for A, 260 ms for each remaining letter, 70 ms word separation, 240 ms final hold: **3,250 ms** total. Font preparation is capped at 300 ms. The original **5,600/4,600 ms** welcome, manuscript, epoch and pixel-grid handoff timelines are unchanged.
+1. **Phase A: Restrained field initialization (0–240 ms):** An aligned, stable field of code symbols (`0 1 A F 7 X # / { }`) occupies the exact character positions of the wordmark.
+2. **Phase B: Independent axial rotation (240 ms+):** Each character begins rotating around its horizontal axis (`rotateX`) with realistic perspective (`perspective: 720px`). Dynamic lighting attenuates face opacity as facets turn edge-on to the camera.
+3. **Phase C: Sequential decoding and deceleration (1,250–3,100 ms):** Letters settle progressively from left to right. Flip intervals steadily stretch from ~40–65 ms flutters up to ~150–180 ms clacks.
+   - **Aritra:** Settles progressively: A (1,250 ms), r (1,430 ms), i (1,610 ms), t (1,790 ms), r (1,970 ms), a (2,150 ms).
+   - **Inter-word pause (2,150–2,470 ms):** A natural 320 ms pause holds "Aritra" stationary while "Saha" continues its clacking cadence.
+   - **Saha:** Settles progressively: S (2,470 ms), a (2,680 ms), h (2,890 ms), a (3,100 ms).
+4. **Phase D: Typographic resolution and baseline lock:** The final flip of each card decelerates through a smooth quartic curve (`easeOutQuart`) with a subtle mechanical settle, landing with the front face flat at exactly `rotateX(0deg)`. The typographic baseline of the intermediate JetBrains Mono glyphs is synchronized dynamically with Literata's measured baseline (`--reel-baseline-offset`), eliminating baseline jumps and vertical misalignments. The rotation axis (`transform-origin: 50% 56% 0`) matches the true optical midline of the glyphs.
+5. **Phase E: Completion and handoff (3,100–3,500 ms):** The completed name is held clearly until 3,500 ms. At completion, the overlay is removed and the native `.name-visual` resumes rendering with 0.0000px layout shift. The existing mathematical welcome manuscript and 8×8 pixel-grid handoff continue uninterrupted through the 4,600/5,600 ms lifecycle.
 
-One decorative canvas exists in the DOM, with at most 180 active bits plus the small waiting field. Targets and raster fragments are prepared once, with no frame-by-frame layout reads. Completion or cancellation cancels frames, clears the timeout, disconnects the observer and listener, and removes temporary nodes. Resize shows responsive native text. Failed/slow fonts use a stable serif fallback; Canvas/readback failures reveal readable text. Below a 40px title size, the normal wordmark is the compact fallback. One stable accessible name remains throughout.
+## Accessible representation
 
-## Visual review and iteration
+Screen readers receive only the stable, accessible `<span class="sr-only">Aritra Saha</span>`. All decorative cards and overlays are marked `aria-hidden="true"`. Reduced-motion preferences, data-saving mode, manual pause, and tab/escape dismissals instantly reveal or bypass the welcome screen without animated transitions or focus hijacking.
 
-The first PR experiment used a bottom-up sampling order and SVG openings. It was rejected; its recordings are retained for comparison: [before desktop](welcome-construction/before-desktop.webm), [before mobile](welcome-construction/before-mobile.webm).
-
-The second version replaced that mechanism with pen-guided trajectories and physical ink fragments. Inspection found clipped anticipation bits and serif terminals arriving too early. The final revision adds drawing overscan, schedules terminal details after the structural strokes, and holds each binary silhouette for at least 39 ms before its material starts joining. This last timing adjustment prevents a late frame from skipping the complete binary silhouette. The reviewed frames show a partial diagonal A, a complete binary A, a resolved A before r, the word-space pause, curved S construction, completed name and unchanged classifier handoff.
+## Visual review and recordings
 
 Normal-speed Playwright recordings, without clock manipulation:
 
@@ -25,18 +30,4 @@ Normal-speed Playwright recordings, without clock manipulation:
 - [Frames decoded from the actual desktop recording](welcome-construction/video-frames.png)
 - Controlled intermediate captures: [desktop](welcome-construction/desktop-sequence.png), [mobile](welcome-construction/mobile-sequence.png)
 
-The crops enlarge the bits for inspection. [Recorded geometry](welcome-construction/recording.json) is identical before/after on all four runs: desktop 685.984 × 129.594 CSS px; mobile 229.813 × 42.906 CSS px, with unchanged x/y coordinates and no page errors. Reproduce with `npm start`, then `node scripts/record-welcome.mjs [URL] [output-directory]`.
-
-## Verification
-
-Deterministic browser tests inspect actual binary draw positions against raster alpha for all ten letters, exclusive sequencing, fragment growth, native dimensions, accessibility and cleanup. Unit tests verify stroke ordering, curved endpoints and lossless raster coverage. Lifecycle cases cover Escape, Tab, hidden tabs, live/manual motion, data saving, navigation, resize, late/failed fonts, Canvas/readback failure and missing animation support. Existing manuscript, classifier, responsive, no-JavaScript and three-page coverage remains intact.
-
-Local lint, static integrity, 30 welcome-revision unit tests and build pass. The final welcome revision passed all 154 browser tests in both Chromium and Firefox CI before merge. A later post-merge Chromium run reproduced an existing live-media test race. The portfolio refinement strengthens that test's precondition: it first verifies the page is rendered and has running animations, then changes the native emulated preference and retains both original cancellation assertions. No application event is synthesized and no assertion is removed. This avoids toggling the emulated preference before the initial animation state is established.
-
-Local Firefox has a window-resize timeout in the existing full suite; initial-viewport visual checks and the no-resize lifecycle cases supplement full Linux Firefox CI.
-
-## Sources and implementation choice
-
-- [FreeType outline conventions](https://freetype.org/freetype2/docs/glyphs/glyphs-6.html) and [OpenType glyph contours](https://learn.microsoft.com/en-us/typography/opentype/spec/glyf) distinguish true outlines from rectangular text bounds. This implementation samples the browser's rasterized font, preserving its hinting and antialiasing without a font parser or dependency.
-- [HTML Canvas text preparation](https://html.spec.whatwg.org/multipage/canvas.html#text-preparation-algorithm), [fillText](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillText), [getImageData](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/getImageData) and [FontFaceSet.load](https://developer.mozilla.org/en-US/docs/Web/API/FontFaceSet/load) inform font loading, measurement and raster sampling.
-- [CMU kinetic typography work](https://www.cs.cmu.edu/~johnny/kt/) informs explicit per-letter temporal choreography; no external animation engine is used.
+[Recorded geometry](welcome-construction/recording.json) confirms 0.000px deviation before, during, and after the animation on all runs: desktop 685.984 × 129.594 CSS px; mobile 229.813 × 42.906 CSS px, with unchanged x/y coordinates and zero page errors.

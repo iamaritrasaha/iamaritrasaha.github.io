@@ -1,57 +1,138 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { penOrder, flight, sampleGlyph } from "../assets/welcome-strokes.js";
+import {
+  CIPHER_SYMBOLS,
+  INITIAL_FIELD,
+  clamp,
+  easeOutQuart,
+  latchProgress,
+  getCharacterCadence,
+  computeFaceState,
+} from "../assets/welcome-reel.js";
 
-test("A follows its diagonals, crossbar, then terminal details", () => {
-  const bounds = { left: 0, top: 0, width: 100, height: 100 };
-  const points = [
-    [10, 96],
-    [40, 23],
-    [65, 44],
-    [87, 96],
-    [30, 64],
-    [65, 64],
-    [100, 100],
-  ];
-  const orders = points.map(([x, y]) => penOrder("A", { x, y }, bounds).order);
-  for (let i = 1; i < orders.length; i++) assert.ok(orders[i] > orders[i - 1]);
+const TARGET = "Aritra Saha";
+const PREFERRED_ALPHABET = new Set([
+  "0",
+  "1",
+  "A",
+  "F",
+  "7",
+  "X",
+  "#",
+  "/",
+  "{",
+  "}",
+]);
+
+test("cipher alphabet contains only the preferred programming symbol subset", () => {
+  assert.equal(CIPHER_SYMBOLS.length, 10);
+  assert.equal(INITIAL_FIELD.length, 10);
+  for (const sym of CIPHER_SYMBOLS) {
+    assert.ok(
+      PREFERRED_ALPHABET.has(sym),
+      `Unexpected symbol in CIPHER_SYMBOLS: ${sym}`,
+    );
+  }
+  for (const sym of INITIAL_FIELD) {
+    assert.ok(
+      PREFERRED_ALPHABET.has(sym),
+      `Unexpected symbol in INITIAL_FIELD: ${sym}`,
+    );
+  }
 });
 
-test("curved flights settle exactly on ink and remain deterministic", () => {
-  const point = { x: 40, y: 50, tx: 0, ty: 1 };
-  const start = flight(point, 0, 100, 2);
-  const middle = flight(point, 0.5, 100, 2);
-  assert.deepEqual(flight(point, 1, 100, 2), { x: 40, y: 50 });
-  assert.deepEqual(flight(point, 0.5, 100, 2), middle);
-  // A curved approach does not pass through the linear segment midpoint.
+test("reel cadence decelerates monotonically with stretching flip intervals", () => {
+  for (let i = 0; i < TARGET.length; i++) {
+    if (TARGET[i] === " ") continue;
+    const cadence = getCharacterCadence(i, TARGET[i]);
+    const flips = cadence.flips;
+    assert.ok(
+      flips.length >= 12,
+      "Minimum flips requirement for smooth motion",
+    );
+    const intervals = flips.map((f, idx) =>
+      idx === 0 ? f : f - flips[idx - 1],
+    );
+    // Initial interval is smooth flutter (~35-50ms)
+    assert.ok(
+      intervals[0] <= 55,
+      `Initial interval too slow: ${intervals[0]}ms`,
+    );
+    // Final interval before settling is a pronounced clack (~130-190ms)
+    assert.ok(
+      intervals[intervals.length - 1] >= 130,
+      `Final interval too fast: ${intervals[intervals.length - 1]}ms`,
+    );
+    // Interval series is strictly non-decreasing (monotonic deceleration)
+    for (let k = 1; k < intervals.length; k++) {
+      assert.ok(
+        intervals[k] >= intervals[k - 1],
+        `Non-monotonic deceleration at index ${i}, flip ${k}: ${intervals[k]} < ${intervals[k - 1]}`,
+      );
+    }
+  }
+});
+
+test("cadence executes an even number of half-turns ending precisely at 0 degrees", () => {
+  for (let i = 0; i < TARGET.length; i++) {
+    if (TARGET[i] === " ") continue;
+    const cadence = getCharacterCadence(i, TARGET[i]);
+    assert.equal(
+      cadence.n % 2,
+      0,
+      `Character ${TARGET[i]} has odd flips: ${cadence.n}`,
+    );
+    assert.equal(cadence.flips.length, cadence.n);
+
+    // Verify face state at settling time lands exactly at 0 degrees facing forward
+    const settled = computeFaceState(cadence, cadence.settle);
+    assert.equal(settled.settled, true);
+    assert.equal(settled.angle, 0);
+    assert.equal(settled.isFrontFacing, true);
+    assert.equal(settled.front.text, TARGET[i]);
+    assert.equal(settled.front.isTarget, true);
+  }
+});
+
+test("choreography settles left to right with a natural inter-word pause between Aritra and Saha", () => {
+  const settles = [];
+  for (let i = 0; i < TARGET.length; i++) {
+    if (TARGET[i] === " ") continue;
+    const cadence = getCharacterCadence(i, TARGET[i]);
+    settles.push({ char: TARGET[i], index: i, settle: cadence.settle });
+  }
+
+  // Left to right progression: each subsequent character settles strictly later
+  for (let k = 1; k < settles.length; k++) {
+    assert.ok(
+      settles[k].settle > settles[k - 1].settle,
+      `Settling order inverted at ${k}: ${settles[k].settle} <= ${settles[k - 1].settle}`,
+    );
+  }
+
+  // First word settles progressively: 0 ('A') through 5 ('a')
+  const aritraEnd = settles[5].settle; // 'a' of Aritra (2150ms)
+  const sahaStart = settles[6].settle; // 'S' of Saha (2470ms)
+  const pause = sahaStart - aritraEnd;
+
   assert.ok(
-    Math.abs(
-      (middle.x - start.x) * (point.y - start.y) -
-        (middle.y - start.y) * (point.x - start.x),
-    ) > 1,
+    pause >= 250,
+    `Natural inter-word pause must be at least 250ms, got ${pause}ms`,
+  );
+  assert.ok(
+    pause <= 400,
+    `Natural inter-word pause must be at most 400ms, got ${pause}ms`,
   );
 });
 
-test("raster fragments preserve every antialiased ink pixel exactly once", () => {
-  const width = 36,
-    height = 42;
-  const data = new Uint8ClampedArray(width * height * 4);
-  for (let y = 2; y < 40; y++)
-    for (let x = 2; x < 34; x++) {
-      // Thin diagonal plus disconnected serif and a counter: retain faint edges too.
-      if (Math.abs(x - y * 0.7) < 2 || (y === 39 && x > 19))
-        data[(y * width + x) * 4 + 3] = x % 2 ? 255 : 12;
-    }
-  const points = sampleGlyph(data, width, height, 0, width, 4, "A", 2);
-  assert.ok(points.length > 5 && points.length < 180);
-  const coverage = new Uint8Array(width * height);
-  for (const p of points) {
-    assert.ok(
-      data[(Math.floor(p.y * 2) * width + Math.floor(p.x * 2)) * 4 + 3] > 0,
-    );
-    for (let y = p.sy; y < p.sy + p.h; y++)
-      for (let x = p.sx; x < p.sx + p.w; x++) coverage[y * width + x]++;
+test("latchProgress reaches exact unity with bounded physical settle", () => {
+  assert.equal(latchProgress(0), 0);
+  assert.equal(latchProgress(1), 1);
+  assert.equal(latchProgress(1.5), 1);
+
+  // Intermediate values are bounded and smooth
+  for (let p = 0; p <= 1; p += 0.05) {
+    const v = latchProgress(p);
+    assert.ok(v >= 0 && v <= 1.025, `Overshoot unbounded at ${p}: ${v}`);
   }
-  for (let i = 0; i < coverage.length; i++)
-    if (data[i * 4 + 3]) assert.equal(coverage[i], 1);
 });
