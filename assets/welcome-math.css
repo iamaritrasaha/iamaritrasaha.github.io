@@ -306,9 +306,65 @@
 .name-constructing .name-visual {
   visibility: hidden;
 }
-.name-bits {
+.name-bits,
+.name-reel {
   position: absolute;
   inset: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+.reel-slot {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  perspective: 720px;
+  perspective-origin: 50% 50%;
+  overflow: visible;
+  line-height: inherit;
+}
+.reel-card {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform-origin: 50% 56% 0;
+  will-change: transform;
+}
+.reel-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  line-height: inherit;
+  color: var(--lime);
+}
+.reel-face.front {
+  transform: rotateX(0deg);
+}
+.reel-face.back {
+  transform: rotateX(180deg);
+}
+.reel-face.cipher {
+  font-family: var(--mono);
+  font-size: 1em;
+  text-align: center;
+  opacity: 0.88;
+  padding-top: var(--reel-baseline-offset, 0px);
+  box-sizing: border-box;
+}
+.reel-face.target {
+  font-family: var(--display);
+  font-size: 1em;
+  text-align: left;
+  opacity: 1;
+}
+.reel-slot:not(.is-settled)::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 56%;
+  height: 1px;
+  background: rgba(20, 35, 105, 0.45);
   pointer-events: none;
 }
 .bb-entry > small {

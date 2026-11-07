@@ -130,7 +130,7 @@ for filename, budget in [('index.html', 62000), ('embedded/index.html', 56000), 
 for filename, budget in [('assets/welcome-start.js', 3000), ('assets/welcome-math.js', 6500), ('assets/welcome-math.css', 11000), ('assets/pulse-rpm.js', 4000), ('assets/pulse-rpm.css', 5000)]:
     assert source_size(filename) <= budget, f'{filename}: scoped motion asset exceeds budget'
 assert (ROOT / 'app-ads.txt').is_file()
-assert source_size('assets/welcome-strokes.js') <= 7000, 'Stroke ordering exceeds its scoped budget'
+assert source_size('assets/welcome-reel.js') <= 7000, 'Reel choreo exceeds its scoped budget'
 assert source_size('assets/welcome-name.js') <= 11000, 'Glyph construction exceeds its scoped budget'
 assert source_size('assets/projection-motion.js') <= 4000
 assert source_size('assets/projection-renderer.js') <= 7000
