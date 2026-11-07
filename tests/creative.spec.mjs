@@ -33,16 +33,14 @@ test("reduced motion bypasses entry and instruments work by keyboard", async ({
 }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
-  await expect(page.locator(".projection-readout button")).toBeDisabled();
+  await expect(page.locator("[data-projection-pause]")).toBeDisabled();
   await expect(page.locator(".entry")).toHaveCount(0);
   expect(
     await page.evaluate(() => localStorage.getItem("projection-intro")),
   ).toBeNull();
-  await expect(page.locator(".projection-readout output")).toHaveText(
-    "α = 22.0°",
-  );
+  await expect(page.locator(".projection-readout output")).toHaveText("22.0°");
   await expect(page.locator(".projection-math")).toContainText(
-    "α(t) = (22 + 12t)π/180",
+    "advances 12° per active second",
   );
   await page.getByRole("button", { name: "Isolate signal path" }).click();
   await expect(page.locator("#seedl")).toHaveClass(/isolated/);

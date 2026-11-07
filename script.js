@@ -1,4 +1,4 @@
-import { mountProjection } from "./assets/projection-motion.js?v=p1";
+import { mountProjection } from "./assets/projection-motion.js?v=s1";
 import { mountResearchPlate } from "./assets/research-plate.js?v=20260930.1";
 import { mountNeuronDemo } from "./assets/neuron-demo.js?v=r1";
 import { createSurfacePhysics } from "./assets/surface-physics.js?v=20260930.1";

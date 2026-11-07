@@ -6,3 +6,9 @@ The primary design uses only Literata and JetBrains Mono. Font files are served 
 - `JetBrainsMono-Regular.woff2`, 29,072 bytes: the existing regular technical face and its `JetBrainsMono-OFL.txt` are retained. [Official project](https://github.com/JetBrains/JetBrainsMono).
 
 Only normal styles are downloaded. Literata optical sizing is automatic; weight 400 carries reading and display, with 500/600 used sparingly. Native mathematical layout may use platform glyph fallback for symbols absent from the Latin subset. Historical license notices remain for attribution of earlier revisions, although their font files are no longer shipped.
+
+## Projection Study mathematics
+
+`PortfolioMath.woff2` is a narrowly scoped derivative of **STIX Two Math 2.13 build 171**, used only by `.projection-equation math`. It preserves the OpenType MATH table, italic mathematical identifiers and stretching parentheses. It does not replace Literata or JetBrains Mono elsewhere. The derivative is renamed **Portfolio Math**; the original copyright and SIL Open Font License are retained in `STIXTwoMath-OFL.txt`.
+
+Source: [official STIX v2.13b171 distribution](https://raw.githubusercontent.com/stipub/stixfonts/v2.13b171/zipfiles/static_otf.zip), `STIXTwoMath-Regular.otf`; [upstream license](https://github.com/stipub/stixfonts/blob/v2.13b171/OFL.txt). Reproduce with `python3 scripts/prepare_projection_font.py /path/to/static_otf.zip` after installing FontTools and Brotli in an optional authoring environment. The script subsets only the study's characters and their layout dependencies and performs WOFF2 compression. No font service or equation-rendering JavaScript is required at runtime.
