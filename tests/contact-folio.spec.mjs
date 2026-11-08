@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 for (const width of [320, 390, 1024, 1440]) {
   for (const theme of ["light", "dark"]) {
-    test(`${width}px ${theme}: contact folio colors and reflow`, async ({ page }) => {
+    test(`${width}px ${theme}: contact folio reflow`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 });
       await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
       await page.goto("/");
