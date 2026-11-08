@@ -21,14 +21,21 @@ try {
   const configs = [
     { name: "desktop-1440-light", width: 1440, height: 900, theme: "light" },
     { name: "desktop-1440-dark", width: 1440, height: 900, theme: "dark" },
+    { name: "desktop-1024-light", width: 1024, height: 768, theme: "light" },
+    { name: "desktop-1024-dark", width: 1024, height: 768, theme: "dark" },
+    { name: "tablet-768-light", width: 768, height: 1024, theme: "light" },
+    { name: "tablet-768-dark", width: 768, height: 1024, theme: "dark" },
     { name: "mobile-390-light", width: 390, height: 844, theme: "light" },
     { name: "mobile-390-dark", width: 390, height: 844, theme: "dark" },
+    { name: "mobile-320-light", width: 320, height: 568, theme: "light" },
+    { name: "mobile-320-dark", width: 320, height: 568, theme: "dark" },
   ];
 
   for (const cfg of configs) {
     const context = await browser.newContext({
       viewport: { width: cfg.width, height: cfg.height },
       colorScheme: cfg.theme,
+      reducedMotion: "reduce",
     });
     const page = await context.newPage();
 

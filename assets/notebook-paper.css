@@ -20,6 +20,12 @@
   --nbp-fine-cobalt: rgb(220 232 255 / 3.5%);
   --nbp-major-cobalt: rgb(220 232 255 / 6%);
   --nbp-reg-cobalt: rgb(220 232 255 / 24%);
+
+  /* Responsive editorial spacing scale */
+  --space-tight: clamp(6px, 1vw, 12px);
+  --space-moderate: clamp(14px, 1.8vw, 22px);
+  --space-generous: clamp(28px, 3.5vw, 48px);
+  --space-chapter: clamp(56px, 7vw, 96px);
 }
 
 html[data-theme="dark"] {
@@ -178,15 +184,20 @@ html[data-theme="dark"] .contact-section {
   }
 }
 
-/* ── Engineering-notebook hero hierarchy ────────────────────────────────── */
+/* ── Engineering-notebook hero hierarchy & breathing room ───────────────── */
+
+/* Exterior whitespace: generous top and bottom framing around the cobalt hero */
+.bench-hero {
+  padding: clamp(32px, 4vw, 56px) 0 clamp(44px, 5.5vw, 72px);
+}
 
 /* Eyebrow: author + role identifier above the headline */
 .bench-eyebrow {
   color: var(--lime);
-  letter-spacing: 0.11em;
+  letter-spacing: 0.12em;
   font-size: 0.6875rem;
-  margin-bottom: 0;
-  opacity: 0.85;
+  margin-bottom: 8px;
+  opacity: 0.9;
 }
 
 /* Headline: balanced type scaling across viewports to stay <= 2 lines */
@@ -194,23 +205,59 @@ html[data-theme="dark"] .contact-section {
   font-size: clamp(1.625rem, 0.6rem + 2.85vw, 4rem);
   letter-spacing: -0.055em;
   line-height: 1.08;
-  margin: 10px 0 14px;
+  margin: 8px 0 clamp(16px, 1.8vw, 22px);
 }
 
-/* Description: slightly recessed behind the headline */
+/* Lead explanation: comfortable measure and editorial line height */
 .bench-copy > p:not(.tech):not(.bench-eyebrow) {
-  opacity: 0.88;
+  font-size: clamp(1rem, 0.925rem + 0.5vw, 1.35rem);
+  line-height: 1.62;
+  max-width: 44ch;
+  opacity: 0.9;
 }
 
-/* Fine rule above the bench-panel — subtle drafting separator */
+/* Mobile/tablet headline-to-relief rhythm */
+@media (max-width: 700px) {
+  .bench-heading:has(.pixel-relief) {
+    gap: clamp(16px, 3.5vw, 26px);
+  }
+}
+
+/* The interactive classifier: featured scientific instrument elevation */
 .bench-panel {
-  border-top: 1px solid rgb(220 232 255 / 12%);
+  border-top: 1px solid rgb(220 232 255 / 14%);
+  margin: clamp(28px, 3.8vw, 52px) 0 0;
+  padding: clamp(24px, 3.2vw, 46px);
+  gap: clamp(24px, 3.8vw, 64px);
 }
 
-/* Coordinate label strip below the classifier */
+@media (max-width: 600px) {
+  .bench-panel {
+    padding: 20px 14px;
+    gap: 20px 14px;
+  }
+}
+
+.bench-panel .tech {
+  margin-bottom: 8px;
+}
+
+#distribution {
+  margin: 16px 0 0;
+}
+
+#layer-note {
+  margin: 16px 0 0;
+  max-width: 36ch;
+  line-height: 1.6;
+}
+
+/* Supporting links strip below the classifier */
 .bench-links {
   border-top: 1px solid rgb(220 232 255 / 10%);
-  padding-top: 12px;
+  margin-top: clamp(22px, 3vw, 38px);
+  padding-top: clamp(14px, 1.8vw, 22px);
+  gap: 10px clamp(20px, 3.5vw, 40px);
   letter-spacing: 0.03em;
 }
 
@@ -221,6 +268,232 @@ html[data-theme="dark"] .contact-section {
   text-underline-offset: 3px;
 }
 
+/* ── Selected Work: Flagship SeeDL Refinement ────────────────────────────── */
+
+.selected-work {
+  padding-top: clamp(48px, 6vw, 84px);
+}
+
+.selected-work > .section-bar {
+  padding-top: 0;
+  margin-bottom: clamp(28px, 3.5vw, 44px);
+}
+
+.project-jump {
+  margin-bottom: clamp(36px, 4.5vw, 60px);
+}
+
+.case-seedl {
+  padding: clamp(36px, 4.5vw, 64px) clamp(22px, 3.2vw, 52px);
+  margin-bottom: clamp(64px, 7.5vw, 108px);
+  gap: clamp(24px, 3.5vw, 44px) clamp(32px, 4vw, 58px);
+  border: 1px solid rgb(220 232 255 / 12%);
+}
+
+.seedl-heading {
+  margin-bottom: clamp(6px, 1.2vw, 16px);
+}
+
+.seedl-heading h3 {
+  margin: 8px 0 12px;
+}
+
+.seedl-story h4 {
+  font-size: clamp(1.75rem, 2.4vw, 2.25rem);
+  line-height: 1.25;
+  margin-bottom: clamp(14px, 1.8vw, 20px);
+}
+
+.seedl-story > p {
+  max-width: 56ch;
+  line-height: 1.75;
+}
+
+.seedl-story p + p {
+  margin-top: 16px;
+}
+
+.seedl-links {
+  margin-top: clamp(20px, 2.8vw, 30px);
+  gap: 12px clamp(18px, 2.5vw, 28px);
+}
+
+.case-seedl .case-details {
+  margin-top: clamp(22px, 3vw, 36px);
+}
+
+/* ── Selected Work: QUANTA Scientific Computing Folio ────────────────────── */
+
+.case-quanta {
+  margin-bottom: clamp(64px, 7.5vw, 108px);
+}
+
+.case-quanta .feature-heading {
+  margin-bottom: clamp(12px, 1.8vw, 22px);
+}
+
+.case-quanta .feature-heading h3 {
+  font-size: clamp(2.75rem, 4.5vw, 4.125rem);
+  line-height: 1.15;
+  margin: 8px 0 10px;
+}
+
+.quanta-layout {
+  margin-block: clamp(22px, 3vw, 40px);
+  gap: clamp(28px, 4vw, 60px);
+}
+
+.quanta-study {
+  padding: clamp(18px, 2.5vw, 32px);
+  border: 1px solid rgb(220 232 255 / 12%);
+}
+
+.quanta-study figcaption {
+  margin-top: 18px;
+  line-height: 1.65;
+}
+
+.case-quanta .feature-story h4 {
+  font-size: clamp(1.75rem, 2.4vw, 2.25rem);
+  line-height: 1.25;
+  margin-bottom: clamp(14px, 1.8vw, 20px);
+}
+
+.case-quanta .feature-story > p {
+  max-width: 56ch;
+  line-height: 1.75;
+  color: var(--ink);
+}
+
+.case-quanta .feature-story p + p {
+  margin-top: 16px;
+}
+
+.quanta-links {
+  margin-top: clamp(20px, 2.8vw, 30px);
+  gap: 14px clamp(18px, 2.5vw, 28px);
+}
+
+.case-quanta > .case-details {
+  margin-top: clamp(24px, 3vw, 38px);
+}
+
+/* ── Selected Work: Orion LLM Adaptation Research ────────────────────────── */
+
+.case-orion {
+  padding-bottom: clamp(52px, 6vw, 88px);
+  margin-bottom: clamp(52px, 6vw, 88px);
+  border-bottom: 1px solid var(--line);
+  gap: clamp(24px, 3.5vw, 44px);
+}
+
+.case-orion .case-name h3 {
+  font-size: clamp(2.5rem, 4.2vw, 3.75rem);
+  line-height: 1.15;
+  margin: 8px 0 12px;
+}
+
+.case-orion .case-story h4 {
+  font-size: clamp(1.75rem, 2.4vw, 2.25rem);
+  line-height: 1.25;
+  margin-bottom: clamp(14px, 1.8vw, 20px);
+}
+
+.case-orion .case-story > p {
+  max-width: 56ch;
+  line-height: 1.75;
+  color: var(--ink);
+}
+
+.case-orion .case-story p + p {
+  margin-top: 16px;
+}
+
+.math-note {
+  margin: clamp(18px, 2.5vw, 28px) 0;
+  padding: clamp(14px, 2vw, 22px);
+}
+
+.research-note {
+  padding: clamp(20px, 2.5vw, 30px);
+}
+
+.case-orion .case-details {
+  margin-top: clamp(22px, 3vw, 36px);
+}
+
+/* ── Selected Work: SysAI Local Machine Systems ──────────────────────────── */
+
+.case-sysai {
+  padding: clamp(48px, 6vw, 84px) 0 clamp(40px, 5.5vw, 72px);
+  border: 1px solid rgb(220 232 255 / 12%);
+}
+
+.sysai-layout {
+  gap: clamp(28px, 4vw, 56px) clamp(36px, 5vw, 68px);
+}
+
+.sysai-intro h3 {
+  font-size: clamp(2.5rem, 4.2vw, 3.75rem);
+  line-height: 1.15;
+  margin: 8px 0 10px;
+}
+
+.sysai-intro h4 {
+  font-size: clamp(1.75rem, 2.4vw, 2.25rem);
+  line-height: 1.25;
+  margin-bottom: clamp(14px, 1.8vw, 20px);
+}
+
+.sysai-intro > p {
+  max-width: 54ch;
+  line-height: 1.75;
+}
+
+.sysai-intro p + p {
+  margin-top: 16px;
+}
+
+.diagnostic-study {
+  padding: clamp(20px, 2.8vw, 36px);
+  border: 1px solid rgb(220 232 255 / 12%);
+}
+
+@media (max-width: 600px) {
+  .diagnostic-study {
+    padding: 16px 0;
+    border-left: none;
+    border-right: none;
+  }
+}
+
+.command-line {
+  overflow-wrap: break-word;
+}
+
+.case-sysai .case-details {
+  margin-top: clamp(26px, 3.5vw, 42px);
+}
+
+/* ── Chapter Transitions: Lab, Geometry, Contact ─────────────────────────── */
+
+.laboratory {
+  margin-block: clamp(64px, 7.5vw, 108px);
+}
+
+.laboratory h2 {
+  margin-bottom: clamp(20px, 2.8vw, 36px);
+}
+
+.geometry {
+  margin-block: clamp(64px, 7.5vw, 108px);
+  gap: clamp(28px, 4.5vw, 60px);
+}
+
+.contact-section {
+  padding: clamp(48px, 6vw, 88px) 0;
+}
+
 /* In forced-colours mode strip the opacity and use system colours */
 @media (forced-colors: active) {
   .bench-eyebrow,
@@ -228,7 +501,12 @@ html[data-theme="dark"] .contact-section {
     opacity: 1;
   }
   .bench-panel,
-  .bench-links {
+  .bench-links,
+  .case-seedl,
+  .quanta-study,
+  .case-sysai,
+  .diagnostic-study {
     border-top: 1px solid ButtonText;
+    border: 1px solid ButtonText;
   }
 }
