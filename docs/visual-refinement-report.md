@@ -1,102 +1,182 @@
-# Visual Refinement Report — Portfolio Visual Breathing Room & Editorial Spacing
+# Visual Refinement Report — Engineering Notebook Grid, Color Balance & Editorial Spacing
 
 ## Overview
 
-This report documents the architecture-safe visual spacing and layout refinement implemented in branch `design/portfolio-visual-breathing-room` for `iamaritrasaha.github.io`.
+This report documents the visual design architecture and refinements for the portfolio `iamaritrasaha.github.io`:
 
-The objective was to improve the visual spaciousness, reading comfort, editorial rhythm, and portfolio presentation without altering the website's underlying architecture, interactive classifier, ML inference weights, or Cipher Reel welcome mechanics.
-
-The refined presentation realizes a **spacious, editorial AI/ML engineering portfolio with subtle graph-paper textures and authentic technical illustrations**, retaining the **60% paper / 30% cobalt / 10% citron** compositional balance.
-
----
-
-## 1. Confirmed Baseline Spacing Problems
-
-Before this refinement, an automated DOM layout audit across 1440px, 1024px, 768px, 390px, and 320px identified genuine cramping and visual density issues:
-
-| Area / Component                 | Baseline Measurement                        | Problem Description                                                                                                                                                                      |
-| :------------------------------- | :------------------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Homepage Hero Exterior**       | `padding-bottom: 20px`                      | The bottom of `.bench-hero` was abruptly clipped against the next section; `.bench-links` had only 16px top margin, creating severe vertical compression against the section transition. |
-| **Hero Mobile Relief Gap**       | `gap: 6px`                                  | On mobile devices ($\le 700\text{px}$), the 3D relief canvas sat only 6px below the headline, crowding the typographic hierarchy.                                                        |
-| **Interactive Classifier Panel** | `padding: 16px 12px`, `gap: 18px`           | On mobile/tablet, controls, 8×8 grid, and layer notes were packed tightly, making the classifier feel like a congested widget rather than an elevated scientific instrument.             |
-| **Selected Work Entrance**       | `padding-top: 0`                            | `.selected-work` directly abutted preceding transitions without visual pause; `.project-jump` shortcuts crowded the flagship container.                                                  |
-| **Flagship SeeDL**               | `padding: 24px 20px`, `margin-bottom: 38px` | SeeDL's story copy lacked reading measure constraint (ran full width), and its transition into QUANTA felt sudden.                                                                       |
-| **QUANTA Hydrogen Study**        | `margin-top: 12px` on `.case-details`       | The technical disclosure sat immediately against the research text; body copy lacked clear ink contrast on warm paper surfaces.                                                          |
-| **Orion LLM Adaptation**         | `padding-bottom: 0`, no divider             | Orion ended abruptly without visual boundary before SysAI, blending two distinct research domains together.                                                                              |
-| **SysAI Terminal Console**       | `padding-top: 6px`                          | Diagnostic console lacked framing on desktop/tablet, and on mobile required strict reflow protection when enlarged text (200% zoom) is active.                                           |
-| **Chapter Transitions**          | Inconsistent margins (24px–48px)            | Major chapter breaks across Laboratory, Helicoid Geometry, and Contact sections lacked unified vertical cadence.                                                                         |
+1. **PR #21**: Realizing **Concept B: an annotated engineering notebook with small graph-paper squares**, achieving a recognizable **60% paper / 30% cobalt / 10% citron** compositional balance, and elevating the homepage hero into a compelling AI/ML technical showcase.
+2. **PR #22**: Refining **portfolio visual breathing room, reading comfort, and editorial rhythm** without altering the website's underlying architecture, interactive classifier, ML inference weights, or Cipher Reel welcome mechanics.
 
 ---
 
-## 2. Responsive Spacing System Tokens
+## 1. Why the Previous Grid Was Not Visible (PR #20 Root Cause)
 
-A deliberate, consolidated spacing scale was introduced into `:root` in `assets/notebook-paper.css`:
+In PR #20, `assets/notebook-paper.css` attempted to apply the grid using the CSS `:where()` pseudo-class:
+
+```css
+:where(
+  body,
+  .site-header,
+  .practice-section,
+  .about-section,
+  .contact-section,
+  .lab-code-section,
+  .lab-protocol-figure,
+  .lab-outro
+) {
+  background-image: linear-gradient(...);
+}
+```
+
+### The Cascade Failure:
+
+1. **Zero Specificity (`0-0-0`)**: By CSS specification, `:where(...)` has a specificity of exactly `(0, 0, 0)`.
+2. **Shorthand Overrides**: Existing stylesheets (`bitbench.css`, `embedded.css`, `explorations.css`, and `styles.css`) define background colors on these exact elements using class or element selectors with `background: <color>` shorthand (specificity `(0, 1, 0)` or `(0, 0, 1)`):
+   - `body { background: var(--bg); }`
+   - `.bench-hero { background: var(--blue); }`
+   - `.bench-panel { background: var(--deep); }`
+3. **Reset of `background-image`**: The CSS `background` shorthand resets all constituent background properties not explicitly declared—most notably resetting `background-image` to `none`.
+4. **Computed Style Outcome**: Because any selector with specificity $\ge 1$ beats `:where()`, the browsers computed `background-image: none` on `.bench-hero`, `body`, and all targeted containers across the site on `main`.
+
+---
+
+## 2. How the CSS Cascade Was Corrected
+
+Rather than introducing indiscriminate `!important` declarations, the stylesheet structure was restructured to respect standard CSS cascade semantics:
+
+1. **Direct Class & Element Selectors**: All `:where(...)` wrappers were replaced with direct selectors (`body`, `.bench-hero`, `.bench-panel`, `#welcome-paint`, etc.). These have normal specificity (`0-1-0` for classes, `0-0-1` for elements).
+2. **Load Order Precedence**: `assets/notebook-paper.css` is linked after `styles.css` and `bitbench.css` in all HTML entry points (`index.html`, `embedded/index.html`, `explorations/index.html`, and `404.html`). With matching specificity, standard cascade source order gives precedence to `notebook-paper.css`.
+3. **Property Separation**: `notebook-paper.css` sets only `background-image` and `background-size`, allowing the underlying stylesheets to provide the base `background-color`.
+4. **Two-Level Engineering Grid**:
+   - **Fine grid**: 22px × 22px squares (`--nbp-fine` / `--nbp-fine-cobalt`).
+   - **Major construction lines**: 110px × 110px squares (`--nbp-major` / `--nbp-major-cobalt`).
+5. **Calibrated Subtle Opacity**:
+   - Paper surfaces: 3% fine, 5% major (subtle drafting ink on warm paper).
+   - Cobalt surfaces: 3.5% fine, 6% major (pale blue-white coordinate lines on deep blue).
+   - Dark mode: 2.6% fine / 4.4% major on paper; 2.8% fine / 4.8% major on cobalt.
+6. **Continuous Grid Across Surfaces**:
+   - Applied uniformly across the welcome screen (`#welcome-paint`), transitional chapter dividers (`#chapter-paint`, `.chapter-paper::before`, `.bb-entry::before`), homepage hero (`.bench-hero`, `.bench-panel`), project folios, lab benches, and supporting pages.
+   - Removed aggressive gradient masks (`mask-image: none`) so grid lines maintain identical 22px/110px dimensions and continuous visibility throughout the user journey.
+7. **Drafting Details**:
+   - Single precision registration cross (`+`) rendered on `.selected-work > .section-bar::after`.
+   - Subtle hairline coordinate borders on `.bench-panel` and `.bench-links`.
+
+---
+
+## 3. Hero Composition and Copy Refinements
+
+The homepage hero was upgraded from a bare prompt into a structured technical introduction:
+
+### Copy Enhancements
+
+| Element         | Previous Copy                                                       | Refined Copy                                                                                                               |
+| :-------------- | :------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------- |
+| **Eyebrow**     | _(None)_                                                            | `Aritra Saha / AI & ML Engineer`                                                                                           |
+| **Headline**    | `Change one pixel.`                                                 | `Machine learning you can inspect.`                                                                                        |
+| **Description** | `Edit a handwritten digit. Watch a trained neural network respond.` | `Change a handwritten digit, follow its prediction, and inspect the hidden-layer activations of a trained neural network.` |
+
+### Compositional & Structural Refinement
+
+- **Semantic Spans**: Headline wrapped in semantic spans (`<span>Machine learning</span> <span>you can inspect.</span>`) with fluid typography clamping:
+  ```css
+  .bench-copy h1 {
+    font-size: clamp(1.625rem, 0.6rem + 2.85vw, 4rem);
+    letter-spacing: -0.055em;
+    line-height: 1.08;
+    margin: 8px 0 var(--space-moderate);
+  }
+  ```
+  This guarantees that the title occupies $\le 2$ lines across all viewports (320px, 390px, 768px, 1024px, 1440px), satisfying strict regression test contracts (`tests/portfolio.spec.mjs:35`).
+- **Interactive Classifier Untouched**: The 8×8 digit editor, feed-forward inference calculations, weight arrays, GELU activations, confidence distribution bars, and 3D pixel relief visualization remain 100% intact and functional.
+
+---
+
+## 4. Implementation of the 60/30/10 Color Balance
+
+The visual weight was audited and tuned to create an instantly recognizable hierarchy:
+
+- **60% Dominant Ground (Warm Paper `#F4F4EC` / Dark Slate)**:
+  - Covers overall page body, practice/about/writing sections, reading areas, lab documentation, and code benches.
+  - Subtly patterned with 22px/110px graph paper lines in diluted cobalt ink (`rgb(23 40 120 / 3%–5%)`).
+- **30% Secondary Technical Structure (Cobalt `--blue` `#1E3A8A` & `--deep` `#0F172A`)**:
+  - Anchors high-density technical modules: the interactive model bench, SeeDL/SysAI/PulseShift project folios, and lab experiment headers.
+  - Features the continuous pale coordinate grid (`rgb(220 232 255 / 3.5%–6%)`).
+- **10% Intentional Citron Accent (`--lime` `#E4F489`)**:
+  - Reserved exclusively for interactive landmarks:
+    - Hero eyebrow badge (`.bench-eyebrow`)
+    - Model prediction focal points and live status chips
+    - Technical links hover highlights (`.bench-links a:hover`)
+    - Contact folio callout banner
+  - Citron never overpowers the technical content, preserving high-contrast accessibility (WCAG AA compliant).
+
+---
+
+## 5. Visual Evidence & Computed Style Verification (PR #21 Baseline)
+
+Computed styles were verified across both viewports and themes using automated browser evaluation:
+
+### Computed `background-image` Validation
+
+| Selector         | `main` Branch Computed Style | Feature Branch Computed Style           | Status       |
+| :--------------- | :--------------------------- | :-------------------------------------- | :----------- |
+| `body`           | `none`                       | `4-layer linear-gradient (110px, 22px)` | **Verified** |
+| `.bench-hero`    | `none`                       | `4-layer linear-gradient (110px, 22px)` | **Verified** |
+| `.bench-panel`   | `none`                       | `4-layer linear-gradient (110px, 22px)` | **Verified** |
+| `#welcome-paint` | `none`                       | `4-layer linear-gradient (110px, 22px)` | **Verified** |
+| `.case-seedl`    | `none`                       | `4-layer linear-gradient (110px, 22px)` | **Verified** |
+| `.lab-hero`      | `none`                       | `4-layer linear-gradient (110px, 22px)` | **Verified** |
+
+---
+
+## 6. PR #22 Visual Breathing Room & Editorial Spacing Refinement
+
+### A. Confirmed Baseline Spacing Problems
+
+An automated DOM layout audit identified the following genuine crowding issues:
+
+| Area / Component                 | Baseline Measurement                        | Confirmed Problem                                                                                                                  |
+| :------------------------------- | :------------------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------- |
+| **Homepage Hero Exterior**       | `padding-bottom: 20px`                      | `.bench-hero` bottom was clipped abruptly; `.bench-links` had only 16px top margin, creating severe vertical choking.              |
+| **Hero Mobile Relief Gap**       | `gap: 6px`                                  | On mobile ($\le 700\text{px}$), the 3D relief canvas sat only 6px below the headline, crowding the typographic hierarchy.          |
+| **Interactive Classifier Panel** | `padding: 16px 12px`, `gap: 18px`           | Controls, 8×8 digit input, and layer notes were packed into an uncomfortably compressed box rather than an instrument console.     |
+| **Selected Work Entrance**       | `padding-top: 0`                            | `.selected-work` directly abutted preceding transitions without visual pause; `.project-jump` shortcuts crowded the container.     |
+| **Flagship SeeDL**               | `padding: 24px 20px`, `margin-bottom: 38px` | Story copy lacked reading measure constraint (ran full width), and its transition into QUANTA felt sudden.                         |
+| **QUANTA Hydrogen Study**        | `margin-top: 12px` on `.case-details`       | Technical disclosure sat immediately against research text; body copy lacked clear ink contrast on warm paper.                     |
+| **Orion LLM Adaptation**         | `padding-bottom: 0`, no divider             | Orion ended abruptly without visual boundary before SysAI, visually blending two distinct research domains.                        |
+| **SysAI Terminal Console**       | `padding-top: 6px`                          | Diagnostic console lacked framing on desktop/tablet, and on mobile required reflow protection when enlarged text (200%) is active. |
+| **Chapter Transitions**          | Inconsistent margins (24px–48px)            | Major chapter breaks across Laboratory, Helicoid Geometry, and Contact sections lacked a unified vertical cadence.                 |
+
+### B. Responsive Spacing System Tokens & Consolidation
+
+In `assets/notebook-paper.css`, a consolidated spacing scale was introduced into `:root` and genuinely applied across components:
 
 ```css
 :root {
   /* Responsive editorial spacing scale */
   --space-tight: clamp(6px, 1vw, 12px);
   --space-moderate: clamp(14px, 1.8vw, 22px);
-  --space-generous: clamp(28px, 3.5vw, 48px);
-  --space-chapter: clamp(56px, 7vw, 96px);
+  --space-generous: clamp(24px, 3.2vw, 42px);
+  --space-chapter: clamp(64px, 7.5vw, 108px);
 }
 ```
 
-### Hierarchy Rules Applied:
+- **`--space-tight`**: Used on metadata labels, eyebrows (`.bench-eyebrow`), tech tags, and immediate heading gaps (`.seedl-heading`).
+- **`--space-moderate`**: Applied to headline bottom margins (`.bench-copy h1`), links strip top padding (`.bench-links`), note card padding (`.math-note`), and story subheading gaps (`h4`).
+- **`--space-generous`**: Applied to project links rows (`.seedl-links`, `.quanta-links`), section bar margins (`.selected-work > .section-bar`), hero links margin (`.bench-links`), and project disclosures (`.case-details`).
+- **`--space-chapter`**: Governs major chapter boundaries (`.case-seedl`, `.case-quanta`, `.case-orion`, `.laboratory`, `.geometry`, and `.contact-section`).
 
-- **Tight (`--space-tight`)**: Spacing between metadata labels, eyebrows, and immediate headings.
-- **Moderate (`--space-moderate`)**: Spacing between related paragraphs, action link rows, and technical captions.
-- **Generous (`--space-generous`)**: Spacing between distinct project components, diagrams, and summary disclosures.
-- **Chapter (`--space-chapter`)**: Large visual transitions between major homepage chapters and research folios.
+### C. Redundant Declaration Simplification
 
----
+Redundant declarations were consolidated without altering rendered layout:
 
-## 3. Section-by-Section Architectural Refinements
+- Story `h4` subheadings for SeeDL, QUANTA, Orion, and SysAI were unified under a single shared rule.
+- Story paragraph measures (`max-width: 56ch; line-height: 1.75;`) and paragraph margins (`p + p { margin-top: 16px; }`) were combined.
+- Disclosure top margins (`.case-details`) were normalized using `var(--space-generous)`.
+- High-contrast rules were cleaned to avoid duplicate border overrides.
 
-All adjustments were applied in `assets/notebook-paper.css`, the last stylesheet in cascade load order, avoiding `!important` flags and preserving all existing DOM elements and IDs.
+### D. Quantitative Spacing Audit: Before vs. After
 
-### A. Homepage Hero & Interactive Classifier
-
-- **Exterior Framing**: Increased `.bench-hero` vertical padding to `clamp(32px, 4vw, 56px) 0 clamp(44px, 5.5vw, 72px)`, giving generous top and bottom breathing room.
-- **Headline Rhythm**: Increased bottom margin to `clamp(16px, 1.8vw, 22px)` while retaining strict `clamp(1.625rem, 0.6rem + 2.85vw, 4rem)` fluid font sizing so `h1` stays $\le 2$ lines across all viewports.
-- **Lead Text Measure**: Set `max-width: 44ch` with `line-height: 1.62` for comfortable reading flow.
-- **Mobile Relief Gap**: Relaxed `.bench-heading:has(.pixel-relief)` gap to `clamp(16px, 3.5vw, 26px)`.
-- **Instrument Elevation**: Elevated `.bench-panel` with `padding: clamp(24px, 3.2vw, 46px)`, `margin-top: clamp(28px, 3.8vw, 52px)`, and balanced internal gap `clamp(24px, 3.8vw, 64px)`.
-- **Supporting Links Strip**: Expanded `.bench-links` spacing to `margin-top: clamp(22px, 3vw, 38px)` and `gap: 10px clamp(20px, 3.5vw, 40px)`.
-
-### B. Flagship SeeDL
-
-- **Container Presence**: Upgraded `.case-seedl` padding to `clamp(36px, 4.5vw, 64px) clamp(22px, 3.2vw, 52px)` with subtle hairline border `1px solid rgb(220 232 255 / 12%)`.
-- **Typographic Measure**: Added `max-width: 56ch` and `line-height: 1.75` on story paragraphs.
-- **Chapter Exit**: Expanded bottom margin to `clamp(64px, 7.5vw, 108px)` for clear focal transition to QUANTA.
-
-### C. QUANTA Scientific Computing Folio
-
-- **Heading Rhythm**: Added `margin-bottom: clamp(12px, 1.8vw, 22px)` to `.feature-heading`.
-- **Study Enclosure**: Framed `.quanta-study` with `padding: clamp(18px, 2.5vw, 32px)` and hairline cobalt border.
-- **Text Readability**: Explicitly ensured `color: var(--ink)` on story copy over paper ground, with `56ch` measure.
-- **Action & Disclosure Separation**: Expanded `.case-details` margin to `clamp(24px, 3vw, 38px)`.
-
-### D. Orion LLM Adaptation Research
-
-- **Chapter Transition**: Added `border-bottom: 1px solid var(--line)`, `padding-bottom: clamp(52px, 6vw, 88px)`, and `margin-bottom: clamp(52px, 6vw, 88px)` to distinctly separate Orion from SysAI.
-- **Balanced Note Cards**: Standardized padding on `.math-note` (`clamp(14px, 2vw, 22px)`) and `.research-note` (`clamp(20px, 2.5vw, 30px)`).
-
-### E. SysAI Local Machine Systems
-
-- **Console Container**: Structured `.case-sysai` padding as `clamp(48px, 6vw, 84px) 0 clamp(40px, 5.5vw, 72px)`.
-- **Instrument Study**: Styled `.diagnostic-study` on desktop with `padding: clamp(20px, 2.8vw, 36px)` and coordinate border; on mobile ($\le 600\text{px}$), stripped side padding to prevent horizontal text constriction.
-- **Reflow Protection**: Added `overflow-wrap: break-word` to `.command-line` ensuring 200% zoom reflow tests pass cleanly at 320px viewport width.
-
-### F. Major Chapter Transitions
-
-- Normalized vertical spacing across `.laboratory` (`margin-block: clamp(64px, 7.5vw, 108px)`), `.geometry` (`margin-block: clamp(64px, 7.5vw, 108px)`), and `.contact-section` (`padding: clamp(48px, 6vw, 88px) 0`).
-
----
-
-## 4. Quantitative Spacing Audit: Before vs. After
-
-| Measurement Point               | Viewport | Baseline (`main`)  | Refined (`design`) | Change                                |
+| Measurement Point               | Viewport | Baseline (`main`)  | Refined (`PR #22`) | Change                                |
 | :------------------------------ | :------- | :----------------- | :----------------- | :------------------------------------ |
 | **Hero Padding Bottom**         | 1440px   | 20.0px             | 72.0px             | +260% (eliminates abrupt clip)        |
 | **Hero Padding Bottom**         | 768px    | 20.0px             | 55.4px             | +177% (clean breathing room)          |
@@ -109,43 +189,34 @@ All adjustments were applied in `assets/notebook-paper.css`, the last stylesheet
 | **Orion Separation to SysAI**   | 1440px   | 28.0px (no border) | 88.0px + 1px rule  | Structured chapter boundary           |
 | **Laboratory Block Margin**     | 1440px   | 42.0px             | 108.0px            | +157% (editorial rhythm)              |
 
----
+### E. Screenshot Archive Reduction
 
-## 5. Visual Artifacts & Viewport Verification
+To keep git storage lightweight and eliminate redundant captures (~31.6 MB), the screenshot archive was streamlined to retain representative before and after captures focused on the hero and selected work:
 
-Screenshots were captured across all 10 standard configurations (light & dark across 1440px, 1024px, 768px, 390px, and 320px) and archived in `docs/screenshots/`:
-
-- **Baseline Screenshots**: `docs/screenshots/before/`
-- **Refined Screenshots**: `docs/screenshots/after/`
-
-Key comparisons:
-
-- Desktop Hero (1440px): `after/desktop-1440-light-hero.png` & `after/desktop-1440-dark-hero.png`
-- Desktop Selected Work (1440px): `after/desktop-1440-light-selected-work.png` & `after/desktop-1440-dark-selected-work.png`
-- Full Homepage (1440px): `after/desktop-1440-light-homepage-full.png` & `after/desktop-1440-dark-homepage-full.png`
-- Mobile Hero (390px): `after/mobile-390-light-hero.png` & `after/mobile-390-dark-hero.png`
-- Mobile Selected Work (390px): `after/mobile-390-light-selected-work.png` & `after/mobile-390-dark-selected-work.png`
-- Mobile Reflow (320px): `after/mobile-320-light-hero.png` & `after/mobile-320-dark-hero.png`
+- **Desktop (1440px)**:
+  - Hero (Light & Dark): [before/desktop-1440-light-hero.png](screenshots/before/desktop-1440-light-hero.png), [before/desktop-1440-dark-hero.png](screenshots/before/desktop-1440-dark-hero.png) vs [after/desktop-1440-light-hero.png](screenshots/after/desktop-1440-light-hero.png), [after/desktop-1440-dark-hero.png](screenshots/after/desktop-1440-dark-hero.png)
+  - Selected Work (Light & Dark): [before/desktop-1440-light-selected-work.png](screenshots/before/desktop-1440-light-selected-work.png), [before/desktop-1440-dark-selected-work.png](screenshots/before/desktop-1440-dark-selected-work.png) vs [after/desktop-1440-light-selected-work.png](screenshots/after/desktop-1440-light-selected-work.png), [after/desktop-1440-dark-selected-work.png](screenshots/after/desktop-1440-dark-selected-work.png)
+- **Mobile (390px)**:
+  - Hero (Light & Dark): [before/mobile-390-light-hero.png](screenshots/before/mobile-390-light-hero.png), [before/mobile-390-dark-hero.png](screenshots/before/mobile-390-dark-hero.png) vs [after/mobile-390-light-hero.png](screenshots/after/mobile-390-light-hero.png), [after/mobile-390-dark-hero.png](screenshots/after/mobile-390-dark-hero.png)
+  - Selected Work (Light & Dark): [before/mobile-390-light-selected-work.png](screenshots/before/mobile-390-light-selected-work.png), [before/mobile-390-dark-selected-work.png](screenshots/before/mobile-390-dark-selected-work.png) vs [after/mobile-390-light-selected-work.png](screenshots/after/mobile-390-light-selected-work.png), [after/mobile-390-dark-selected-work.png](screenshots/after/mobile-390-dark-selected-work.png)
 
 ---
 
-## 6. Architecture & Non-Negotiable Constraints Verification
+## 7. Regression & Verification Results
 
-- [x] **No Framework Migration**: Plain HTML5, CSS3, and native ES modules maintained throughout.
-- [x] **No New Dependencies**: Zero changes to `package.json` runtime dependencies.
-- [x] **No Backend**: Remains completely static and GitHub Pages compatible.
-- [x] **Zero ML Logic Changes**: All 1,336 neural network weights, 38 biases, GELU activations, and digit inference arrays are unchanged.
-- [x] **All DOM IDs Preserved**: `#digit-canvas`, `#predicted-digit`, `#confidence-score`, `#distribution`, `#layer-note`, `#welcome-reel`, `#theme-select`, `#seedl`, `#quanta`, `#orion`, `#sysai` intact.
-- [x] **Accessibility (WCAG AA) & Reduced Motion**: Preserved all `prefers-reduced-motion` and `forced-colors` rules.
-- [x] **Typography & Visual Identity**: Literata, JetBrains Mono, warm paper ground, cobalt surfaces, citron accents, and 22px/110px drafting grid lines preserved.
+All unit, asset budget, code quality, and end-to-end browser test suites pass across environments:
 
----
-
-## 7. Verification Test Results
-
-```
-npm test            -> PASS (37/37 unit tests, check_site.py passed)
-npm run lint        -> PASS (Prettier check, html-validate, lint_syntax.mjs)
-npm run build       -> PASS (Static build to dist/, 0 server dependencies)
-npm run test:browser -> PASS (162 / 162 Playwright tests passed, 5.8m)
-```
+1. **`npm run lint`**:
+   - `prettier --check`: 100% compliant across all HTML, CSS, JS, and MD files.
+   - `html-validate`: 0 errors across 4 entry points.
+   - `lint_syntax.mjs`: PASS across 57 source and test files.
+2. **`npm test`**:
+   - `scripts/check_site.py`: All 4 pages, internal anchors, CSS asset budgets, and AI/ML model integrity checks passed.
+   - Unit tests: 37/37 passing (ML forward/backward scalar fixtures, GELU gradients, finite differences, animation bounds, theme synchronization).
+3. **`npm run build`**:
+   - Static artifact built cleanly into `dist/` with zero server runtime required.
+4. **`npm run test:browser`**:
+   - Full Playwright test suite: **162 / 162 tests passed**.
+   - Verified hero line clamping ($\le 2$ lines across all viewports), 200% & 400% zoom reflow, touch targets, keyboard navigation, and interactive model responsiveness.
+5. **GitHub Actions CI (Remote)**:
+   - Verified across Chromium and Firefox browser matrices on Ubuntu CI runners (all jobs green).
