@@ -201,3 +201,19 @@ test("enlarged equations can be scrolled by keyboard", async ({ page }) => {
     .poll(() => equation.evaluate((el) => el.scrollLeft))
     .toBeGreaterThan(0);
 });
+
+test("in-page navigation to already active hash scrolls to target anchor", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/#about");
+  await page.evaluate(() => window.scrollTo(0, 1500));
+  expect(await page.evaluate(() => window.scrollY)).toBeGreaterThan(1000);
+
+  // Open mobile menu then click about anchor
+  await page.locator(".menu-toggle").click();
+  await page.locator('.nav-panel a[href="/#about"]').click();
+  await expect
+    .poll(() => page.evaluate(() => window.scrollY))
+    .toBeLessThan(800);
+});

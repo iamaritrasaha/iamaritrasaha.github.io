@@ -6,16 +6,15 @@
     performance.getEntriesByType("navigation")[0]?.type === "reload";
   const connection = navigator.connection;
   function reduced() {
-    let saved = false;
     try {
-      saved = localStorage.getItem("portfolio-reduced-motion") === "true";
+      if (localStorage.getItem("portfolio-reduced-motion") === "true")
+        return true;
     } catch {
-      /* Storage is optional. */
+      /* Storage is restricted. */
     }
     return (
       motion.matches ||
       connection?.saveData ||
-      saved ||
       root.dataset.motion === "reduce" ||
       new URLSearchParams(location.search).get("motion") === "reduce"
     );
@@ -28,7 +27,10 @@
   let pending = eligible(),
     timer;
   const key = (event) => {
-    if (event.key === "Escape" || event.key === "Tab") cancel();
+    if (event.key === "Escape") {
+      event.preventDefault();
+      cancel();
+    } else if (event.key === "Tab") cancel();
   };
   const visibility = () => {
     if (document.hidden) cancel();
@@ -66,7 +68,7 @@
         cancel();
         return false;
       }
-      // Append first, then remove the cover in the same task: no exposed frame.
+      // Synchronous cover handoff: no exposed frame.
       document.body.append(veil);
       pending = false;
       disarm();
@@ -88,6 +90,5 @@
   window.addEventListener("storage", storedPreference);
   motion.addEventListener("change", preference);
   connection?.addEventListener("change", preference);
-  // Release the page if a module stalls.
   timer = setTimeout(cancel, 4000);
 })();

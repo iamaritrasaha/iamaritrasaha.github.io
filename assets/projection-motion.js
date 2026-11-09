@@ -1,8 +1,7 @@
 import { VIEW } from "./projection.js?v=s1";
 import { createSculpture } from "./projection-renderer.js?v=s1";
 
-// The shared scene lifecycle owns visibility, tab activity and motion preferences.
-// Manual inspection freezes active time; resuming never catches up to wall time.
+// Lifecycle manages rotation and visibility; drag pauses time.
 export function mountProjection(instrument) {
   if (!instrument) return () => {};
   const canvas = instrument.querySelector("canvas");
@@ -18,19 +17,14 @@ export function mountProjection(instrument) {
     painted = 0,
     angle = VIEW.initial;
   function render() {
-    const displayed = Number(((angle + 360) % 360).toFixed(1)) % 360;
-    draw(displayed);
-    canvas.dataset.angle = String(displayed);
-    output.value = `${displayed.toFixed(1)}°`;
+    const degrees = Number(((angle + 360) % 360).toFixed(1)) % 360;
+    draw(degrees);
+    canvas.dataset.angle = String(degrees);
+    output.value = `${degrees.toFixed(1)}°`;
   }
   function resize() {
-    const width = Math.min(
-      960,
-      Math.round(
-        canvas.clientWidth * Math.min(Math.max(devicePixelRatio, 1.5), 2),
-      ),
-    );
-    // Layout audits and hidden ancestors can temporarily collapse the panel.
+    const dpr = Math.min(Math.max(devicePixelRatio, 1.5), 2);
+    const width = Math.min(960, Math.round(canvas.clientWidth * dpr));
     if (!width) return;
     const height = Math.round(width * 0.75);
     if (canvas.width === width && canvas.height === height) return;
@@ -89,20 +83,40 @@ export function mountProjection(instrument) {
         : angle + (event.key === "ArrowRight" ? step : -step),
     );
   });
-  let drag = null;
+  let drag = null,
+    dragRaf = 0,
+    targetAngle = null;
   canvas.addEventListener("pointerdown", (event) => {
     if (!event.isPrimary || event.button !== 0) return;
     drag = { x: event.clientX, angle };
     canvas.setPointerCapture(event.pointerId);
     inspect(angle);
   });
+  const flushDrag = () => {
+    if (targetAngle !== null) {
+      inspect(targetAngle);
+      targetAngle = null;
+    }
+  };
   canvas.addEventListener("pointermove", (event) => {
-    if (drag) inspect(drag.angle + (event.clientX - drag.x) * 0.4);
+    if (!drag) return;
+    targetAngle = drag.angle + (event.clientX - drag.x) * 0.4;
+    if (!dragRaf) {
+      dragRaf = requestAnimationFrame(() => {
+        dragRaf = 0;
+        flushDrag();
+      });
+    }
   });
+  const endDrag = () => {
+    if (!drag) return;
+    cancelAnimationFrame(dragRaf);
+    dragRaf = 0;
+    flushDrag();
+    drag = null;
+  };
   for (const name of ["pointerup", "pointercancel", "lostpointercapture"])
-    canvas.addEventListener(name, () => {
-      drag = null;
-    });
+    canvas.addEventListener(name, endDrag);
   canvas.hidden = false;
   canvas.tabIndex = 0;
   resize();

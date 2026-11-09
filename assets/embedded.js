@@ -167,6 +167,9 @@ renderCircuit();
 const formatReading = (value) =>
   value.toLocaleString("en-US", { maximumFractionDigits: 1 });
 function pwmWaveformPath(period, onTime, timeToX) {
+  const endX = timeToX(PWM_WINDOW_SECONDS);
+  if (onTime <= 0) return `M32 152H${endX}`;
+  if (onTime >= period) return `M32 48H${endX}`;
   let path = "M32 152";
   // The epsilon excludes an extra cycle from floating-point accumulation.
   for (let time = 0; time < PWM_WINDOW_SECONDS - 1e-9; time += period)

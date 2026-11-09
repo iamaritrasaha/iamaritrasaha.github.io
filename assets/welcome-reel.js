@@ -18,8 +18,16 @@ export const clamp = (v, min = 0, max = 1) => Math.max(min, Math.min(max, v));
 export const easeOutQuart = (t) => 1 - Math.pow(1 - clamp(t), 4);
 
 // Velvety smooth deceleration with a gentle mechanical settle before locking.
-export function latchProgress(p) {
-  const t = clamp(p);
+/**
+ * Velvety smooth mechanical settle for split-flap reel cards.
+ * Combines fourth-order ease-out with a microscopic decaying sine wave
+ * to simulate the physical momentum of a mechanical wheel locking in place.
+ *
+ * @param {number} progress Normalized progress from 0 to 1
+ * @returns {number} Eased position
+ */
+export function latchProgress(progress) {
+  const t = clamp(progress);
   const quart = 1 - Math.pow(1 - t, 4);
   const overshoot = Math.sin(t * Math.PI) * (1 - t) * 0.008;
   return t >= 1 ? 1 : quart + overshoot;
@@ -28,23 +36,33 @@ export function latchProgress(p) {
 // Compute deterministic, rhythmic flip schedule:
 // Decelerates gracefully from ~40-65ms flutters to ~150-180ms clacks.
 // Guarantees an even number of half-turns so the front face always lands at 0deg.
+/**
+ * Calculates a rhythmic, decelerating flip schedule for an individual character.
+ * Guarantees an even number of half-turns so the card always finishes facing front (0°).
+ *
+ * @param {number} index Character index in the full name string
+ * @param {string} char Destination character
+ * @returns {{ index: number, char: string, settle: number, n: number, totalFlips: number, flips: number[] }}
+ */
 export function getCharacterCadence(index, char) {
   let settle;
-  let n;
+  let totalFlips;
   if (index <= 5) {
     settle = 1250 + index * 180;
-    n = 12 + Math.floor(index / 2) * 2;
+    totalFlips = 12 + Math.floor(index / 2) * 2;
   } else {
     const s = index - 7;
     settle = 2470 + s * 210;
-    n = 18 + s * 2;
+    totalFlips = 18 + s * 2;
   }
   const flips = [];
-  const a = 0.72;
-  for (let k = 1; k <= n; k++) {
-    flips.push(Math.round(settle * Math.pow(k / n, 1 / a)));
+  const decelerationExponent = 0.72;
+  for (let k = 1; k <= totalFlips; k++) {
+    flips.push(
+      Math.round(settle * Math.pow(k / totalFlips, 1 / decelerationExponent)),
+    );
   }
-  return { index, char, settle, n, flips };
+  return { index, char, settle, n: totalFlips, totalFlips, flips };
 }
 
 // Evaluate card rotation angle, face visibility, and glyph content at timestamp.

@@ -216,6 +216,59 @@ test("copy email succeeds and exposes a useful clipboard failure", async ({
   await expect(page.locator(".contact-copy")).toBeHidden();
 });
 
+test("copying email from mailto URL with query parameters strips parameters and writes clean address", async ({
+  page,
+  context,
+  browserName,
+}) => {
+  if (browserName === "chromium") {
+    await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  } else {
+    await page.addInitScript(() => {
+      let copied = "";
+      navigator.clipboard.writeText = async (value) => {
+        copied = value;
+      };
+      navigator.clipboard.readText = async () => copied;
+    });
+  }
+  await page.goto("/#contact");
+
+  await page
+    .locator(".contact-email")
+    .evaluate((el) =>
+      el.setAttribute(
+        "href",
+        "mailto:thisisaritrasaha@gmail.com?subject=Project%20Inquiry&body=Hello%20Aritra",
+      ),
+    );
+
+  await page.getByRole("button", { name: "Copy email address" }).click();
+  await expect(page.locator("#copy-status")).toHaveText(
+    "Email address copied.",
+  );
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
+    "thisisaritrasaha@gmail.com",
+  );
+
+  await page
+    .locator(".contact-email")
+    .evaluate((el) =>
+      el.setAttribute(
+        "href",
+        "mailto:collaborate@aritrasaha.dev?cc=team@example.com&subject=Research",
+      ),
+    );
+
+  await page.getByRole("button", { name: "Copy email address" }).click();
+  await expect(page.locator("#copy-status")).toHaveText(
+    "Email address copied.",
+  );
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
+    "collaborate@aritrasaha.dev",
+  );
+});
+
 test("content and navigation survive disabled JavaScript", async ({
   browser,
   baseURL,
@@ -397,4 +450,16 @@ test("public project sources, honest limits and static RPM preview stay accessib
   await expect(page.locator("#pulseshift details")).toContainText(
     "physical qualification is pending",
   );
+});
+
+test("brand dot computes to circular 50% border radius across headers", async ({
+  page,
+}) => {
+  for (const path of ["/", "/embedded/", "/explorations/", "/404.html"]) {
+    await page.goto(path);
+    const radius = await page
+      .locator(".site-header .brand-dot")
+      .evaluate((el) => getComputedStyle(el).borderRadius);
+    expect(radius).toBe("50%");
+  }
 });

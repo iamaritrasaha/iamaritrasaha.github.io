@@ -280,3 +280,25 @@ test("shared navigation works while application modules are delayed", async ({
     }
   }
 });
+
+test("PWM duty 0% and 100% render flat DC waveforms without spike artifacts", async ({
+  page,
+}) => {
+  await page.goto("/embedded/?motion=reduce");
+  const { path0, path100 } = await page.evaluate(() => {
+    const dutySlider = document.getElementById("lab-duty");
+    dutySlider.min = "0";
+    dutySlider.max = "100";
+    dutySlider.value = "0";
+    dutySlider.dispatchEvent(new Event("input"));
+    const path0 = document.getElementById("lab-pwm-path").getAttribute("d");
+    dutySlider.value = "100";
+    dutySlider.dispatchEvent(new Event("input"));
+    const path100 = document.getElementById("lab-pwm-path").getAttribute("d");
+    return { path0, path100 };
+  });
+  expect(path0).toMatch(/^M32 152H\d+(\.\d+)?$/);
+  expect(path0).not.toContain("V48");
+  expect(path100).toMatch(/^M32 48H\d+(\.\d+)?$/);
+  expect(path100).not.toContain("V152");
+});

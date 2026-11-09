@@ -58,6 +58,32 @@ test("manual inspection renders the reported angle and preserves keyboard and dr
   expect(errors).toEqual([]);
 });
 
+test("pointer drag immediately flushes final drag angle on pointer release without losing frames", async ({
+  page,
+}) => {
+  await page.goto("/?motion=reduce#projection");
+  const canvas = page.locator(".instrument canvas");
+  const output = page.locator(".instrument output");
+  await page.getByRole("button", { name: "Reset view" }).click();
+  await expect(canvas).toHaveAttribute("data-angle", "22");
+  await expect(output).toHaveText("22.0°");
+
+  const box = await canvas.boundingBox();
+  // Drag right by +75px: angle should increase by 75 * 0.4 = 30° -> 52.0°
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(box.x + box.width / 2 + 75, box.y + box.height / 2);
+  await page.mouse.up();
+
+  // Final drag position must not be dropped by pointerup cancellation
+  await expect(canvas).toHaveAttribute("data-angle", "52");
+  await expect(output).toHaveText("52.0°");
+  await expect(page.locator("[data-projection-pause]")).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
+});
+
 for (const width of [320, 390, 768, 1440])
   test(`projection ${width}px: MathML, themes, enlarged text and disclosure`, async ({
     page,

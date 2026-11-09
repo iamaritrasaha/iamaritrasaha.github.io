@@ -174,3 +174,41 @@ Current `main` incorporates PR #22 (spacing breathing room), PR #23 (contact fol
    - `assets/fonts/Inter-LICENSE.txt` & `Newsreader-OFL.txt`: Retained for font licensing and attribution requirements.
    - `concepts/` prototypes and review media: Retained per reproducible design research documentation in `concepts/README.md` and `docs/portfolio-motion-review.md`.
    - `docs/review/`, `docs/bitbench-review/`, `docs/creative-review/`, `docs/screenshots/`: Retained as reproducible evidence cited in historical review reports.
+
+---
+
+## Maintenance Record: Portfolio Engineering Audit V2 (9 November 2026)
+
+### Baseline and Objectives
+
+Starting from commit `4b6ca7d` (merged PR #25 cleanup), this second engineering audit conducted a deep, systematic bug hunt, improved beginner-friendly code clarity, safe performance optimizations, and authored comprehensive architecture documentation without altering visual design or functional behavior.
+
+### 1. Interaction & Numerical Bug Fixes
+
+- **2D Matrix Arrow Navigation Boundaries (`assets/bitbench.js` & `assets/neuron-demo.js`):** Replaced linear 1D index clamping with explicit 2D row/column boundary checks. ArrowUp on the top row, ArrowDown on the bottom row, and ArrowLeft/Right on matrix edges stay within their respective boundaries rather than teleporting or wrapping.
+- **Scroll Bounds Invalidation (`assets/surface-physics.js`):** Added a `window.addEventListener("scroll", ...)` listener to invalidate cached `state.bounds`, preventing card tilt calculation drift after mouse-wheel scrolling under cursor.
+- **Tab & Escape Key Event Cancellation (`assets/welcome-start.js` & `assets/bitbench.js`):** Added `event.preventDefault()` on Tab/Escape key dismissal, preventing default browser focus jumping past the hero grid into page anchors.
+- **PWM Waveform Rail Continuity (`assets/embedded.js`):** Fixed 0% and 100% duty cycle calculations in `pwmWaveformPath()` to return continuous horizontal DC rails (`M32 152H...` at 0% and `M32 48H...` at 100%) rather than vertical spike artifacts.
+- **In-Page Hash Navigation Scroll Restoration (`assets/navigation.js`):** Fixed in-page anchor re-clicks to target the active fragment smoothly when already at the destination URL, resolving scroll suppression caused by `{ preventScroll: true }`.
+- **Brand-Dot Circular Geometry (`assets/bitbench.css` & `assets/creative.css`):** Restored `border-radius: 50%` in `bitbench.css` and pruned dead legacy `.site-header` declarations in `creative.css` that turned the brand indicator into a square.
+- **Email Link Query Parameter Stripping (`script.js`):** Stripped query parameters from copied email `href` to ensure clean clipboard output.
+
+### 2. Performance Optimizations
+
+- **Throttled 3D Software Rasterization (`assets/projection-motion.js`):** Coalesced pointer drag events via `requestAnimationFrame` so high-polling input devices (500–1000Hz gaming mice) do not block the UI thread with synchronous 3D triangle rasterization.
+- **Reduced Hot-Loop Garbage Collection (`assets/projection-renderer.js`):** Replaced `triangle.map()` array allocations inside the triangle render loop with direct index access (`projected[triangle[0]]`), eliminating >8,000 allocations per frame.
+
+### 3. Readability & Beginner-Friendly Code
+
+- **Descriptive Identifiers:** Replaced abbreviations across welcome modules (`sIdx` → `slotIndex`, `item` → `cardSlot`, `n` → `totalFlips`, `a` → `decelerationExponent`).
+- **Algorithm JSDoc:** Documented mechanical split-flap reel cadence generation and fourth-order latching settle in `assets/welcome-reel.js`.
+- **Authoritative Guide:** Authored `docs/code-walkthrough.md` covering 10 fundamental architecture topics for learners.
+
+### 4. Automated Regression Tests
+
+Added Playwright regression tests verifying:
+
+- 2D matrix navigation boundary clamping in `tests/bitbench.spec.mjs`.
+- 0% and 100% continuous PWM rails without vertical spikes in `tests/embedded.spec.mjs`.
+- 50% circular brand dot geometry in `tests/portfolio.spec.mjs`.
+- Mobile in-page hash navigation scroll restoration in `tests/responsive.spec.mjs`.

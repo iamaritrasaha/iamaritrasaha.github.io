@@ -106,7 +106,7 @@ export function constructWelcomeName(name) {
         `${baselineOffset.toFixed(2)}px`,
       );
 
-      cards = slots.map((slotData, sIdx) => {
+      cards = slots.map((slotData, slotIndex) => {
         const cadence = getCharacterCadence(slotData.index, slotData.char);
 
         const slot = document.createElement("span");
@@ -119,11 +119,12 @@ export function constructWelcomeName(name) {
 
         const front = document.createElement("span");
         front.className = "reel-face front cipher";
-        front.textContent = INITIAL_FIELD[sIdx % INITIAL_FIELD.length];
+        front.textContent = INITIAL_FIELD[slotIndex % INITIAL_FIELD.length];
 
         const back = document.createElement("span");
         back.className = "reel-face back cipher";
-        back.textContent = INITIAL_FIELD[(sIdx + 1) % INITIAL_FIELD.length];
+        back.textContent =
+          INITIAL_FIELD[(slotIndex + 1) % INITIAL_FIELD.length];
 
         card.append(front, back);
         slot.append(card);
@@ -157,24 +158,24 @@ export function constructWelcomeName(name) {
           const elapsed = now - start;
           let settledCount = 0;
 
-          for (const item of cards) {
-            const state = computeFaceState(item.cadence, elapsed);
+          for (const cardSlot of cards) {
+            const state = computeFaceState(cardSlot.cadence, elapsed);
             if (state.settled) {
               settledCount++;
-              if (!item.settled) {
-                item.settled = true;
-                item.slot.classList.add("is-settled");
-                item.front.className = "reel-face front target";
-                item.front.textContent = state.front.text;
-                item.card.style.transform = "rotateX(0deg)";
+              if (!cardSlot.settled) {
+                cardSlot.settled = true;
+                cardSlot.slot.classList.add("is-settled");
+                cardSlot.front.className = "reel-face front target";
+                cardSlot.front.textContent = state.front.text;
+                cardSlot.card.style.transform = "rotateX(0deg)";
               }
             } else {
-              item.card.style.transform = `rotateX(${state.angle}deg)`;
+              cardSlot.card.style.transform = `rotateX(${state.angle}deg)`;
 
-              item.front.className = `reel-face front ${state.front.isTarget ? "target" : "cipher"}`;
-              item.front.textContent = state.front.text;
-              item.back.className = `reel-face back ${state.back.isTarget ? "target" : "cipher"}`;
-              item.back.textContent = state.back.text;
+              cardSlot.front.className = `reel-face front ${state.front.isTarget ? "target" : "cipher"}`;
+              cardSlot.front.textContent = state.front.text;
+              cardSlot.back.className = `reel-face back ${state.back.isTarget ? "target" : "cipher"}`;
+              cardSlot.back.textContent = state.back.text;
             }
           }
 
