@@ -217,7 +217,6 @@ html[data-theme="dark"] {
   max-width: calc(100vw - 2rem);
   text-align: center;
   font: clamp(3.5rem, 9vw, 8.4375rem) / 1 var(--display);
-  animation: entry-type 0.76s 0.08s both;
 }
 .boot-grid {
   width: 88px;
