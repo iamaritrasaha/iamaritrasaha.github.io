@@ -259,19 +259,19 @@ function createWelcomeVeil(isReturning) {
   return veil;
 }
 
-function populateWelcomeGlyph(glyphContainer, pixelIntensities) {
-  for (const val of pixelIntensities) {
+function populateWelcomeGlyph(glyph, intensities) {
+  for (const val of intensities) {
     const tile = document.createElement("i");
     tile.style.opacity = 0.14 + 0.86 * val;
-    glyphContainer.append(tile);
+    glyph.append(tile);
   }
 }
 
-function calculateTransform(sourceRect, targetRect) {
-  const deltaX = targetRect.left - sourceRect.left;
-  const deltaY = targetRect.top - sourceRect.top;
-  const scale = targetRect.width / sourceRect.width;
-  return `translate(${deltaX}px, ${deltaY}px) scale(${scale})`;
+function calculateTransform(src, dst) {
+  const dx = dst.left - src.left;
+  const dy = dst.top - src.top;
+  const scale = dst.width / src.width;
+  return `translate(${dx}px, ${dy}px) scale(${scale})`;
 }
 
 function startup() {

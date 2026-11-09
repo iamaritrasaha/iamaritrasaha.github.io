@@ -126,7 +126,7 @@ Remove-Item Env:PLAYWRIGHT_BROWSER, Env:PLAYWRIGHT_CHANNEL
 
 - **37 Unit Tests (`scripts/check_*.mjs`):** Test resistor power conservation, PWM duty/frequency, UART/I2C/SPI/CAN protocol frames, 64→16→12→10 neural network inference, GELU derivatives, all 1,438 gradient checks against finite differences, numerical stability under underflow, spring settlement, RPM continuity, helicoid projection, hydrogen wavefunctions, 3D camera lengths, and Cipher Reel deceleration cadence.
 - **Static Integrity Checks (`scripts/check_site.py`):** Enforces HTML structure, meta tags, social card dimensions (1200×630 PNG), preserved URL fragment anchors, and strict canonical source size budgets (UTF-8 canonical LF).
-- **162 Playwright E2E Tests:** Covers all viewports (320px–2560px), light/dark themes, 200%/400% zoom, keyboard navigation, touch interactions, classifier manipulation, and welcome dismissal paths across Chromium and Firefox.
+- **170 Playwright E2E Tests:** Covers all viewports (320px–2560px), light/dark themes, 200%/400% zoom, keyboard navigation, touch interactions, contact folio, welcome flash protection, classifier manipulation, and welcome dismissal paths across Chromium and Firefox.
 
 ## How to add a new portfolio project
 

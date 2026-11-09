@@ -105,38 +105,43 @@ Browser validation remains emulation, not physical-device, Safari or screen-read
 
 ## Maintenance record: 9 November 2026 - Codebase Cleanup & Baseline Inventory
 
-### Baseline and scope
+### Baseline and scope (Current `main` merge base: `5b9943a`)
 
-The clean `main` branch started at commit `aa7f590`. The portfolio codebase underwent a comprehensive, evidence-based audit before refactoring. The project is a static site with no runtime framework, no build-step bundling, and zero production dependencies. All visual presentation, scientific/ML simulations, interactions, accessibility, and navigation anchors are strictly preserved.
+Current `main` incorporates PR #22 (spacing breathing room), PR #23 (contact folio redesign), and PR #24 (welcome plain-name flash elimination). The cleanup refactoring branch was synchronized and merged cleanly with current `main` at `5b9943a`, manually resolving all conflicts while strictly preserving the welcome protections, contact folio, and spacing refinements. The project remains a static site with no runtime framework, no build-step bundling, and zero production dependencies. All visual presentation, scientific/ML simulations, interactions, accessibility, and navigation anchors are strictly preserved.
 
-### Pre-refactoring measured baseline
+### Pre-refactoring measured baseline (`origin/main` at `5b9943a`)
 
-- Tracked files: 291
-- Total tracked bytes: 57,450,118 bytes (56.10 MB)
-- Documentation & review media: 142 files, 50.73 MB (90.4% of repository checkout)
-- Concepts prototypes: 23 files, 3.14 MB
-- Production payload (HTML, CSS, JS, fonts, active SVGs/PNG): ~2.2 MB
+- Tracked files: 261
+- Total tracked bytes: 48,031,043 bytes (48.03 MB)
+- Documentation & review media: 111 files, 42,407,341 bytes (42.41 MB)
+- Concepts prototypes: 23 files, 3,296,124 bytes (3.14 MB)
+- Active deployment payload (dist/ equivalent): 2,110,073 bytes (2.01 MB)
 - Pre-refactor test status:
-  - `npm run lint`: PASS (57 JS syntax checks, Prettier, HTML-validate)
+  - `npm run lint`: PASS (Prettier, HTML-validate, 57 JS syntax checks)
   - `npm test`: PASS (37/37 unit tests)
-  - `npm run test:browser`: PASS (162/162 Playwright E2E scenarios across all viewports and themes)
+  - `npm run test:browser`: PASS (162 Playwright E2E scenarios across all viewports and themes)
   - `scripts/check_site.py`: PASS (all anchors, links, metadata, and byte budgets verified)
 
-### Post-refactoring measured metrics
+### Post-refactoring measured metrics against current `main`
 
-| Metric                           | Pre-Refactor Baseline       | Post-Refactor Result        | Net Change                      |
+| Metric                           | Current `main` (`5b9943a`)  | Post-Refactor Result        | Net Change Against `main`       |
 | :------------------------------- | :-------------------------- | :-------------------------- | :------------------------------ |
-| **Tracked files**                | 291 files                   | 270 files                   | **-21 files (-7.2%)**           |
-| **Total tracked bytes**          | 57,450,118 bytes (56.10 MB) | 55,308,940 bytes (52.75 MB) | **-2,141,178 bytes (-3.7%)**    |
+| **Tracked files**                | 261 files                   | 240 files                   | **-21 files (-8.0%)**           |
+| **Total repository bytes**       | 48,031,043 bytes (48.03 MB) | 44,516,648 bytes (44.52 MB) | **-3,514,395 bytes (-7.3%)**    |
+| **Active deployment payload**    | 2,110,073 bytes (2.01 MB)   | 1,064,952 bytes (1.01 MB)   | **-1,045,121 bytes (-49.5%)**   |
 | **Assets files**                 | 74 files                    | 55 files                    | **-19 files (-25.7%)**          |
-| **Assets directory bytes**       | 1,894,845 bytes (1.81 MB)   | 860,451 bytes (0.82 MB)     | **-1,034,394 bytes (-54.6%)**   |
-| **Docs directory files**         | 142 files                   | 140 files                   | **-2 files**                    |
-| **Docs directory bytes**         | 53,194,307 bytes (50.73 MB) | 50,718,622 bytes (48.37 MB) | **-2,475,685 bytes (-4.7%)**    |
+| **Assets directory bytes**       | 1,904,228 bytes (1.82 MB)   | 859,176 bytes (0.82 MB)     | **-1,045,052 bytes (-54.9%)**   |
+| **Docs directory files**         | 111 files                   | 109 files                   | **-2 files**                    |
+| **Docs directory bytes**         | 42,407,341 bytes (42.41 MB) | 39,938,236 bytes (39.94 MB) | **-2,469,105 bytes (-5.8%)**    |
 | **Concepts files**               | 23 files                    | 23 files                    | 0 (retained for design history) |
-| **Concepts directory bytes**     | 3,297,149 bytes (3.14 MB)   | 3,297,149 bytes (3.14 MB)   | 0                               |
+| **Concepts directory bytes**     | 3,296,124 bytes (3.14 MB)   | 3,296,124 bytes (3.14 MB)   | 0                               |
+| **Source lines**                 | 69,738 lines                | 69,842 lines                | **+104 lines** (clarity/docs)   |
+| **JavaScript bytes**             | 331,787 bytes               | 332,032 bytes               | **+245 bytes** (helpers/math)   |
+| **CSS bytes**                    | 182,567 bytes               | 181,946 bytes               | **-621 bytes**                  |
+| **Runtime dependencies**         | 0                           | 0                           | 0                               |
 | **Lint status**                  | PASS                        | PASS                        | Zero warnings / violations      |
 | **Unit test status**             | 37/37 PASS                  | 37/37 PASS                  | Zero regressions                |
-| **Playwright E2E tests**         | 162/162 PASS                | 162/162 PASS                | Chromium + Firefox              |
+| **Playwright E2E tests**         | 170/170 PASS                | 170/170 PASS                | Chromium + Firefox              |
 | **Size budgets (check_site.py)** | PASS                        | PASS                        | All canonical LF budgets met    |
 
 ### Summary of cleanup actions
