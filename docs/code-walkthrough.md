@@ -143,7 +143,7 @@ To prevent plain text from flashing before custom webfonts load, the site uses a
 1. `index.html` renders `#welcome-paint`, a high-contrast neutral cover matching the initial background.
 2. `assets/welcome-start.js` runs synchronously in `<head>` to inspect motion preferences and session state. If eligible, it claims pending state before the first frame paints.
 3. `assets/bitbench.js` mounts the split-flap reel into the veil, retaining `#welcome-paint` until DOM elements are fully constructed.
-4. When the veil is attached, `#welcome-paint` is removed in the very same microtask, guaranteeing zero exposed plain-text frames.
+4. When the veil is attached, `#welcome-paint` is removed in the exact same synchronous DOM operation, preventing plain-text flashes before the animated reel mounts.
 
 ### Mechanical Split-Flap Reel Physics
 
@@ -171,7 +171,7 @@ The Embedded Lab simulates hardware instruments and electrical circuits entirely
 
 ### Circuit Calculation
 
-Implements Ohm's law and Joule's law with IEEE-754 precision:
+Calculates Ohm's law and Joule's law using standard double-precision arithmetic:
 $$I = \frac{V}{R}, \quad P = V \cdot I = I^2 R = \frac{V^2}{R}$$
 
 ### PWM Waveform Generation
@@ -195,7 +195,7 @@ function pwmWaveformPath(period, onTime, timeToX) {
 - **UART (8N1):** Idle HIGH (1), Start bit (0), 8 data bits LSB-first, Stop bit (1).
 - **I2C:** Start condition (SDA falls while SCL is HIGH), 8 bits MSB-first, ACK bit (0), Stop condition.
 - **SPI Mode 0:** Clock idle LOW (CPOL=0), sampled on rising edge (CPHA=0).
-- **CAN Differential:** Complies with ISO 11898-2 differential signaling standards.
+- **CAN Differential:** Models typical ISO 11898-2 differential signaling waveforms.
 
 ---
 
@@ -209,7 +209,7 @@ The helicoid projection sculpture runs a software 3D renderer written from scrat
    $$R = R_{\text{roll}} \times R_{\text{tilt}} \times R_{\text{yaw}}$$
 2. **Depth Buffer:** A `Float32Array` depth buffer records camera Z coordinates per pixel, ensuring nearer triangle facets cleanly occlude background geometry.
 3. **Barycentric Interpolation:** Constant-radius contours are interpolated across winning triangle pixels to draw smooth geometric contour lines.
-4. **Interaction Throttling:** Pointer drag updates are throttled via `requestAnimationFrame` to maintain smooth 60fps interaction on high-polling gaming mice.
+4. **Frame Rate & Drag Coalescing:** The software rasterizer targets approximately 30 rendered FPS (`now - painted >= 1000 / 30`) to balance smooth motion with low CPU utilization. Pointer drag updates are coalesced via `requestAnimationFrame` and immediately flushed on pointer release (`pointerup`/`pointercancel`), preventing dropped frames while ensuring exact final drag coordinates.
 
 ---
 
@@ -224,7 +224,7 @@ $$m \frac{d^2 x}{dt^2} + c \frac{dx}{dt} + k (x - x_{\text{target}}) = 0$$
 - **Mass ($m$):** $1.0$ (unit mass)
 - **Damping Ratio ($\zeta$):** $\frac{c}{2\sqrt{km}} = \frac{24}{2\sqrt{160}} \approx 0.949$
 
-A damping ratio of $0.949$ delivers immediate physical tracking with virtually undetectable overshoot, settling rapidly when the pointer departs.
+A damping ratio of $0.949$ delivers responsive physical tracking with minimal overshoot, settling smoothly when the pointer departs.
 
 ---
 
@@ -244,7 +244,7 @@ The repository maintains an automated multi-layer test suite:
 
 - **Mathematical Unit Tests (`scripts/check_*.mjs`):** Run via `node --test` with zero external test runner dependencies. Tests numerical precision, gradient accuracy, and physical laws.
 - **Site Sanity & Budgets (`scripts/check_site.py`):** Enforces canonical UTF-8/LF source code byte limits, link integrity, and social metadata.
-- **Playwright End-to-End Suite (`tests/*.spec.mjs`):** Tests responsive reflows across 13 viewport widths (320px to 2560px), keyboard navigation, WCAG AA contrast (via axe-core), and browser parity (Chromium, Firefox, WebKit).
+- **Playwright End-to-End Suite (`tests/*.spec.mjs`):** Tests responsive reflows across 13 viewport widths (320px to 2560px), keyboard navigation, WCAG AA contrast (via axe-core), and cross-browser parity across Chromium and Firefox in CI.
 
 ---
 
@@ -253,10 +253,8 @@ The repository maintains an automated multi-layer test suite:
 ### Local Development
 
 ```bash
-# Start a local static server
-python -m http.server 8000
-# or
-npx serve .
+# Recommended local development server (http://127.0.0.1:4174)
+npm start
 ```
 
 ### Running Tests
