@@ -9,7 +9,9 @@
     try {
       if (localStorage.getItem("portfolio-reduced-motion") === "true")
         return true;
-    } catch {}
+    } catch {
+      /* Storage is restricted. */
+    }
     return (
       motion.matches ||
       connection?.saveData ||
@@ -28,9 +30,7 @@
     if (event.key === "Escape") {
       event.preventDefault();
       cancel();
-    } else if (event.key === "Tab") {
-      cancel();
-    }
+    } else if (event.key === "Tab") cancel();
   };
   const visibility = () => {
     if (document.hidden) cancel();
@@ -68,7 +68,7 @@
         cancel();
         return false;
       }
-      // Append first, then remove the cover in the same task: no exposed frame.
+      // Synchronous cover handoff: no exposed frame.
       document.body.append(veil);
       pending = false;
       disarm();

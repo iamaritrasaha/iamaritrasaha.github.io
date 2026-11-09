@@ -16,16 +16,19 @@ function randomSpecimen() {
   } catch {
     /* Random selection still works without storage. */
   }
-  const choices = Array.from({ length: DIGIT_COUNT }, (_, d) => d).filter(
-    (d) => d !== previous,
-  );
+  const choices = Array.from(
+    { length: DIGIT_COUNT },
+    (_, digit) => digit,
+  ).filter((digit) => digit !== previous);
   return choices[Math.floor(Math.random() * choices.length)];
 }
 function reduce() {
   try {
     if (localStorage.getItem("portfolio-reduced-motion") === "true")
       return true;
-  } catch {}
+  } catch {
+    /* Storage is restricted or disabled. */
+  }
   return (
     document.documentElement.dataset.motion === "reduce" ||
     matchMedia("(prefers-reduced-motion: reduce)").matches ||
