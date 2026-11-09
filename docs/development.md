@@ -2,6 +2,12 @@
 
 This is a static portfolio with three public pages: the [homepage](https://iamaritrasaha.github.io/), [Embedded Systems Lab](https://iamaritrasaha.github.io/embedded/), and [Systems & Research Explorations](https://iamaritrasaha.github.io/explorations/), plus a shared 404 page. HTML, layered CSS and native JavaScript modules provide the current cobalt, citron and paper presentation. There are no production dependencies, remote fonts, analytics or model endpoints.
 
+## Architecture Walkthrough
+
+For a comprehensive, beginner-friendly walkthrough of the website's architecture, styling cascade, machine-learning classifier, split-flap reel physics, 3D projection rasterizer, and embedded simulations, refer to:
+
+- [Codebase Walkthrough & Architecture Guide](./code-walkthrough.md)
+
 ## Project architecture map
 
 ```
