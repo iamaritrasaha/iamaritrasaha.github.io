@@ -102,3 +102,22 @@ Automatic merged-PR branch deletion was enabled and read back successfully. `mai
 Before the underline correction, eight full-page Chromium screenshots of the refactored site were byte-identical to the baseline: homepage and lab, 390/1440px, light/dark. Captures wait for all fonts, including those first exposed during scrolling. DOM text, control values, SVG paths and document geometry also matched exactly. The underline correction is evaluated separately so it is not hidden inside a visual-parity claim.
 
 Browser validation remains emulation, not physical-device, Safari or screen-reader certification. Final CI, merge and deployment results belong to the PR and completion report, rather than being claimed in advance here.
+
+## Maintenance record: 9 November 2026 - Codebase Cleanup & Baseline Inventory
+
+### Baseline and scope
+
+The clean `main` branch started at commit `aa7f590`. The portfolio codebase underwent a comprehensive, evidence-based audit before refactoring. The project is a static site with no runtime framework, no build-step bundling, and zero production dependencies. All visual presentation, scientific/ML simulations, interactions, accessibility, and navigation anchors are strictly preserved.
+
+### Pre-refactoring measured baseline
+
+- Tracked files: 291
+- Total tracked bytes: 57,450,118 bytes (56.10 MB)
+- Documentation & review media: 142 files, 50.73 MB (90.4% of repository checkout)
+- Concepts prototypes: 23 files, 3.14 MB
+- Production payload (HTML, CSS, JS, fonts, active SVGs/PNG): ~2.2 MB
+- Pre-refactor test status:
+  - `npm run lint`: PASS (57 JS syntax checks, Prettier, HTML-validate)
+  - `npm test`: PASS (37/37 unit tests)
+  - `npm run test:browser`: PASS (162/162 Playwright E2E scenarios across all viewports and themes)
+  - `scripts/check_site.py`: PASS (all anchors, links, metadata, and byte budgets verified)
