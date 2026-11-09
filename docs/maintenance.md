@@ -102,3 +102,75 @@ Automatic merged-PR branch deletion was enabled and read back successfully. `mai
 Before the underline correction, eight full-page Chromium screenshots of the refactored site were byte-identical to the baseline: homepage and lab, 390/1440px, light/dark. Captures wait for all fonts, including those first exposed during scrolling. DOM text, control values, SVG paths and document geometry also matched exactly. The underline correction is evaluated separately so it is not hidden inside a visual-parity claim.
 
 Browser validation remains emulation, not physical-device, Safari or screen-reader certification. Final CI, merge and deployment results belong to the PR and completion report, rather than being claimed in advance here.
+
+## Maintenance record: 9 November 2026 - Codebase Cleanup & Baseline Inventory
+
+### Baseline and scope (Current `main` merge base: `5b9943a`)
+
+Current `main` incorporates PR #22 (spacing breathing room), PR #23 (contact folio redesign), and PR #24 (welcome plain-name flash elimination). The cleanup refactoring branch was synchronized and merged cleanly with current `main` at `5b9943a`, manually resolving all conflicts while strictly preserving the welcome protections, contact folio, and spacing refinements. The project remains a static site with no runtime framework, no build-step bundling, and zero production dependencies. All visual presentation, scientific/ML simulations, interactions, accessibility, and navigation anchors are strictly preserved.
+
+### Pre-refactoring measured baseline (`origin/main` at `5b9943a`)
+
+- Tracked files: 261
+- Total tracked bytes: 48,031,043 bytes (48.03 MB)
+- Documentation & review media: 111 files, 42,407,341 bytes (42.41 MB)
+- Concepts prototypes: 23 files, 3,296,124 bytes (3.14 MB)
+- Active deployment payload (dist/ equivalent): 2,110,073 bytes (2.01 MB)
+- Pre-refactor test status:
+  - `npm run lint`: PASS (Prettier, HTML-validate, 57 JS syntax checks)
+  - `npm test`: PASS (37/37 unit tests)
+  - `npm run test:browser`: PASS (162 Playwright E2E scenarios across all viewports and themes)
+  - `scripts/check_site.py`: PASS (all anchors, links, metadata, and byte budgets verified)
+
+### Post-refactoring measured metrics against current `main`
+
+| Metric                           | Current `main` (`5b9943a`)  | Post-Refactor Result        | Net Change Against `main`       |
+| :------------------------------- | :-------------------------- | :-------------------------- | :------------------------------ |
+| **Tracked files**                | 261 files                   | 240 files                   | **-21 files (-8.0%)**           |
+| **Total repository bytes**       | 48,031,043 bytes (48.03 MB) | 44,516,648 bytes (44.52 MB) | **-3,514,395 bytes (-7.3%)**    |
+| **Active deployment payload**    | 2,110,073 bytes (2.01 MB)   | 1,064,952 bytes (1.01 MB)   | **-1,045,121 bytes (-49.5%)**   |
+| **Assets files**                 | 74 files                    | 55 files                    | **-19 files (-25.7%)**          |
+| **Assets directory bytes**       | 1,904,228 bytes (1.82 MB)   | 859,176 bytes (0.82 MB)     | **-1,045,052 bytes (-54.9%)**   |
+| **Docs directory files**         | 111 files                   | 109 files                   | **-2 files**                    |
+| **Docs directory bytes**         | 42,407,341 bytes (42.41 MB) | 39,938,236 bytes (39.94 MB) | **-2,469,105 bytes (-5.8%)**    |
+| **Concepts files**               | 23 files                    | 23 files                    | 0 (retained for design history) |
+| **Concepts directory bytes**     | 3,296,124 bytes (3.14 MB)   | 3,296,124 bytes (3.14 MB)   | 0                               |
+| **Source lines**                 | 69,738 lines                | 69,842 lines                | **+104 lines** (clarity/docs)   |
+| **JavaScript bytes**             | 331,787 bytes               | 332,032 bytes               | **+245 bytes** (helpers/math)   |
+| **CSS bytes**                    | 182,567 bytes               | 181,946 bytes               | **-621 bytes**                  |
+| **Runtime dependencies**         | 0                           | 0                           | 0                               |
+| **Lint status**                  | PASS                        | PASS                        | Zero warnings / violations      |
+| **Unit test status**             | 37/37 PASS                  | 37/37 PASS                  | Zero regressions                |
+| **Playwright E2E tests**         | 170/170 PASS                | 170/170 PASS                | Chromium + Firefox              |
+| **Size budgets (check_site.py)** | PASS                        | PASS                        | All canonical LF budgets met    |
+
+### Summary of cleanup actions
+
+1. **Dead Code & Unused Exports:**
+   - Internalized unused export `radians` in `assets/projection.js:11`.
+   - Pruned dead CSS custom variable `--nbp-reg-cobalt` in `assets/notebook-paper.css`.
+   - Standardized `404.html` social preview metadata to canonical `assets/portfolio-social-20261106.png`.
+   - Removed obsolete copy step for `20261105.png` in `scripts/render_social_card.mjs`.
+2. **JavaScript Simplification:**
+   - `assets/bitbench.js`: Refactored monolithic `startup()` function into focused helper functions (`createWelcomeVeil()`, `populateWelcomeGlyph()`, `calculateTransform()`). Enhanced `reduce()` to inspect `localStorage` for `portfolio-reduced-motion`.
+   - `assets/welcome-reel.js`: Deduplicated `INITIAL_FIELD` re-assignment, renamed cryptic variables (`f` → `flipIndex`, `turn` → `halfTurn`, `rad` → `angleRad`), and documented flip cadence physics.
+   - `assets/welcome-name.js`: Simplified nested card face styling conditions.
+   - `assets/embedded.js`: Extracted shared `canAnimate` boolean guard in `updateMotion()`.
+   - `script.js`: Cached `isReduced` to avoid redundant calls in `syncMotion()`.
+3. **CSS Architecture Consolidation:**
+   - Consolidated duplicate element resets (`a`, `button`, `select`, `summary`) and heading declarations (`h1`–`h5`, `h2`–`h4`) in `styles.css`.
+   - Merged duplicate `@media (max-width: 650px)` queries in `styles.css`.
+   - Pruned shadowed plum/copper palette tokens and superseded `.nav-panel a:hover` in `assets/creative.css`.
+   - Merged three fragmented `@media (max-width: 650px)` media query blocks in `assets/editorial.css`.
+4. **Pruned Unreferenced Legacy Assets & Media (21 files removed):**
+   - `assets/portfolio-social-20261105.png` (76.6 KB, superseded by 20261106.png)
+   - `assets/projects/aether-home.png` (773.7 KB, unreferenced capture)
+   - `assets/projects/aether-home.webp` (21.9 KB, unreferenced capture)
+   - `assets/veyra-open-graph.png` (132.3 KB, unreferenced)
+   - `assets/portfolio-open-graph.svg` (27.1 KB, unreferenced)
+   - 14 unreferenced legacy SVG marks: `assets/projects/aether-mark.svg`, `novarx-mark.svg`, `serein-mark.svg`, `vyren-mark.svg`, `assets/a-monogram.svg`, `aura-symbol.svg`, `developer-mark.svg`, `lumina-symbol.svg`, `noise.svg`, `quanta-symbol.svg`, `relay-symbol.svg`, `vector-symbol.svg`, `veyra-app-icon.svg`, `veyra-mark-chartreuse.svg`.
+   - 2 unreferenced intermediate video captures in `docs/welcome-construction/`: `before-desktop.webm` (1.82 MB) and `before-mobile.webm` (654.0 KB).
+5. **Retained Files & Justification:**
+   - `assets/fonts/Inter-LICENSE.txt` & `Newsreader-OFL.txt`: Retained for font licensing and attribution requirements.
+   - `concepts/` prototypes and review media: Retained per reproducible design research documentation in `concepts/README.md` and `docs/portfolio-motion-review.md`.
+   - `docs/review/`, `docs/bitbench-review/`, `docs/creative-review/`, `docs/screenshots/`: Retained as reproducible evidence cited in historical review reports.

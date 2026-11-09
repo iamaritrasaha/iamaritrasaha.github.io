@@ -11,7 +11,7 @@ export const CIPHER_SYMBOLS = [
   "{",
   "}",
 ];
-export const INITIAL_FIELD = ["0", "1", "A", "F", "7", "X", "#", "/", "{", "}"];
+export const INITIAL_FIELD = CIPHER_SYMBOLS;
 
 export const clamp = (v, min = 0, max = 1) => Math.max(min, Math.min(max, v));
 
@@ -61,25 +61,29 @@ export function computeFaceState(cadence, elapsed) {
   }
 
   const flips = cadence.flips;
-  let f = 0;
-  while (f < flips.length && elapsed >= flips[f]) f++;
-  const prevTime = f === 0 ? 0 : flips[f - 1];
-  const nextTime = flips[Math.min(f, flips.length - 1)];
-  const span = Math.max(nextTime - prevTime, 1);
-  const progress = clamp((elapsed - prevTime) / span);
-  const isFinalFlip = f === flips.length - 1;
+  let flipIndex = 0;
+  while (flipIndex < flips.length && elapsed >= flips[flipIndex]) flipIndex++;
+  const prevTime = flipIndex === 0 ? 0 : flips[flipIndex - 1];
+  const nextTime = flips[Math.min(flipIndex, flips.length - 1)];
+  const flipDuration = Math.max(nextTime - prevTime, 1);
+  const progress = clamp((elapsed - prevTime) / flipDuration);
+  const isFinalFlip = flipIndex === flips.length - 1;
 
-  const eased = isFinalFlip ? latchProgress(progress) : easeOutQuart(progress);
-  const baseAngle = f * 180;
-  const angle = baseAngle + eased * 180;
+  // Final flip uses mechanical latching with soft settle; intermediate flips use quart easing.
+  const easedProgress = isFinalFlip
+    ? latchProgress(progress)
+    : easeOutQuart(progress);
+  const baseAngle = flipIndex * 180;
+  const angle = baseAngle + easedProgress * 180;
 
-  const turn = Math.floor(angle / 180);
-  const isFrontFacing = turn % 2 === 0;
+  const halfTurn = Math.floor(angle / 180);
+  const isFrontFacing = halfTurn % 2 === 0;
 
+  // Surface lighting based on face orientation relative to viewer normal
   const angleInTurn = angle % 180;
-  const rad =
-    (angleInTurn > 90 ? 180 - angleInTurn : angleInTurn) * (Math.PI / 180);
-  const light = Math.max(0.42, Math.cos(rad));
+  const acuteAngle = angleInTurn > 90 ? 180 - angleInTurn : angleInTurn;
+  const angleRad = acuteAngle * (Math.PI / 180);
+  const light = Math.max(0.42, Math.cos(angleRad));
 
   let frontText, frontTarget, backText, backTarget;
 
@@ -88,20 +92,21 @@ export function computeFaceState(cadence, elapsed) {
       frontText = cadence.char;
       frontTarget = true;
       backText =
-        CIPHER_SYMBOLS[(cadence.index + turn - 1) % CIPHER_SYMBOLS.length];
+        CIPHER_SYMBOLS[(cadence.index + halfTurn - 1) % CIPHER_SYMBOLS.length];
       backTarget = false;
     } else {
       backText = cadence.char;
       backTarget = true;
       frontText =
-        CIPHER_SYMBOLS[(cadence.index + turn - 1) % CIPHER_SYMBOLS.length];
+        CIPHER_SYMBOLS[(cadence.index + halfTurn - 1) % CIPHER_SYMBOLS.length];
       frontTarget = false;
     }
   } else {
-    frontText = CIPHER_SYMBOLS[(cadence.index + turn) % CIPHER_SYMBOLS.length];
+    frontText =
+      CIPHER_SYMBOLS[(cadence.index + halfTurn) % CIPHER_SYMBOLS.length];
     frontTarget = false;
     backText =
-      CIPHER_SYMBOLS[(cadence.index + turn + 1) % CIPHER_SYMBOLS.length];
+      CIPHER_SYMBOLS[(cadence.index + halfTurn + 1) % CIPHER_SYMBOLS.length];
     backTarget = false;
   }
 

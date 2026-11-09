@@ -1,6 +1,6 @@
 # Social preview image
 
-Open Graph and Twitter/X metadata in the homepage and 404 source HTML use `https://iamaritrasaha.github.io/assets/portfolio-social-20261105.png`. It is a 1200 × 630 PNG using the portfolio's cobalt/citron colours, self-hosted Literata and JetBrains Mono fonts, current professional title, and the actual first digit specimen rendered as a pixel relief.
+Open Graph and Twitter/X metadata in the homepage and 404 source HTML use `https://iamaritrasaha.github.io/assets/portfolio-social-20261106.png`. It is a 1200 × 630 PNG using the portfolio's cobalt/citron colours, self-hosted Literata and JetBrains Mono fonts, current professional title, and the actual first digit specimen rendered as a pixel relief.
 
 Regenerate it with the existing development dependencies:
 

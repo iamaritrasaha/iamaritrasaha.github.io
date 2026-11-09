@@ -67,21 +67,23 @@ function updateScenes() {
   }
 }
 function syncMotion() {
-  if (reduced())
+  const isReduced = reduced();
+  if (isReduced) {
     disclosureAnimations.forEach((entry, details) =>
       settleDisclosure(details, entry),
     );
-  root.dataset.motion = reduced() ? "reduce" : "full";
-  setSurfaceMotion(!reduced());
-  if (reduced())
     document
       .querySelectorAll(".is-entering")
       .forEach((el) => el.classList.remove("is-entering"));
+  }
+  root.dataset.motion = isReduced ? "reduce" : "full";
+  setSurfaceMotion(!isReduced);
+
   motionButtons.forEach((motionButton) => {
     motionButton.hidden = false;
     motionButton.disabled = media.matches || saveData();
-    motionButton.textContent = reduced() ? "Motion reduced" : "Pause motion";
-    motionButton.setAttribute("aria-pressed", String(reduced()));
+    motionButton.textContent = isReduced ? "Motion reduced" : "Pause motion";
+    motionButton.setAttribute("aria-pressed", String(isReduced));
   });
   updateScenes();
 }

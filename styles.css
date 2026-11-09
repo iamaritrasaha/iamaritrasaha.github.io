@@ -60,27 +60,6 @@ a {
   color: inherit;
   text-decoration: none;
 }
-a,
-button,
-select,
-summary {
-  touch-action: manipulation;
-}
-/* Keep focused destinations clear of the masthead when tabbing or linking. */
-[id],
-a,
-button,
-select,
-summary {
-  scroll-margin-top: 16px;
-}
-h1,
-h2,
-h3,
-h4 {
-  text-wrap: balance;
-  overflow-wrap: anywhere;
-}
 button,
 select {
   font: inherit;
@@ -91,10 +70,20 @@ button {
   background: none;
   border: 0;
 }
-button,
 a,
+button,
+select,
 summary {
+  touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
+}
+/* Keep focused destinations clear of the masthead when tabbing or linking. */
+[id],
+a,
+button,
+select,
+summary {
+  scroll-margin-top: 16px;
 }
 :focus-visible {
   outline: 2px solid var(--accent);
@@ -105,11 +94,6 @@ svg {
   display: block;
   max-width: 100%;
 }
-h1,
-h2,
-h3,
-h4,
-h5,
 p,
 figure {
   margin: 0;
@@ -119,6 +103,7 @@ h2,
 h3,
 h4,
 h5 {
+  margin: 0;
   font-weight: 400;
   line-height: 1.12;
 }
@@ -128,6 +113,8 @@ h3,
 h4 {
   font-family: var(--display);
   font-optical-sizing: auto;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
 }
 em {
   font-weight: 400;
@@ -2417,7 +2404,7 @@ html[data-motion="reduce"] *::after {
     gap: 0 24px;
   }
 }
-@media screen and (max-width: 650px) {
+@media (max-width: 650px) {
   .hero-opening {
     grid-template-columns: 1fr;
     gap: 24px;
@@ -2460,8 +2447,6 @@ html[data-motion="reduce"] *::after {
     font-size: clamp(0.9375rem, 4.2vw, 1.25rem);
     letter-spacing: -0.025em;
   }
-}
-@media (max-width: 650px) {
   .math-note .math-caption {
     font-size: 0.75rem;
   }

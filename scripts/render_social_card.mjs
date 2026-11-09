@@ -101,10 +101,6 @@ try {
     new URL("../assets/portfolio-social-20261106.png", import.meta.url),
     new URL("../assets/portfolio-open-graph.png", import.meta.url),
   );
-  await copyFile(
-    new URL("../assets/portfolio-social-20261106.png", import.meta.url),
-    new URL("../assets/portfolio-social-20261105.png", import.meta.url),
-  );
   console.log("Rendered assets/portfolio-social-20261106.png (1200 × 630)");
 } finally {
   await browser.close();

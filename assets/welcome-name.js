@@ -171,18 +171,9 @@ export function constructWelcomeName(name) {
             } else {
               item.card.style.transform = `rotateX(${state.angle}deg)`;
 
-              if (state.front.isTarget) {
-                item.front.className = "reel-face front target";
-              } else {
-                item.front.className = "reel-face front cipher";
-              }
+              item.front.className = `reel-face front ${state.front.isTarget ? "target" : "cipher"}`;
               item.front.textContent = state.front.text;
-
-              if (state.back.isTarget) {
-                item.back.className = "reel-face back target";
-              } else {
-                item.back.className = "reel-face back cipher";
-              }
+              item.back.className = `reel-face back ${state.back.isTarget ? "target" : "cipher"}`;
               item.back.textContent = state.back.text;
             }
           }

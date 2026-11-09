@@ -49,16 +49,14 @@ const entering = () =>
   ["pending", "running"].includes(root.dataset.chapterState);
 document.addEventListener("portfolio:chapter", updateMotion);
 function updateMotion() {
-  playPulse(
-    !reduced() && !entering() && !document.hidden && visible.has(pulse),
-    reduced(),
-  );
+  const canAnimate = !reduced() && !entering() && !document.hidden;
+  playPulse(canAnimate && visible.has(pulse), reduced());
   root.dataset.motion = reduced() ? "reduce" : "full";
-  for (const scene of scenes)
-    scene.classList.toggle(
-      "is-visible",
-      visible.has(scene) && !reduced() && !entering() && !document.hidden,
-    );
+
+  for (const scene of scenes) {
+    scene.classList.toggle("is-visible", canAnimate && visible.has(scene));
+  }
+
   for (const button of motionButtons) {
     button.hidden = false;
     button.disabled =
@@ -66,16 +64,17 @@ function updateMotion() {
     button.textContent = reduced() ? "Motion reduced" : "Pause motion";
     button.setAttribute("aria-pressed", String(reduced()));
   }
+
   const running =
-    !reduced() &&
-    !entering() &&
-    !document.hidden &&
+    canAnimate &&
     [heroScene, timingScene, signalScene].some((scene) => visible.has(scene));
   root.dataset.labRunning = String(running);
-  if (running && !frame) frame = requestAnimationFrame(tick);
-  if (!running) {
+
+  if (running && !frame) {
+    frame = requestAnimationFrame(tick);
+  } else if (!running) {
     cancelAnimationFrame(frame);
-    // Keep the phase on pause, but discard elapsed wall time before resuming.
+    // Preserve current phase while paused; discard elapsed wall time before resuming.
     frame = last = 0;
   }
 }

@@ -245,9 +245,8 @@ $("inspect").onclick = () => {
 paint();
 rememberSpecimen();
 let dismiss = () => {};
-function startup() {
-  if (!window.portfolioWelcome?.pending || document.querySelector(".bb-entry"))
-    return;
+
+function createWelcomeVeil(isReturning) {
   const veil = document.createElement("div");
   veil.className = "entry bb-entry";
   veil.setAttribute("role", "dialog");
@@ -256,13 +255,36 @@ function startup() {
   veil.setAttribute("aria-label", "Welcome to Aritra Saha's portfolio");
   veil.innerHTML =
     '<div class="boot-grid" aria-hidden="true"></div><strong class="name-pending"><span class="sr-only">Aritra Saha</span><span class="name-visual" aria-hidden="true">Aritra Saha</span></strong><small>AI/ML Engineer | Applied AI Developer</small><span id="welcome-keyboard-help" class="sr-only">Press Escape or Tab to continue to the portfolio.</span>';
+  veil.classList.toggle("is-returning", isReturning);
+  return veil;
+}
+
+function populateWelcomeGlyph(glyph, intensities) {
+  for (const val of intensities) {
+    const tile = document.createElement("i");
+    tile.style.opacity = 0.14 + 0.86 * val;
+    glyph.append(tile);
+  }
+}
+
+function calculateTransform(src, dst) {
+  const dx = dst.left - src.left;
+  const dy = dst.top - src.top;
+  const scale = dst.width / src.width;
+  return `translate(${dx}px, ${dy}px) scale(${scale})`;
+}
+
+function startup() {
+  if (!window.portfolioWelcome?.pending || document.querySelector(".bb-entry"))
+    return;
   let returning = false;
   try {
     returning = sessionStorage.getItem("portfolio-welcomed") === "true";
   } catch {
     /* A fresh short welcome still works when storage is blocked. */
   }
-  veil.classList.toggle("is-returning", returning);
+
+  const veil = createWelcomeVeil(returning);
   mountWelcomeMath(veil);
   if (!window.portfolioWelcome.show(veil)) return;
   try {
@@ -270,19 +292,18 @@ function startup() {
   } catch {
     /* Optional session preference. */
   }
+
   const glyph = veil.firstChild;
-  for (const v of input) {
-    const tile = document.createElement("i");
-    tile.style.opacity = 0.14 + 0.86 * v;
-    glyph.append(tile);
-  }
-  const key = (e) => {
+  populateWelcomeGlyph(glyph, input);
+
+  const onKeyDown = (e) => {
     if (e.key === "Escape" || e.key === "Tab") dismiss();
   };
-  const navigate = () => dismiss();
+  const onNavigate = () => dismiss();
   let timer, alignmentTimer;
   const stopName = constructWelcomeName(veil.querySelector("strong"));
-  // Every exit path shares cleanup, so delayed timers cannot reopen the cover
+
+  // Every exit path shares cleanup: delayed timers cannot reopen the cover
   // or steal focus after a keyboard, visibility or motion-preference dismissal.
   dismiss = () => {
     const returnFocus = veil.contains(document.activeElement);
@@ -293,28 +314,26 @@ function startup() {
     if (returnFocus) cells[focusIndex].focus({ preventScroll: true });
     clearTimeout(timer);
     clearTimeout(alignmentTimer);
-    document.removeEventListener("keydown", key);
-    window.removeEventListener("hashchange", navigate);
-    window.removeEventListener("pagehide", navigate);
+    document.removeEventListener("keydown", onKeyDown);
+    window.removeEventListener("hashchange", onNavigate);
+    window.removeEventListener("pagehide", onNavigate);
     dismiss = () => {};
   };
-  document.addEventListener("keydown", key);
-  window.addEventListener("hashchange", navigate);
-  window.addEventListener("pagehide", navigate);
+
+  document.addEventListener("keydown", onKeyDown);
+  window.addEventListener("hashchange", onNavigate);
+  window.addEventListener("pagehide", onNavigate);
   veil.focus({ preventScroll: true });
+
   const duration = returning ? 4600 : 5600;
-  veil.style.setProperty("--entry-duration", duration + "ms");
+  veil.style.setProperty("--entry-duration", `${duration}ms`);
   timer = setTimeout(dismiss, duration + 200);
-  const from = glyph.getBoundingClientRect(),
-    to = $("pixels").getBoundingClientRect();
-  const move =
-    "translate(" +
-    (to.left - from.left) +
-    "px," +
-    (to.top - from.top) +
-    "px) scale(" +
-    to.width / from.width +
-    ")";
+
+  const initialMove = calculateTransform(
+    glyph.getBoundingClientRect(),
+    $("pixels").getBoundingClientRect(),
+  );
+
   const flight = glyph.animate(
     [
       {
@@ -323,25 +342,29 @@ function startup() {
       },
       { transform: "none", offset: 0.22 },
       { transform: "none", offset: 0.86, easing: "cubic-bezier(.4,0,.2,1)" },
-      { transform: move },
+      { transform: initialMove },
     ],
     { duration, easing: "linear", fill: "forwards" },
   );
+
   // Font settlement and the mounted hero can move the target after first paint.
   // Re-measure just before the retained grid begins its final handoff.
   alignmentTimer = setTimeout(() => {
-    const source = glyph.getBoundingClientRect();
-    const target = $("pixels").getBoundingClientRect();
+    const targetMove = calculateTransform(
+      glyph.getBoundingClientRect(),
+      $("pixels").getBoundingClientRect(),
+    );
     const frames = flight.effect.getKeyframes();
-    frames[frames.length - 1].transform =
-      `translate(${target.left - source.left}px, ${target.top - source.top}px) scale(${target.width / source.width})`;
+    frames[frames.length - 1].transform = targetMove;
     flight.effect.setKeyframes(frames);
   }, duration * 0.82);
+
   veil.animate(
     [{ opacity: 1 }, { opacity: 1, offset: 0.87 }, { opacity: 0 }],
     duration,
   ).onfinish = dismiss;
 }
+
 startup();
 matchMedia("(prefers-reduced-motion: reduce)").addEventListener(
   "change",
