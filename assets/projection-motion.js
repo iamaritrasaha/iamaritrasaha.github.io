@@ -1,7 +1,7 @@
 import { VIEW } from "./projection.js?v=s1";
 import { createSculpture } from "./projection-renderer.js?v=s1";
 
-// Scene lifecycle controls visibility and motion; manual inspection pauses time.
+// Lifecycle manages rotation and visibility; drag pauses time.
 export function mountProjection(instrument) {
   if (!instrument) return () => {};
   const canvas = instrument.querySelector("canvas");
@@ -17,10 +17,10 @@ export function mountProjection(instrument) {
     painted = 0,
     angle = VIEW.initial;
   function render() {
-    const displayed = Number(((angle + 360) % 360).toFixed(1)) % 360;
-    draw(displayed);
-    canvas.dataset.angle = String(displayed);
-    output.value = `${displayed.toFixed(1)}°`;
+    const degrees = Number(((angle + 360) % 360).toFixed(1)) % 360;
+    draw(degrees);
+    canvas.dataset.angle = String(degrees);
+    output.value = `${degrees.toFixed(1)}°`;
   }
   function resize() {
     const dpr = Math.min(Math.max(devicePixelRatio, 1.5), 2);
@@ -92,22 +92,31 @@ export function mountProjection(instrument) {
     canvas.setPointerCapture(event.pointerId);
     inspect(angle);
   });
+  const flushDrag = () => {
+    if (targetAngle !== null) {
+      inspect(targetAngle);
+      targetAngle = null;
+    }
+  };
   canvas.addEventListener("pointermove", (event) => {
     if (!drag) return;
     targetAngle = drag.angle + (event.clientX - drag.x) * 0.4;
     if (!dragRaf) {
       dragRaf = requestAnimationFrame(() => {
         dragRaf = 0;
-        if (drag && targetAngle !== null) inspect(targetAngle);
+        flushDrag();
       });
     }
   });
+  const endDrag = () => {
+    if (!drag) return;
+    cancelAnimationFrame(dragRaf);
+    dragRaf = 0;
+    flushDrag();
+    drag = null;
+  };
   for (const name of ["pointerup", "pointercancel", "lostpointercapture"])
-    canvas.addEventListener(name, () => {
-      drag = null;
-      cancelAnimationFrame(dragRaf);
-      dragRaf = 0;
-    });
+    canvas.addEventListener(name, endDrag);
   canvas.hidden = false;
   canvas.tabIndex = 0;
   resize();
