@@ -25,8 +25,10 @@
   let pending = eligible(),
     timer;
   const key = (event) => {
-    if (event.key === "Escape" || event.key === "Tab") {
+    if (event.key === "Escape") {
       event.preventDefault();
+      cancel();
+    } else if (event.key === "Tab") {
       cancel();
     }
   };

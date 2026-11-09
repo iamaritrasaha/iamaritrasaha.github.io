@@ -283,9 +283,11 @@ function startup() {
   const glyph = veil.firstChild;
   populateWelcomeGlyph(glyph, input);
 
-  const onKeyDown = (e) => {
-    if (e.key === "Escape" || e.key === "Tab") {
-      e.preventDefault();
+  const onKeyDown = (event) => {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      dismiss();
+    } else if (event.key === "Tab") {
       dismiss();
     }
   };
