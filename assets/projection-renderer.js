@@ -54,7 +54,9 @@ export function createSculpture(canvas) {
       return [...point, light, vertex.radius];
     });
     for (const triangle of triangles) {
-      const [a, b, c] = triangle.map((index) => projected[index]);
+      const a = projected[triangle[0]],
+        b = projected[triangle[1]],
+        c = projected[triangle[2]];
       const denominator =
         (b[1] - c[1]) * (a[0] - c[0]) + (c[0] - b[0]) * (a[1] - c[1]);
       if (Math.abs(denominator) < 1e-8) continue;

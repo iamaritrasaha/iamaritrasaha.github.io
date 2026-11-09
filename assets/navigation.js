@@ -33,7 +33,7 @@
   }
   // Keep reading order at fragment destinations, including cross-page arrivals.
   // Native anchors continue to own scrolling and work without JavaScript.
-  function focusFragment() {
+  function focusFragment(shouldScroll = false) {
     let target;
     try {
       target = document.getElementById(
@@ -47,12 +47,14 @@
     if (details && !details.open) {
       details.open = true;
       target.scrollIntoView({ behavior: "instant", block: "start" });
+    } else if (shouldScroll) {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
     }
     if (!target.matches("a, button, input, select, textarea, [tabindex]"))
       target.setAttribute("tabindex", "-1");
     target.focus({ preventScroll: true });
   }
-  addEventListener("hashchange", focusFragment);
+  addEventListener("hashchange", () => focusFragment(false));
   document.addEventListener("click", (event) => {
     const link = event.target.closest("a[href]");
     if (
@@ -61,7 +63,7 @@
       link.pathname === location.pathname &&
       link.hash === location.hash
     )
-      requestAnimationFrame(focusFragment);
+      requestAnimationFrame(() => focusFragment(true));
   });
   if (document.readyState === "loading")
     document.addEventListener("DOMContentLoaded", focusFragment, {

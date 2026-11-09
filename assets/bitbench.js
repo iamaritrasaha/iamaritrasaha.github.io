@@ -16,17 +16,23 @@ function randomSpecimen() {
   } catch {
     /* Random selection still works without storage. */
   }
-  const choices = Array.from(
-    { length: DIGIT_COUNT },
-    (_, digit) => digit,
-  ).filter((digit) => digit !== previous);
+  const choices = Array.from({ length: DIGIT_COUNT }, (_, d) => d).filter(
+    (d) => d !== previous,
+  );
   return choices[Math.floor(Math.random() * choices.length)];
 }
-const reduce = () =>
-  document.documentElement.dataset.motion === "reduce" ||
-  matchMedia("(prefers-reduced-motion: reduce)").matches ||
-  navigator.connection?.saveData ||
-  new URLSearchParams(location.search).get("motion") === "reduce";
+function reduce() {
+  try {
+    if (localStorage.getItem("portfolio-reduced-motion") === "true")
+      return true;
+  } catch {}
+  return (
+    document.documentElement.dataset.motion === "reduce" ||
+    matchMedia("(prefers-reduced-motion: reduce)").matches ||
+    Boolean(navigator.connection?.saveData) ||
+    new URLSearchParams(location.search).get("motion") === "reduce"
+  );
+}
 const animations = new Set();
 function animate(element, frames, duration = 320, delay = 0) {
   if (reduce() || !element.animate || document.hidden) return;
@@ -54,6 +60,7 @@ function holdSpecimen() {
 const cells = Array.from({ length: 64 }, (_, i) => {
   const cell = document.createElement("button");
   cell.type = "button";
+  cell.className = "pixel";
   cell.tabIndex = i === 0 ? 0 : -1;
   cell.onclick = () => {
     holdSpecimen();
@@ -70,26 +77,28 @@ const cells = Array.from({ length: 64 }, (_, i) => {
     focusIndex = i;
     cell.tabIndex = 0;
   };
-  cell.onkeydown = (e) => {
-    const destination = {
-      ArrowRight: i + 1,
-      ArrowLeft: i - 1,
-      ArrowDown: i + 8,
-      ArrowUp: i - 8,
-      Home: 0,
-      End: 63,
-    }[e.key];
-    if (destination === undefined) return;
+  cell.onkeydown = (event) => {
+    const row = Math.floor(i / 8);
+    const col = i % 8;
+    const destinations = {
+      ArrowRight: col < 7 ? i + 1 : i,
+      ArrowLeft: col > 0 ? i - 1 : i,
+      ArrowDown: row < 7 ? i + 8 : i,
+      ArrowUp: row > 0 ? i - 8 : i,
+      Home: event.ctrlKey ? 0 : row * 8,
+      End: event.ctrlKey ? 63 : row * 8 + 7,
+    };
+    if (!Object.hasOwn(destinations, event.key)) return;
     holdSpecimen();
-    e.preventDefault();
-    cells[Math.max(0, Math.min(63, destination))].focus();
+    event.preventDefault();
+    cells[destinations[event.key]].focus();
   };
   $("pixels").append(cell);
   return cell;
 });
 const bins = Array.from({ length: 10 }, (_, i) => {
   const bin = document.createElement("span");
-  bin.innerHTML = "<i></i><b>" + i + "</b>";
+  bin.innerHTML = `<i></i><b>${i}</b>`;
   $("distribution").append(bin);
   return bin;
 });
@@ -122,19 +131,12 @@ function paint({ manual = false, transition = false } = {}) {
     cell.style.setProperty("--intensity", input[i]);
     cell.setAttribute(
       "aria-label",
-      "Row " +
-        (1 + Math.floor(i / 8)) +
-        ", column " +
-        (1 + (i % 8)) +
-        ", intensity " +
-        input[i],
+      `Row ${1 + Math.floor(i / 8)}, column ${1 + (i % 8)}, intensity ${input[i]}`,
     );
   });
   stamp.forEach((dot, i) => (dot.style.opacity = 0.08 + input[i] * 0.92));
   updateRelief(input, duration);
-  const confidence =
-    (100 * result.probabilities[result.prediction]).toFixed(1) +
-    "% probability";
+  const confidence = `${(100 * result.probabilities[result.prediction]).toFixed(1)}% probability`;
   $("winner").textContent = result.prediction;
   $("confidence").textContent = confidence;
   if ((manual || transition) && previousPrediction !== result.prediction)
@@ -145,21 +147,13 @@ function paint({ manual = false, transition = false } = {}) {
     );
   previousPrediction = result.prediction;
   bins.forEach((bin, i) => {
-    bin.firstChild.style.transform =
-      "scaleY(" + Math.max(0.035, result.probabilities[i]) + ")";
-    bin.title =
-      "Digit " + i + ": " + (100 * result.probabilities[i]).toFixed(2) + "%";
+    bin.firstChild.style.transform = `scaleY(${Math.max(0.035, result.probabilities[i])})`;
+    bin.title = `Digit ${i}: ${(100 * result.probabilities[i]).toFixed(2)}%`;
   });
   renderActivations(layer === 1 ? result.h1 : result.h2);
   if (manual)
     $("bench-status").textContent =
-      "Predicted " +
-      result.prediction +
-      ", " +
-      confidence +
-      ". Hidden layer " +
-      layer +
-      ".";
+      `Predicted ${result.prediction}, ${confidence}. Hidden layer ${layer}.`;
 }
 
 function renderActivations(values) {
@@ -175,22 +169,16 @@ function renderActivations(values) {
       Math.max(0.02, Math.abs(value) / maximumMagnitude),
     );
     bar.classList.toggle("negative", value < 0);
-    bar.title = "Unit " + (i + 1) + ": " + value.toFixed(3);
+    bar.title = `Unit ${i + 1}: ${value.toFixed(3)}`;
   });
   if (unit.options.length !== values.length) {
     unit.replaceChildren(
-      ...values.map((v, i) => new Option("Unit " + (i + 1), i)),
+      ...values.map((_, i) => new Option(`Unit ${i + 1}`, i)),
     );
   }
   $("layer-note").textContent =
-    "Activation " +
-    values[Number(unit.value)].toFixed(4) +
-    ". Layer " +
-    layer +
-    " · " +
-    values.length +
-    " GELU units. Bars show relative magnitude. Striped bars are negative.";
-  $("inspect").textContent = "Inspect hidden layer " + (3 - layer) + " →";
+    `Activation ${values[Number(unit.value)].toFixed(4)}. Layer ${layer} · ${values.length} GELU units. Bars show relative magnitude. Striped bars are negative.`;
+  $("inspect").textContent = `Inspect hidden layer ${3 - layer} →`;
 }
 $("specimen").hidden = $("inspect").hidden = false;
 function rememberSpecimen() {
@@ -221,8 +209,7 @@ function syncCycle() {
     welcome === "running"
   )
     return;
-  // A fresh dwell after resuming prevents catch-up jumps. The ten canonical
-  // samples cycle in digit order; manual Next also retains the challenge sample.
+  // Fresh dwell after resuming avoids catch-up jumps; samples cycle in digit order.
   cycleTimer = setTimeout(() => {
     // Preferences can change before their event reaches this controller.
     if (reduce() || document.hidden) return;
@@ -249,7 +236,7 @@ let dismiss = () => {};
 function createWelcomeVeil(isReturning) {
   const veil = document.createElement("div");
   veil.className = "entry bb-entry";
-  veil.setAttribute("role", "dialog");
+  veil.role = "dialog";
   veil.tabIndex = -1;
   veil.setAttribute("aria-describedby", "welcome-keyboard-help");
   veil.setAttribute("aria-label", "Welcome to Aritra Saha's portfolio");
@@ -297,14 +284,16 @@ function startup() {
   populateWelcomeGlyph(glyph, input);
 
   const onKeyDown = (e) => {
-    if (e.key === "Escape" || e.key === "Tab") dismiss();
+    if (e.key === "Escape" || e.key === "Tab") {
+      e.preventDefault();
+      dismiss();
+    }
   };
   const onNavigate = () => dismiss();
   let timer, alignmentTimer;
   const stopName = constructWelcomeName(veil.querySelector("strong"));
 
-  // Every exit path shares cleanup: delayed timers cannot reopen the cover
-  // or steal focus after a keyboard, visibility or motion-preference dismissal.
+  // Shared cleanup: delayed timers cannot reopen cover or steal focus.
   dismiss = () => {
     const returnFocus = veil.contains(document.activeElement);
     stopName();
@@ -347,8 +336,7 @@ function startup() {
     { duration, easing: "linear", fill: "forwards" },
   );
 
-  // Font settlement and the mounted hero can move the target after first paint.
-  // Re-measure just before the retained grid begins its final handoff.
+  // Re-measure target before handoff in case font settlement moved pixels.
   alignmentTimer = setTimeout(() => {
     const targetMove = calculateTransform(
       glyph.getBoundingClientRect(),
@@ -366,30 +354,25 @@ function startup() {
 }
 
 startup();
-matchMedia("(prefers-reduced-motion: reduce)").addEventListener(
-  "change",
-  () => {
-    if (reduce()) dismiss();
-    syncCycle();
-  },
-);
-document.addEventListener("visibilitychange", () => {
-  if (document.hidden) dismiss();
-  syncCycle();
-});
-new MutationObserver(() => {
+const onPreferenceChange = () => {
   if (reduce()) {
     animations.forEach((a) => a.cancel());
     dismiss();
   }
   syncCycle();
-}).observe(document.documentElement, {
+};
+matchMedia("(prefers-reduced-motion: reduce)").addEventListener(
+  "change",
+  onPreferenceChange,
+);
+navigator.connection?.addEventListener("change", onPreferenceChange);
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) dismiss();
+  syncCycle();
+});
+new MutationObserver(onPreferenceChange).observe(document.documentElement, {
   attributes: true,
   attributeFilter: ["data-motion", "data-welcome-state"],
-});
-navigator.connection?.addEventListener("change", () => {
-  if (reduce()) dismiss();
-  syncCycle();
 });
 window.addEventListener("pagehide", () => clearTimeout(cycleTimer));
 window.addEventListener("pageshow", syncCycle);

@@ -168,6 +168,15 @@ export function createSurfacePhysics(elements) {
   window.addEventListener("resize", () => states.forEach(reset), {
     passive: true,
   });
+  window.addEventListener(
+    "scroll",
+    () => {
+      states.forEach((state) => {
+        state.bounds = null;
+      });
+    },
+    { passive: true },
+  );
 
   const reconcile = () => {
     if (allowed()) return;

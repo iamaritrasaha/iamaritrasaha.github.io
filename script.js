@@ -218,7 +218,12 @@ if (copyEmail && copyStatus && navigator.clipboard?.writeText) {
     copyEmail.disabled = true;
     copyStatus.textContent = "";
     try {
-      const address = document.querySelector(".contact-email").href.slice(7);
+      const emailLink = document.querySelector(".contact-email");
+      const href = emailLink ? emailLink.getAttribute("href") || "" : "";
+      const address = href
+        .replace(/^mailto:/i, "")
+        .split("?")[0]
+        .trim();
       await navigator.clipboard.writeText(address);
       copyStatus.textContent = "Email address copied.";
     } catch {

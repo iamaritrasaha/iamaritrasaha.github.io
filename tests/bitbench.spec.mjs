@@ -252,3 +252,50 @@ test("cycling pauses for motion, visibility and manual edits and resumes from Ne
   await page.clock.fastForward(10000);
   await expectSample(page, 8);
 });
+
+test("2D matrix keyboard navigation obeys row and column boundaries without wrapping", async ({
+  page,
+}) => {
+  await page.goto("/?motion=reduce");
+  const cells = page.locator("#pixels button");
+  // Top row: cell 0
+  await cells.first().focus();
+  await page.keyboard.press("ArrowUp");
+  await expect(cells.nth(0)).toBeFocused();
+  await page.keyboard.press("ArrowLeft");
+  await expect(cells.nth(0)).toBeFocused();
+
+  // Right edge of top row: cell 7
+  await cells.nth(7).focus();
+  await page.keyboard.press("ArrowRight");
+  await expect(cells.nth(7)).toBeFocused();
+  await page.keyboard.press("ArrowUp");
+  await expect(cells.nth(7)).toBeFocused();
+
+  // Bottom row left edge: cell 56
+  await cells.nth(56).focus();
+  await page.keyboard.press("ArrowDown");
+  await expect(cells.nth(56)).toBeFocused();
+  await page.keyboard.press("ArrowLeft");
+  await expect(cells.nth(56)).toBeFocused();
+
+  // Bottom right corner: cell 63
+  await cells.nth(63).focus();
+  await page.keyboard.press("ArrowDown");
+  await expect(cells.nth(63)).toBeFocused();
+  await page.keyboard.press("ArrowRight");
+  await expect(cells.nth(63)).toBeFocused();
+
+  // Row Home/End navigation
+  await cells.nth(19).focus(); // row 2, col 3
+  await page.keyboard.press("Home");
+  await expect(cells.nth(16)).toBeFocused(); // row 2, start
+  await page.keyboard.press("End");
+  await expect(cells.nth(23)).toBeFocused(); // row 2, end
+
+  // Full matrix Ctrl+Home / Ctrl+End
+  await page.keyboard.press("Control+Home");
+  await expect(cells.nth(0)).toBeFocused();
+  await page.keyboard.press("Control+End");
+  await expect(cells.nth(63)).toBeFocused();
+});

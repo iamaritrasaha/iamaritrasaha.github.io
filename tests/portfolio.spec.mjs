@@ -398,3 +398,15 @@ test("public project sources, honest limits and static RPM preview stay accessib
     "physical qualification is pending",
   );
 });
+
+test("brand dot computes to circular 50% border radius across headers", async ({
+  page,
+}) => {
+  for (const path of ["/", "/embedded/", "/explorations/", "/404.html"]) {
+    await page.goto(path);
+    const radius = await page
+      .locator(".site-header .brand-dot")
+      .evaluate((el) => getComputedStyle(el).borderRadius);
+    expect(radius).toBe("50%");
+  }
+});

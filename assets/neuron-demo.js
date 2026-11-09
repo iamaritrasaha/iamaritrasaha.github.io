@@ -251,19 +251,33 @@ export function mountNeuronDemo(host) {
   unitButtons.forEach((button, index) => {
     button.addEventListener("click", () => chooseUnit(index));
     button.addEventListener("keydown", (event) => {
-      const movements = {
-        ArrowDown: 2,
-        ArrowUp: -2,
-        ArrowLeft: -1,
-        ArrowRight: 1,
-      };
-      if (Object.hasOwn(movements, event.key)) {
-        event.preventDefault();
-        chooseUnit(index + movements[event.key], true);
-      } else if (event.key === "Home" || event.key === "End") {
-        event.preventDefault();
-        chooseUnit(event.key === "Home" ? 0 : 15, true);
+      const row = Math.floor(index / 2);
+      const col = index % 2;
+      let nextIndex = index;
+      switch (event.key) {
+        case "ArrowDown":
+          if (row < 7) nextIndex = index + 2;
+          break;
+        case "ArrowUp":
+          if (row > 0) nextIndex = index - 2;
+          break;
+        case "ArrowLeft":
+          if (col > 0) nextIndex = index - 1;
+          break;
+        case "ArrowRight":
+          if (col < 1) nextIndex = index + 1;
+          break;
+        case "Home":
+          nextIndex = 0;
+          break;
+        case "End":
+          nextIndex = 15;
+          break;
+        default:
+          return;
       }
+      event.preventDefault();
+      chooseUnit(nextIndex, true);
     });
   });
   host.querySelector(".neuron-next-button").addEventListener("click", () => {

@@ -335,27 +335,6 @@ html[data-theme="dark"] {
     aspect-ratio: 1;
   }
 }
-.site-header {
-  background: #25212a;
-  color: #fff3df;
-}
-.site-header .theme-control select {
-  background: #25212a;
-  color: #fff3df;
-}
-.site-header .brand-dot {
-  background: #ff8555;
-  border-radius: 0;
-  transform: rotate(45deg);
-}
-.site-header .nav-panel a:hover,
-.site-header .nav-panel a:focus-visible {
-  background: #ff8555;
-  color: #241d22;
-}
-.nav-panel a:after {
-  background: #ff8555;
-}
 .pulse-board {
   border-block: 2px solid #a58673;
   background: #3b302b;
