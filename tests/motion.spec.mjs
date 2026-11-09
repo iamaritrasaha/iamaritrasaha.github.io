@@ -281,3 +281,55 @@ test("LED brightness blends before thresholds and RPM updates at display cadence
     await page.evaluate(() => window.readingChanges),
   ).toBeGreaterThanOrEqual(50);
 });
+
+test("window scroll invalidates cached card bounds so centering pointer after scroll computes near-zero tilt", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  await page.keyboard.press("Escape");
+
+  await page.evaluate(async () => {
+    const { createSurfacePhysics } = await import(
+      "/assets/surface-physics.js?v=20260930.1"
+    );
+    const card = document.createElement("div");
+    card.id = "test-surface-card";
+    card.style.position = "absolute";
+    card.style.top = "600px";
+    card.style.left = "200px";
+    card.style.width = "400px";
+    card.style.height = "300px";
+    document.body.append(card);
+    const setMotion = createSurfacePhysics([card]);
+    setMotion(true);
+  });
+
+  const card = page.locator("#test-surface-card");
+  await card.scrollIntoViewIfNeeded();
+
+  const box1 = await card.boundingBox();
+  expect(box1).not.toBeNull();
+  await page.mouse.move(box1.x + box1.width / 2, box1.y + box1.height / 2);
+  await page.waitForTimeout(100);
+
+  // Scroll page by 120px
+  await page.evaluate(() => window.scrollBy(0, 120));
+  await page.waitForTimeout(50);
+
+  // Move pointer to the NEW visual center of the card
+  const box2 = await card.boundingBox();
+  expect(box2).not.toBeNull();
+  await page.mouse.move(box2.x + box2.width / 2, box2.y + box2.height / 2);
+  await page.waitForTimeout(100);
+
+  const [tiltX, tiltY] = await card.evaluate((el) => [
+    parseFloat(el.style.getPropertyValue("--tilt-x")) || 0,
+    parseFloat(el.style.getPropertyValue("--tilt-y")) || 0,
+  ]);
+
+  // Because scroll invalidated cached bounds, hovering at the new center
+  // calculates target relative to current viewport bounds, keeping tilt near zero.
+  expect(Math.abs(tiltX)).toBeLessThan(1.5);
+  expect(Math.abs(tiltY)).toBeLessThan(1.5);
+});
