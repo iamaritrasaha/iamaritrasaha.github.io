@@ -19,7 +19,6 @@
   /* Cobalt surfaces: pale blue-white ink matched in perceived contrast */
   --nbp-fine-cobalt: rgb(220 232 255 / 3.5%);
   --nbp-major-cobalt: rgb(220 232 255 / 6%);
-  --nbp-reg-cobalt: rgb(220 232 255 / 24%);
 }
 
 html[data-theme="dark"] {
@@ -29,7 +28,6 @@ html[data-theme="dark"] {
 
   --nbp-fine-cobalt: rgb(200 220 255 / 2.8%);
   --nbp-major-cobalt: rgb(200 220 255 / 4.8%);
-  --nbp-reg-cobalt: rgb(200 220 255 / 22%);
 }
 
 /* ── Paper-toned sections (60% dominant ground) ────────────────────────── */

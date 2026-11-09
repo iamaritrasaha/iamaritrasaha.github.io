@@ -8,7 +8,7 @@ export const VIEW = Object.freeze({
   initial: 22,
   speed: 12,
 });
-export const radians = (degrees) => (degrees * Math.PI) / 180;
+const radians = (degrees) => (degrees * Math.PI) / 180;
 export function surface(radius, theta) {
   return [
     radius * Math.cos(theta),

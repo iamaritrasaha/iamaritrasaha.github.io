@@ -11,7 +11,7 @@ export const CIPHER_SYMBOLS = [
   "{",
   "}",
 ];
-export const INITIAL_FIELD = ["0", "1", "A", "F", "7", "X", "#", "/", "{", "}"];
+export const INITIAL_FIELD = CIPHER_SYMBOLS;
 
 export const clamp = (v, min = 0, max = 1) => Math.max(min, Math.min(max, v));
 
