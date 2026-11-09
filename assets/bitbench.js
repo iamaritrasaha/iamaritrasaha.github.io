@@ -254,7 +254,7 @@ function createWelcomeVeil(isReturning) {
   veil.setAttribute("aria-describedby", "welcome-keyboard-help");
   veil.setAttribute("aria-label", "Welcome to Aritra Saha's portfolio");
   veil.innerHTML =
-    '<div class="boot-grid" aria-hidden="true"></div><strong>Aritra Saha</strong><small>AI/ML Engineer | Applied AI Developer</small><span id="welcome-keyboard-help" class="sr-only">Press Escape or Tab to continue to the portfolio.</span>';
+    '<div class="boot-grid" aria-hidden="true"></div><strong class="name-pending"><span class="sr-only">Aritra Saha</span><span class="name-visual" aria-hidden="true">Aritra Saha</span></strong><small>AI/ML Engineer | Applied AI Developer</small><span id="welcome-keyboard-help" class="sr-only">Press Escape or Tab to continue to the portfolio.</span>';
   veil.classList.toggle("is-returning", isReturning);
   return veil;
 }

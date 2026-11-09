@@ -69,6 +69,41 @@ test("a delayed model never paints the homepage before the welcome", async ({
   );
 });
 
+test("the first-paint cover does not expose the completed wordmark visually", async ({
+  page,
+}) => {
+  const release = await holdModel(page);
+  try {
+    await page.goto("/", { waitUntil: "commit" });
+    const cover = page.locator("#welcome-paint");
+    await expect(cover).toBeVisible();
+
+    // 1. The first-paint cover element itself contains no text and does not expose the wordmark
+    const text = await cover.evaluate((el) => el.innerText.trim());
+    expect(text).toBe("");
+    expect(await cover.textContent()).not.toContain("Aritra Saha");
+
+    // 2. The topmost visible element across the welcome area is the cover, occluding the page
+    const occluded = await page.evaluate(() => {
+      const center = document.elementFromPoint(innerWidth / 2, innerHeight / 2);
+      return Boolean(center?.closest("#welcome-paint"));
+    });
+    expect(occluded).toBe(true);
+
+    // 3. No visible welcome wordmark is rendered in the viewport
+    const visibleWelcomeWordmark = await page.evaluate(() => {
+      const welcome = document.querySelector(
+        ".bb-entry strong, #welcome-paint",
+      );
+      if (!welcome) return false;
+      return welcome.innerText.includes("Aritra Saha");
+    });
+    expect(visibleWelcomeWordmark).toBe(false);
+  } finally {
+    release();
+  }
+});
+
 test("a stalled model releases the page and cannot open a late welcome", async ({
   page,
 }) => {

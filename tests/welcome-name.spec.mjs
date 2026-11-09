@@ -378,3 +378,59 @@ for (const mode of ["manual", "query", "animation-unavailable"]) {
     await expect(page.locator("#pixels button")).toHaveCount(64);
   });
 }
+
+test("animated welcome visually protects native wordmark until cipher reel reveals it with zero duplication", async ({
+  page,
+}) => {
+  await freeze(page);
+  await instrument(page);
+  let releaseFont;
+  const fontHeld = new Promise((resolve) => {
+    releaseFont = resolve;
+  });
+  await page.route("**/Literata*.woff2", async (route) => {
+    await fontHeld;
+    await route.continue();
+  });
+
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+  const strong = page.locator(".bb-entry > strong");
+  await expect(strong).toHaveClass(/name-pending/);
+  const visual = strong.locator(".name-visual");
+  await expect(visual).toHaveCSS("visibility", "hidden");
+
+  const visibleTextBeforeReel = await strong.evaluate((el) => {
+    const vis = el.querySelector(".name-visual");
+    return vis && getComputedStyle(vis).visibility !== "hidden";
+  });
+  expect(visibleTextBeforeReel).toBe(false);
+
+  releaseFont();
+  await page.evaluate(() => document.fonts.ready);
+  await expect(strong).toHaveAttribute("data-construction", "anticipation");
+
+  const overlay = strong.locator(".name-reel");
+  await expect(overlay).toBeVisible();
+
+  const initialSymbols = await overlay.evaluate((el) => {
+    const faces = el.querySelectorAll(".reel-face.front");
+    return Array.from(faces, (f) => f.textContent.trim());
+  });
+  const allowed = new Set(["0", "1", "A", "F", "7", "X", "#", "/", "{", "}"]);
+  expect(initialSymbols.length).toBe(10);
+  expect(initialSymbols.every((s) => allowed.has(s))).toBe(true);
+
+  await page.clock.runFor(500);
+  await expect(strong).toHaveAttribute("data-construction", "constructing");
+  await expect(visual).toHaveCSS("visibility", "hidden");
+
+  await page.clock.runFor(3100);
+  await expect(strong).toHaveAttribute("data-construction", "complete");
+
+  await expect(overlay).toHaveCount(0);
+  await expect(visual).toHaveCSS("visibility", "visible");
+  await expect(visual).toBeVisible();
+  await expect(visual).toHaveText("Aritra Saha");
+
+  await cleanup(page);
+});

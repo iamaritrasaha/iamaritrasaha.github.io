@@ -18,6 +18,7 @@ await new Promise((r) => setTimeout(r, 1200));
 try {
   const browser = await chromium.launch();
 
+  // Representative configurations: desktop (1440) and mobile (390), light & dark themes
   const configs = [
     { name: "desktop-1440-light", width: 1440, height: 900, theme: "light" },
     { name: "desktop-1440-dark", width: 1440, height: 900, theme: "dark" },
@@ -29,6 +30,7 @@ try {
     const context = await browser.newContext({
       viewport: { width: cfg.width, height: cfg.height },
       colorScheme: cfg.theme,
+      reducedMotion: "reduce",
     });
     const page = await context.newPage();
 
@@ -56,7 +58,7 @@ try {
 
     console.log(`[${cfg.name}] Computed backgrounds on Home:`, homeStyles);
 
-    // Hero screenshot
+    // Representative Hero capture
     const heroEl = page.locator(".bench-hero");
     if (await heroEl.isVisible()) {
       await heroEl.screenshot({
@@ -64,7 +66,7 @@ try {
       });
     }
 
-    // Selected work screenshot
+    // Representative Selected Work capture
     const workEl = page.locator(".selected-work");
     if (await workEl.isVisible()) {
       await workEl.screenshot({
@@ -72,80 +74,11 @@ try {
       });
     }
 
-    // Full homepage
-    await page.screenshot({
-      path: `${outDir}/${cfg.name}-homepage-full.png`,
-      fullPage: true,
-    });
-
-    // 2. Embedded Lab
-    await page.goto("http://127.0.0.1:4174/embedded/", {
-      waitUntil: "networkidle",
-    });
-    await page.keyboard.press("Escape");
-    await page.waitForTimeout(300);
-
-    const embeddedStyles = await page.evaluate(() => {
-      const getBg = (sel) => {
-        const el = document.querySelector(sel);
-        return el ? getComputedStyle(el).backgroundImage : "not found";
-      };
-      return {
-        body: getBg("body"),
-        labHero: getBg(".lab-hero"),
-      };
-    });
-    console.log(
-      `[${cfg.name}] Computed backgrounds on Embedded:`,
-      embeddedStyles,
-    );
-
-    await page.screenshot({
-      path: `${outDir}/${cfg.name}-embedded.png`,
-      fullPage: false,
-    });
-
-    // 3. Explorations
-    await page.goto("http://127.0.0.1:4174/explorations/", {
-      waitUntil: "networkidle",
-    });
-    await page.keyboard.press("Escape");
-    await page.waitForTimeout(300);
-
-    const explorationsStyles = await page.evaluate(() => {
-      const getBg = (sel) => {
-        const el = document.querySelector(sel);
-        return el ? getComputedStyle(el).backgroundImage : "not found";
-      };
-      return {
-        body: getBg("body"),
-        explorationsHero: getBg(".explorations-hero"),
-      };
-    });
-    console.log(
-      `[${cfg.name}] Computed backgrounds on Explorations:`,
-      explorationsStyles,
-    );
-
-    await page.screenshot({
-      path: `${outDir}/${cfg.name}-explorations.png`,
-      fullPage: false,
-    });
-
-    // 4. 404 page
-    await page.goto("http://127.0.0.1:4174/404.html", {
-      waitUntil: "networkidle",
-    });
-    await page.screenshot({
-      path: `${outDir}/${cfg.name}-404.png`,
-      fullPage: false,
-    });
-
     await context.close();
   }
 
   await browser.close();
-  console.log(`Saved screenshots to ${outDir}`);
+  console.log(`Saved representative screenshots to ${outDir}`);
 } finally {
   server.kill();
 }
