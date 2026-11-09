@@ -8,12 +8,13 @@ import {
 // Cipher Reel: Each character spins independently in its fixed position,
 // cycling through programming symbols and decelerating into Literata typography.
 export function constructWelcomeName(name) {
-  const label = name.textContent.trim();
+  const visualEl = name.querySelector(".name-visual");
+  const label = (visualEl ? visualEl.textContent : name.textContent).trim();
   const accessible = document.createElement("span");
   accessible.className = "sr-only";
   accessible.textContent = label;
 
-  const visual = document.createElement("span");
+  const visual = visualEl || document.createElement("span");
   visual.className = "name-visual";
   visual.setAttribute("aria-hidden", "true");
   visual.textContent = label;
