@@ -121,3 +121,51 @@ The clean `main` branch started at commit `aa7f590`. The portfolio codebase unde
   - `npm test`: PASS (37/37 unit tests)
   - `npm run test:browser`: PASS (162/162 Playwright E2E scenarios across all viewports and themes)
   - `scripts/check_site.py`: PASS (all anchors, links, metadata, and byte budgets verified)
+
+### Post-refactoring measured metrics
+
+| Metric                           | Pre-Refactor Baseline       | Post-Refactor Result        | Net Change                      |
+| :------------------------------- | :-------------------------- | :-------------------------- | :------------------------------ |
+| **Tracked files**                | 291 files                   | 270 files                   | **-21 files (-7.2%)**           |
+| **Total tracked bytes**          | 57,450,118 bytes (56.10 MB) | 55,308,940 bytes (52.75 MB) | **-2,141,178 bytes (-3.7%)**    |
+| **Assets files**                 | 74 files                    | 55 files                    | **-19 files (-25.7%)**          |
+| **Assets directory bytes**       | 1,894,845 bytes (1.81 MB)   | 860,451 bytes (0.82 MB)     | **-1,034,394 bytes (-54.6%)**   |
+| **Docs directory files**         | 142 files                   | 140 files                   | **-2 files**                    |
+| **Docs directory bytes**         | 53,194,307 bytes (50.73 MB) | 50,718,622 bytes (48.37 MB) | **-2,475,685 bytes (-4.7%)**    |
+| **Concepts files**               | 23 files                    | 23 files                    | 0 (retained for design history) |
+| **Concepts directory bytes**     | 3,297,149 bytes (3.14 MB)   | 3,297,149 bytes (3.14 MB)   | 0                               |
+| **Lint status**                  | PASS                        | PASS                        | Zero warnings / violations      |
+| **Unit test status**             | 37/37 PASS                  | 37/37 PASS                  | Zero regressions                |
+| **Playwright E2E tests**         | 162/162 PASS                | 162/162 PASS                | Chromium + Firefox              |
+| **Size budgets (check_site.py)** | PASS                        | PASS                        | All canonical LF budgets met    |
+
+### Summary of cleanup actions
+
+1. **Dead Code & Unused Exports:**
+   - Internalized unused export `radians` in `assets/projection.js:11`.
+   - Pruned dead CSS custom variable `--nbp-reg-cobalt` in `assets/notebook-paper.css`.
+   - Standardized `404.html` social preview metadata to canonical `assets/portfolio-social-20261106.png`.
+   - Removed obsolete copy step for `20261105.png` in `scripts/render_social_card.mjs`.
+2. **JavaScript Simplification:**
+   - `assets/bitbench.js`: Refactored monolithic `startup()` function into focused helper functions (`createWelcomeVeil()`, `populateWelcomeGlyph()`, `calculateTransform()`). Enhanced `reduce()` to inspect `localStorage` for `portfolio-reduced-motion`.
+   - `assets/welcome-reel.js`: Deduplicated `INITIAL_FIELD` re-assignment, renamed cryptic variables (`f` → `flipIndex`, `turn` → `halfTurn`, `rad` → `angleRad`), and documented flip cadence physics.
+   - `assets/welcome-name.js`: Simplified nested card face styling conditions.
+   - `assets/embedded.js`: Extracted shared `canAnimate` boolean guard in `updateMotion()`.
+   - `script.js`: Cached `isReduced` to avoid redundant calls in `syncMotion()`.
+3. **CSS Architecture Consolidation:**
+   - Consolidated duplicate element resets (`a`, `button`, `select`, `summary`) and heading declarations (`h1`–`h5`, `h2`–`h4`) in `styles.css`.
+   - Merged duplicate `@media (max-width: 650px)` queries in `styles.css`.
+   - Pruned shadowed plum/copper palette tokens and superseded `.nav-panel a:hover` in `assets/creative.css`.
+   - Merged three fragmented `@media (max-width: 650px)` media query blocks in `assets/editorial.css`.
+4. **Pruned Unreferenced Legacy Assets & Media (21 files removed):**
+   - `assets/portfolio-social-20261105.png` (76.6 KB, superseded by 20261106.png)
+   - `assets/projects/aether-home.png` (773.7 KB, unreferenced capture)
+   - `assets/projects/aether-home.webp` (21.9 KB, unreferenced capture)
+   - `assets/veyra-open-graph.png` (132.3 KB, unreferenced)
+   - `assets/portfolio-open-graph.svg` (27.1 KB, unreferenced)
+   - 14 unreferenced legacy SVG marks: `assets/projects/aether-mark.svg`, `novarx-mark.svg`, `serein-mark.svg`, `vyren-mark.svg`, `assets/a-monogram.svg`, `aura-symbol.svg`, `developer-mark.svg`, `lumina-symbol.svg`, `noise.svg`, `quanta-symbol.svg`, `relay-symbol.svg`, `vector-symbol.svg`, `veyra-app-icon.svg`, `veyra-mark-chartreuse.svg`.
+   - 2 unreferenced intermediate video captures in `docs/welcome-construction/`: `before-desktop.webm` (1.82 MB) and `before-mobile.webm` (654.0 KB).
+5. **Retained Files & Justification:**
+   - `assets/fonts/Inter-LICENSE.txt` & `Newsreader-OFL.txt`: Retained for font licensing and attribution requirements.
+   - `concepts/` prototypes and review media: Retained per reproducible design research documentation in `concepts/README.md` and `docs/portfolio-motion-review.md`.
+   - `docs/review/`, `docs/bitbench-review/`, `docs/creative-review/`, `docs/screenshots/`: Retained as reproducible evidence cited in historical review reports.

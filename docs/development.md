@@ -1,89 +1,151 @@
 # Developing the portfolio
 
-This is a static portfolio with two public pages: the [homepage](https://iamaritrasaha.github.io/) and [Embedded Systems Lab](https://iamaritrasaha.github.io/embedded/), plus a shared 404 page. HTML, layered CSS and native JavaScript modules provide the current cobalt, citron and paper presentation. There are no production dependencies, remote fonts, analytics or model endpoints.
+This is a static portfolio with three public pages: the [homepage](https://iamaritrasaha.github.io/), [Embedded Systems Lab](https://iamaritrasaha.github.io/embedded/), and [Systems & Research Explorations](https://iamaritrasaha.github.io/explorations/), plus a shared 404 page. HTML, layered CSS and native JavaScript modules provide the current cobalt, citron and paper presentation. There are no production dependencies, remote fonts, analytics or model endpoints.
 
-## Local preview and checks
+## Project architecture map
 
-Use Node.js `^22.22.0 || >=24.8.0` and Python 3 for development, matching `package.json`. CI checks the supported 22, 24 and 26 release lines. The preview itself needs no dependency installation or build:
-
-```bash
-npm start
+```
+iamaritrasaha.github.io/
+├── index.html                  # Homepage (featured AI/ML, interactive classifier, SeeDL, Orion)
+├── 404.html                    # Error page with matching theme and navigation
+├── embedded/
+│   └── index.html              # Embedded Systems Lab (PulseShift, circuits, PWM, protocols)
+├── explorations/
+│   └── index.html              # Systems & Research Explorations (historical archive, Vyren)
+├── styles.css                  # Foundational reset, design tokens, typography, grid layouts
+├── script.js                   # Homepage orchestration: scene mounts, motion sync, hash focus
+├── assets/
+│   ├── theme.js                # Early theme initialization (<head>) and cross-tab storage sync
+│   ├── navigation.js           # Responsive mobile navigation drawer and focus trapping
+│   ├── notebook-paper.css      # Engineering notebook graph-paper background grids
+│   ├── editorial.css           # Editorial typography and magazine layouts
+│   ├── creative.css            # Studio presentation styles and featured work cards
+│   ├── bitbench.css            # Cobalt/citron matrix tokens and workbench component styling
+│   ├── bitbench.js             # Hero 8×8 classifier matrix, sample cycling, welcome handoff
+│   ├── welcome-start.js        # Synchronous first-paint cover gate (flash protection & fallback)
+│   ├── welcome-name.js         # 3D split-flap glyph card assembly and responsive text layout
+│   ├── welcome-reel.js         # Physics-based reel cadence, deceleration math, symbol reveals
+│   ├── welcome-math.js         # Mathematical manuscript equations and fallback paths
+│   ├── digit-model.js          # Pre-trained 64→16→12→10 MLP weights and test specimens
+│   ├── neural-network.js       # Pure forward/backward math (GELU, softmax, stable cross-entropy)
+│   ├── neuron-demo.js          # Interactive classifier canvas, layer activations, probe controls
+│   ├── neuron-math.js          # Native MathML equation markup and numerical explanations
+│   ├── pixel-relief.js         # 3D isometric canvas relief projection of pixel intensities
+│   ├── projection.js           # Pure 3D helicoid geometry, rotation matrix, orthographic camera
+│   ├── projection-renderer.js  # Depth-sorted polygon rasterization for helicoid surface
+│   ├── surface-physics.js      # Continuous critically-damped pointer spring physics
+│   ├── electronics-math.js     # Pure electrical math (Ohm's law) and protocol waveforms
+│   ├── embedded.js             # Embedded Lab instrument controllers and oscilloscope renderer
+│   └── pulse-rpm.js            # Simulated RPM waveform and synchronized shift-light LEDs
+├── scripts/                    # Test fixtures, site integrity checks, build tools
+└── tests/                      # Playwright E2E and visual regression test suites
 ```
 
-Open [localhost:4173](http://localhost:4173) or [the local lab](http://localhost:4173/embedded/). The server binds to loopback, serves public files only, redirects `/embedded` to `/embedded/`, and returns the actual 404 page/status for missing routes.
+## Entry points and responsibilities
+
+| Page / Route     | Entry File                | Primary Script           | Core Responsibilities                                                                                              |
+| ---------------- | ------------------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| `/` (Homepage)   | `index.html`              | `script.js`              | Hero 8×8 digit classifier, Cipher Reel welcome, SeeDL inspection, QUANTA radial orbital study, Orion case study.   |
+| `/embedded/`     | `embedded/index.html`     | `assets/embedded.js`     | Interactive laboratory: resistor power dissipation, PWM duty-cycle generator, and oscilloscope protocol waveforms. |
+| `/explorations/` | `explorations/index.html` | `assets/explorations.js` | Chronological research index, Vyren systems study, architectural explorations, and legacy fragment redirection.    |
+| `/404.html`      | `404.html`                | `assets/theme.js`        | Standalone fallback page maintaining consistent branding, theme switching, and navigation back to index.           |
+
+## CSS organization and load order
+
+Stylesheets are loaded in strict cascade order:
+
+1. **Foundations (`styles.css`):** Core reset, CSS custom properties (color tokens, font variables, elevation), typography hierarchy, base element rules, and fluid responsive grid primitives.
+2. **Notebook Grid (`assets/notebook-paper.css`):** Engineering graph-paper background pattern, ruled margin lines, and paper texture emulation.
+3. **Component Studies:**
+   - `assets/editorial.css`: Editorial typography, multi-column case studies, and callout layouts.
+   - `assets/creative.css`: Studio cards, projection viewer frames, and project showcase layouts.
+   - `assets/bitbench.css`: The current cobalt (`#002b49`) and citron (`#d4e157`) design tokens, editable matrix styles, specimen controls, and classification bars.
+4. **Feature & Page Specifics:**
+   - Homepage: `assets/welcome-math.css` (Cipher Reel cover), `assets/seedl-feature.css`, `assets/quanta-feature.css`, `assets/neuron-demo.css`.
+   - Embedded Lab: `assets/embedded.css` (oscilloscope canvas, circuit schematics, protocol controls).
+   - Explorations: `assets/explorations.css`, `assets/architecture.css`.
+
+## Machine learning and scientific computing architecture
+
+All scientific and machine learning demonstrations execute client-side with zero remote inference dependencies:
+
+- **Model Checkpoint (`assets/digit-model.js`):** Contains fixed, trained float weights for a 4-layer fully-connected network (64 inputs → 16 hidden → 12 hidden → 10 outputs) trained on 8×8 handwritten digits, alongside reference specimen arrays (digits 0–9 plus challenge 751).
+- **Inference Engine (`assets/neural-network.js`):** Pure functional forward pass implementation with numerical safeguards:
+  - GELU activation function with analytical derivative: $\text{GELU}(x) = x \cdot \Phi(x)$.
+  - Numerically stable softmax using log-sum-exp subtraction ($\max(z_i)$ shift) to eliminate float overflow.
+  - Cross-entropy loss and gradient backpropagation for real-time loss visualization.
+- **Classifier Visualization (`assets/neuron-demo.js`, `assets/neuron-math.js`):** Renders hidden-layer activation bars, dynamic confidence scores, and formula explanations in native MathML.
+- **Embedded Electronics Math (`assets/electronics-math.js`):** Pure calculations for Ohm's law ($V = IR, P = VI = I^2 R = V^2 / R$), PWM pulse on-time/period, and teaching waveforms for UART 8N1, I2C, SPI mode 0, and differential CAN bus signals.
+- **Physical Projections (`assets/projection.js`, `assets/surface-physics.js`):** True 3D rotation matrices, orthographic camera projection, analytical hydrogen radial wavefunctions, and critically-damped spring physics ($\omega_0, \zeta$).
+
+## Welcome animation initialization (Cipher Reel)
+
+The welcome screen uses a multi-stage progressive reveal engineered to prevent unstyled flash and support full accessibility:
+
+1. **First-Paint Flash Protection (`assets/welcome-start.js`):** Executes synchronously in `<head>`. Immediately creates a plain-name cover veil over the page. If JavaScript fails, fonts are delayed, or data-saver is active, the plain name remains cleanly readable and dismissible.
+2. **Glyph & Reel Construction (`assets/welcome-name.js`, `assets/welcome-reel.js`):** Assembles 3D split-flap cards for "Aritra Saha". A physics-based cadence decelerates monotonically over an even number of half-turns ($k \times 180^\circ$) so each card lands squarely at $0^\circ$ revealing the final letter.
+3. **Handoff to Workbench (`assets/bitbench.js`):** When the animation finishes or the user presses Escape / taps Dismiss, `bitbench.js` cleanly transitions the veil away, restores focus, and hands off execution to the interactive 8×8 digit workbench.
+4. **Safeguards:** Bypassed automatically when `prefers-reduced-motion` is active, when `localStorage` has `portfolio-reduced-motion`, or on return visits within the same session.
+
+## Local preview and testing
+
+Requirements: Node.js `^22.22.0 || >=24.8.0` and Python 3.
 
 ```bash
+# Install development dependencies
 npm ci
+
+# Start local preview server (serves on http://localhost:4173)
+npm start
+
+# Run linters (Prettier formatting, HTML-validate, JS syntax check)
 npm run lint
+
+# Auto-format codebase
+npm run format
+
+# Run static integrity checks and unit tests (Python check_site.py + node test suite)
 npm test
+
+# Build production distribution into dist/
 npm run build
-npx playwright install chromium firefox
+
+# Run end-to-end and visual regression browser tests (Playwright)
 npm run test:browser
 ```
 
-`lint` checks Prettier formatting, all three HTML pages and syntax in every top-level JavaScript module under `assets/`, `scripts/` and `tests/`, plus the root script and Playwright configuration. `npm run format` formats the same authored files, including package/workflow configuration. Static tests check local page links and fragments, controls, image geometry, CSS resources, module imports, social-preview compatibility and source-size budgets. Text budgets normalize CRLF to LF; binary image dimensions and sizes use actual bytes.
-
-Python resolution uses `PYTHON`, an optional ignored `.python-path`, then `python3`, `python` and `py`. `build` runs the static/unit checks and copies public files to `dist/`; it does not publish. Preview it with `npm start -- dist`. The model-training environment is separate and optional; see [digit-model.md](digit-model.md).
-
-## Browser selection and coverage
-
-Playwright starts its own preview on port 4174 with one worker. Microsoft Edge is the local default. To use the installed Playwright browsers in PowerShell:
+To run Playwright on a specific browser in PowerShell:
 
 ```powershell
-$env:PLAYWRIGHT_CHANNEL = "chromium"
-npm run test:browser
-$env:PLAYWRIGHT_BROWSER = "firefox"
-npm run test:browser
+$env:PLAYWRIGHT_CHANNEL = "chromium"; npm run test:browser
+$env:PLAYWRIGHT_BROWSER = "firefox"; npm run test:browser
 Remove-Item Env:PLAYWRIGHT_BROWSER, Env:PLAYWRIGHT_CHANNEL
 ```
 
-On a POSIX shell use `PLAYWRIGHT_CHANNEL=chromium npm run test:browser` and `PLAYWRIGHT_BROWSER=firefox npm run test:browser`. CI installs browser system dependencies with `npx playwright install --with-deps` as described in the [Playwright CI guide](https://playwright.dev/docs/ci).
+### Test suite composition
 
-There are 27 unit tests and 99 browser scenarios. Chromium runs all 99; Firefox skips the one test that explicitly uses Chromium's extension API for native browser zoom. Coverage includes:
+- **37 Unit Tests (`scripts/check_*.mjs`):** Test resistor power conservation, PWM duty/frequency, UART/I2C/SPI/CAN protocol frames, 64→16→12→10 neural network inference, GELU derivatives, all 1,438 gradient checks against finite differences, numerical stability under underflow, spring settlement, RPM continuity, helicoid projection, hydrogen wavefunctions, 3D camera lengths, and Cipher Reel deceleration cadence.
+- **Static Integrity Checks (`scripts/check_site.py`):** Enforces HTML structure, meta tags, social card dimensions (1200×630 PNG), preserved URL fragment anchors, and strict canonical source size budgets (UTF-8 canonical LF).
+- **162 Playwright E2E Tests:** Covers all viewports (320px–2560px), light/dark themes, 200%/400% zoom, keyboard navigation, touch interactions, classifier manipulation, and welcome dismissal paths across Chromium and Firefox.
 
-- Independent neural forward/backward fixtures, all 1,438 derivatives, numerical stability, immutable inference, spring integration, RPM/LED continuity, theme persistence, Ohm's law, PWM timing and UART/I2C/SPI/CAN teaching signals.
-- Both pages in light/dark themes, 13 widths from 320 to 2560px, enlarged text and spacing, short landscape, touch targets, keyboard navigation, disclosures and clipboard success/failure.
-- Random hero starts without immediate refresh repeats, ordered automatic digit cycling, pauses for visibility/motion/manual work, classifier pixel edits and layer inspection, the projection study and hydrogen radial-state controls, lab circuit/PWM/protocol controls, forced colors and automated axe accessibility checks.
-- Welcome timing and grid handoff, delayed/failed modules, focus-safe dismissal, reduced motion, data saving, offscreen/hidden-tab suspension and cross-tab preferences.
-- JavaScript-disabled content, missing routes and preview-server path boundaries. Chromium additionally checks actual 200% and 400% browser zoom, calibrated to the native content viewport.
+## How to add a new portfolio project
 
-Screenshots and failure traces go to ignored `test-results/`. These checks use browser emulation; they do not establish physical-device, Safari or screen-reader coverage. [Validation history](validation.md) contains dated earlier results, not the current test count. The [maintenance record](maintenance.md) records the cleanup baseline and evidence.
-
-The current feature refinement is documented in [QUANTA and the projection study](portfolio-refinement.md); the welcome algorithm and recordings are in [binary calligraphy](welcome-construction.md).
-
-## Module map
-
-| Entry or module                                                                | Responsibility                                                                                                                                                                                   |
-| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `index.html`, `embedded/index.html`, `explorations/index.html`, `404.html`     | Public content, semantic controls, metadata and static fallbacks.                                                                                                                                |
-| `assets/theme.js`, `assets/navigation.js`                                      | Early theme selection and independent mobile navigation. Navigation stays usable while application modules load.                                                                                 |
-| `script.js`                                                                    | Homepage scene visibility, shared motion preference, entrances, disclosure transitions, hash focus and email copy. Mounts the notebook visualizations, automatic projection and surface physics. |
-| `assets/bitbench.js`                                                           | Editable 8×8 hero input, prediction distribution, hidden-layer inspection and welcome lifecycle.                                                                                                 |
-| `assets/welcome-start.js`, `assets/welcome-math.js`                            | Synchronous first-paint cover gate and mathematical manuscript construction; `bitbench.js` owns the handoff and dismissal.                                                                       |
-| `assets/creative.js`, `assets/projection.js`, `assets/projection-motion.js`    | Automatic helicoid rotation with visible equations and shared/local pause controls; SeeDL isolation and the QUANTA radial study. Geometry stays pure and independently testable.                 |
-| `assets/pixel-relief.js`                                                       | Canvas projection of the same editable intensities; idle camera motion never changes inference.                                                                                                  |
-| `assets/neuron-demo.js`, `assets/neuron-math.js`                               | Notebook classifier interaction, SVG diagram and native MathML explanations.                                                                                                                     |
-| `assets/neural-network.js`, `assets/digit-model.js`                            | Pure forward/backward arithmetic and fixed exported weights/samples, shared by both classifier views and tests.                                                                                  |
-| `assets/research-plate.js`, `assets/surface-physics.js`, `assets/pulse-rpm.js` | Illustrated low-rank surface, bounded pointer springs and synthetic six-LED RPM cycle.                                                                                                           |
-| `assets/embedded.js`, `assets/electronics-math.js`                             | Lab rendering/events/animation lifecycle and separate pure electrical/protocol calculations.                                                                                                     |
-| `scripts/`, `tests/`                                                           | Preview/build tools, integrity checks, numerical fixtures, model reproduction and Playwright scenarios.                                                                                          |
-| `concepts/`, `docs/*-review/`, `docs/review/`                                  | Historical prototypes and selected evidence; not imported by the current website or copied into `dist/`. Retention decisions are in the maintenance record.                                      |
-
-## Styles and behavior
-
-Load order is intentional. `styles.css` supplies foundations; component styles support the neural, research and SeeDL studies; `editorial.css` and `creative.css` retain active layout rules; `bitbench.css` supplies the current final shared palette. The homepage then adds welcome/RPM styles, while the lab adds `embedded.css`. Earlier stylesheet names do not mean the files are obsolete. See [design decisions](design-decisions.md) for current tokens and provenance.
-
-The hero selects a random canonical digit on load and avoids the last displayed digit when session storage is available. After the welcome, it advances through 0–9 every 4.8 seconds with a 700 ms continuous morph of the relief heights/colors and a matching grid color transition. The canvas and grid stay stationary; rapid changes retarget from the current drawing. Only presentation interpolates, while inference uses the complete selected sample. Motion reduction, hidden tabs and an offscreen hero suspend cycling. Editing pixels or inspecting activations holds the sample until Next specimen; manual Next retains the additional challenge example. Automatic updates do not announce through the manual-control live region.
-
-Preserve calculations, event ordering, animation durations and static fallbacks when refactoring. Motion controllers separately manage page-specific lifecycles while sharing the stored `portfolio-reduced-motion` preference; OS reduced motion and data saving take precedence. Theme and motion preferences synchronize across tabs. Bump changed asset query versions in their importing pages/modules to avoid stale caches.
-
-## CI and deployment
-
-`.github/workflows/ci.yml` checks PRs and pushes to `main`, with read-only repository permissions. Three Node jobs run install, lint, static/unit tests and build; two browser jobs run Chromium and Firefox on Node 24. Failure traces are retained for seven days. Pinned action commits make workflow dependencies reviewable.
-
-GitHub Pages remains configured to publish the root of `main` using its existing Pages build/deployment workflow. CI neither deploys nor changes that configuration. Keep `.nojekyll`, `404.html`, `robots.txt`, `sitemap.xml` and `app-ads.txt`. The canonical URL remains `https://iamaritrasaha.github.io/`. A local `dist/` build is an optional static-hosting artifact.
-
-Before merging, require the five CI checks, an up-to-date PR branch and resolved review conversations. No outside approval is required for this individually maintained repository. Force pushes and branch deletion must stay disabled for `main`; merged feature branches can be deleted automatically. Repository administration permission is needed to change these settings; fine-grained API tokens need **Administration: write**, in addition to **Contents: write** for branch operations and **Pull requests: write** for PRs.
+1. **Add Project Markup:**
+   - For a primary featured study: Add an `<article id="your-project-id" class="case-study">` in `index.html` under the `<section id="work">` region. Include a descriptive heading, metadata pills, project description, and links.
+   - For an archive exploration: Add an `<article id="your-project-id" class="archive-item">` in `explorations/index.html`.
+2. **Preserve Anchors in CI Integrity Checks:**
+   - If the project is featured on the homepage, add `'your-project-id'` to `homepage.featured_cases` or the preserved anchors list in `scripts/check_site.py:119-125`.
+   - If added to Explorations, add `'your-project-id'` to the explorations list in `scripts/check_site.py:117-118`.
+3. **Prepare Responsive Visual Assets:**
+   - Place optimized assets in `assets/projects/` using modern formats: responsive WebP with PNG fallback.
+   - Use standard `<picture>` elements with `width` and `height` attributes to avoid Cumulative Layout Shift (CLS).
+4. **Style the Component:**
+   - Add scoped styles into `assets/creative.css` or create a scoped stylesheet (e.g. `assets/your-project.css`) and link it in the HTML.
+   - Verify size budgets: if adding a new stylesheet or modifying existing files, check the limits in `scripts/check_site.py:126-145`.
+5. **Verify:**
+   - Run `npm test` to confirm all anchor, geometry, and size-budget assertions pass.
+   - Run `npm run lint` to format code.
+   - Run `npm run test:browser` to verify responsive reflow, theme compatibility, and accessibility.
 
 ## Ownership
 
